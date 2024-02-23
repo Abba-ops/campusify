@@ -18,9 +18,9 @@ import {
   FloatingLabel,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import DeleteAccountModal from "../components/DeleteAccountModal";
+import DeleteAccountModal from "../components/ConfirmDeletionModal";
 
-export default function ProfileScreen() {
+export default function PersonalInfo() {
   const [showDelete, setShowDelete] = useState(false);
 
   const handleCloseDelete = () => setShowDelete(false);
@@ -69,7 +69,7 @@ export default function ProfileScreen() {
                     fluid
                     roundedCircle
                     loading="lazy"
-                    className="profile-picture border"
+                    className="profile-picture-lg border"
                     src={userInfo.data.profilePictureURL}
                   />
                 </div>
@@ -77,35 +77,39 @@ export default function ProfileScreen() {
               <ListGroup.Item>
                 <FloatingLabel label="Full Name" className="mb-3">
                   <Form.Control
-                    disabled
+                    readOnly
                     type="text"
-                    className="rounded-0"
+                    className="border-0"
                     value={`${userInfo.data.lastName} ${userInfo.data.otherNames}`}
                   />
                 </FloatingLabel>
                 <FloatingLabel label="Email address" className="mb-3">
                   <Form.Control
-                    disabled
+                    readOnly
                     type="email"
-                    className="rounded-0"
+                    className="border-0"
                     value={userInfo.data.email}
                   />
                 </FloatingLabel>
                 <FloatingLabel label="Phone Number">
                   <Form.Control
-                    disabled
+                    readOnly
                     type="text"
-                    className="rounded-0"
+                    className="border-0"
                     value={userInfo.data.phoneNumber}
                   />
                 </FloatingLabel>
               </ListGroup.Item>
-              {/* <ListGroup.Item>
-                <div>
+              <ListGroup.Item>
+                <div className="my-0 my-lg-3">
                   Interested in becoming a vendor?{" "}
-                  <Link to={"/vendor-application"}>Apply here</Link>
+                  <Link
+                    to={"/vendor-application"}
+                    className="text-decoration-none">
+                    Apply here
+                  </Link>
                 </div>
-              </ListGroup.Item> */}
+              </ListGroup.Item>
               <ListGroup.Item>
                 <Form>
                   <Form.Group className="my-3">
@@ -157,7 +161,7 @@ export default function ProfileScreen() {
                   </div>
                 </Form>
               </ListGroup.Item>
-              {/* <ListGroup.Item>
+              <ListGroup.Item>
                 <div className="d-flex justify-content-center my-3">
                   <Button
                     onClick={handleShowDelete}
@@ -166,7 +170,7 @@ export default function ProfileScreen() {
                     Delete Account
                   </Button>
                 </div>
-              </ListGroup.Item> */}
+              </ListGroup.Item>
             </ListGroup>
           </Col>
           <Col lg={8}>

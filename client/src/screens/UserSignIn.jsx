@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../features/authSlice";
+import { toast } from "react-toastify";
+import { useLoginMutation } from "../features/usersApiSlice";
 import {
   Container,
   Button,
-  Row,
   Col,
-  Form,
+  Row,
   Spinner,
-  Stack,
-  Card,
+  Form,
   InputGroup,
+  Card,
 } from "react-bootstrap";
-import { toast } from "react-toastify";
-import { setCredentials } from "../features/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useRegisterMutation } from "../features/usersApiSlice";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 
-export default function RegisterScreen() {
+export default function UserSignIn() {
   const [showPassword, setShowPassword] = useState(false);
-  const [conditions, setConditions] = useState(false);
-  const [userType, setUserType] = useState("student");
   const [password, setPassword] = useState("");
-  const [uniqueId, setUniqueId] = useState("");
+  const [email, setEmail] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [register, { isLoading }] = useRegisterMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
@@ -38,13 +35,9 @@ export default function RegisterScreen() {
     e.preventDefault();
 
     try {
-      const res = await register({
-        password,
-        uniqueId,
-        userType,
-      }).unwrap();
+      const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      toast.success(`Welcome aboard, ${res.data.lastName}!`);
+      toast.success(`Welcome back, ${res.data.lastName}!`);
       navigate(redirect);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -59,67 +52,27 @@ export default function RegisterScreen() {
     <section className="bg-white py-5">
       <Container>
         <h5 className="border-bottom pb-3 text-uppercase text-center">
-          Create a New Account
+          Log In to Your Account
         </h5>
         <Row className="justify-content-center">
           <Col lg={8}>
             <Card className="my-3 py-3">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                  <div className="text-center mb-3">
-                    Already have an account?{" "}
-                    <Link className="text-decoration-none" to="/login">
-                      Log in instead!
-                    </Link>
-                  </div>
                   <Form.Group as={Row} className="mb-3">
                     <Form.Label
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      User Type
-                    </Form.Label>
-                    <Col sm={6} className="d-flex justify-content-center">
-                      <Stack direction="horizontal" gap={3}>
-                        <Form.Check
-                          required
-                          type="radio"
-                          name="userType"
-                          label="Student"
-                          onChange={() => setUserType("student")}
-                        />
-                        <Form.Check
-                          required
-                          type="radio"
-                          label="Staff"
-                          name="userType"
-                          onChange={() => setUserType("staff")}
-                        />
-                      </Stack>
-                    </Col>
-                  </Form.Group>
-                  <Form.Group as={Row} className="mb-3">
-                    <Form.Label
-                      sm={3}
-                      column
-                      className="text-center text-lg-start">
-                      {userType === "student"
-                        ? "Matriculation Number"
-                        : "Staff Email"}
+                      Email
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
                         required
-                        type="text"
-                        value={uniqueId}
+                        type="email"
+                        value={email}
                         spellCheck={false}
-                        onChange={(e) =>
-                          setUniqueId(
-                            userType === "student"
-                              ? e.target.value.toUpperCase()
-                              : e.target.value.toLowerCase()
-                          )
-                        }
+                        onChange={(e) => setEmail(e.target.value.toLowerCase())}
                       />
                     </Col>
                   </Form.Group>
@@ -148,16 +101,12 @@ export default function RegisterScreen() {
                       </InputGroup>
                     </Col>
                   </Form.Group>
-                  <Form.Group className="my-4 d-flex justify-content-center">
-                    <Form.Check
-                      required
-                      type="checkbox"
-                      value={conditions}
-                      label="Agree to terms and conditions"
-                      onChange={(e) => setConditions(e.target.checked)}
-                    />
-                  </Form.Group>
-                  <div className="d-flex justify-content-end my-3">
+                  <div className="text-center">
+                    <Link className="text-decoration-none">
+                      Forgot your password?
+                    </Link>
+                  </div>
+                  <div className="d-flex justify-content-center my-3 border-bottom pb-3">
                     <Button
                       type="submit"
                       variant="dark"
@@ -168,9 +117,20 @@ export default function RegisterScreen() {
                           <span className="visually-hidden"></span>
                         </Spinner>
                       ) : (
-                        "Create Account"
+                        "Log In"
                       )}
                     </Button>
+                  </div>
+                  <div className="text-center">
+                    <Link
+                      className="text-decoration-none"
+                      to={
+                        redirect
+                          ? `/register?redirect=${redirect}`
+                          : "/register"
+                      }>
+                      No account? Create one here
+                    </Link>
                   </div>
                 </Form>
               </Card.Body>

@@ -13,7 +13,7 @@ import { Accordion, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-export default function CheckoutScreen() {
+export default function CartCheckout() {
   const [showCartItems, setShowCartItems] = useState(false);
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
@@ -21,8 +21,6 @@ export default function CheckoutScreen() {
   const { userInfo } = useSelector((state) => state.auth);
 
   const handleShowCartItems = () => setShowCartItems((prev) => !prev);
-
-  console.log(showCartItems);
 
   return (
     <section className="bg-white py-5">
@@ -46,14 +44,14 @@ export default function CheckoutScreen() {
                       <Col sm={6} className="d-flex justify-content-center">
                         <Stack direction="horizontal" gap={3}>
                           <Form.Check
-                            disabled
+                            readOnly
                             type={"radio"}
                             label="Student"
                             name="userType"
                             checked={userInfo.data.userType === "student"}
                           />
                           <Form.Check
-                            disabled
+                            readOnly
                             label="Staff"
                             type={"radio"}
                             name="userType"
@@ -71,7 +69,7 @@ export default function CheckoutScreen() {
                       </Form.Label>
                       <Col sm={6}>
                         <Form.Control
-                          disabled
+                          readOnly
                           type="text"
                           value={`${userInfo?.data.lastName} ${userInfo?.data.otherNames}`}
                         />
@@ -86,7 +84,7 @@ export default function CheckoutScreen() {
                       </Form.Label>
                       <Col sm={6}>
                         <Form.Control
-                          disabled
+                          readOnly
                           type="text"
                           value={userInfo?.data.email}
                         />
@@ -125,10 +123,25 @@ export default function CheckoutScreen() {
                       </Form.Label>
                       <Col sm={6}>
                         <Form.Select>
-                          <option value=""></option>
-                          <option value=""></option>
-                          <option value=""></option>
-                          <option value=""></option>
+                          {userInfo.data.userType === "student" && (
+                            <>
+                              <option value="Rev. James Abolarin Hall">
+                                Rev. James Abolarin Hall
+                              </option>
+                              <option value="Mary Bojuwoye Hall">
+                                Mary Bojuwoye Hall
+                              </option>
+                            </>
+                          )}
+                          <option value="Faculty">Faculty</option>
+                          <option value="Cafeteria">Cafeteria</option>
+                          {userInfo.data.userType === "staff" && (
+                            <>
+                              <option value="Staff Quarters">
+                                Staff Quarters
+                              </option>
+                            </>
+                          )}
                         </Form.Select>
                       </Col>
                     </Form.Group>
@@ -137,7 +150,7 @@ export default function CheckoutScreen() {
                         column
                         sm={3}
                         className="text-center text-lg-start">
-                        Room/Unit Number
+                        Room/Office Number
                       </Form.Label>
                       <Col sm={6}>
                         <Form.Control required type="number" />

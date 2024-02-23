@@ -1,11 +1,11 @@
 import FeaturedProducts from "../components/FeaturedProducts";
 import PopularProducts from "../components/PopularProducts";
-import ScrollToTop from "../components/ScrollToTop";
+import ScrollToTop from "../components/BackToTop";
 import BestSeller from "../components/BestSeller";
-import Services from "../components/Services";
-import Hero from "../components/Hero";
+import Services from "../components/ServiceGrid";
+import Hero from "../components/HeaderHero";
 
-export default function HomeScreen() {
+export default function LandingPage() {
   return (
     <>
       <Hero />

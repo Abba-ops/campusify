@@ -1,12 +1,12 @@
 import { FaSearch } from "react-icons/fa";
 import { Button, Card, Stack } from "react-bootstrap";
-import ProductModal from "./ProductModal";
+import ProductModal from "./ProductPreviewModal";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import Rating from "./Rating";
 import { numberWithCommas } from "../utils/cartUtils";
+import StarRating from "./StarRating";
 
-export default function Product({ product, showIcon }) {
+export default function ProductCard({ product, showIcon }) {
   const [modalShow, setModalShow] = useState(false);
   const [iconShow, setIconShow] = useState(false);
 
@@ -38,7 +38,7 @@ export default function Product({ product, showIcon }) {
             </Link>
           </Card.Text>
           <Card.Text className="d-flex justify-content-center">
-            <Rating value={rating} />
+            <StarRating value={rating} />
           </Card.Text>
           <Card.Title>&#8358;{numberWithCommas(price)}</Card.Title>
           {showIcon && (

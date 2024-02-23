@@ -1,7 +1,7 @@
 import React from "react";
 import { RiStarLine, RiStarFill, RiStarHalfFill } from "react-icons/ri";
 
-export default function Rating({ value }) {
+export default function StarRating({ value }) {
   const stars = [1, 2, 3, 4, 5].map((num) => {
     const icon =
       value >= num ? (

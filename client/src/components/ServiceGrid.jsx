@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { services } from "../constants";
 
-export default function Services() {
+export default function ServiceGrid() {
   return (
     <Container className="bg-white py-5 border-bottom">
       <Row>
@@ -16,7 +16,9 @@ export default function Services() {
               {icon}
             </div>
             <h6 className="text-uppercase">{service}</h6>
-            <p className="text-muted">{text}</p>
+            <p className="text-muted">
+              <small>{text}</small>
+            </p>
           </Col>
         ))}
       </Row>

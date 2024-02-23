@@ -5,21 +5,22 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Image from "react-bootstrap/esm/Image";
 import Form from "react-bootstrap/Form";
-import Rating from "../components/Rating";
-import ProductsSlider from "../components/ProductsSlider";
-import ScrollToTop from "../components/ScrollToTop";
+import Rating from "../components/StarRating";
+import ProductsSlider from "../components/CarouselProducts";
+import ScrollToTop from "../components/BackToTop";
 import { useGetProductDetailsQuery } from "../features/productsApiSlice";
 import { useDispatch } from "react-redux";
 import Button from "react-bootstrap/esm/Button";
 import { RiShoppingBag2Fill } from "react-icons/ri";
 import { addToCart } from "../features/cartSlice";
 
-export default function ProductDetailsScreen() {
+export default function ProductDetail() {
   const { id: productId } = useParams();
   const [quantity, setQuantity] = useState(1);
 
-  const { data: product, isLoading } = useGetProductDetailsQuery(productId);
+  const { data, isLoading } = useGetProductDetailsQuery(productId);
 
+  const product = data;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -55,7 +56,7 @@ export default function ProductDetailsScreen() {
             ) : (
               <>
                 <h3 className="text-uppercase fw-semibold text-body-secondary mb-3">
-                  {product?.name}
+                  {product?.productName}
                 </h3>
                 <Rating
                   value={product?.rating}

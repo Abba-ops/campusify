@@ -8,11 +8,11 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cartSlice";
-import AddedToCartModal from "./AddedToCartModal";
+import AddedToCartModal from "./CartPreviewModal";
 import { numberWithCommas } from "../utils/cartUtils";
 import Stack from "react-bootstrap/esm/Stack";
 
-export default function ProductModal({ product, show, handleClose }) {
+export default function ProductPreviewModal({ product, show, handleClose }) {
   const [quantity, setQuantity] = useState(1);
   const [showAddedModal, setShowAddedModal] = useState(false);
 

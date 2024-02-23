@@ -2,14 +2,16 @@
   display: none;
 }
 
-.profile-picture {
+.profile-picture-lg {
   object-fit: cover;
   object-position: top;
   width: 200px !important;
   height: 200px !important;
 }
 
-.navbar .profile-picture {
+.profile-picture-sm {
+  object-fit: cover;
+  object-position: top;
   width: 40px !important;
   height: 40px !important;
 }
@@ -22,4 +24,13 @@
 .btn-dark:hover {
   background-color: var(--bs-primary) !important;
   border-color: var(--bs-primary) !important;
+}
+
+table td,
+table th {
+  text-wrap: nowrap;
+}
+
+table tr {
+  border-bottom: transparent;
 }

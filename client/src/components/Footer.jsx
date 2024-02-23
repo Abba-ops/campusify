@@ -14,7 +14,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <div className="text-bg-dark bg-gradient">
+    <div className="text-bg-dark">
       <div className="container">
         <footer className="py-5">
           <div className="row">

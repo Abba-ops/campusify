@@ -4,8 +4,9 @@ import dotenv from "dotenv";
 import colors from "colors";
 import express from "express";
 import cookieParser from "cookie-parser";
-import connectDB from "./config/db.js";
+import connectDB from "./config/dbConfig.js";
 import userRoutes from "./routes/userRoutes.js";
+import vendorRoutes from "./routes/vendorRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/vendors", vendorRoutes);
 
 const __dirname = path.resolve(); // Set __dirname to the current working directory
 

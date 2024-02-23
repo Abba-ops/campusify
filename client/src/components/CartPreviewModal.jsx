@@ -9,7 +9,7 @@ import Stack from "react-bootstrap/esm/Stack";
 import { useSelector } from "react-redux";
 import { numberWithCommas } from "../utils/cartUtils";
 
-export default function AddedToCartModal({ show, onHide, product }) {
+export default function CartPreviewModal({ show, onHide, product }) {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 

@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../features/cartSlice";
 import { numberWithCommas } from "../utils/cartUtils";
 
-export default function CartScreen() {
+export default function UserCart() {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 

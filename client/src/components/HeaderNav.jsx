@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { clearCartItems } from "../features/cartSlice";
 
-export default function Header() {
+export default function HeaderNav() {
   const [showSearch, setShowSearch] = useState(false);
 
   const dispatch = useDispatch();
@@ -30,6 +30,7 @@ export default function Header() {
 
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
+  console.log(userInfo);
 
   const handleShowSearch = () => setShowSearch((prev) => !prev);
 
@@ -74,7 +75,7 @@ export default function Header() {
               <Stack direction="horizontal" gap={4}>
                 <LinkContainer to={"/"}>
                   <Nav.Link
-                    className={`text-uppercase fw-semibold ${
+                    className={`fw-semibold ${
                       location.pathname === "/" && "text-primary"
                     }`}>
                     Home
@@ -82,7 +83,7 @@ export default function Header() {
                 </LinkContainer>
                 <LinkContainer to={"/contact"}>
                   <Nav.Link
-                    className={`text-uppercase fw-semibold ${
+                    className={`fw-semibold ${
                       location.pathname === "/contact" && "text-primary"
                     }`}>
                     Contact Us
@@ -129,7 +130,7 @@ export default function Header() {
                       fluid
                       roundedCircle
                       loading="lazy"
-                      className="profile-picture"
+                      className="profile-picture-sm"
                       src={userInfo.data.profilePictureURL}
                     />
                   </Dropdown.Toggle>
@@ -139,6 +140,20 @@ export default function Header() {
                         <Dropdown.Item>Profile</Dropdown.Item>
                       </LinkContainer>
                     </Nav.Link>
+                    {userInfo.data.isAdmin && (
+                      <Nav.Link>
+                        <LinkContainer to="/admin/dashboard/">
+                          <Dropdown.Item>Admin Dashboard</Dropdown.Item>
+                        </LinkContainer>
+                      </Nav.Link>
+                    )}
+                    {userInfo.data.isVendor && (
+                      <Nav.Link>
+                        <LinkContainer to="/vendor/dashboard/">
+                          <Dropdown.Item>Vendor Dashboard</Dropdown.Item>
+                        </LinkContainer>
+                      </Nav.Link>
+                    )}
                     <Dropdown.Item onClick={logoutHandler}>
                       Logout
                     </Dropdown.Item>

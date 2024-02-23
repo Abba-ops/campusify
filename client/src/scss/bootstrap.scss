@@ -1,9 +1,10 @@
 $font-family-sans-serif: "Roboto", sans-serif;
 $headings-font-family: "Montserrat", sans-serif;
 
-$dark: #2f2f2f;
-$light: #f2f2f2;
 $primary: #f7972b;
+$info: #3498db;
+$success: #2ecc71;
+$danger: #e74c3c ;
 $link-color: #333333;
 $border-color: #ebebeb;
 $link-hover-color: $primary;
@@ -14,15 +15,26 @@ $form-select-focus-box-shadow: none;
 $accordion-button-focus-box-shadow: none;
 $form-check-input-focus-box-shadow: none;
 
-$button-radius: 0;
-$btn-border-radius: $button-radius;
-$btn-border-radius-sm: $button-radius;
-$btn-border-radius-lg: $button-radius;
+$spacer: 1rem !default;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 6,
+  7: $spacer * 8,
+  8: $spacer * 12,
+) !default;
 
-$input-radius: 0;
-$input-border-radius: $input-radius;
-$input-border-radius-sm: $input-radius;
-$input-border-radius-lg: $input-radius;
+$btn-border-radius: 0;
+$btn-border-radius-sm: 0;
+$btn-border-radius-lg: 0;
+
+$input-border-radius: 0;
+$input-border-radius-sm: 0;
+$input-border-radius-lg: 0;
 
 $accordion-button-active-bg: var(--bs-secondary-bg);
 

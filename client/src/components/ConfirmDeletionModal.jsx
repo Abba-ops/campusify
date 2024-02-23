@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearCredentials } from "../features/authSlice";
 
-export default function DeleteAccountModal({
+export default function ConfirmDeletionModal({
   showDelete,
   isDeletingAccount,
   handleCloseDelete,
@@ -47,7 +47,9 @@ export default function DeleteAccountModal({
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>
-              To verify, type <strong>delete my account</strong> below:
+              To verify, type{" "}
+              <strong className="user-select-all">delete my account</strong>{" "}
+              below:
             </Form.Label>
             <Form.Control
               type="text"

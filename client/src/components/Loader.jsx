@@ -1,5 +1,9 @@
-import React from "react";
+import { FadeLoader } from "react-spinners";
 
 export default function Loader() {
-  return <div>Loader</div>;
+  return (
+    <div className="d-flex justify-content-center">
+      <FadeLoader />
+    </div>
+  );
 }

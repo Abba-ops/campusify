@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { IoIosArrowUp } from "react-icons/io";
 
-export default function ScrollToTop() {
+export default function BackToTop() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {

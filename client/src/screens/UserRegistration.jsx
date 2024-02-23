@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setCredentials } from "../features/authSlice";
-import { toast } from "react-toastify";
-import { useLoginMutation } from "../features/usersApiSlice";
 import {
   Container,
   Button,
-  Col,
   Row,
-  Spinner,
+  Col,
   Form,
-  InputGroup,
+  Spinner,
+  Stack,
   Card,
+  InputGroup,
 } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { setCredentials } from "../features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useRegisterMutation } from "../features/usersApiSlice";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-export default function LoginScreen() {
+export default function UserRegistration() {
   const [showPassword, setShowPassword] = useState(false);
+  const [conditions, setConditions] = useState(false);
+  const [userType, setUserType] = useState("student");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [uniqueId, setUniqueId] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
+  const [register, { isLoading }] = useRegisterMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
@@ -35,9 +38,13 @@ export default function LoginScreen() {
     e.preventDefault();
 
     try {
-      const res = await login({ email, password }).unwrap();
+      const res = await register({
+        password,
+        uniqueId,
+        userType,
+      }).unwrap();
       dispatch(setCredentials({ ...res }));
-      toast.success(`Welcome back, ${res.data.lastName}!`);
+      toast.success(`Welcome aboard, ${res.data.lastName}!`);
       navigate(redirect);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
@@ -52,27 +59,67 @@ export default function LoginScreen() {
     <section className="bg-white py-5">
       <Container>
         <h5 className="border-bottom pb-3 text-uppercase text-center">
-          Log In to Your Account
+          Create a New Account
         </h5>
         <Row className="justify-content-center">
           <Col lg={8}>
             <Card className="my-3 py-3">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
+                  <div className="text-center mb-3">
+                    Already have an account?{" "}
+                    <Link className="text-decoration-none" to="/login">
+                      Log in instead!
+                    </Link>
+                  </div>
                   <Form.Group as={Row} className="mb-3">
                     <Form.Label
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Email
+                      User Type
+                    </Form.Label>
+                    <Col sm={6} className="d-flex justify-content-center">
+                      <Stack direction="horizontal" gap={3}>
+                        <Form.Check
+                          required
+                          type="radio"
+                          name="userType"
+                          label="Student"
+                          onChange={() => setUserType("student")}
+                        />
+                        <Form.Check
+                          required
+                          type="radio"
+                          label="Staff"
+                          name="userType"
+                          onChange={() => setUserType("staff")}
+                        />
+                      </Stack>
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} className="mb-3">
+                    <Form.Label
+                      sm={3}
+                      column
+                      className="text-center text-lg-start">
+                      {userType === "student"
+                        ? "Matriculation Number"
+                        : "Staff Email"}
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
                         required
-                        type="email"
-                        value={email}
+                        type="text"
+                        value={uniqueId}
                         spellCheck={false}
-                        onChange={(e) => setEmail(e.target.value.toLowerCase())}
+                        onChange={(e) =>
+                          setUniqueId(
+                            userType === "student"
+                              ? e.target.value.toUpperCase()
+                              : e.target.value.toLowerCase()
+                          )
+                        }
                       />
                     </Col>
                   </Form.Group>
@@ -101,12 +148,16 @@ export default function LoginScreen() {
                       </InputGroup>
                     </Col>
                   </Form.Group>
-                  <div className="text-center">
-                    <Link className="text-decoration-none">
-                      Forgot your password?
-                    </Link>
-                  </div>
-                  <div className="d-flex justify-content-center my-3 border-bottom pb-3">
+                  <Form.Group className="my-4 d-flex justify-content-center">
+                    <Form.Check
+                      required
+                      type="checkbox"
+                      value={conditions}
+                      label="Agree to terms and conditions"
+                      onChange={(e) => setConditions(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <div className="d-flex justify-content-end my-3">
                     <Button
                       type="submit"
                       variant="dark"
@@ -117,20 +168,9 @@ export default function LoginScreen() {
                           <span className="visually-hidden"></span>
                         </Spinner>
                       ) : (
-                        "Log In"
+                        "Create Account"
                       )}
                     </Button>
-                  </div>
-                  <div className="text-center">
-                    <Link
-                      className="text-decoration-none"
-                      to={
-                        redirect
-                          ? `/register?redirect=${redirect}`
-                          : "/register"
-                      }>
-                      No account? Create one here
-                    </Link>
                   </div>
                 </Form>
               </Card.Body>

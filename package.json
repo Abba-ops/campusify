@@ -2,7 +2,7 @@
   "name": "campusify",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
+  "description": "A campus marketplace - an ecommerce platform tailored for university communities.",
   "main": "server.js",
   "scripts": {
     "start": "node server/server.js",

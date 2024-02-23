@@ -8,7 +8,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Stack from "react-bootstrap/Stack";
 import { contactInfo } from "../constants";
 
-export default function ContactScreen() {
+export default function ContactUs() {
   return (
     <section className="bg-white py-5">
       <Container>

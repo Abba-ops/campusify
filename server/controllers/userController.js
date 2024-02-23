@@ -139,30 +139,30 @@ const getUserProfile = asyncHandler(async (req, res) => {
   if (!user) {
     res.status(404);
     throw new Error("User not found");
-  } else {
-    const userData = {
-      email: user.email,
-      isAdmin: user.isAdmin,
-      isVendor: user.isVendor,
-      userType: user.userType,
-      lastName: user.lastName,
-      otherNames: user.otherNames,
-      phoneNumber: user.phoneNumber,
-      profilePictureURL: user.profilePictureURL,
-    };
-
-    res.status(200).json({
-      success: true,
-      data: userData,
-      message: "User found. Welcome!",
-    });
   }
+
+  const userData = {
+    email: user.email,
+    isAdmin: user.isAdmin,
+    isVendor: user.isVendor,
+    userType: user.userType,
+    lastName: user.lastName,
+    otherNames: user.otherNames,
+    phoneNumber: user.phoneNumber,
+    profilePictureURL: user.profilePictureURL,
+  };
+
+  res.status(200).json({
+    success: true,
+    data: userData,
+    message: "User found. Welcome!",
+  });
 });
 
 /**
- * @desc    Update user password
- * @route   PUT /api/users/update-password
- * @access  Private
+ * @desc     Update user password
+ * @route    PUT /api/users/update-password
+ * @access   Private
  */
 const updateUserPassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -180,16 +180,19 @@ const updateUserPassword = asyncHandler(async (req, res) => {
         .status(200)
         .json({ success: true, message: "Password updated successfully" });
     } catch (error) {
-      res.status(404);
-      throw new Error("Password required");
+      res.status(400);
+      throw new Error("Invalid password update");
     }
+  } else {
+    res.status(400);
+    throw new Error("Password required");
   }
 });
 
 /**
- * @desc    Delete user account
- * @route   DELETE /api/users/delete-account
- * @access  Private
+ * @desc     Delete user account
+ * @route    DELETE /api/users/delete-account
+ * @access   Private
  */
 const deleteMyAccount = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -211,30 +214,53 @@ const deleteMyAccount = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc    Get all users
- * @route   GET /api/users
- * @access  Private/Admin
+ * @desc       Get all users
+ * @route      GET /api/users
+ * @access     Private/Admin
  */
 const getUsers = asyncHandler(async (req, res) => {
-  res.send("Get all users");
+  const users = await User.find();
+
+  res.status(200).json({
+    success: true,
+    count: users.length,
+    data: users,
+  });
 });
 
 /**
- * @desc    Delete a user
- * @route   DELETE /api/users/:id
- * @access  Private/Admin
+ * @desc     Delete a user
+ * @route    DELETE /api/users/:id
+ * @access   Private/Admin
  */
 const deleteUser = asyncHandler(async (req, res) => {
-  res.send("Delete a user");
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found" });
+  }
+
+  await user.deleteOne();
+
+  return res
+    .status(200)
+    .json({ success: true, message: "User deleted successfully" });
 });
 
 /**
- * @desc    Get a user by ID
- * @route   GET /api/users/:id
- * @access  Private/Admin
+ * @desc     Get a user by ID
+ * @route    GET /api/users/:id
+ * @access   Private/Admin
  */
 const getUserById = asyncHandler(async (req, res) => {
-  res.send("Get a user by ID");
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    res.status(404).json({ success: false, message: "User not found" });
+    return;
+  }
+
+  res.status(200).json({ success: true, data: user });
 });
 
 export {
