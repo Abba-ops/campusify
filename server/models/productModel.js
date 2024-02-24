@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema(
   {
-    otherNames: {
+    profilePictureURL: {
       type: String,
       required: true,
     },
-    lastName: {
+    name: {
       type: String,
       required: true,
     },

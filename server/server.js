@@ -8,7 +8,7 @@ import connectDB from "./config/dbConfig.js";
 import userRoutes from "./routes/userRoutes.js";
 import vendorRoutes from "./routes/vendorRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
-import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
+import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 
 dotenv.config();
 connectDB();

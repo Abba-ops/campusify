@@ -1,5 +1,5 @@
 import express from "express";
-import { isAdmin, isLoggedIn } from "../middleware/authMiddleware.js";
+import { isAdmin, isLoggedIn } from "../middlewares/authMiddleware.js";
 import { getVendors, getVendorById } from "../controllers/vendorController.js";
 
 const router = express.Router();

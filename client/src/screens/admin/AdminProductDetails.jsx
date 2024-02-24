@@ -5,7 +5,7 @@ import { useGetProductDetailsQuery } from "../../features/productsApiSlice";
 import Loader from "../../components/Loader";
 
 export default function AdminProductDetails() {
-  const { id: productId } = useParams();
+  const { productId } = useParams();
 
   const { data: product, isLoading } = useGetProductDetailsQuery(productId);
 

@@ -1,4 +1,4 @@
-import asyncHandler from "../middleware/asyncHandler.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
 import Vendor from "../models/vendorModel.js";
 
 /**

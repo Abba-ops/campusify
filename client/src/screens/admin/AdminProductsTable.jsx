@@ -62,9 +62,11 @@ export default function AdminProductsTable() {
                         <BsEye />
                       </Button>
                     </Link>
-                    <Button variant="success" size="sm">
-                      <BsPencil />
-                    </Button>
+                    <Link to={`/admin/dashboard/products/${product._id}/edit`}>
+                      <Button variant="success" size="sm">
+                        <BsPencil />
+                      </Button>
+                    </Link>
                     <Button variant="danger" size="sm">
                       <BsTrash />
                     </Button>

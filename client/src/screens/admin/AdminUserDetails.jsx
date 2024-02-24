@@ -12,7 +12,7 @@ import { useGetUserDetailsQuery } from "../../features/usersApiSlice";
 import { useParams } from "react-router-dom";
 
 export default function AdminUserDetails() {
-  const { id: userId } = useParams();
+  const { userId } = useParams();
 
   const { data: user, isLoading } = useGetUserDetailsQuery(userId);
 

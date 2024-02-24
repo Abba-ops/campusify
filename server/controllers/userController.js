@@ -1,4 +1,4 @@
-import asyncHandler from "../middleware/asyncHandler.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
 import genToken from "../utils/genToken.js";
 import User from "../models/userModel.js";
 import axios from "axios";
@@ -10,11 +10,6 @@ import axios from "axios";
  */
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
-  if (!email || !password) {
-    res.status(400);
-    throw new Error("Missing required fields");
-  }
 
   try {
     const user = await User.findOne({ email });
@@ -55,11 +50,6 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { uniqueId, userType, password } = req.body;
 
-  if (!userType || !uniqueId || !password) {
-    res.status(400);
-    throw new Error("Missing required fields");
-  }
-
   const { data } = await axios
     .post(process.env.PORTAL_ENDPOINT, {
       uniqueId,
@@ -68,7 +58,7 @@ const registerUser = asyncHandler(async (req, res) => {
     })
     .catch((err) => {
       res.status(400);
-      throw new Error("Invalid credentials");
+      throw new Error("Invalid credentials.");
     });
 
   const { lastname, othernames, image, email, phone_number } = data.data;
@@ -77,7 +67,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error("User already exists.");
   } else {
     try {
       const user = await User.create({
