@@ -154,9 +154,9 @@ export default function ProductDetail() {
             {product?.data.reviews.length === 0 && <Alert>No Reviews</Alert>}
             <ListGroup variant="flush">
               {product?.data.reviews.map((review) => (
-                <ListGroup.Item key={review.id}>
+                <ListGroup.Item key={review._id} className="mb-3 p-3 border">
                   <Rating value={review.rating} />
-                  <div className="d-flex align-items-center">
+                  <div className="d-flex align-items-center mt-3">
                     <div className="flex-shrink-0 me-3">
                       <Image
                         fluid
@@ -167,11 +167,11 @@ export default function ProductDetail() {
                       />
                     </div>
                     <div className="d-flex flex-column">
-                      <h5 className="mb-1">{review.name}</h5>
+                      <h6 className="mb-1">{review.name}</h6>
                       <small className="text-muted">{review.createdAt}</small>
                     </div>
                   </div>
-                  <p className="mb-0">{review.comment}</p>
+                  <p className="mt-3 mb-0">{review.comment}</p>
                 </ListGroup.Item>
               ))}
               <ListGroup.Item>
@@ -198,9 +198,9 @@ export default function ProductDetail() {
                       />
                     </FloatingLabel>
                     <Button
-                      disabled={loadingProductReview}
                       type="submit"
-                      className="btn__secondary">
+                      disabled={loadingProductReview}
+                      variant="dark">
                       {loadingProductReview ? "Submitting..." : "Submit Review"}
                     </Button>
                   </Form>

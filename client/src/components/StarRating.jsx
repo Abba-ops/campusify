@@ -1,4 +1,3 @@
-import React from "react";
 import { RiStarLine, RiStarFill, RiStarHalfFill } from "react-icons/ri";
 
 export default function StarRating({ value }) {
@@ -15,8 +14,6 @@ export default function StarRating({ value }) {
   });
 
   return (
-    <span className="text-primary d-flex gap-2 align-items-center">
-      {stars}
-    </span>
+    <h5 className="text-primary d-flex gap-2 align-items-center">{stars}</h5>
   );
 }
