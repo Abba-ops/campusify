@@ -11,7 +11,6 @@ import App from "./App";
 import store from "./app/store";
 import PrivateRoute from "./components/PrivateRoute";
 import VendorDashboard from "./screens/Vendor/VendorDashboard";
-import VendorApplication from "./screens/Vendor/VendorApplication";
 import "./assets/css/bootstrap.min.css";
 import "./assets/css/style.min.css";
 import AdminDashboard from "./screens/Admin/AdminDashboard";
@@ -33,6 +32,7 @@ import VendorRoute from "./components/VendorRoute";
 import AdminUserDetails from "./screens/Admin/AdminUserDetails";
 import AdminProductDetails from "./screens/Admin/AdminProductDetails";
 import AdminEditProduct from "./screens/Admin/AdminEditProduct";
+import VendorApplication from "./screens/Vendor/VendorApplication";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
