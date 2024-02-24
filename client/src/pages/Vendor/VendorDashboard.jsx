@@ -1,24 +1,17 @@
 import React, { useState } from "react";
 import {
-  Badge,
-  Button,
   Col,
   Container,
   Dropdown,
-  Form,
   Image,
-  InputGroup,
-  ListGroup,
   Nav,
-  NavDropdown,
   Navbar,
   Row,
-  Stack,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { FaRegUser, FaSearch } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCredentials } from "../../features/authSlice";
 import { clearCartItems } from "../../features/cartSlice";

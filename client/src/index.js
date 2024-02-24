@@ -10,29 +10,29 @@ import {
 import App from "./App";
 import store from "./app/store";
 import PrivateRoute from "./components/PrivateRoute";
-import VendorDashboard from "./screens/Vendor/VendorDashboard";
 import "./assets/css/bootstrap.min.css";
 import "./assets/css/style.min.css";
-import AdminDashboard from "./screens/Admin/AdminDashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminRoute from "./components/AdminRoute";
-import AdminUsersTable from "./screens/Admin/AdminUsersTable";
-import AdminProductsTable from "./screens/Admin/AdminProductsTable";
-import AdminVendorsTable from "./screens/Admin/AdminVendorsTable";
-import AdminHome from "./screens/Admin/AdminHome";
-import LandingPage from "./screens/LandingPage";
-import UserSignIn from "./screens/UserSignIn";
-import UserCart from "./screens/UserCart";
-import ContactUs from "./screens/ContactUs";
-import UserRegistration from "./screens/UserRegistration";
-import ProductDetail from "./screens/ProductDetail";
-import CartCheckout from "./screens/CartCheckout";
-import VendorHome from "./screens/Vendor/VendorHome";
-import PersonalInfo from "./screens/PersonalInfo";
+import AdminUsersTable from "./pages/Admin/AdminUsersTable";
+import AdminProductsTable from "./pages/Admin/AdminProductsTable";
+import AdminVendorsTable from "./pages/Admin/AdminVendorsTable";
+import AdminHome from "./pages/Admin/AdminHome";
+import LandingPage from "./pages/LandingPage";
+import UserSignIn from "./pages/UserSignIn";
+import UserCart from "./pages/UserCart";
+import ContactUs from "./pages/ContactUs";
+import UserRegistration from "./pages/UserRegistration";
+import ProductDetail from "./pages/ProductDetail";
+import CartCheckout from "./pages/CartCheckout";
+import VendorHome from "./pages/Vendor/VendorHome";
+import PersonalInfo from "./pages/PersonalInfo";
 import VendorRoute from "./components/VendorRoute";
-import AdminUserDetails from "./screens/Admin/AdminUserDetails";
-import AdminProductDetails from "./screens/Admin/AdminProductDetails";
-import AdminEditProduct from "./screens/Admin/AdminEditProduct";
-import VendorApplication from "./screens/Vendor/VendorApplication";
+import AdminUserDetails from "./pages/Admin/AdminUserDetails";
+import AdminProductDetails from "./pages/Admin/AdminProductDetails";
+import AdminEditProduct from "./pages/Admin/AdminEditProduct";
+import VendorApplication from "./pages/Vendor/VendorApplication";
+import VendorDashboard from "./pages/Vendor/VendorDashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
