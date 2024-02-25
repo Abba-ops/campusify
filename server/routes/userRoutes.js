@@ -1,3 +1,4 @@
+import express from "express";
 import {
   getUsers,
   authUser,
@@ -10,8 +11,10 @@ import {
   deleteMyAccount,
 } from "../controllers/userController.js";
 import { isAdmin, isLoggedIn } from "../middlewares/authMiddleware.js";
-import { validateLogin, validateRegister } from "../middlewares/validation.js";
-import express from "express";
+import {
+  validateLogin,
+  validateRegister,
+} from "../middlewares/validateData.js";
 
 const router = express.Router();
 
@@ -25,7 +28,7 @@ router
   .get(isLoggedIn, isAdmin, getUsers)
   .post(validateRegister, registerUser);
 router
-  .route("/:id")
+  .route("/:userId")
   .delete(isLoggedIn, isAdmin, deleteUser)
   .get(isLoggedIn, isAdmin, getUserById);
 

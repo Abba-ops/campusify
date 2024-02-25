@@ -1,10 +1,10 @@
 import express from "express";
-import { isAdmin, isLoggedIn } from "../middlewares/authMiddleware.js";
+import { isLoggedIn, isVendor } from "../middlewares/authMiddleware.js";
 import { getVendors, getVendorById } from "../controllers/vendorController.js";
 
 const router = express.Router();
 
-router.route("/").get(isLoggedIn, isAdmin, getVendors);
-router.route("/:id").get(isLoggedIn, isAdmin, getVendorById);
+router.route("/").get(isLoggedIn, isVendor, getVendors);
+router.route("/:vendorId").get(isLoggedIn, isVendor, getVendorById);
 
 export default router;

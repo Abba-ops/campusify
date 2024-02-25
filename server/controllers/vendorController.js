@@ -7,7 +7,7 @@ import Vendor from "../models/vendorModel.js";
  * @access     Private/Admin
  */
 const getVendors = asyncHandler(async (req, res) => {
-  const vendors = await Vendor.find().populate("user");
+  const vendors = await Vendor.find({}).populate("user");
 
   res.status(200).json({
     success: true,
@@ -25,8 +25,9 @@ const getVendorById = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findById(req.params.id).populate("user");
 
   if (!vendor) {
-    res.status(404).json({ success: false, message: "Vendor not found" });
-    return;
+    return res
+      .status(404)
+      .json({ success: false, message: "Vendor not found" });
   }
 
   res.status(200).json({ success: true, data: vendor });

@@ -29,9 +29,18 @@ const loginSchema = Joi.object({
 });
 
 const reviewSchema = Joi.object({
-  name: Joi.string().required(),
-  rating: Joi.number().required(),
-  comment: Joi.string().required(),
+  name: Joi.string().required().messages({
+    "any.required": "Name is required for the review.",
+    "string.empty": "Name cannot be empty.",
+  }),
+  rating: Joi.number().required().messages({
+    "any.required": "Rating is required for the review.",
+    "number.base": "Rating must be a number.",
+  }),
+  comment: Joi.string().required().messages({
+    "any.required": "Comment is required for the review.",
+    "string.empty": "Comment cannot be empty.",
+  }),
 }).options({ abortEarly: false });
 
 export { registrationSchema, loginSchema, reviewSchema };

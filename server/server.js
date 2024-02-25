@@ -16,24 +16,19 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/vendors", vendorRoutes);
 
-const __dirname = path.resolve(); // Set __dirname to the current working directory
+const __dirname = path.resolve();
 
-// Serve static assets in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
-
-  // Redirect any route that is not API to index.html
   app.get("*", (req, res) =>
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   );
@@ -41,11 +36,9 @@ if (process.env.NODE_ENV === "production") {
   app.get("/", (req, res) => res.send("API is running"));
 }
 
-// Error handling middleware
 app.use(notFound);
 app.use(errorHandler);
 
-// Start the server
 app.listen(PORT, () =>
   console.log(`Server is running on port ${PORT}`.yellow.bold)
 );
