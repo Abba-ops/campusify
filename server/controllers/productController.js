@@ -21,7 +21,9 @@ const getProducts = asyncHandler(async (req, res) => {
  * @access        Public
  */
 const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id).populate("vendor");
+  const product = await Product.findById(req.params.productId).populate(
+    "vendor"
+  );
 
   if (!product) {
     res.status(404);
@@ -37,7 +39,7 @@ const getProductById = asyncHandler(async (req, res) => {
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment, name } = req.body;
 
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.productId);
 
   if (product) {
     const alreadyReviewed = product.reviews.find(
@@ -72,4 +74,33 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProductById, createProductReview };
+const deleteReview = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.productId);
+
+  if (product) {
+    product.reviews = product.reviews.filter(
+      (review) => !review._id.equals(req.params.reviewId)
+    );
+
+    product.reviewCount = product.reviews.length;
+
+    if (product.reviews.length > 0) {
+      product.rating =
+        product.reviews.reduce((acc, review) => acc + review.rating, 0) /
+        product.reviews.length;
+    } else {
+      product.rating = 0;
+    }
+
+    await product.save();
+
+    res
+      .status(201)
+      .json({ success: true, message: "Review deleted successfully" });
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
+export { getProducts, getProductById, createProductReview, deleteReview };

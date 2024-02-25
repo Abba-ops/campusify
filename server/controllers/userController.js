@@ -16,6 +16,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     if (user && (await user.matchPassword(password))) {
       const userData = {
+        id: user._id,
         email: user.email,
         isAdmin: user.isAdmin,
         isVendor: user.isVendor,
@@ -82,6 +83,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
       if (user) {
         const userData = {
+          id: user._id,
           email: user.email,
           isAdmin: user.isAdmin,
           isVendor: user.isVendor,

@@ -61,7 +61,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="vh-100 overflow-hidden">
+    <div className="vh-100 overflow-x-hidden">
       <Navbar expand="lg" sticky="top" bg="white" className="border-bottom">
         <Container fluid>
           <Navbar.Brand>
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
             </Container>
           </Navbar>
         </Col>
-        <Col lg={10} className="vh-100 overflow-y-scroll">
+        <Col lg={10} className="">
           <Container className="py-3">
             <Outlet />
           </Container>

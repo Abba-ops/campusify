@@ -1,15 +1,36 @@
 import React from "react";
-import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { useGetProductDetailsQuery } from "../../features/productsApiSlice";
+import {
+  useDeleteReviewMutation,
+  useGetProductDetailsQuery,
+} from "../../features/productsApiSlice";
 import Loader from "../../components/Loader";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
+import StarRating from "../../components/StarRating";
+import { MdDelete } from "react-icons/md";
 
 export default function AdminProductDetails() {
   const { productId } = useParams();
 
-  const { data: product, isLoading } = useGetProductDetailsQuery(productId);
+  const { data: product, isLoading ,refetch} = useGetProductDetailsQuery(productId);
+
+  const [deleteReview, {}] = useDeleteReviewMutation();
+
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await deleteReview({ productId, reviewId });
+      refetch();
+      toast.success("Review deleted successfully");
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
 
   console.log(product);
+  const { userInfo } = useSelector((state) => state.auth);
 
   return (
     <>
@@ -20,13 +41,11 @@ export default function AdminProductDetails() {
       ) : (
         <>
           <div className="d-flex justify-content-between align-items-center my-3">
-            <div>
-              <h2>{product.data.productName}</h2>
-            </div>
+            <div>{/* <h2>{product.data.productName}</h2> */}</div>
             <div></div>
           </div>
           <Row>
-            <Col className="bg-white border-0" lg={8} as={Card}>
+            <Col className="bg-white border-0" lg={6} as={Card}>
               <Row>
                 <Col lg={6}>
                   <div>
@@ -88,6 +107,37 @@ export default function AdminProductDetails() {
                   </ListGroup>
                 </Col>
               </Row>
+            </Col>
+            <Col>
+              <ListGroup variant="flush">
+                {product?.data.reviews.map((review) => (
+                  <ListGroup.Item key={review._id} className="mb-3 p-3 border">
+                    <StarRating value={review.rating} />
+                    <div className="d-flex align-items-center mt-3">
+                      <div className="flex-shrink-0 me-3">
+                        <Image
+                          fluid
+                          loading="lazy"
+                          roundedCircle
+                          className="profile-picture-sm"
+                          src={review.profilePictureURL}
+                        />
+                      </div>
+                      <div className="d-flex flex-column">
+                        <h6 className="mb-1">{review.name}</h6>
+                        <small className="text-muted">{review.createdAt}</small>
+                      </div>
+                    </div>
+                    <p className="mt-3 mb-0">{review.comment}</p>
+                    <Button
+                      onClick={() => handleDeleteReview(review._id)}
+                      variant=""
+                      className="position-absolute top-0 end-0">
+                      <MdDelete className="fs-4" />
+                    </Button>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
             </Col>
           </Row>
         </>

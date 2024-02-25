@@ -5,12 +5,13 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Image from "react-bootstrap/esm/Image";
 import Form from "react-bootstrap/Form";
-import Rating from "../components/StarRating";
+import StarRating from "../components/StarRating";
 import ReactStars from "react-rating-stars-component";
 import ProductsSlider from "../components/CarouselProducts";
 import ScrollToTop from "../components/BackToTop";
 import {
   useCreateReviewMutation,
+  useDeleteReviewMutation,
   useGetProductDetailsQuery,
 } from "../features/productsApiSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +22,7 @@ import { RiShoppingBag2Fill } from "react-icons/ri";
 import { addToCart } from "../features/cartSlice";
 import { Alert, FloatingLabel, ListGroup } from "react-bootstrap";
 import Loader from "../components/Loader";
+import { MdDelete } from "react-icons/md";
 
 const ReviewComponent = () => {};
 
@@ -48,6 +50,18 @@ export default function ProductDetail() {
 
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation(productId);
+
+  const [deleteReview, {}] = useDeleteReviewMutation();
+
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await deleteReview({ productId, reviewId });
+      refetch();
+      toast.success("Review deleted successfully");
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -102,7 +116,7 @@ export default function ProductDetail() {
                 <h3 className="text-uppercase fw-semibold text-body-secondary mb-3">
                   {product?.data.productName}
                 </h3>
-                <Rating
+                <StarRating
                   value={product?.data.rating}
                   text={`(${product?.data.reviewCount} Review)`}
                   linkText={"Add your review"}
@@ -155,7 +169,7 @@ export default function ProductDetail() {
             <ListGroup variant="flush">
               {product?.data.reviews.map((review) => (
                 <ListGroup.Item key={review._id} className="mb-3 p-3 border">
-                  <Rating value={review.rating} />
+                  <StarRating value={review.rating} />
                   <div className="d-flex align-items-center mt-3">
                     <div className="flex-shrink-0 me-3">
                       <Image
@@ -172,6 +186,14 @@ export default function ProductDetail() {
                     </div>
                   </div>
                   <p className="mt-3 mb-0">{review.comment}</p>
+                  {userInfo.data.id === review.user && (
+                    <Button
+                      onClick={() => handleDeleteReview(review._id)}
+                      variant=""
+                      className="position-absolute top-0 end-0">
+                      <MdDelete className="fs-4" />
+                    </Button>
+                  )}
                 </ListGroup.Item>
               ))}
               <ListGroup.Item>
