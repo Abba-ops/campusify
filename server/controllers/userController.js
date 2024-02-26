@@ -52,12 +52,13 @@ const registerUser = asyncHandler(async (req, res) => {
   const { uniqueId, userType, password } = req.body;
 
   try {
-    const { data } = await axios.post(process.env.PORTAL_ENDPOINT, {
+    const portalRes = await axios.post(process.env.PORTAL_ENDPOINT, {
       uniqueId,
       role: userType,
       api_key: process.env.PORTAL_API_KEY,
     });
 
+    const { data } = portalRes;
     const { lastname, othernames, image, email, phone_number } = data.data;
 
     const userExists = await User.findOne({ email });
@@ -90,14 +91,22 @@ const registerUser = asyncHandler(async (req, res) => {
     };
 
     genToken(res, user._id);
+
     res.status(201).json({
       success: true,
       data: userData,
       message: "Account created successfully!",
     });
   } catch (error) {
-    res.status(400);
-    throw new Error("Invalid credentials");
+    let errorMessage = "Invalid request.";
+
+    if (error.response && error.response.status === 400) {
+      errorMessage = "Invalid data provided to external portal.";
+    } else if (error.message.includes("User already exists")) {
+      errorMessage = "User already exists.";
+    }
+
+    res.status(400).json({ success: false, message: errorMessage });
   }
 });
 

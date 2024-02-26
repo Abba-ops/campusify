@@ -33,6 +33,7 @@ import AdminProductDetails from "./pages/Admin/AdminProductDetails";
 import AdminEditProduct from "./pages/Admin/AdminEditProduct";
 import VendorApplication from "./pages/Vendor/VendorApplication";
 import VendorDashboard from "./pages/Vendor/VendorDashboard";
+import PageNotFound from "./pages/PageNotFound";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +44,7 @@ const router = createBrowserRouter(
       <Route path="/register" element={<UserRegistration />} />
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/product/:productId" element={<ProductDetail />} />
+      <Route path="*" element={<PageNotFound />}/>
 
       <Route path="/" element={<PrivateRoute />}>
         <Route path="/checkout" element={<CartCheckout />} />

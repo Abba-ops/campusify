@@ -7,7 +7,6 @@ import Image from "react-bootstrap/esm/Image";
 import Form from "react-bootstrap/Form";
 import StarRating from "../components/StarRating";
 import ReactStars from "react-rating-stars-component";
-import ProductsSlider from "../components/CarouselProducts";
 import ScrollToTop from "../components/BackToTop";
 import {
   useCreateReviewMutation,
@@ -16,44 +15,36 @@ import {
 } from "../features/productsApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
 import Button from "react-bootstrap/esm/Button";
-import { RiShoppingBag2Fill } from "react-icons/ri";
 import { addToCart } from "../features/cartSlice";
-import {
-  Alert,
-  FloatingLabel,
-  ListGroup,
-  Spinner,
-  Stack,
-} from "react-bootstrap";
+import { Alert, ListGroup, Spinner, Stack } from "react-bootstrap";
 import { format } from "date-fns";
-import Loader from "../components/Loader";
 import { MdDelete } from "react-icons/md";
 import { numberWithCommas } from "../utils/cartUtils";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import ErrorPage from "./ErrorPage";
 
 export default function ProductDetail() {
-  const { productId } = useParams();
   const [quantity, setQuantity] = useState(1);
+  const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
+
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [comment, setComment] = useState("");
-
-  const {
-    data: product,
-    isLoading,
-    refetch,
-    error,
-    isError,
-  } = useGetProductDetailsQuery(productId);
+  const { productId } = useParams();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const {
+    error,
+    refetch,
+    isLoading,
+    data: product,
+  } = useGetProductDetailsQuery(productId);
+
   const addToCartHandler = () => {
-    dispatch(addToCart({ ...product, quantity }));
+    dispatch(addToCart({ ...product.data, quantity }));
     navigate("/cart");
   };
 
@@ -351,7 +342,7 @@ export default function ProductDetail() {
           </Row>
         </Container>
       ) : (
-        <Alert> isError</Alert>
+        <ErrorPage />
       )}
       <ScrollToTop />
     </section>
