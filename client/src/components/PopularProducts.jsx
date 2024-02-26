@@ -1,21 +1,17 @@
 import React from "react";
 import Container from "react-bootstrap/esm/Container";
-import ProductsSlider from "./CarouselProducts";
+import CarouselProducts from "./CarouselProducts";
 
 export default function PopularProducts() {
   return (
-    <Container className="bg-white py-5">
-      <section>
-        <div className="text-center">
-          <p className="text-muted">
-            <small>Lorem ipsum dolor sit.</small>
-          </p>
-          <h2 className="text-uppercase text-body-emphasis">
-            Popular Products
-          </h2>
+    <section>
+      <Container className="py-5 bg-white">
+        <div className="text-center mb-4">
+          <p className="text-muted mb-3">Discover Our</p>
+          <h2 className="text-uppercase mb-4">Popular Products</h2>
         </div>
-        <ProductsSlider lg={3} showPreviewIcon={true} />
-      </section>
-    </Container>
+        <CarouselProducts lg={3} showPreviewIcon={true} />
+      </Container>
+    </section>
   );
 }

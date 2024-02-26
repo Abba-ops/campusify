@@ -23,6 +23,7 @@ import { MdDelete } from "react-icons/md";
 import { numberWithCommas } from "../utils/cartUtils";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import ErrorPage from "./ErrorPage";
+import CarouselProducts from "../components/CarouselProducts";
 
 export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
@@ -43,15 +44,15 @@ export default function ProductDetail() {
     data: product,
   } = useGetProductDetailsQuery(productId);
 
+  const [createReview, { isLoading: loadingProductReview }] =
+    useCreateReviewMutation(productId);
+
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product.data, quantity }));
     navigate("/cart");
   };
 
-  const [createReview, { isLoading: loadingProductReview }] =
-    useCreateReviewMutation(productId);
-
-  const [deleteReview, {}] = useDeleteReviewMutation();
+  const [deleteReview] = useDeleteReviewMutation();
 
   const handleDeleteReview = async (reviewId) => {
     try {
@@ -59,7 +60,7 @@ export default function ProductDetail() {
       refetch();
       toast.success("Review deleted successfully");
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error(error && (error.data.message || error.error));
     }
   };
 
@@ -74,11 +75,11 @@ export default function ProductDetail() {
         name: `${userInfo.data.lastName} ${userInfo.data.otherNames}`,
       }).unwrap();
       refetch();
-      toast.success("Review submitted successfully");
-      setComment("");
       setRating(0);
+      setComment("");
+      toast.success("Review submitted successfully");
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error(error && (error.data.message || error.error));
     }
   };
 
@@ -91,7 +92,7 @@ export default function ProductDetail() {
       {!error ? (
         <Container>
           <Row className="mb-5">
-            <Col lg={4} className="mb-3 mb-lg-0">
+            <Col lg={4} className="mb-4 mb-lg-0">
               {isLoading ? (
                 <div className="placeholder-glow">
                   <span
@@ -107,8 +108,7 @@ export default function ProductDetail() {
                 />
               )}
             </Col>
-
-            <Col lg={4} className="mb-5 mb-lg-0">
+            <Col lg={5} className="mb-5 mb-lg-0">
               {isLoading ? (
                 <div>
                   <h3 className="placeholder-glow">
@@ -157,7 +157,7 @@ export default function ProductDetail() {
                     {product.data.productName}
                   </h3>
                   <StarRating value={product.data.rating} />
-                  <p className="mb-3">{product.data.productDescription}</p>
+                  <p className="my-3 lead">{product.data.productDescription}</p>
                   <h5 className="fw-semibold text-primary mb-3">
                     &#8358;{numberWithCommas(product?.data.price)}
                   </h5>
@@ -210,10 +210,11 @@ export default function ProductDetail() {
               )}
             </Col>
 
-            <Col lg={4}>
+            <Col lg={3}>
               <h4 className="text-uppercase text-center mb-0">
                 Other Products
               </h4>
+              <CarouselProducts lg={12} />
             </Col>
           </Row>
           <Row className="mt-5">
@@ -257,9 +258,11 @@ export default function ProductDetail() {
                   {product.data.reviews.length === 0 ? (
                     <Alert>No Reviews</Alert>
                   ) : (
-                    <ListGroup>
+                    <ListGroup variant="flush">
                       {product.data.reviews.map((review) => (
-                        <ListGroup.Item key={review._id} className="p-3">
+                        <ListGroup.Item
+                          key={review._id}
+                          className="mb-3 p-3 border">
                           <StarRating value={review.rating} />
                           <div className="d-flex align-items-center mt-3">
                             <div className="flex-shrink-0 me-3">
@@ -274,10 +277,7 @@ export default function ProductDetail() {
                             <div className="d-flex flex-column">
                               <h6 className="mb-1">{review.name}</h6>
                               <small className="text-muted">
-                                {format(
-                                  new Date(review.createdAt),
-                                  "MMMM dd, yyyy"
-                                )}
+                                {review.createdAt}
                               </small>
                             </div>
                           </div>
@@ -292,7 +292,7 @@ export default function ProductDetail() {
                           )}
                         </ListGroup.Item>
                       ))}
-                      <ListGroup.Item>
+                      <ListGroup.Item className="mb-3 p-3 border">
                         <h5 className="text-uppercase mb-3">Write a review</h5>
                         {userInfo ? (
                           <Form onSubmit={handleReviewSubmit}>
@@ -302,6 +302,9 @@ export default function ProductDetail() {
                               isHalf={true}
                               activeColor="#ffae42"
                               onChange={ratingChanged}
+                              emptyIcon={<i className="far fa-star"></i>}
+                              halfIcon={<i className="fa fa-star-half-alt"></i>}
+                              fullIcon={<i className="fa fa-star"></i>}
                             />
                             <Form.Group
                               className="mb-3"

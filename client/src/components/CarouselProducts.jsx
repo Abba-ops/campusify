@@ -42,7 +42,13 @@ export default function CarouselProducts({ lg = 12, showPreviewIcon }) {
               ))}
         </Row>
       ) : (
-        <div>Error fetching products</div>
+        <div className="text-center mt-5">
+          <h4 className="text-danger">Error Fetching Products</h4>
+          <p className="mt-3">
+            Sorry, we couldn't retrieve the products at the moment. Please try
+            again later or contact support.
+          </p>
+        </div>
       )}
     </Container>
   );

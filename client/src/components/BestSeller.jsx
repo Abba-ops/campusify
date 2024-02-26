@@ -8,17 +8,17 @@ import Image from "react-bootstrap/esm/Image";
 
 export default function BestSeller() {
   return (
-    <Container className="bg-white py-5">
-      <section>
-        <Row className="d-flex align-items-center">
-          <Col lg={6}>
+    <section>
+      <Container className="py-5 bg-white">
+        <Row className="align-items-center">
+          <Col lg={6} className="mb-4 mb-lg-0">
             <div className="text-center">
-              <p className="text-muted">Lorem ipsum dolor sit.</p>
-              <h2 className="text-uppercase text-body-emphasis">Best Seller</h2>
+              <p className="text-muted mb-3">Discover Our</p>
+              <h2 className="text-uppercase mb-4">Best Sellers</h2>
             </div>
             <ProductsSlider lg={6} showPreviewIcon={true} />
           </Col>
-          <Col lg={6} className="mt-5 mt-lg-0 px-4">
+          <Col lg={6} className="px-4">
             <Carousel indicators={false} controls={false}>
               <Carousel.Item>
                 <Image src="/images/camera.jpg" fluid />
@@ -32,7 +32,7 @@ export default function BestSeller() {
             </Carousel>
           </Col>
         </Row>
-      </section>
-    </Container>
+      </Container>
+    </section>
   );
 }

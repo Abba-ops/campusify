@@ -10,12 +10,12 @@ export const VENDORS_URL = "/api/vendors";
 
 export const services = [
   {
-    icon: <MdOutlineHelpOutline />,
+    icon: <MdOutlineSecurity />,
     service: "24/7 Help",
     text: "Always Available",
   },
   {
-    icon: <FaChartLine />,
+    icon: <MdOutlineSecurity />,
     service: "Boost Sales",
     text: "Sell with Ease",
   },
@@ -25,7 +25,7 @@ export const services = [
     text: "Safe Payments",
   },
   {
-    icon: <FaHandshake />,
+    icon: <MdOutlineSecurity />,
     service: "Connect",
     text: "Community Hub",
   },

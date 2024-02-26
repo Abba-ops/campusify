@@ -38,7 +38,7 @@ export default function ProductCard({ product, showPreviewIcon }) {
           <Card.Img variant="top" src={imageUrl} className="rounded-0" />
         </Link>
         <Card.Body>
-          <Card.Text className="text-truncate text-capitalize">
+          <Card.Text className="text-truncate text-capitalize text-muted">
             <Link to={`/product/${_id}`} className="text-decoration-none">
               {productName}
             </Link>
@@ -46,7 +46,9 @@ export default function ProductCard({ product, showPreviewIcon }) {
           <Card.Text className="d-flex justify-content-center">
             <StarRating value={rating} />
           </Card.Text>
-          <Card.Title>&#8358;{numberWithCommas(price)}</Card.Title>
+          <Card.Text>
+            <h6>&#8358;{numberWithCommas(price)}</h6>
+          </Card.Text>
           {showPreviewIcon && (
             <Button
               className="position-absolute top-0 end-0 my-3 mx-3 d-none d-lg-block rounded-pill py-2 visible-on-hover"

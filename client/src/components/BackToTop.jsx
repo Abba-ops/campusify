@@ -26,10 +26,10 @@ export default function BackToTop() {
   };
 
   return (
-    <div className="fixed-bottom" style={{ left: "initial" }}>
+    <div className="fixed-bottom" style={{ left: "20px", bottom: "20px" }}>
       <Button
         variant="primary"
-        className={`my-3 mx-4 py-1 px-2 ${visible ? "d-block" : "d-none"}`}
+        className={`shadow rounded ${visible ? "d-block" : "d-none"}`}
         onClick={scrollToTop}>
         <h3>
           <IoIosArrowUp className="text-white" />
