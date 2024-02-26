@@ -1,6 +1,7 @@
+import { Stack } from "react-bootstrap";
 import { RiStarLine, RiStarFill, RiStarHalfFill } from "react-icons/ri";
 
-export default function StarRating({ value }) {
+export default function StarRating({ value, text }) {
   const stars = [1, 2, 3, 4, 5].map((num) => {
     const icon =
       value >= num ? (
@@ -14,6 +15,11 @@ export default function StarRating({ value }) {
   });
 
   return (
-    <h5 className="text-primary d-flex gap-2 align-items-center">{stars}</h5>
+    <Stack direction="horizontal" gap={3}>
+      <Stack direction="horizontal" gap={2} className="text-primary">
+        {stars}
+      </Stack>
+      {text && text}
+    </Stack>
   );
 }

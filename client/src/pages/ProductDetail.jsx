@@ -20,11 +20,18 @@ import { toast } from "react-toastify";
 import Button from "react-bootstrap/esm/Button";
 import { RiShoppingBag2Fill } from "react-icons/ri";
 import { addToCart } from "../features/cartSlice";
-import { Alert, FloatingLabel, ListGroup } from "react-bootstrap";
+import {
+  Alert,
+  FloatingLabel,
+  ListGroup,
+  Spinner,
+  Stack,
+} from "react-bootstrap";
+import { format } from "date-fns";
 import Loader from "../components/Loader";
 import { MdDelete } from "react-icons/md";
-
-const ReviewComponent = () => {};
+import { numberWithCommas } from "../utils/cartUtils";
+import { FaCheck, FaTimes } from "react-icons/fa";
 
 export default function ProductDetail() {
   const { productId } = useParams();
@@ -38,6 +45,8 @@ export default function ProductDetail() {
     data: product,
     isLoading,
     refetch,
+    error,
+    isError,
   } = useGetProductDetailsQuery(productId);
 
   const dispatch = useDispatch();
@@ -85,157 +94,265 @@ export default function ProductDetail() {
   const ratingChanged = (newRating) => {
     setRating(newRating);
   };
-  console.log(product);
 
   return (
     <section className="bg-white py-5">
-      <Container>
-        <Row>
-          <Col lg={4} className="mb-3 mb-lg-0">
-            <Image src={`${product?.data.imageUrl}`} fluid loading="lazy" />
-          </Col>
-          <Col lg={5} className="mb-5 mb-lg-0">
-            {isLoading ? (
-              <>
-                <h5 className="card-title placeholder-glow">
-                  <span className="placeholder col-6"></span>
-                </h5>
-                <p className="card-text placeholder-glow">
-                  <span className="placeholder col-7"></span>
-                  <span className="placeholder col-4"></span>
-                  <span className="placeholder col-4"></span>
-                  <span className="placeholder col-6"></span>
-                  <span className="placeholder col-8"></span>
-                </p>
-                <Button
-                  className="disabled placeholder col-6 rounded-0"
-                  variant="primary"></Button>
-              </>
-            ) : (
-              <>
-                <h3 className="text-uppercase fw-semibold text-body-secondary mb-3">
-                  {product?.data.productName}
-                </h3>
-                <StarRating
-                  value={product?.data.rating}
-                  text={`(${product?.data.reviewCount} Review)`}
-                  linkText={"Add your review"}
+      {!error ? (
+        <Container>
+          <Row className="mb-5">
+            <Col lg={4} className="mb-3 mb-lg-0">
+              {isLoading ? (
+                <div className="placeholder-glow">
+                  <span
+                    className="placeholder col-12"
+                    style={{ height: "300px" }}></span>
+                </div>
+              ) : (
+                <Image
+                  fluid
+                  rounded
+                  loading="lazy"
+                  src={`${product.data.imageUrl}`}
                 />
-                <p className="raleway my-4">
-                  {product?.data.productDescription}
-                </p>
-                <h4 className="fw-semibold text-primary my-3">
-                  &#8358;{product?.data.price}
-                </h4>
-                <Row>
-                  <Col lg={4}>
-                    {product?.data.countInStock > 0 && (
-                      <Form.Select
-                        className="rounded-0"
-                        onChange={(e) => setQuantity(Number(e.target.value))}>
-                        {[...Array(product.data.countInStock).keys()].map(
-                          (x) => (
-                            <option value={x + 1} key={x + 1}>
-                              {x + 1}
-                            </option>
-                          )
+              )}
+            </Col>
+
+            <Col lg={4} className="mb-5 mb-lg-0">
+              {isLoading ? (
+                <div>
+                  <h3 className="placeholder-glow">
+                    <span
+                      className="placeholder col-12"
+                      style={{ height: "30px" }}></span>
+                  </h3>
+                  <p className="placeholder-glow">
+                    <span
+                      className="placeholder col-12"
+                      style={{ height: "15px" }}></span>
+                    <span
+                      className="placeholder col-10"
+                      style={{ height: "15px" }}></span>
+                    <span
+                      className="placeholder col-12"
+                      style={{ height: "90px" }}></span>
+                    <span
+                      className="placeholder col-8"
+                      style={{ height: "15px" }}></span>
+                    <span
+                      className="placeholder col-10"
+                      style={{ height: "20px" }}></span>
+                    <span
+                      className="placeholder col-6"
+                      style={{ height: "15px" }}></span>
+                    <span
+                      className="placeholder col-12"
+                      style={{ height: "25px" }}></span>
+                    <span
+                      className="placeholder col-8"
+                      style={{ height: "15px" }}></span>
+                    <span
+                      className="placeholder col-10"
+                      style={{ height: "20px" }}></span>
+                  </p>
+                  <Button
+                    size="lg"
+                    variant="dark"
+                    className="disabled placeholder col-6"
+                  />
+                </div>
+              ) : (
+                <>
+                  <h3 className="text-uppercase mb-3">
+                    {product.data.productName}
+                  </h3>
+                  <StarRating value={product.data.rating} />
+                  <p className="mb-3">{product.data.productDescription}</p>
+                  <h5 className="fw-semibold text-primary mb-3">
+                    &#8358;{numberWithCommas(product?.data.price)}
+                  </h5>
+                  <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm="3">
+                      <h6 className="text-uppercase">Quantity</h6>
+                    </Form.Label>
+                    <Col sm="4">
+                      {product.data.countInStock > 0 && (
+                        <Form.Select
+                          onChange={(e) => setQuantity(Number(e.target.value))}>
+                          {[...Array(product.data.countInStock).keys()].map(
+                            (x) => (
+                              <option value={x + 1} key={x + 1}>
+                                {x + 1}
+                              </option>
+                            )
+                          )}
+                        </Form.Select>
+                      )}
+                    </Col>
+                    <Col className="d-flex align-items-center">
+                      {product.data.countInStock ? (
+                        <Stack
+                          direction="horizontal"
+                          gap={2}
+                          className="text-success">
+                          <FaCheck />
+                          <div>In stock</div>
+                        </Stack>
+                      ) : (
+                        <Stack
+                          direction="horizontal"
+                          gap={2}
+                          className="text-danger">
+                          <FaTimes />
+                          <div>Out of stock</div>
+                        </Stack>
+                      )}
+                    </Col>
+                  </Form.Group>
+                  <Button
+                    variant="dark"
+                    className="text-uppercase w-100"
+                    size="lg"
+                    onClick={addToCartHandler}>
+                    Add to cart
+                  </Button>
+                </>
+              )}
+            </Col>
+
+            <Col lg={4}>
+              <h4 className="text-uppercase text-center mb-0">
+                Other Products
+              </h4>
+            </Col>
+          </Row>
+          <Row className="mt-5">
+            <Col md={6}>
+              {isLoading ? (
+                <div className="placeholder-glow">
+                  <span
+                    className="placeholder col-12 mb-3"
+                    style={{ height: "20px" }}></span>
+                  <span
+                    className="placeholder col-12"
+                    style={{ height: "15px" }}></span>
+                  <span
+                    className="placeholder col-10"
+                    style={{ height: "15px" }}></span>
+                  <span
+                    className="placeholder col-12 mb-3"
+                    style={{ height: "70px" }}></span>
+                  <span
+                    className="placeholder col-8"
+                    style={{ height: "15px" }}></span>
+                  <span
+                    className="placeholder col-10"
+                    style={{ height: "20px" }}></span>
+                  <span
+                    className="placeholder col-6"
+                    style={{ height: "15px" }}></span>
+                  <span
+                    className="placeholder col-12"
+                    style={{ height: "25px" }}></span>
+                  <span
+                    className="placeholder col-8"
+                    style={{ height: "15px" }}></span>
+                  <span
+                    className="placeholder col-10"
+                    style={{ height: "20px" }}></span>
+                </div>
+              ) : (
+                <>
+                  <h5 className="text-uppercase mb-4">Customer Reviews</h5>
+                  {product.data.reviews.length === 0 ? (
+                    <Alert>No Reviews</Alert>
+                  ) : (
+                    <ListGroup>
+                      {product.data.reviews.map((review) => (
+                        <ListGroup.Item key={review._id} className="p-3">
+                          <StarRating value={review.rating} />
+                          <div className="d-flex align-items-center mt-3">
+                            <div className="flex-shrink-0 me-3">
+                              <Image
+                                fluid
+                                loading="lazy"
+                                roundedCircle
+                                className="profile-picture-sm"
+                                src={review.profilePictureURL}
+                              />
+                            </div>
+                            <div className="d-flex flex-column">
+                              <h6 className="mb-1">{review.name}</h6>
+                              <small className="text-muted">
+                                {format(
+                                  new Date(review.createdAt),
+                                  "MMMM dd, yyyy"
+                                )}
+                              </small>
+                            </div>
+                          </div>
+                          <p className="mt-3 mb-0">{review.comment}</p>
+                          {userInfo.data.id === review.user && (
+                            <Button
+                              onClick={() => handleDeleteReview(review._id)}
+                              variant=""
+                              className="position-absolute top-0 end-0">
+                              <MdDelete className="fs-4" />
+                            </Button>
+                          )}
+                        </ListGroup.Item>
+                      ))}
+                      <ListGroup.Item>
+                        <h5 className="text-uppercase mb-3">Write a review</h5>
+                        {userInfo ? (
+                          <Form onSubmit={handleReviewSubmit}>
+                            <ReactStars
+                              count={5}
+                              size={45}
+                              isHalf={true}
+                              activeColor="#ffae42"
+                              onChange={ratingChanged}
+                            />
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlTextarea1">
+                              <Form.Label>Your Comments</Form.Label>
+                              <Form.Control
+                                as="textarea"
+                                rows={3}
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                              />
+                            </Form.Group>
+                            <Button
+                              type="submit"
+                              disabled={loadingProductReview}
+                              variant="dark">
+                              {loadingProductReview ? (
+                                <Spinner size="sm" animation="border">
+                                  <span className="visually-hidden"></span>
+                                </Spinner>
+                              ) : (
+                                "Submit Review"
+                              )}
+                            </Button>
+                          </Form>
+                        ) : (
+                          <Alert>
+                            Please <Link to={"/login"}>login</Link> to write
+                            your review
+                          </Alert>
                         )}
-                      </Form.Select>
-                    )}
-                  </Col>
-                  <Col>
-                    <Button
-                      variant="dark"
-                      className="rounded-pill py-2"
-                      onClick={addToCartHandler}>
-                      <RiShoppingBag2Fill />
-                    </Button>
-                  </Col>
-                </Row>
-              </>
-            )}
-          </Col>
-          <Col lg={3}>
-            <h4 className="text-uppercase fw-bolder text-body-secondary text-center">
-              Other Products
-            </h4>
-            <ProductsSlider showIcons={false} />
-          </Col>
-        </Row>
-        <Row>
-          <Col md={6}>
-            <h2>Reviews</h2>
-            {product?.data.reviews.length === 0 && <Alert>No Reviews</Alert>}
-            <ListGroup variant="flush">
-              {product?.data.reviews.map((review) => (
-                <ListGroup.Item key={review._id} className="mb-3 p-3 border">
-                  <StarRating value={review.rating} />
-                  <div className="d-flex align-items-center mt-3">
-                    <div className="flex-shrink-0 me-3">
-                      <Image
-                        fluid
-                        loading="lazy"
-                        roundedCircle
-                        className="profile-picture-sm"
-                        src={review.profilePictureURL}
-                      />
-                    </div>
-                    <div className="d-flex flex-column">
-                      <h6 className="mb-1">{review.name}</h6>
-                      <small className="text-muted">{review.createdAt}</small>
-                    </div>
-                  </div>
-                  <p className="mt-3 mb-0">{review.comment}</p>
-                  {userInfo.data.id === review.user && (
-                    <Button
-                      onClick={() => handleDeleteReview(review._id)}
-                      variant=""
-                      className="position-absolute top-0 end-0">
-                      <MdDelete className="fs-4" />
-                    </Button>
+                      </ListGroup.Item>
+                    </ListGroup>
                   )}
-                </ListGroup.Item>
-              ))}
-              <ListGroup.Item>
-                <h2>Write a review</h2>
-                {userInfo ? (
-                  <Form onSubmit={handleReviewSubmit}>
-                    <ReactStars
-                      count={5}
-                      size={45}
-                      isHalf={true}
-                      activeColor="#ffae42"
-                      onChange={ratingChanged}
-                    />
-                    <FloatingLabel
-                      controlId="comment"
-                      label="Your Comments"
-                      className="mb-3">
-                      <Form.Control
-                        as="textarea"
-                        placeholder="Write your comments here"
-                        style={{ height: "100px" }}
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                      />
-                    </FloatingLabel>
-                    <Button
-                      type="submit"
-                      disabled={loadingProductReview}
-                      variant="dark">
-                      {loadingProductReview ? "Submitting..." : "Submit Review"}
-                    </Button>
-                  </Form>
-                ) : (
-                  <Alert>
-                    Please <Link to={"/login"}>login</Link> to write your review
-                  </Alert>
-                )}
-              </ListGroup.Item>
-            </ListGroup>
-          </Col>
-        </Row>
-      </Container>
+                </>
+              )}
+            </Col>
+          </Row>
+        </Container>
+      ) : (
+        <Alert> isError</Alert>
+      )}
       <ScrollToTop />
     </section>
   );
