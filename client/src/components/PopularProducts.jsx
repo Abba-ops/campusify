@@ -14,7 +14,7 @@ export default function PopularProducts() {
             Popular Products
           </h2>
         </div>
-        <ProductsSlider lg={3} showIcon={true} />
+        <ProductsSlider lg={3} showPreviewIcon={true} />
       </section>
     </Container>
   );

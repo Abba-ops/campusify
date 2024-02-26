@@ -14,7 +14,7 @@ export default function FeaturedProducts() {
             Featured Products
           </h2>
         </div>
-        <ProductsSlider lg={3} showIcon={true} />
+        <ProductsSlider lg={3} showPreviewIcon={true} />
       </section>
     </Container>
   );

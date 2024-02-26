@@ -16,7 +16,7 @@ export default function BestSeller() {
               <p className="text-muted">Lorem ipsum dolor sit.</p>
               <h2 className="text-uppercase text-body-emphasis">Best Seller</h2>
             </div>
-            <ProductsSlider lg={6} showIcon={true} />
+            <ProductsSlider lg={6} showPreviewIcon={true} />
           </Col>
           <Col lg={6} className="mt-5 mt-lg-0 px-4">
             <Carousel indicators={false} controls={false}>
