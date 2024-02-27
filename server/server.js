@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/dbConfig.js";
 import userRoutes from "./routes/userRoutes.js";
 import vendorRoutes from "./routes/vendorRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 
@@ -24,8 +25,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/vendors", vendorRoutes);
+app.use("/api/upload", uploadRoutes);
 
 const __dirname = path.resolve();
+
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));

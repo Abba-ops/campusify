@@ -34,6 +34,10 @@ import AdminEditProduct from "./pages/Admin/AdminEditProduct";
 import VendorApplication from "./pages/Vendor/VendorApplication";
 import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import PageNotFound from "./pages/PageNotFound";
+import VendorProductsTable from "./pages/Vendor/VendorProductsTable";
+import VendorCreateProduct from "./pages/Vendor/VendorCreateProduct";
+import VendorProductDetails from "./pages/Vendor/VendorProductDetails";
+import VendorEditProduct from "./pages/Vendor/VendorEditProduct";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -44,7 +48,7 @@ const router = createBrowserRouter(
       <Route path="/register" element={<UserRegistration />} />
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/product/:productId" element={<ProductDetail />} />
-      <Route path="*" element={<PageNotFound />}/>
+      <Route path="*" element={<PageNotFound />} />
 
       <Route path="/" element={<PrivateRoute />}>
         <Route path="/checkout" element={<CartCheckout />} />
@@ -55,6 +59,22 @@ const router = createBrowserRouter(
       <Route path="/" element={<VendorRoute />}>
         <Route path="/vendor/dashboard" element={<VendorDashboard />}>
           <Route path="/vendor/dashboard" element={<VendorHome />} />
+          <Route
+            path="/vendor/dashboard/products"
+            element={<VendorProductsTable />}
+          />
+          <Route
+            path="/vendor/dashboard/products/create"
+            element={<VendorCreateProduct />}
+          />
+          <Route
+            path="/vendor/dashboard/products/:productId"
+            element={<VendorProductDetails />}
+          />
+          <Route
+            path="/vendor/dashboard/products/:productId/edit"
+            element={<VendorEditProduct />}
+          />
         </Route>
       </Route>
 

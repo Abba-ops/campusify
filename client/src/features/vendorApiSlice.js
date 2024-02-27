@@ -9,7 +9,13 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         method: "get",
       }),
     }),
+    getVendorProducts: builder.query({
+      query: () => ({
+        url: `${VENDORS_URL}/products`,
+        method: "get",
+      }),
+    }),
   }),
 });
 
-export const { useGetVendorsQuery } = vendorApiSlice;
+export const { useGetVendorsQuery, useGetVendorProductsQuery } = vendorApiSlice;

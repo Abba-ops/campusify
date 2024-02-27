@@ -1,5 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Vendor from "../models/vendorModel.js";
+import Product from "../models/productModel.js";
 
 /**
  * @desc       Get all vendors
@@ -22,7 +23,7 @@ const getVendors = asyncHandler(async (req, res) => {
  * @access     Private/Admin
  */
 const getVendorById = asyncHandler(async (req, res) => {
-  const vendor = await Vendor.findById(req.params.id).populate("user");
+  const vendor = await Vendor.findById(req.params.vendorId);
 
   if (!vendor) {
     return res
@@ -33,4 +34,10 @@ const getVendorById = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: vendor });
 });
 
-export { getVendors, getVendorById };
+const getVendorProducts = asyncHandler(async (req, res) => {
+  const vendor = await Vendor.findOne({ user: req.user._id });
+  const vendorProducts = await Product.find({ vendor: vendor._id });
+  res.status(200).json({ success: true, data: vendorProducts });
+});
+
+export { getVendors, getVendorById, getVendorProducts };

@@ -1,5 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Product from "../models/productModel.js";
+import Vendor from "../models/vendorModel.js";
 
 /**
  * @desc        Fetch all products
@@ -121,4 +122,83 @@ const deleteReview = asyncHandler(async (req, res) => {
     .json({ success: true, message: "Review deleted successfully" });
 });
 
-export { getProducts, getProductById, createProductReview, deleteReview };
+const createProduct = asyncHandler(async (req, res) => {
+  const vendor = await Vendor.findOne({ user: req.user._id });
+  console.log("createProduct");
+
+  const {
+    productName,
+    imageUrl,
+    productDescription,
+    category,
+    brand,
+    price,
+    countInStock,
+  } = req.body;
+
+  const product = await Product.create({
+    productName,
+    productDescription,
+    category,
+    brand,
+    price,
+    countInStock,
+    imageUrl,
+    vendor: vendor._id,
+  });
+
+  if (product) {
+    res.status(201).json({
+      success: true,
+      data: product,
+      message: "Product created successfully",
+    });
+  } else {
+    res.status(500);
+    throw new Error("Internal Server Error");
+  }
+});
+
+const updateProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.productId);
+
+  console.log("updateProduct");
+
+  const {
+    productName,
+    imageUrl,
+    productDescription,
+    category,
+    brand,
+    price,
+    countInStock,
+  } = req.body;
+
+  if (product) {
+    product.productName = productName;
+    product.productDescription = productDescription;
+    product.category = category;
+    product.brand = brand;
+    product.price = price;
+    product.countInStock = countInStock;
+    product.imageUrl = imageUrl;
+
+    const updatedProduct = await product.save();
+    res.json({
+      success: true,
+      data: updatedProduct,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Product not found");
+  }
+});
+
+export {
+  getProducts,
+  getProductById,
+  createProductReview,
+  deleteReview,
+  createProduct,
+  updateProduct,
+};

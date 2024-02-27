@@ -82,7 +82,7 @@ export default function VendorDashboard() {
                 },
                 {
                   title: "Products",
-                  link: "/vendor/dashboard/home",
+                  link: "/vendor/dashboard/products",
                   icon: <FaRegUser />,
                 },
                 {

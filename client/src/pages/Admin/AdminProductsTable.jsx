@@ -1,10 +1,17 @@
 import React from "react";
-import { Button, ButtonGroup, Image, Table } from "react-bootstrap";
+import {
+  Button,
+  ButtonGroup,
+  Image,
+  Placeholder,
+  Table,
+} from "react-bootstrap";
 import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 import { useGetProductsQuery } from "../../features/productsApiSlice";
 import { Link } from "react-router-dom";
 import { numberWithCommas } from "../../utils/cartUtils";
 import Loader from "../../components/Loader";
+import TablePlaceholder from "../../components/TablePlaceholder";
 
 export default function AdminProductsTable() {
   const { data: products, isLoading } = useGetProductsQuery();
@@ -21,12 +28,16 @@ export default function AdminProductsTable() {
             </small>
           </p>
         </div>
-        <div>
-          <Button variant="dark">Create Product</Button>
-        </div>
+        <div></div>
       </div>
       {isLoading ? (
-        <Loader />
+        <>
+          <TablePlaceholder />
+          <TablePlaceholder />
+          <TablePlaceholder />
+          <TablePlaceholder />
+          <TablePlaceholder />
+        </>
       ) : (
         <Table size="lg" responsive striped>
           <thead>

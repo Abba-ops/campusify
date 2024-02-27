@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BsEye, BsTrash } from "react-icons/bs";
 import Loader from "../../components/Loader";
+import TablePlaceholder from "../../components/TablePlaceholder";
 
 export default function AdminUsersTable() {
   const { data: users, isLoading, refetch } = useGetUsersQuery();
@@ -40,7 +41,13 @@ export default function AdminUsersTable() {
         <div></div>
       </div>
       {isLoading ? (
-        <Loader />
+        <>
+          <TablePlaceholder />
+          <TablePlaceholder />
+          <TablePlaceholder />
+          <TablePlaceholder />
+          <TablePlaceholder />
+        </>
       ) : (
         <Table size="sm" responsive striped>
           <thead>
