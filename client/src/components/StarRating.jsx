@@ -2,14 +2,14 @@ import React from "react";
 import { Stack } from "react-bootstrap";
 import { IoIosStarOutline, IoIosStarHalf, IoIosStar } from "react-icons/io";
 
-export default function StarRating({ value, text }) {
+export default function StarRating({ value, text, size = 24 }) {
   const renderStarIcon = (num) => {
     if (value >= num) {
-      return <IoIosStar key={num} />;
+      return <IoIosStar key={num} size={size} />;
     } else if (value >= num - 0.5) {
-      return <IoIosStarHalf key={num} />;
+      return <IoIosStarHalf key={num} size={size} />;
     } else {
-      return <IoIosStarOutline key={num} />;
+      return <IoIosStarOutline key={num} size={size} />;
     }
   };
 

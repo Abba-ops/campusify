@@ -1,10 +1,10 @@
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Button, Card } from "react-bootstrap";
-import ProductModal from "./ProductPreviewModal";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { numberWithCommas } from "../utils/cartUtils";
 import StarRating from "./StarRating";
+import ProductModal from "./ProductPreviewModal";
 
 export default function ProductCard({ product, showPreviewIcon }) {
   const [isPreviewIconVisible, setPreviewIconVisibility] = useState(false);
@@ -35,20 +35,20 @@ export default function ProductCard({ product, showPreviewIcon }) {
         onMouseEnter={handleShowPreviewIcon}
         onMouseLeave={handleHidePreviewIcon}>
         <Link to={`/product/${_id}`} className="text-decoration-none">
-          <Card.Img variant="top" src={imageUrl} className="rounded-0" />
+          <div className="image-container">
+            <Card.Img variant="top" src={imageUrl} className="rounded-0" />
+          </div>
         </Link>
         <Card.Body>
-          <Card.Text className="text-truncate text-capitalize text-muted">
+          <Card.Text className="text-truncate text-capitalize">
             <Link to={`/product/${_id}`} className="text-decoration-none">
               {productName}
             </Link>
           </Card.Text>
           <Card.Text className="d-flex justify-content-center">
-            <StarRating value={rating} />
+            <StarRating value={rating} size={16} />
           </Card.Text>
-          <Card.Text>
-            <h6>&#8358;{numberWithCommas(price)}</h6>
-          </Card.Text>
+          <Card.Title>&#8358;{numberWithCommas(price)}</Card.Title>
           {showPreviewIcon && (
             <Button
               className="position-absolute top-0 end-0 my-3 mx-3 d-none d-lg-block rounded-pill py-2 visible-on-hover"

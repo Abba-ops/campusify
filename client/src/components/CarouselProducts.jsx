@@ -12,12 +12,22 @@ export default function CarouselProducts({ lg = 12, showPreviewIcon }) {
   const renderSinglePlaceholder = () => (
     <Col lg={lg} md={6}>
       <Placeholder as="div" animation="glow" className="placeholder-glow">
-        <span className="placeholder col-12" style={{ height: "200px" }}></span>
-        <span className="placeholder col-12" style={{ height: "20px" }}></span>
-        <span className="placeholder col-10" style={{ height: "10px" }}></span>
-        <span className="placeholder col-12" style={{ height: "20px" }}></span>
-        <span className="placeholder col-8" style={{ height: "10px" }}></span>
-        <span className="placeholder col-10" style={{ height: "15px" }}></span>
+        <span className="placeholder col-12" style={{ height: "250px" }}></span>
+        <span
+          className="placeholder col-12 mt-2"
+          style={{ height: "20px" }}></span>
+        <span
+          className="placeholder col-10 mt-2"
+          style={{ height: "10px" }}></span>
+        <span
+          className="placeholder col-12 mt-2"
+          style={{ height: "20px" }}></span>
+        <span
+          className="placeholder col-8 mt-2"
+          style={{ height: "10px" }}></span>
+        <span
+          className="placeholder col-10 mt-2"
+          style={{ height: "15px" }}></span>
       </Placeholder>
     </Col>
   );

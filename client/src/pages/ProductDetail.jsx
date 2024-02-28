@@ -1,27 +1,31 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import Container from "react-bootstrap/esm/Container";
-import Row from "react-bootstrap/esm/Row";
-import Col from "react-bootstrap/esm/Col";
-import Image from "react-bootstrap/esm/Image";
-import Form from "react-bootstrap/Form";
-import StarRating from "../components/StarRating";
-import ReactStars from "react-rating-stars-component";
-import ScrollToTop from "../components/BackToTop";
+import {
+  Image,
+  Form,
+  Col,
+  Row,
+  Button,
+  Alert,
+  Stack,
+  Spinner,
+  ListGroup,
+  Container,
+} from "react-bootstrap";
 import {
   useCreateReviewMutation,
   useDeleteReviewMutation,
   useGetProductDetailsQuery,
 } from "../features/productsApiSlice";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import Button from "react-bootstrap/esm/Button";
-import { addToCart } from "../features/cartSlice";
-import { Alert, ListGroup, Spinner, Stack } from "react-bootstrap";
-import { format } from "date-fns";
-import { MdDelete } from "react-icons/md";
 import { numberWithCommas } from "../utils/cartUtils";
-import { FaCheck, FaTimes } from "react-icons/fa";
+import ReactStars from "react-rating-stars-component";
+import StarRating from "../components/StarRating";
+import BackToTop from "../components/BackToTop";
+import { toast } from "react-toastify";
+import { addToCart } from "../features/cartSlice";
+import { formatDistanceToNow } from "date-fns";
+import { MdDelete } from "react-icons/md";
 import ErrorPage from "./ErrorPage";
 import CarouselProducts from "../components/CarouselProducts";
 
@@ -87,11 +91,13 @@ export default function ProductDetail() {
     setRating(newRating);
   };
 
+  console.log(product);
+
   return (
     <section className="bg-white py-5">
       {!error ? (
         <Container>
-          <Row className="mb-5">
+          <Row>
             <Col lg={4} className="mb-4 mb-lg-0">
               {isLoading ? (
                 <div className="placeholder-glow">
@@ -100,12 +106,14 @@ export default function ProductDetail() {
                     style={{ height: "300px" }}></span>
                 </div>
               ) : (
-                <Image
-                  fluid
-                  rounded
-                  loading="lazy"
-                  src={`${product.data.imageUrl}`}
-                />
+                <div className="image-container">
+                  <Image
+                    fluid
+                    loading="lazy"
+                    className="product-image"
+                    src={`${product.data.imageUrl}`}
+                  />
+                </div>
               )}
             </Col>
             <Col lg={5} className="mb-5 mb-lg-0">
@@ -153,63 +161,34 @@ export default function ProductDetail() {
                 </div>
               ) : (
                 <>
-                  <h3 className="text-uppercase mb-3">
+                  <h3 className="text-capitalize mb-3">
                     {product.data.productName}
                   </h3>
-                  <StarRating value={product.data.rating} />
-                  <p className="my-3 lead">{product.data.productDescription}</p>
-                  <h5 className="fw-semibold text-primary mb-3">
+                  <h6>
+                    <StarRating
+                      value={product.data.rating}
+                      text="Customer Rating"
+                    />
+                  </h6>
+                  <p className="my-3 lead fw-normal">
+                    {product.data.productDescription}
+                  </p>
+                  <h4 className="text-primary mb-3">
                     &#8358;{numberWithCommas(product?.data.price)}
-                  </h5>
-                  <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">
-                      <h6 className="text-uppercase">Quantity</h6>
-                    </Form.Label>
-                    <Col sm="4">
-                      {product.data.countInStock > 0 && (
-                        <Form.Select
-                          onChange={(e) => setQuantity(Number(e.target.value))}>
-                          {[...Array(product.data.countInStock).keys()].map(
-                            (x) => (
-                              <option value={x + 1} key={x + 1}>
-                                {x + 1}
-                              </option>
-                            )
-                          )}
-                        </Form.Select>
-                      )}
-                    </Col>
-                    <Col className="d-flex align-items-center">
-                      {product.data.countInStock ? (
-                        <Stack
-                          direction="horizontal"
-                          gap={2}
-                          className="text-success">
-                          <FaCheck />
-                          <div>In stock</div>
-                        </Stack>
-                      ) : (
-                        <Stack
-                          direction="horizontal"
-                          gap={2}
-                          className="text-danger">
-                          <FaTimes />
-                          <div>Out of stock</div>
-                        </Stack>
-                      )}
-                    </Col>
-                  </Form.Group>
+                  </h4>
                   <Button
                     variant="dark"
                     className="text-uppercase w-100"
                     size="lg"
-                    onClick={addToCartHandler}>
-                    Add to cart
+                    onClick={addToCartHandler}
+                    disabled={product.data.countInStock === 0}>
+                    {product.data.countInStock > 0
+                      ? "Add to Cart"
+                      : "Out of Stock"}
                   </Button>
                 </>
               )}
             </Col>
-
             <Col lg={3}>
               <h4 className="text-uppercase text-center mb-0">
                 Other Products
@@ -254,91 +233,91 @@ export default function ProductDetail() {
                 </div>
               ) : (
                 <>
-                  <h5 className="text-uppercase mb-4">Customer Reviews</h5>
-                  {product.data.reviews.length === 0 ? (
+                  <h5 className="text-uppercase mb-3">Customer Reviews</h5>
+                  {product.data.reviews.length === 0 && (
                     <Alert>No Reviews</Alert>
-                  ) : (
-                    <ListGroup variant="flush">
-                      {product.data.reviews.map((review) => (
-                        <ListGroup.Item
-                          key={review._id}
-                          className="mb-3 p-3 border">
-                          <StarRating value={review.rating} />
-                          <div className="d-flex align-items-center mt-3">
-                            <div className="flex-shrink-0 me-3">
-                              <Image
-                                fluid
-                                loading="lazy"
-                                roundedCircle
-                                className="profile-picture-sm"
-                                src={review.profilePictureURL}
-                              />
-                            </div>
-                            <div className="d-flex flex-column">
-                              <h6 className="mb-1">{review.name}</h6>
-                              <small className="text-muted">
-                                {review.createdAt}
-                              </small>
-                            </div>
-                          </div>
-                          <p className="mt-3 mb-0">{review.comment}</p>
-                          {userInfo.data.id === review.user && (
-                            <Button
-                              onClick={() => handleDeleteReview(review._id)}
-                              variant=""
-                              className="position-absolute top-0 end-0">
-                              <MdDelete className="fs-4" />
-                            </Button>
-                          )}
-                        </ListGroup.Item>
-                      ))}
-                      <ListGroup.Item className="mb-3 p-3 border">
-                        <h5 className="text-uppercase mb-3">Write a review</h5>
-                        {userInfo ? (
-                          <Form onSubmit={handleReviewSubmit}>
-                            <ReactStars
-                              count={5}
-                              size={45}
-                              isHalf={true}
-                              activeColor="#ffae42"
-                              onChange={ratingChanged}
-                              emptyIcon={<i className="far fa-star"></i>}
-                              halfIcon={<i className="fa fa-star-half-alt"></i>}
-                              fullIcon={<i className="fa fa-star"></i>}
+                  )}
+
+                  <ListGroup variant="flush">
+                    {product.data.reviews.map((review) => (
+                      <ListGroup.Item
+                        key={review._id}
+                        className="mb-3 p-3 border">
+                        <div className="d-flex align-items-center mb-3">
+                          <div className="flex-shrink-0 me-3">
+                            <Image
+                              fluid
+                              loading="lazy"
+                              roundedCircle
+                              className="profile-picture-sm"
+                              src={review.profilePictureURL}
+                              alt={`${review.name}'s Profile`}
                             />
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlTextarea1">
-                              <Form.Label>Your Comments</Form.Label>
-                              <Form.Control
-                                as="textarea"
-                                rows={3}
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                              />
-                            </Form.Group>
-                            <Button
-                              type="submit"
-                              disabled={loadingProductReview}
-                              variant="dark">
-                              {loadingProductReview ? (
-                                <Spinner size="sm" animation="border">
-                                  <span className="visually-hidden"></span>
-                                </Spinner>
-                              ) : (
-                                "Submit Review"
-                              )}
-                            </Button>
-                          </Form>
-                        ) : (
-                          <Alert>
-                            Please <Link to={"/login"}>login</Link> to write
-                            your review
-                          </Alert>
+                          </div>
+                          <div>
+                            <h6 className="mb-1 text-break">{review.name}</h6>
+                            <small className="text-muted">
+                              {formatDistanceToNow(new Date(review.createdAt), {
+                                addSuffix: true,
+                              })}
+                            </small>
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <StarRating value={review.rating} size={18} />
+                        </div>
+                        <p className="mb-2 text-break">{review.comment}</p>
+                        {userInfo.data.id === review.user && (
+                          <Button
+                            variant="link"
+                            onClick={() => handleDeleteReview(review._id)}
+                            className="position-absolute top-0 end-0">
+                            <MdDelete className="fs-4" />
+                          </Button>
                         )}
                       </ListGroup.Item>
-                    </ListGroup>
-                  )}
+                    ))}
+                    <h5 className="text-uppercase mb-3">Write a Review</h5>
+                    <ListGroup.Item className="mb-3 p-3 border">
+                      {userInfo ? (
+                        <Form onSubmit={handleReviewSubmit}>
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            isHalf={true}
+                            activeColor="#ffae42"
+                            onChange={ratingChanged}
+                          />
+                          <Form.Group
+                            className="mb-3"
+                            controlId="exampleForm.ControlTextarea1">
+                            <Form.Control
+                              as="textarea"
+                              rows={3}
+                              placeholder="Share your thoughts..."
+                              value={comment}
+                              onChange={(e) => setComment(e.target.value)}
+                            />
+                          </Form.Group>
+                          <Button
+                            type="submit"
+                            disabled={loadingProductReview}
+                            variant="dark">
+                            {loadingProductReview ? (
+                              <Spinner animation="border" size="sm" />
+                            ) : (
+                              "Submit"
+                            )}
+                          </Button>
+                        </Form>
+                      ) : (
+                        <Alert>
+                          Please <Link to={"/login"}>login</Link> to write your
+                          review
+                        </Alert>
+                      )}
+                    </ListGroup.Item>
+                  </ListGroup>
                 </>
               )}
             </Col>
@@ -347,7 +326,7 @@ export default function ProductDetail() {
       ) : (
         <ErrorPage />
       )}
-      <ScrollToTop />
+      <BackToTop />
     </section>
   );
 }
