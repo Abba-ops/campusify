@@ -325,7 +325,7 @@ export default function ProductDetail() {
                         <Button
                           variant="dark"
                           onClick={handleLoadMore}
-                          className="text-uppercase">
+                          className="text-uppercase mb-4">
                           Load More
                         </Button>
                       )}
