@@ -45,8 +45,6 @@ export default function ProductDetail() {
     data: product,
   } = useGetProductDetailsQuery(productId);
 
-  console.log("product", product);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -352,18 +350,20 @@ export default function ProductDetail() {
                               onChange={(e) => setComment(e.target.value)}
                             />
                           </Form.Group>
-                          <p className="text-muted">{`Character Count: ${comment.length} / ${maxChars}`}</p>
-                          <Button
-                            type="submit"
-                            className="text-uppercase"
-                            disabled={loadingProductReview}
-                            variant="dark">
-                            {loadingProductReview ? (
-                              <Spinner animation="border" size="sm" />
-                            ) : (
-                              "Submit"
-                            )}
-                          </Button>
+                          <p className="text-muted text-end">{`${comment.length} / ${maxChars}`}</p>
+                          <div className="d-flex justify-content-center">
+                            <Button
+                              type="submit"
+                              className="text-uppercase"
+                              disabled={loadingProductReview}
+                              variant="dark">
+                              {loadingProductReview ? (
+                                <Spinner animation="border" size="sm" />
+                              ) : (
+                                "Submit"
+                              )}
+                            </Button>
+                          </div>
                         </Form>
                       ) : (
                         <>

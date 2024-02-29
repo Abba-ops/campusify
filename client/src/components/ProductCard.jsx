@@ -50,24 +50,26 @@ export default function ProductCard({ product, showPreviewIcon }) {
           </Card.Text>
           <Card.Title>&#8358;{numberWithCommas(price)}</Card.Title>
           {showPreviewIcon && (
-            <Button
-              className="position-absolute top-0 end-0 my-3 mx-3 d-none d-lg-block rounded-pill py-2 visible-on-hover"
-              style={{
-                opacity: !isPreviewIconVisible && 0,
-                visibility: !isPreviewIconVisible && "hidden",
-                transition: "opacity 1.5s ease-in-out",
-              }}
-              variant="dark"
-              onClick={handleShowPreviewModal}>
-              <FaSearch />
-            </Button>
+            <>
+              <Button
+                className="position-absolute top-0 end-0 my-3 mx-3 d-none d-lg-block rounded-pill py-2 visible-on-hover"
+                style={{
+                  opacity: !isPreviewIconVisible && 0,
+                  visibility: !isPreviewIconVisible && "hidden",
+                  transition: "opacity 1.5s ease-in-out",
+                }}
+                variant="dark"
+                onClick={handleShowPreviewModal}>
+                <FaSearch />
+              </Button>
+              <Button
+                className="position-absolute top-0 end-0 my-3 mx-3 rounded-pill py-2 d-lg-none"
+                variant="dark"
+                onClick={handleShowPreviewModal}>
+                <FaSearch />
+              </Button>
+            </>
           )}
-          <Button
-            className="position-absolute top-0 end-0 my-3 mx-3 rounded-pill py-2 d-lg-none"
-            variant="dark"
-            onClick={handleShowPreviewModal}>
-            <FaSearch />
-          </Button>
         </Card.Body>
       </Card>
       <ProductModal

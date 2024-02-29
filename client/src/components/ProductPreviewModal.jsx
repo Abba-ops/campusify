@@ -12,6 +12,7 @@ import AddedToCartModal from "./CartPreviewModal";
 import { numberWithCommas } from "../utils/cartUtils";
 import Stack from "react-bootstrap/esm/Stack";
 import StarRating from "./StarRating";
+import { FaCheckCircle } from "react-icons/fa";
 
 export default function ProductPreviewModal({ product, show, handleClose }) {
   const [showAddedModal, setShowAddedModal] = useState(false);
@@ -47,12 +48,24 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
               <Modal.Title className="text-uppercase mb-3">
                 {product.productName}
               </Modal.Title>
-              <StarRating value={product.rating} size={24} />
-              <p className="text-muted mb-3">{product.reviewCount} Reviews</p>
+              <div className="mb-3">
+                <StarRating
+                  value={product.rating}
+                  text={`${product.reviewCount} ${
+                    product.reviewCount === 1 ? "Review" : "Reviews"
+                  }`}
+                />
+              </div>
+              <h6 className="mt-3">
+                {product.vendor.vendorName}{" "}
+                {product.vendor.verificationStatus && (
+                  <FaCheckCircle color="green" title="Verified" />
+                )}
+              </h6>
+              <p className="my-3">{product.productDescription}</p>
               <Modal.Title className="text-primary mb-4">
                 &#8358;{numberWithCommas(product.price)}
               </Modal.Title>
-              <p className="my-3">{product.productDescription}</p>
               <Row className="mb-3">
                 <Col>
                   {isOutOfStock ? (

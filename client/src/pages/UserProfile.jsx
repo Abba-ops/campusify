@@ -1,12 +1,10 @@
 import React from "react";
-import { Card, Col, Container, Image, Placeholder, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { Card, Col, Container, Image, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useUserProfileQuery } from "../features/usersApiSlice";
 
 export default function UserProfile() {
   const { userId } = useParams();
-  const { userInfo } = useSelector((state) => state.auth);
   const { data: user, isLoading, error } = useUserProfileQuery(userId);
 
   return (
@@ -24,8 +22,13 @@ export default function UserProfile() {
                   <div className="d-flex justify-content-center">
                     <div className="placeholder-glow">
                       <span
-                        className="placeholder col-12 profile-picture-lg rounded-pill"
+                        className="placeholder col-12 profile-picture-lg rounded-pill mb-3"
                         style={{ height: "400px" }}></span>
+                      <div className="text-center">
+                        <span className="placeholder col-12 mb-2"></span>
+                        <span className="placeholder col-8 mb-2"></span>
+                        <span className="placeholder col-6 mb-2"></span>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -47,7 +50,6 @@ export default function UserProfile() {
                     <p className="text-center mb-3">
                       {user.data.phoneNumber || "No phone number provided"}
                     </p>
-                    <div className="text-center">{user.data.userType}</div>
                   </>
                 )}
               </Card.Body>
