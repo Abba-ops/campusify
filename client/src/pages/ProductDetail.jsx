@@ -322,7 +322,10 @@ export default function ProductDetail() {
                     <div className="d-flex justify-content-center">
                       {visibleComments <
                         (sortedReviews ? sortedReviews.length : 0) && (
-                        <Button variant="dark" onClick={handleLoadMore}>
+                        <Button
+                          variant="dark"
+                          onClick={handleLoadMore}
+                          className="text-uppercase">
                           Load More
                         </Button>
                       )}
