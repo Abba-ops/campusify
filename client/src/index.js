@@ -38,6 +38,7 @@ import VendorProductsTable from "./pages/Vendor/VendorProductsTable";
 import VendorCreateProduct from "./pages/Vendor/VendorCreateProduct";
 import VendorProductDetails from "./pages/Vendor/VendorProductDetails";
 import VendorEditProduct from "./pages/Vendor/VendorEditProduct";
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,6 +49,8 @@ const router = createBrowserRouter(
       <Route path="/register" element={<UserRegistration />} />
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/product/:productId" element={<ProductDetail />} />
+      <Route path="/profile/:userId" element={<UserProfile />} />
+
       <Route path="*" element={<PageNotFound />} />
 
       <Route path="/" element={<PrivateRoute />}>

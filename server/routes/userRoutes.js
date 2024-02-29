@@ -20,7 +20,7 @@ const router = express.Router();
 
 router.post("/auth", validateLogin, authUser);
 router.post("/logout", logoutUser);
-router.get("/profile", isLoggedIn, getUserProfile);
+router.get("/profile/:userId", getUserProfile);
 router.put("/update-password", isLoggedIn, updateUserPassword);
 router.delete("/delete-account", isLoggedIn, deleteMyAccount);
 router

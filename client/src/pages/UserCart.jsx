@@ -35,7 +35,7 @@ export default function UserCart() {
     <ListGroup.Item key={index}>
       <Row className="align-items-center">
         <Col xs={6} lg={2}>
-          <Image src={product.imageUrl} fluid rounded />
+          <Image src={product.imageUrl} fluid />
         </Col>
         <Col xs={6} lg={4}>
           <Link
@@ -56,9 +56,9 @@ export default function UserCart() {
           </Form.Select>
         </Col>
         <Col xs={6} lg={2}>
-          <div className="text-lg-center text-primary">
+          <h6 className="text-lg-center text-primary">
             &#8358;{numberWithCommas(product.price)}
-          </div>
+          </h6>
         </Col>
         <Col lg={2} className="text-end">
           <Link>
@@ -103,17 +103,17 @@ export default function UserCart() {
                     items
                   </Col>
                   <Col xs={6}>
-                    <div className="text-end text-primary">
+                    <h6 className="text-end text-primary">
                       &#8358;{numberWithCommas(cart.itemsPrice)}
-                    </div>
+                    </h6>
                   </Col>
                 </Row>
                 <Row className="my-3">
                   <Col xs={6}>Delivery</Col>
                   <Col xs={6}>
-                    <div className="text-end text-primary">
+                    <h6 className="text-end text-primary">
                       &#8358;{numberWithCommas(cart.shippingPrice)}
-                    </div>
+                    </h6>
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -121,17 +121,17 @@ export default function UserCart() {
                 <Row className="my-3">
                   <Col xs={6}>Taxes</Col>
                   <Col xs={6}>
-                    <div className="text-end text-primary">
+                    <h6 className="text-end text-primary">
                       &#8358;{numberWithCommas(cart.taxPrice)}
-                    </div>
+                    </h6>
                   </Col>
                 </Row>
                 <Row className="my-3">
                   <Col xs={6}>Total</Col>
                   <Col xs={6}>
-                    <div className="text-end text-primary">
+                    <h6 className="text-end text-primary">
                       &#8358;{numberWithCommas(cart.totalPrice)}
-                    </div>
+                    </h6>
                   </Col>
                 </Row>
               </ListGroup.Item>
