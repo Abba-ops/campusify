@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { IoIosArrowUp } from "react-icons/io";
+import { AiOutlineArrowUp } from "react-icons/ai";
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const toggleVisible = () => {
+    const handleScroll = () => {
       const scrolled = document.documentElement.scrollTop;
       setVisible(scrolled > 300);
     };
 
-    window.addEventListener("scroll", toggleVisible);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", toggleVisible);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -31,8 +31,8 @@ export default function BackToTop() {
         variant="primary"
         className={`shadow rounded ${visible ? "d-block" : "d-none"}`}
         onClick={scrollToTop}>
-        <h3>
-          <IoIosArrowUp className="text-white" />
+        <h3 className="text-white">
+          <AiOutlineArrowUp />
         </h3>
       </Button>
     </div>

@@ -1,16 +1,16 @@
 import React from "react";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Product from "./ProductCard";
-import Placeholder from "react-bootstrap/Placeholder";
+import { Container, Col, Row, Placeholder } from "react-bootstrap";
+import ProductCard from "./ProductCard";
 import { useGetProductsQuery } from "../features/productsApiSlice";
 
-export default function CarouselProducts({ lg = 12, showPreviewIcon }) {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+export default function CarouselProducts({
+  lgColumnSize = 12,
+  showPreviewIcon,
+}) {
+  const { data: productsData, isLoading, error } = useGetProductsQuery();
 
   const renderSinglePlaceholder = () => (
-    <Col lg={lg} md={6}>
+    <Col lg={lgColumnSize} md={6}>
       <Placeholder as="div" animation="glow" className="placeholder-glow">
         <span className="placeholder col-12" style={{ height: "250px" }}></span>
         <span
@@ -37,9 +37,9 @@ export default function CarouselProducts({ lg = 12, showPreviewIcon }) {
       {!error ? (
         <Row className="overflow-x-scroll overflow-y-hidden flex-nowrap products-slider">
           {!isLoading
-            ? products.data.map((product, index) => (
-                <Col lg={lg} key={index} md={6}>
-                  <Product
+            ? productsData.data.map((product, index) => (
+                <Col lg={lgColumnSize} key={index} md={6}>
+                  <ProductCard
                     product={product}
                     showPreviewIcon={showPreviewIcon}
                   />

@@ -6,11 +6,11 @@ export default function PopularProducts() {
   return (
     <section>
       <Container className="py-5 bg-white">
-        <div className="text-center mb-4">
+        <div className="text-center">
           <p className="text-muted mb-3">Discover Our</p>
           <h2 className="text-uppercase mb-4">Popular Products</h2>
         </div>
-        <CarouselProducts lg={3} showPreviewIcon={true} />
+        <CarouselProducts lgColumnSize={3} showPreviewIcon={true} />
       </Container>
     </section>
   );

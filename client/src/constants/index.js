@@ -1,7 +1,10 @@
-import { FaPhoneAlt, FaChartLine, FaHandshake } from "react-icons/fa";
-import { MdOutlineSecurity, MdOutlineHelpOutline } from "react-icons/md";
-import { FaLocationDot } from "react-icons/fa6";
-import { MdEmail } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
+import {
+  MdOutlineSecurity,
+  MdOutlineLocalShipping,
+  MdOutlineLocalCafe,
+  MdOutlineShoppingBasket,
+} from "react-icons/md";
 
 export const BASE_URL = "";
 export const USERS_URL = "/api/users";
@@ -12,23 +15,23 @@ export const UPLOAD_URL = "/api/upload";
 export const services = [
   {
     icon: <MdOutlineSecurity />,
-    service: "24/7 Help",
-    text: "Always Available",
+    service: "Secure Transactions",
+    text: "Safe payments.",
   },
   {
-    icon: <MdOutlineSecurity />,
-    service: "Boost Sales",
-    text: "Sell with Ease",
+    icon: <MdOutlineLocalShipping />,
+    service: "Fast Delivery",
+    text: "Quick shipping.",
   },
   {
-    icon: <MdOutlineSecurity />,
-    service: "Secure",
-    text: "Safe Payments",
+    icon: <MdOutlineLocalCafe />,
+    service: "Local Marketplace",
+    text: "Support locals.",
   },
   {
-    icon: <MdOutlineSecurity />,
-    service: "Connect",
-    text: "Community Hub",
+    icon: <MdOutlineShoppingBasket />,
+    service: "Shopping Convenience",
+    text: "Effortless shopping.",
   },
 ];
 
@@ -38,11 +41,11 @@ export const contactInfo = [
     info: "0905-392-9899",
   },
   {
-    icon: <MdEmail />,
-    info: "info@tau.edu.ng",
+    icon: <FaPhoneAlt />,
+    info: "0905-392-9899",
   },
   {
-    icon: <FaLocationDot />,
-    info: "University Drive, Off Idofin Road, Oko-Irese, Kwara State",
+    icon: <FaPhoneAlt />,
+    info: "0905-392-9899",
   },
 ];

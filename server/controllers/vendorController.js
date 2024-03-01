@@ -34,9 +34,13 @@ const getVendorById = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: vendor });
 });
 
+/**
+ * @desc       Get products of a specific vendor
+ * @route      GET /api/vendors/products
+ * @access     Private
+ */
 const getVendorProducts = asyncHandler(async (req, res) => {
-  const vendor = await Vendor.findOne({ user: req.user._id });
-  const vendorProducts = await Product.find({ vendor: vendor._id });
+  const vendorProducts = await Product.find({ vendor: req.vendor._id });
   res.status(200).json({ success: true, data: vendorProducts });
 });
 

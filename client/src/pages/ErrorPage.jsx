@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 
 const ErrorPage = () => {
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
       <Container>
         <Row className="justify-content-center align-items-center text-center">
           <Col lg={8}>
-            <h1 className="display-4 mb-3">Uh-Oh, Something's Not Right</h1>
+            <h1 className="display-4 mb-3">Oops! Something Went Wrong</h1>
             <p className="lead mb-4">
               We encountered an issue. It seems there's a problem with your
               internet connection. Please check and try again. If the problem
-              persists, ensure you are connected to a stable network or contact
-              your network administrator.
+              persists, make sure you are connected to a stable network or
+              contact your network administrator.
             </p>
             <div className="mb-4">
               <Link to="/">
@@ -23,7 +23,7 @@ const ErrorPage = () => {
               </Link>
             </div>
             <p className="text-muted mb-0">
-              If the issue persists, contact support at{" "}
+              If the issue persists, please contact support at{" "}
               <Link to="mailto:jadesolakajeyale@gmail.com">
                 jadesolakajeyale@gmail.com
               </Link>

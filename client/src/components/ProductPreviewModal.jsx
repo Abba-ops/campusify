@@ -1,16 +1,9 @@
-import React from "react";
-import Button from "react-bootstrap/esm/Button";
-import Image from "react-bootstrap/esm/Image";
-import Col from "react-bootstrap/esm/Col";
-import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/esm/Row";
-import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Button, Image, Col, Modal, Row, Form, Stack } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cartSlice";
 import CartPreviewModal from "./CartPreviewModal";
 import { numberWithCommas } from "../utils/cartUtils";
-import Stack from "react-bootstrap/esm/Stack";
 import StarRating from "./StarRating";
 import { FaCheckCircle } from "react-icons/fa";
 

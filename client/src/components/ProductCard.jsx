@@ -54,8 +54,8 @@ export default function ProductCard({ product, showPreviewIcon }) {
               <Button
                 className="position-absolute top-0 end-0 my-3 mx-3 d-none d-lg-block rounded-pill py-2 visible-on-hover"
                 style={{
-                  opacity: !isPreviewIconVisible && 0,
-                  visibility: !isPreviewIconVisible && "hidden",
+                  opacity: isPreviewIconVisible ? 1 : 0,
+                  visibility: isPreviewIconVisible ? "visible" : "hidden",
                   transition: "opacity 1.5s ease-in-out",
                 }}
                 variant="dark"

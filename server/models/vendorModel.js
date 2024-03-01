@@ -2,24 +2,19 @@ import mongoose from "mongoose";
 
 const vendorSchema = new mongoose.Schema(
   {
-    address: {
+    vendorName: {
       type: String,
       required: true,
     },
-    businessName: {
-      type: String,
-      required: true,
-    },
-    businessName: {
-      type: String,
-    },
-    businessEmail: {
-      type: String,
-      required: true,
-    },
-    businessPhone: {
-      type: String,
-      required: true,
+    contactInformation: {
+      email: {
+        type: String,
+        required: true,
+      },
+      phone: {
+        type: String,
+        required: true,
+      },
     },
     numberOfSales: {
       type: Number,
@@ -32,11 +27,6 @@ const vendorSchema = new mongoose.Schema(
     verificationStatus: {
       type: Boolean,
       default: false,
-    },
-    approvalStatus: {
-      type: String,
-      enum: ["Pending", "Approved", "Rejected"],
-      default: "Pending",
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

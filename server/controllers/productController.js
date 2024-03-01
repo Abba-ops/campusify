@@ -3,9 +3,9 @@ import Product from "../models/productModel.js";
 import Vendor from "../models/vendorModel.js";
 
 /**
- * @desc        Fetch all products
- * @route       GET /api/products
- * @access      Public
+ * @desc    Fetch all products
+ * @route   GET /api/products
+ * @access  Public
  */
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find().populate("vendor");
@@ -18,9 +18,9 @@ const getProducts = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc        Fetch a single product by ID
- * @route       GET /api/products/:productId
- * @access      Public
+ * @desc    Fetch a single product by ID
+ * @route   GET /api/products/:productId
+ * @access  Public
  */
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.productId).populate(
@@ -39,9 +39,9 @@ const getProductById = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc        Create a new review for a product
- * @route       POST /api/products/:productId/reviews
- * @access      Private
+ * @desc    Create a new review for a product
+ * @route   POST /api/products/:productId/reviews
+ * @access  Private
  */
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment, name } = req.body;
@@ -89,9 +89,9 @@ const createProductReview = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc        Delete a review for a product
- * @route       DELETE /api/products/:productId/reviews/:reviewId
- * @access      Private
+ * @desc    Delete a review for a product
+ * @route   DELETE /api/products/:productId/reviews/:reviewId
+ * @access  Private
  */
 const deleteReview = asyncHandler(async (req, res) => {
   const { productId, reviewId } = req.params;
@@ -122,9 +122,13 @@ const deleteReview = asyncHandler(async (req, res) => {
     .json({ success: true, message: "Review deleted successfully" });
 });
 
+/**
+ * @desc    Create a new product
+ * @route   POST /api/products
+ * @access  Private
+ */
 const createProduct = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findOne({ user: req.user._id });
-  console.log("createProduct");
 
   const {
     productName,
@@ -154,15 +158,17 @@ const createProduct = asyncHandler(async (req, res) => {
       message: "Product created successfully",
     });
   } else {
-    res.status(500);
-    throw new Error("Internal Server Error");
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
 
+/**
+ * @desc    Update a product by ID
+ * @route   PUT /api/products/:productId
+ * @access  Private
+ */
 const updateProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.productId);
-
-  console.log("updateProduct");
 
   const {
     productName,
@@ -189,8 +195,7 @@ const updateProduct = asyncHandler(async (req, res) => {
       data: updatedProduct,
     });
   } else {
-    res.status(400);
-    throw new Error("Product not found");
+    res.status(404).json({ success: false, message: "Product not found" });
   }
 });
 

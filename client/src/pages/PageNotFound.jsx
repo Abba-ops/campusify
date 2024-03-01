@@ -10,23 +10,22 @@ export default function PageNotFound() {
           <Col lg={8}>
             <h1 className="display-4 mb-3">Oops! Page not found.</h1>
             <p className="lead mb-4">
-              It seems like you've stumbled upon a non-existent corner of our
-              store. Let's guide you back to where the action is.
+              It seems you've taken a detour to an undiscovered part of our
+              store. Let's get you back on track to where all the excitement
+              happens.
             </p>
             <div className="mb-4">
-              <Link to={"/"}>
+              <Link to="/">
                 <Button variant="primary">Return to Home</Button>
               </Link>
-              <Link to={"/categories"}>
+              <Link to="/categories">
                 <Button variant="outline-primary" className="ml-2">
                   Explore Categories
                 </Button>
               </Link>
             </div>
             <div>
-              <p className="mb-1">
-                For assistance, please contact our support team:
-              </p>
+              <p className="mb-1">Need assistance? Contact our support team:</p>
               <Link to="mailto:jadesolakajeyale@gmail.com">
                 jadesolakajeyale@gmail.com
               </Link>

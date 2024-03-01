@@ -119,15 +119,6 @@ export default function ProductDetail() {
     <section className="bg-white py-5">
       {!productError ? (
         <Container>
-          {!productLoading && (
-            <Button
-              size="sm"
-              variant="outline-dark"
-              className="text-uppercase d-flex align-items-center mb-3"
-              onClick={() => navigate(-1)}>
-              <BsArrowLeft className="me-2" /> Back
-            </Button>
-          )}
           <Row>
             <Col lg={4} className="mb-3 mb-lg-0">
               {productLoading ? (
@@ -283,15 +274,13 @@ export default function ProductDetail() {
                 </div>
               ) : (
                 <>
-                  <h5 className="text-center text-uppercase mb-3">
-                    Customer Reviews
-                  </h5>
+                  <h5 className="text-uppercase mb-3">Customer Reviews</h5>
                   {productData && productData.data.reviews.length === 0 && (
                     <>
-                      <p className="mb-3 text-center">
+                      <p className="mb-3">
                         No reviews yet for {productData.data.productName}.
                       </p>
-                      <p className="mb-4 text-center">
+                      <p className="mb-3">
                         Be the first to share your thoughts and help others make
                         informed decisions about this product.
                       </p>
@@ -361,9 +350,7 @@ export default function ProductDetail() {
                       )}
                     </div>
                     <div className="mt-5">
-                      <h5 className="text-center text-uppercase mb-3">
-                        Write a Review
-                      </h5>
+                      <h5 className="text-uppercase mb-3">Write a Review</h5>
                       {userInfo ? (
                         <Form onSubmit={handleReviewSubmit}>
                           <div className="mb-3">
@@ -385,23 +372,21 @@ export default function ProductDetail() {
                             />
                           </Form.Group>
                           <p className="text-muted text-end">{`${userComment.length} / ${maxChars}`}</p>
-                          <div className="d-flex justify-content-center">
-                            <Button
-                              type="submit"
-                              className="text-uppercase"
-                              disabled={loadingCreateReview}
-                              variant="dark">
-                              {loadingCreateReview ? (
-                                <Spinner animation="border" size="sm" />
-                              ) : (
-                                "Submit"
-                              )}
-                            </Button>
-                          </div>
+                          <Button
+                            type="submit"
+                            className="text-uppercase"
+                            disabled={loadingCreateReview}
+                            variant="dark">
+                            {loadingCreateReview ? (
+                              <Spinner animation="border" size="sm" />
+                            ) : (
+                              "Submit"
+                            )}
+                          </Button>
                         </Form>
                       ) : (
                         <>
-                          <p className="mb-4 text-center">
+                          <p className="mb-4">
                             Ready to share your thoughts on{" "}
                             {productData.data.productName}? Your feedback can
                             help others make informed decisions.
