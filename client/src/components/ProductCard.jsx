@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Button, Card } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { numberWithCommas } from "../utils/cartUtils";
 import StarRating from "./StarRating";
-import ProductModal from "./ProductPreviewModal";
+import ProductPreviewModal from "./ProductPreviewModal";
 
 export default function ProductCard({ product, showPreviewIcon }) {
   const [isPreviewIconVisible, setPreviewIconVisibility] = useState(false);
@@ -34,16 +34,16 @@ export default function ProductCard({ product, showPreviewIcon }) {
         className="text-center rounded-0 border-0"
         onMouseEnter={handleShowPreviewIcon}
         onMouseLeave={handleHidePreviewIcon}>
-        <NavLink to={`/product/${_id}`} className="text-decoration-none">
+        <Link to={`/product/${_id}`} className="text-decoration-none">
           <div className="image-container">
             <Card.Img variant="top" src={imageUrl} className="rounded-0" />
           </div>
-        </NavLink>
+        </Link>
         <Card.Body>
           <Card.Text className="text-truncate text-capitalize">
-            <NavLink to={`/product/${_id}`} className="text-decoration-none">
+            <Link to={`/product/${_id}`} className="text-decoration-none">
               {productName}
-            </NavLink>
+            </Link>
           </Card.Text>
           <Card.Text className="d-flex justify-content-center">
             <StarRating value={rating} size={16} />
@@ -72,7 +72,7 @@ export default function ProductCard({ product, showPreviewIcon }) {
           )}
         </Card.Body>
       </Card>
-      <ProductModal
+      <ProductPreviewModal
         product={product}
         show={isPreviewModalVisible}
         handleClose={handleHidePreviewModal}

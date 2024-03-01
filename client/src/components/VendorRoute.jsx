@@ -8,6 +8,6 @@ export default function VendorRoute() {
   return userInfo && userInfo.success && userInfo.data.isVendor ? (
     <Outlet />
   ) : (
-    <Navigate to="/" replace state={{ from: window.location.pathname }} />
+    <Navigate to="/" replace />
   );
 }

@@ -43,7 +43,7 @@ export default function MyProfileDetails() {
         await updatePassword({ password });
         toast.success("Password updated successfully");
       } catch (error) {
-        toast.error(error?.data?.message || error.error);
+        toast.error(error && (error.data.message || error.error));
       }
     }
   };
@@ -53,18 +53,18 @@ export default function MyProfileDetails() {
       await deleteMyAccount();
       toast.success("Account deleted successfully");
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error(error && (error.data.message || error.error));
     }
   };
 
   return (
     <section className="bg-white py-5">
-      <Container className="position-relative">
+      <Container>
         <Row>
           <Col lg={4} className="mb-5 mb-lg-0">
-            <h5 className="text-uppercase text-center mb-3">
+            <h4 className="text-uppercase text-center mb-3">
               Personal Information
-            </h5>
+            </h4>
             <ListGroup>
               <ListGroup.Item>
                 <div className="d-flex justify-content-center my-3">
@@ -124,7 +124,7 @@ export default function MyProfileDetails() {
                       />
                     </InputGroup>
                   </Form.Group>
-                  <div className="d-grid">
+                  <div className="d-grid mb-3">
                     <Button
                       onClick={handleUpdatePassword}
                       className="text-uppercase"
@@ -138,18 +138,20 @@ export default function MyProfileDetails() {
                   </div>
                 </Form>
               </ListGroup.Item>
+              <ListGroup.Item className="py-3">
+                <div className="d-grid">
+                  <Button
+                    onClick={handleShowDelete}
+                    className="text-uppercase px-4 text-white"
+                    variant="primary">
+                    Delete Account
+                  </Button>
+                </div>
+              </ListGroup.Item>
             </ListGroup>
           </Col>
           <Col lg={8}>
-            <h5 className="text-uppercase text-center mb-3">Order History</h5>
-            <div className="d-flex justify-content-end">
-              <Button
-                onClick={handleShowDelete}
-                className="text-uppercase px-4"
-                variant="danger">
-                <BiTrash className="me-2" /> Delete Account
-              </Button>
-            </div>
+            <h4 className="text-uppercase text-center mb-3">Order History</h4>
           </Col>
         </Row>
       </Container>

@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Image,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUserProfileQuery } from "../features/usersApiSlice";
 import { BsArrowLeft } from "react-icons/bs";
@@ -22,7 +30,7 @@ export default function UserProfile() {
           variant="outline-dark"
           className="text-uppercase mb-3"
           onClick={() => navigate(-1)}>
-          <BsArrowLeft className="me-2" /> Go Back
+          <BsArrowLeft className="me-2" /> Back
         </Button>
         <Row className="justify-content-center">
           <Col lg={8}>
@@ -33,17 +41,10 @@ export default function UserProfile() {
                     Error loading user profile. Please try again later.
                   </div>
                 ) : isLoading ? (
-                  <div className="d-flex justify-content-center">
-                    <div className="placeholder-glow">
-                      <span
-                        className="placeholder col-12 profile-picture-lg rounded-pill mb-3"
-                        style={{ height: "400px" }}></span>
-                      <div className="text-center">
-                        <span className="placeholder col-12 mb-2"></span>
-                        <span className="placeholder col-8 mb-2"></span>
-                        <span className="placeholder col-6 mb-2"></span>
-                      </div>
-                    </div>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <Spinner animation="border" role="status" variant="dark">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
                   </div>
                 ) : (
                   <>

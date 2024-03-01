@@ -14,13 +14,11 @@ import {
   useDeleteReviewMutation,
   useGetProductDetailsQuery,
 } from "../features/productsApiSlice";
+import MetaTags from "../components/MetaTags";
 import { BsArrowLeft, BsCartPlus } from "react-icons/bs";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { numberWithCommas } from "../utils/cartUtils";
-import ReactStars from "react-rating-stars-component";
-import StarRating from "../components/StarRating";
-import BackToTop from "../components/BackToTop";
 import { toast } from "react-toastify";
 import { addToCart } from "../features/cartSlice";
 import { formatDistanceToNow } from "date-fns";
@@ -28,32 +26,35 @@ import { MdDelete } from "react-icons/md";
 import ErrorPage from "./ErrorPage";
 import CarouselProducts from "../components/CarouselProducts";
 import { FaCheckCircle } from "react-icons/fa";
+import ReactStars from "react-rating-stars-component";
+import StarRating from "../components/StarRating";
+import BackToTop from "../components/BackToTop";
 
 export default function ProductDetail() {
-  const [quantity, setQuantity] = useState(1);
-  const [comment, setComment] = useState("");
-  const [rating, setRating] = useState(0);
   const [visibleComments, setVisibleComments] = useState(3);
+  const [cartQuantity, setCartQuantity] = useState(1);
+  const [userComment, setUserComment] = useState("");
+  const [userRating, setUserRating] = useState(0);
 
   const { userInfo } = useSelector((state) => state.auth);
 
   const { productId } = useParams();
 
   const {
-    error,
-    refetch,
-    isLoading,
-    data: product,
+    error: productError,
+    refetch: refetchProduct,
+    isLoading: productLoading,
+    data: productData,
   } = useGetProductDetailsQuery(productId);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [createReview, { isLoading: loadingProductReview }] =
+  const [createReview, { isLoading: loadingCreateReview }] =
     useCreateReviewMutation(productId);
 
   const addToCartHandler = () => {
-    dispatch(addToCart({ ...product.data, quantity }));
+    dispatch(addToCart({ ...productData?.data, quantity: cartQuantity }));
     navigate("/cart");
   };
 
@@ -62,7 +63,7 @@ export default function ProductDetail() {
   const handleDeleteReview = async (reviewId) => {
     try {
       await deleteReview({ productId, reviewId });
-      refetch();
+      refetchProduct();
       toast.success("Review deleted successfully");
     } catch (error) {
       toast.error(error && (error.data.message || error.error));
@@ -78,7 +79,7 @@ export default function ProductDetail() {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
 
-    if (comment.length > maxChars) {
+    if (userComment.length > maxChars) {
       toast.error(`Maximum ${maxChars} characters allowed.`);
       return;
     }
@@ -86,14 +87,14 @@ export default function ProductDetail() {
     try {
       await createReview({
         productId,
-        rating: rating,
-        comment: comment,
+        rating: userRating,
+        comment: userComment,
         userId: userInfo.id,
         name: `${userInfo.data.lastName} ${userInfo.data.otherNames}`,
       }).unwrap();
-      refetch();
-      setRating(0);
-      setComment("");
+      refetchProduct();
+      setUserRating(0);
+      setUserComment("");
       toast.success("Review submitted successfully");
     } catch (error) {
       toast.error(error && (error.data.message || error.error));
@@ -101,12 +102,12 @@ export default function ProductDetail() {
   };
 
   const ratingChanged = (newRating) => {
-    setRating(newRating);
+    setUserRating(newRating);
   };
 
   const sortedReviews =
-    product &&
-    product?.data?.reviews.slice().sort((a, b) => {
+    productData &&
+    productData?.data?.reviews.slice().sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
@@ -116,20 +117,20 @@ export default function ProductDetail() {
 
   return (
     <section className="bg-white py-5">
-      {!error ? (
+      {!productError ? (
         <Container>
-          {!isLoading && (
+          {!productLoading && (
             <Button
               size="sm"
               variant="outline-dark"
-              className="text-uppercase mb-3"
+              className="text-uppercase d-flex align-items-center mb-3"
               onClick={() => navigate(-1)}>
-              <BsArrowLeft className="me-2" /> Go Back
+              <BsArrowLeft className="me-2" /> Back
             </Button>
           )}
           <Row>
-            <Col lg={4} className="mb-4 mb-lg-0">
-              {isLoading ? (
+            <Col lg={4} className="mb-3 mb-lg-0">
+              {productLoading ? (
                 <div className="placeholder-glow">
                   <span
                     className="placeholder col-12"
@@ -141,13 +142,13 @@ export default function ProductDetail() {
                     fluid
                     loading="lazy"
                     className="product-image"
-                    src={`${product.data.imageUrl}`}
+                    src={`${productData.data.imageUrl}`}
                   />
                 </div>
               )}
             </Col>
-            <Col lg={5} className="mb-5 mb-lg-0">
-              {isLoading ? (
+            <Col lg={5} className="mb-6 mb-lg-0">
+              {productLoading ? (
                 <div className="placeholder-glow">
                   <span
                     className="placeholder col-12 mb-3"
@@ -182,53 +183,62 @@ export default function ProductDetail() {
                 </div>
               ) : (
                 <>
+                  <MetaTags title={productData.data.productName} />
                   <h3 className="text-uppercase mb-3">
-                    {product.data.productName}
+                    {productData.data.productName}
                   </h3>
-                  <StarRating
-                    value={product.data.rating}
-                    text={`${product.data.reviewCount} ${
-                      product.data.reviewCount === 1 ? "Review" : "Reviews"
-                    }`}
-                  />
-                  <h6 className="mt-3">
-                    {product.data.vendor.vendorName}{" "}
-                    {product.data.vendor.verificationStatus && (
+                  <div className="mb-3">
+                    <StarRating
+                      value={productData.data.rating}
+                      text={`${productData.data.reviewCount} ${
+                        productData.data.reviewCount === 1
+                          ? "Review"
+                          : "Reviews"
+                      }`}
+                    />
+                  </div>
+                  <h5>
+                    {productData.data.vendor.vendorName}{" "}
+                    {productData.data.vendor.verificationStatus && (
                       <FaCheckCircle color="green" title="Verified" />
                     )}
-                  </h6>
-                  <p className="my-3">{product.data.productDescription}</p>
+                  </h5>
+                  <p className="my-3">{productData.data.productDescription}</p>
                   <h4 className="text-primary mb-3">
-                    &#8358;{numberWithCommas(product.data.price)}
+                    &#8358;{numberWithCommas(productData.data.price)}
                   </h4>
                   <Form.Group className="mb-3">
                     <Form.Select
                       size="lg"
-                      disabled={!product.data.countInStock > 0}
-                      onChange={(e) => setQuantity(Number(e.target.value))}>
-                      {[...Array(product.data.countInStock).keys()].map((x) => (
-                        <option value={x + 1} key={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
+                      disabled={!productData.data.countInStock > 0}
+                      onChange={(e) => setCartQuantity(Number(e.target.value))}>
+                      {[...Array(productData.data.countInStock).keys()].map(
+                        (x) => (
+                          <option value={x + 1} key={x + 1}>
+                            {x + 1}
+                          </option>
+                        )
+                      )}
                     </Form.Select>
                   </Form.Group>
-                  <Button
-                    size="lg"
-                    variant="dark"
-                    className="text-uppercase w-100"
-                    onClick={addToCartHandler}
-                    disabled={product.data.countInStock === 0}>
-                    <BsCartPlus className="me-2" />{" "}
-                    {product.data.countInStock > 0
-                      ? "Add to Cart"
-                      : "Out of Stock"}
-                  </Button>
+                  <div className="d-grid">
+                    <Button
+                      size="lg"
+                      variant="dark"
+                      className="text-uppercase"
+                      onClick={addToCartHandler}
+                      disabled={productData.data.countInStock === 0}>
+                      <BsCartPlus className="me-2" />{" "}
+                      {productData.data.countInStock > 0
+                        ? "Add to Cart"
+                        : "Out of Stock"}
+                    </Button>
+                  </div>
                 </>
               )}
             </Col>
-            <Col lg={3}>
-              {!isLoading && (
+            <Col lg={3} className="mb-6">
+              {!productLoading && (
                 <h4 className="text-uppercase text-center mb-0">
                   Other Products
                 </h4>
@@ -236,9 +246,9 @@ export default function ProductDetail() {
               <CarouselProducts lg={12} showPreviewIcon={false} />
             </Col>
           </Row>
-          <Row className="mt-5">
+          <Row>
             <Col md={6}>
-              {isLoading ? (
+              {productLoading ? (
                 <div className="placeholder-glow">
                   <span
                     className="placeholder col-12 mb-3"
@@ -273,18 +283,22 @@ export default function ProductDetail() {
                 </div>
               ) : (
                 <>
-                  <h5 className="text-uppercase mb-3">Customer Reviews</h5>
-                  {product && product.data.reviews.length === 0 && (
+                  <h5 className="text-center text-uppercase mb-3">
+                    Customer Reviews
+                  </h5>
+                  {productData && productData.data.reviews.length === 0 && (
                     <>
-                      <p>No reviews yet for {product.data.productName}.</p>
-                      <p>
+                      <p className="mb-3 text-center">
+                        No reviews yet for {productData.data.productName}.
+                      </p>
+                      <p className="mb-4 text-center">
                         Be the first to share your thoughts and help others make
                         informed decisions about this product.
                       </p>
                     </>
                   )}
                   <ListGroup variant="flush">
-                    {product &&
+                    {productData &&
                       sortedReviews &&
                       sortedReviews.slice(0, visibleComments).map((review) => (
                         <ListGroup.Item
@@ -295,10 +309,10 @@ export default function ProductDetail() {
                               <div className="flex-shrink-0 me-3">
                                 <Image
                                   fluid
-                                  loading="lazy"
                                   roundedCircle
+                                  loading="lazy"
                                   src={review.profilePictureURL}
-                                  className="profile-picture-sm text-break"
+                                  className="profile-picture-sm"
                                   alt={`${review.name}'s Profile`}
                                 />
                               </div>
@@ -325,7 +339,7 @@ export default function ProductDetail() {
                             <StarRating value={review.rating} size={18} />
                           </div>
                           <p className="mb-2 text-break">{review.comment}</p>
-                          {userInfo?.data.id === review.user && (
+                          {userInfo && userInfo.data.id === review.user && (
                             <Button
                               variant="link"
                               onClick={() => handleDeleteReview(review._id)}
@@ -335,19 +349,21 @@ export default function ProductDetail() {
                           )}
                         </ListGroup.Item>
                       ))}
-                    <div className="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center mt-3">
                       {visibleComments <
                         (sortedReviews ? sortedReviews.length : 0) && (
                         <Button
                           variant="dark"
                           onClick={handleLoadMore}
-                          className="text-uppercase mb-4">
+                          className="text-uppercase">
                           Load More
                         </Button>
                       )}
                     </div>
-                    <div>
-                      <h5 className="text-uppercase mb-3">Write a Review</h5>
+                    <div className="mt-5">
+                      <h5 className="text-center text-uppercase mb-3">
+                        Write a Review
+                      </h5>
                       {userInfo ? (
                         <Form onSubmit={handleReviewSubmit}>
                           <div className="mb-3">
@@ -363,38 +379,40 @@ export default function ProductDetail() {
                             <Form.Control
                               rows={3}
                               as="textarea"
-                              value={comment}
+                              value={userComment}
                               placeholder="Write your review here..."
-                              onChange={(e) => setComment(e.target.value)}
+                              onChange={(e) => setUserComment(e.target.value)}
                             />
                           </Form.Group>
-                          <p className="text-muted text-end">{`${comment.length} / ${maxChars}`}</p>
+                          <p className="text-muted text-end">{`${userComment.length} / ${maxChars}`}</p>
                           <div className="d-flex justify-content-center">
                             <Button
                               type="submit"
                               className="text-uppercase"
-                              disabled={loadingProductReview}
+                              disabled={loadingCreateReview}
                               variant="dark">
-                              {loadingProductReview ? (
+                              {loadingCreateReview ? (
                                 <Spinner animation="border" size="sm" />
                               ) : (
-                                "Submit Review"
+                                "Submit"
                               )}
                             </Button>
                           </div>
                         </Form>
                       ) : (
                         <>
-                          <p className="mb-4">
+                          <p className="mb-4 text-center">
                             Ready to share your thoughts on{" "}
-                            {product.data.productName}? Your feedback can help
-                            others make informed decisions.
+                            {productData.data.productName}? Your feedback can
+                            help others make informed decisions.
                           </p>
-                          <Link
-                            to={"/login"}
-                            className="btn btn-dark text-uppercase">
-                            Login
-                          </Link>
+                          <div className="d-flex justify-content-center">
+                            <Link
+                              to={"/login"}
+                              className="btn btn-dark text-uppercase">
+                              Login
+                            </Link>
+                          </div>
                         </>
                       )}
                     </div>

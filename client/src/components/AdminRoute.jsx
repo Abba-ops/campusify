@@ -8,6 +8,6 @@ export default function AdminRoute() {
   return userInfo && userInfo.success && userInfo.data.isAdmin ? (
     <Outlet />
   ) : (
-    <Navigate to="/" replace state={{ from: window.location.pathname }} />
+    <Navigate to="/" replace />
   );
 }

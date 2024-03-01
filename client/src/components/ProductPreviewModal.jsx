@@ -8,25 +8,25 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cartSlice";
-import AddedToCartModal from "./CartPreviewModal";
+import CartPreviewModal from "./CartPreviewModal";
 import { numberWithCommas } from "../utils/cartUtils";
 import Stack from "react-bootstrap/esm/Stack";
 import StarRating from "./StarRating";
 import { FaCheckCircle } from "react-icons/fa";
 
 export default function ProductPreviewModal({ product, show, handleClose }) {
-  const [showAddedModal, setShowAddedModal] = useState(false);
-  const [quantity, setQuantity] = useState(1);
+  const [isCartPreviewVisible, setCartPreviewVisibility] = useState(false);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
 
   const dispatch = useDispatch();
 
-  const handleAddToCartClose = () => setShowAddedModal(false);
-  const handleAddToCartShow = () => setShowAddedModal(true);
+  const closeCartPreview = () => setCartPreviewVisibility(false);
+  const showCartPreview = () => setCartPreviewVisibility(true);
 
-  const addToCartHandler = () => {
-    dispatch(addToCart({ ...product, quantity }));
+  const handleAddToCart = () => {
+    dispatch(addToCart({ ...product, quantity: selectedQuantity }));
     handleClose();
-    handleAddToCartShow();
+    showCartPreview();
   };
 
   const isOutOfStock = product.countInStock <= 0;
@@ -72,7 +72,9 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                     <p className="text-danger">Out of Stock</p>
                   ) : (
                     <Form.Select
-                      onChange={(e) => setQuantity(Number(e.target.value))}>
+                      onChange={(e) =>
+                        setSelectedQuantity(Number(e.target.value))
+                      }>
                       {[...Array(product.countInStock).keys()].map((x) => (
                         <option value={x + 1} key={x + 1}>
                           {x + 1}
@@ -91,7 +93,7 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                 </Button>
                 <Button
                   variant="dark"
-                  onClick={addToCartHandler}
+                  onClick={handleAddToCart}
                   className="text-uppercase"
                   disabled={isOutOfStock}>
                   {isOutOfStock ? "Out of Stock" : "Add to Cart"}
@@ -101,10 +103,10 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
           </Col>
         </Row>
       </Modal>
-      <AddedToCartModal
+      <CartPreviewModal
         product={product}
-        show={showAddedModal}
-        onHide={() => setShowAddedModal(false)}
+        show={isCartPreviewVisible}
+        onHide={closeCartPreview}
       />
     </>
   );
