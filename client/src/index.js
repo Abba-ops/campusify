@@ -26,7 +26,6 @@ import UserRegistration from "./pages/UserRegistration";
 import ProductDetail from "./pages/ProductDetail";
 import CartCheckout from "./pages/CartCheckout";
 import VendorHome from "./pages/Vendor/VendorHome";
-import PersonalInfo from "./pages/PersonalInfo";
 import VendorRoute from "./components/VendorRoute";
 import AdminUserDetails from "./pages/Admin/AdminUserDetails";
 import AdminProductDetails from "./pages/Admin/AdminProductDetails";
@@ -39,6 +38,7 @@ import VendorCreateProduct from "./pages/Vendor/VendorCreateProduct";
 import VendorProductDetails from "./pages/Vendor/VendorProductDetails";
 import VendorEditProduct from "./pages/Vendor/VendorEditProduct";
 import UserProfile from "./pages/UserProfile";
+import MyProfileDetails from "./pages/MyProfileDetails";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -55,7 +55,7 @@ const router = createBrowserRouter(
 
       <Route path="/" element={<PrivateRoute />}>
         <Route path="/checkout" element={<CartCheckout />} />
-        <Route path="/profile" element={<PersonalInfo />} />
+        <Route path="/profile" element={<MyProfileDetails />} />
         <Route path="/vendor-application" element={<VendorApplication />} />
       </Route>
 

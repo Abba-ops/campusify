@@ -31,7 +31,7 @@ export default function HeaderHero() {
           <div className="d-grid gap-2">
             <Button
               size="lg"
-              className="px-4 text-white"
+              className="px-4 text-white text-uppercase"
               variant="primary"
               block>
               Browse Now
@@ -40,7 +40,7 @@ export default function HeaderHero() {
               <Button
                 size="lg"
                 variant="outline-primary"
-                className="px-4 mt-3 w-100">
+                className="px-4 mt-3 w-100 text-uppercase">
                 Start Selling
               </Button>
             </Link>

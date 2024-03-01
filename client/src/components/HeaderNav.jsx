@@ -30,7 +30,6 @@ export default function HeaderNav() {
 
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
-  console.log(userInfo);
 
   const handleShowSearch = () => setShowSearch((prev) => !prev);
 
@@ -75,7 +74,7 @@ export default function HeaderNav() {
               <Stack direction="horizontal" gap={4}>
                 <LinkContainer to={"/"}>
                   <Nav.Link
-                    className={`fw-semibold ${
+                    className={`fw-semibold text-uppercase ${
                       location.pathname === "/" && "text-primary"
                     }`}>
                     Home
@@ -83,7 +82,7 @@ export default function HeaderNav() {
                 </LinkContainer>
                 <LinkContainer to={"/contact"}>
                   <Nav.Link
-                    className={`fw-semibold ${
+                    className={`fw-semibold text-uppercase ${
                       location.pathname === "/contact" && "text-primary"
                     }`}>
                     Contact Us

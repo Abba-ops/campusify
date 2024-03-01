@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Button, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { numberWithCommas } from "../utils/cartUtils";
 import StarRating from "./StarRating";
 import ProductModal from "./ProductPreviewModal";
@@ -34,16 +34,16 @@ export default function ProductCard({ product, showPreviewIcon }) {
         className="text-center rounded-0 border-0"
         onMouseEnter={handleShowPreviewIcon}
         onMouseLeave={handleHidePreviewIcon}>
-        <Link to={`/product/${_id}`} className="text-decoration-none">
+        <NavLink to={`/product/${_id}`} className="text-decoration-none">
           <div className="image-container">
             <Card.Img variant="top" src={imageUrl} className="rounded-0" />
           </div>
-        </Link>
+        </NavLink>
         <Card.Body>
           <Card.Text className="text-truncate text-capitalize">
-            <Link to={`/product/${_id}`} className="text-decoration-none">
+            <NavLink to={`/product/${_id}`} className="text-decoration-none">
               {productName}
-            </Link>
+            </NavLink>
           </Card.Text>
           <Card.Text className="d-flex justify-content-center">
             <StarRating value={rating} size={16} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Form,
@@ -14,6 +14,7 @@ import {
   useDeleteReviewMutation,
   useGetProductDetailsQuery,
 } from "../features/productsApiSlice";
+import { BsArrowLeft, BsCartPlus } from "react-icons/bs";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { numberWithCommas } from "../utils/cartUtils";
@@ -109,10 +110,23 @@ export default function ProductDetail() {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <section className="bg-white py-5">
       {!error ? (
         <Container>
+          {!isLoading && (
+            <Button
+              size="sm"
+              variant="outline-dark"
+              className="text-uppercase mb-3"
+              onClick={() => navigate(-1)}>
+              <BsArrowLeft className="me-2" /> Go Back
+            </Button>
+          )}
           <Row>
             <Col lg={4} className="mb-4 mb-lg-0">
               {isLoading ? (
@@ -190,6 +204,7 @@ export default function ProductDetail() {
                   <Form.Group className="mb-3">
                     <Form.Select
                       size="lg"
+                      disabled={!product.data.countInStock > 0}
                       onChange={(e) => setQuantity(Number(e.target.value))}>
                       {[...Array(product.data.countInStock).keys()].map((x) => (
                         <option value={x + 1} key={x + 1}>
@@ -204,6 +219,7 @@ export default function ProductDetail() {
                     className="text-uppercase w-100"
                     onClick={addToCartHandler}
                     disabled={product.data.countInStock === 0}>
+                    <BsCartPlus className="me-2" />{" "}
                     {product.data.countInStock > 0
                       ? "Add to Cart"
                       : "Out of Stock"}
@@ -212,9 +228,11 @@ export default function ProductDetail() {
               )}
             </Col>
             <Col lg={3}>
-              <h4 className="text-uppercase text-center mb-0">
-                Other Products
-              </h4>
+              {!isLoading && (
+                <h4 className="text-uppercase text-center mb-0">
+                  Other Products
+                </h4>
+              )}
               <CarouselProducts lg={12} showPreviewIcon={false} />
             </Col>
           </Row>
@@ -360,7 +378,7 @@ export default function ProductDetail() {
                               {loadingProductReview ? (
                                 <Spinner animation="border" size="sm" />
                               ) : (
-                                "Submit"
+                                "Submit Review"
                               )}
                             </Button>
                           </div>

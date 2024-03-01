@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../features/cartSlice";
 import { numberWithCommas } from "../utils/cartUtils";
+import { BsArrowLeft } from "react-icons/bs";
 
 export default function UserCart() {
   const cart = useSelector((state) => state.cart);
@@ -89,8 +90,7 @@ export default function UserCart() {
             </ListGroup>
             <Link to={"/"}>
               <Button size="sm" className="my-5 px-3" variant="dark">
-                <MdArrowBackIos />
-                Continue Shopping
+                <BsArrowLeft className="me-2" /> Continue Shopping
               </Button>
             </Link>
           </Col>

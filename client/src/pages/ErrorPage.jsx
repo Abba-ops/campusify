@@ -1,17 +1,13 @@
 import React from "react";
-import { Col, Container, Image, Row, Button } from "react-bootstrap";
+import { Col, Container, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import errorOccurred from "../assets/errorOccurred.png";
 
 const ErrorPage = () => {
   return (
-    <section className="bg-white pb-5">
+    <section className="bg-white py-5">
       <Container>
-        <Row className="align-items-center">
-          <Col md={6} className="mb-4 mb-md-0">
-            <Image src={errorOccurred} alt="Error Occurred" fluid />
-          </Col>
-          <Col md={6} className="text-center text-md-left">
+        <Row className="justify-content-center align-items-center text-center">
+          <Col lg={8}>
             <h1 className="display-4 mb-3">Uh-Oh, Something's Not Right</h1>
             <p className="lead mb-4">
               We encountered an issue. It seems there's a problem with your

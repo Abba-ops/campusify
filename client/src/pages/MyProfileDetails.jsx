@@ -15,12 +15,12 @@ import {
   Spinner,
   Row,
   InputGroup,
-  FloatingLabel,
 } from "react-bootstrap";
+import { BiTrash } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import DeleteAccountModal from "../components/ConfirmDeletionModal";
 
-export default function PersonalInfo() {
+export default function MyProfileDetails() {
   const [showDelete, setShowDelete] = useState(false);
 
   const handleCloseDelete = () => setShowDelete(false);
@@ -37,6 +37,7 @@ export default function PersonalInfo() {
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
     } else {
       try {
         await updatePassword({ password });
@@ -61,7 +62,9 @@ export default function PersonalInfo() {
       <Container className="position-relative">
         <Row>
           <Col lg={4} className="mb-5 mb-lg-0">
-            <h5 className="text-uppercase text-center">Personal Information</h5>
+            <h5 className="text-uppercase text-center mb-3">
+              Personal Information
+            </h5>
             <ListGroup>
               <ListGroup.Item>
                 <div className="d-flex justify-content-center my-3">
@@ -74,34 +77,17 @@ export default function PersonalInfo() {
                   />
                 </div>
               </ListGroup.Item>
-              <ListGroup.Item>
-                <FloatingLabel label="Full Name" className="mb-3">
-                  <Form.Control
-                    readOnly
-                    type="text"
-                    className="border-0"
-                    value={`${userInfo.data.lastName} ${userInfo.data.otherNames}`}
-                  />
-                </FloatingLabel>
-                <FloatingLabel label="Email address" className="mb-3">
-                  <Form.Control
-                    readOnly
-                    type="email"
-                    className="border-0"
-                    value={userInfo.data.email}
-                  />
-                </FloatingLabel>
-                <FloatingLabel label="Phone Number">
-                  <Form.Control
-                    readOnly
-                    type="text"
-                    className="border-0"
-                    value={userInfo.data.phoneNumber}
-                  />
-                </FloatingLabel>
+              <ListGroup.Item className="text-center">
+                <h2 className="mb-1">
+                  {`${userInfo.data.otherNames} ${userInfo.data.lastName}`}
+                </h2>
+                <p className="mb-0">{userInfo.data.email}</p>
+                <p className="text-muted">
+                  {userInfo.data.phoneNumber || "No phone number provided"}
+                </p>
               </ListGroup.Item>
-              <ListGroup.Item>
-                <div className="my-0 my-lg-3">
+              <ListGroup.Item className="text-center">
+                <div className="my-3">
                   Interested in becoming a vendor?{" "}
                   <Link
                     to={"/vendor-application"}
@@ -112,69 +98,58 @@ export default function PersonalInfo() {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Form>
-                  <Form.Group className="my-3">
+                  <Form.Group className="mb-3">
                     <Form.Label htmlFor="password">
                       Create a Password
                     </Form.Label>
-                    <InputGroup className="mb-3">
+                    <InputGroup>
                       <Form.Control
                         value={password}
-                        className="rounded-0"
                         onChange={(e) => setPassword(e.target.value)}
-                        type={"password"}
+                        type="password"
                         id="password"
                       />
                     </InputGroup>
                   </Form.Group>
-                  <Form.Group className="my-3">
+                  <Form.Group className="mb-3">
                     <Form.Label htmlFor="confirmPassword">
                       Confirm Password
                     </Form.Label>
-                    <InputGroup className="mb-3">
+                    <InputGroup>
                       <Form.Control
                         value={confirmPassword}
-                        className="rounded-0"
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        type={"password"}
+                        type="password"
                         id="confirmPassword"
                       />
                     </InputGroup>
                   </Form.Group>
-                  <div className="d-flex justify-content-center mb-3">
+                  <div className="d-grid">
                     <Button
-                      disabled={
-                        isLoading ||
-                        password.length === 0 ||
-                        confirmPassword.length === 0
-                      }
                       onClick={handleUpdatePassword}
-                      className="text-uppercase rounded-0 px-4"
+                      className="text-uppercase"
                       variant="dark">
                       {isLoading ? (
-                        <Spinner size="sm" animation="border">
-                          <span className="visually-hidden"></span>
-                        </Spinner>
+                        <Spinner size="sm" animation="border" />
                       ) : (
-                        "Update password"
+                        "Update Password"
                       )}
                     </Button>
                   </div>
                 </Form>
               </ListGroup.Item>
-              <ListGroup.Item>
-                <div className="d-flex justify-content-center my-3">
-                  <Button
-                    onClick={handleShowDelete}
-                    className="text-uppercase rounded-0 text-white"
-                    variant="dark">
-                    Delete Account
-                  </Button>
-                </div>
-              </ListGroup.Item>
             </ListGroup>
           </Col>
           <Col lg={8}>
-            <h5 className="text-uppercase text-center">Order History</h5>
+            <h5 className="text-uppercase text-center mb-3">Order History</h5>
+            <div className="d-flex justify-content-end">
+              <Button
+                onClick={handleShowDelete}
+                className="text-uppercase px-4"
+                variant="danger">
+                <BiTrash className="me-2" /> Delete Account
+              </Button>
+            </div>
           </Col>
         </Row>
       </Container>
