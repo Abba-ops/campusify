@@ -1,10 +1,7 @@
-$font-family-sans-serif:  "Roboto", sans-serif;
 $headings-font-family: "Playfair Display", serif;
+$font-family-sans-serif: "Roboto", sans-serif;
 
 $primary: #f7972b;
-$info: #3498db;
-$success: #2ecc71;
-$danger: #e74c3c ;
 $link-color: #333333;
 $border-color: #ebebeb;
 $link-hover-color: $primary;
@@ -12,8 +9,8 @@ $card-border-color: $border-color;
 
 $input-focus-box-shadow: none;
 $form-select-focus-box-shadow: none;
-$accordion-button-focus-box-shadow: none;
 $form-check-input-focus-box-shadow: none;
+$accordion-button-focus-box-shadow: none;
 
 $spacer: 1rem !default;
 $spacers: (
@@ -36,12 +33,9 @@ $input-border-radius: 0;
 $input-border-radius-sm: 0;
 $input-border-radius-lg: 0;
 
-$accordion-button-active-bg: var(--bs-secondary-bg);
-
 $navbar-toggler-focus-width: 0;
-$navbar-toggler-border-radius: 4px;
+$navbar-toggler-border-radius: 4px !default;
 
 $headings-font-weight: 700;
-$headings-line-height: 1.2;
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";

@@ -1,3 +1,12 @@
+table td,
+table th {
+  text-wrap: nowrap;
+}
+
+table tr {
+  border-bottom: transparent;
+}
+
 .products-slider::-webkit-scrollbar {
   display: none;
 }
@@ -19,15 +28,6 @@
 .visible-on-hover:hover {
   opacity: 1;
   visibility: visible;
-}
-
-table td,
-table th {
-  text-wrap: nowrap;
-}
-
-table tr {
-  border-bottom: transparent;
 }
 
 .image-container {
