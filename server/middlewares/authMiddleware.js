@@ -32,10 +32,10 @@ export const isAdmin = asyncHandler(async (req, res, next) => {
 
 export const isVendor = asyncHandler(async (req, res, next) => {
   if (!req.user || !req.user.isVendor) {
-    req.vendor = await Vendor.findOne({ user: req.user._id });
     res.status(403);
     throw new Error("Forbidden: Not authorized as vendor");
   }
+  req.vendor = await Vendor.findOne({ user: req.user._id });
 
   next();
 });

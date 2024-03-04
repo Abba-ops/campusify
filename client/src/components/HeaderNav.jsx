@@ -9,7 +9,9 @@ import {
   Dropdown,
   Container,
   InputGroup,
+  Offcanvas,
 } from "react-bootstrap";
+import { BiCategoryAlt } from "react-icons/bi";
 import { useLogoutMutation } from "../features/usersApiSlice";
 import { LinkContainer } from "react-router-bootstrap";
 import { FaSearch } from "react-icons/fa";
@@ -23,6 +25,11 @@ import { useState } from "react";
 import { clearCartItems } from "../features/cartSlice";
 
 export default function HeaderNav() {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const [showSearch, setShowSearch] = useState(false);
 
   const dispatch = useDispatch();
@@ -88,6 +95,22 @@ export default function HeaderNav() {
                     Contact Us
                   </Nav.Link>
                 </LinkContainer>
+                <LinkContainer to={"/about"}>
+                  <Nav.Link
+                    className={`fw-semibold text-uppercase ${
+                      location.pathname === "/about" && "text-primary"
+                    }`}>
+                    About Us
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to={"/faq"}>
+                  <Nav.Link
+                    className={`fw-semibold text-uppercase ${
+                      location.pathname === "/faq" && "text-primary"
+                    }`}>
+                    FAQ
+                  </Nav.Link>
+                </LinkContainer>
               </Stack>
             </Nav>
             {showSearch && (
@@ -103,7 +126,13 @@ export default function HeaderNav() {
               </InputGroup>
             )}
             <Stack direction="horizontal" gap={4}>
-              <RiSearch2Line className="fs-4" onClick={handleShowSearch} />
+              <Nav.Link>
+                <RiSearch2Line className="fs-4" onClick={handleShowSearch} />
+              </Nav.Link>
+              <Nav.Link>
+                <BiCategoryAlt className="fs-4" onClick={handleShow} />
+              </Nav.Link>
+
               <LinkContainer to={"/cart"}>
                 <Nav.Link>
                   <div className="position-relative">
@@ -167,6 +196,15 @@ export default function HeaderNav() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          Some text as placeholder. In real life you can have the elements you
+          have chosen. Like, text, images, lists, etc.
+        </Offcanvas.Body>
+      </Offcanvas>
     </>
   );
 }

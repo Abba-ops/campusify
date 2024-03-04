@@ -41,6 +41,8 @@ import UserProfile from "./pages/UserProfile";
 import MyProfileDetails from "./pages/MyProfileDetails";
 import { HelmetProvider } from "react-helmet-async";
 import AdminVendorDetails from "./pages/Admin/AdminVendorDetails";
+import About from "./pages/About";
+import FAQ from "./pages/FAQ";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -58,6 +60,8 @@ const router = createBrowserRouter(
       <Route path="/" element={<PrivateRoute />}>
         <Route path="/checkout" element={<CartCheckout />} />
         <Route path="/profile" element={<MyProfileDetails />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/faq" component={FAQ} />
         <Route path="/vendor-application" element={<VendorApplication />} />
       </Route>
 
