@@ -1,5 +1,6 @@
 import asyncHandler from "./asyncHandler.js";
 import User from "../models/userModel.js";
+import Vendor from "../models/vendorModel.js";
 import jwt from "jsonwebtoken";
 
 export const isLoggedIn = asyncHandler(async (req, res, next) => {
@@ -37,4 +38,16 @@ export const isVendor = asyncHandler(async (req, res, next) => {
   }
 
   next();
+});
+
+export const isAdminOrVendor = asyncHandler(async (req, res, next) => {
+  if (req.user && (req.user.isAdmin || req.user.isVendor)) {
+    if (req.user.isVendor) {
+      req.vendor = await Vendor.findOne({ user: req.user._id });
+    }
+    return next();
+  } else {
+    res.status(403);
+    throw new Error("Forbidden: Not authorized as vendor or administrator");
+  }
 });

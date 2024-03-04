@@ -21,6 +21,26 @@ const userData = [
       "https://tau.edu.ng/assets/images/staffphotos/TAUSSPF035.jpg",
     userType: "staff",
   },
+  {
+    lastName: "Brown",
+    otherNames: "Mike",
+    email: "mike.brown@example.com",
+    phoneNumber: "555-111-2222",
+    password: bcrypt.hashSync("123456", 10),
+    profilePictureURL:
+      "https://portal.tau.edu.ng/uploads/student/adebayo-oluwafemi-samuel.jpg",
+    userType: "student",
+  },
+  {
+    lastName: "Taylor",
+    otherNames: "Alex",
+    email: "alex.taylor@example.com",
+    phoneNumber: "111-222-3333",
+    password: bcrypt.hashSync("123456", 10),
+    profilePictureURL:
+      "https://portal.tau.edu.ng/uploads/student/elelu-abdulkareem-ayomikun.jpg",
+    userType: "staff",
+  },
 ];
 
 export default userData;

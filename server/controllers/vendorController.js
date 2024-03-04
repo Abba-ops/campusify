@@ -44,4 +44,21 @@ const getVendorProducts = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: vendorProducts });
 });
 
-export { getVendors, getVendorById, getVendorProducts };
+const vendorApplication = asyncHandler(async (req, res) => {
+  const { businessEmail, businessName, businessPhone, businessDescription } =
+    req.body;
+
+  const newVendorData = {
+    businessName,
+    businessDescription,
+    user: req.user._id,
+    businessEmail,
+    businessPhone,
+  };
+
+  const createdVendor = await Vendor.create(newVendorData);
+
+  res.status(201).json({ success: true, data: createdVendor });
+});
+
+export { getVendors, getVendorById, getVendorProducts, vendorApplication };

@@ -40,6 +40,7 @@ import VendorEditProduct from "./pages/Vendor/VendorEditProduct";
 import UserProfile from "./pages/UserProfile";
 import MyProfileDetails from "./pages/MyProfileDetails";
 import { HelmetProvider } from "react-helmet-async";
+import AdminVendorDetails from "./pages/Admin/AdminVendorDetails";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -97,6 +98,10 @@ const router = createBrowserRouter(
           <Route
             path="/admin/dashboard/products/:productId"
             element={<AdminProductDetails />}
+          />
+          <Route
+            path="/admin/dashboard/vendors/:vendorId"
+            element={<AdminVendorDetails />}
           />
           <Route
             path="/admin/dashboard/products/:productId/edit"

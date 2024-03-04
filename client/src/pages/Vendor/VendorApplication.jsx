@@ -1,14 +1,46 @@
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import React, { useState } from "react";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useVendorApplicationMutation } from "../../features/vendorApiSlice";
+import { toast } from "react-toastify";
 
 export default function VendorApplication() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
   const { userInfo } = useSelector((state) => state.auth);
 
-  console.log(userInfo);
+  const [vendorApplication, { isLoading }] = useVendorApplicationMutation();
+
+  const [formState, setFormState] = useState({
+    businessEmail: "",
+    businessName: "",
+    businessPhone: "",
+    businessDescription: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await vendorApplication(formState).unwrap();
+      if (res.success) {
+        toast.success("Application submitted successfully");
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
+  };
 
   return (
     <section className="bg-white py-5">
@@ -30,8 +62,8 @@ export default function VendorApplication() {
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
-                        required
-                        type="email"
+                        readOnly
+                        type="text"
                         value={`${userInfo.data.lastName} ${userInfo.data.otherNames}`}
                       />
                     </Col>
@@ -44,7 +76,13 @@ export default function VendorApplication() {
                       Business Email
                     </Form.Label>
                     <Col sm={6}>
-                      <Form.Control required type="email" />
+                      <Form.Control
+                        required
+                        type="email"
+                        name="businessEmail"
+                        value={formState.businessEmail}
+                        onChange={handleInputChange}
+                      />
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="mb-3">
@@ -55,7 +93,13 @@ export default function VendorApplication() {
                       Business Name
                     </Form.Label>
                     <Col sm={6}>
-                      <Form.Control required type="text" />
+                      <Form.Control
+                        required
+                        type="text"
+                        name="businessName"
+                        value={formState.businessName}
+                        onChange={handleInputChange}
+                      />
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="mb-3">
@@ -66,7 +110,13 @@ export default function VendorApplication() {
                       Business Phone
                     </Form.Label>
                     <Col sm={6}>
-                      <Form.Control required type="text" />
+                      <Form.Control
+                        required
+                        type="tel"
+                        name="businessPhone"
+                        value={formState.businessPhone}
+                        onChange={handleInputChange}
+                      />
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="mb-3">
@@ -77,7 +127,13 @@ export default function VendorApplication() {
                       Product Description
                     </Form.Label>
                     <Col sm={6}>
-                      <Form.Control as="textarea" rows={3} />
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        name="businessDescription"
+                        value={formState.businessDescription}
+                        onChange={handleInputChange}
+                      />
                     </Col>
                   </Form.Group>
                   <div className="d-flex justify-content-end my-3">
@@ -85,7 +141,13 @@ export default function VendorApplication() {
                       type="submit"
                       variant="dark"
                       className="text-uppercase px-4">
-                      Apply
+                      {isLoading ? (
+                        <Spinner size="sm" animation="border">
+                          <span className="visually-hidden"></span>
+                        </Spinner>
+                      ) : (
+                        "Apply"
+                      )}
                     </Button>
                   </div>
                 </Form>
