@@ -138,10 +138,7 @@ export default function HeaderNav() {
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Header>
-                      {(userInfo.data.otherNames &&
-                        `${userInfo.data.otherNames} ${userInfo.data.lastName}`) ||
-                        "User"}{" "}
-                      Options
+                      {userInfo.data.lastName || "User"} Options
                     </Dropdown.Header>
                     <Nav.Link>
                       <LinkContainer to="/profile">
