@@ -1,10 +1,11 @@
 import FeaturedProducts from "../components/FeaturedProducts";
 import PopularProducts from "../components/PopularProducts";
-import ScrollToTop from "../components/BackToTop";
+import BackToTop from "../components/BackToTop";
 import BestSeller from "../components/BestSeller";
-import Services from "../components/ServiceGrid";
-import Hero from "../components/HeaderHero";
+import ServiceGrid from "../components/ServiceGrid";
+import HeaderHero from "../components/HeaderHero";
 import { useEffect } from "react";
+import { Container } from "react-bootstrap";
 
 export default function LandingPage() {
   useEffect(() => {
@@ -12,13 +13,15 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <>
-      <Hero />
-      <Services />
-      <FeaturedProducts />
-      <BestSeller />
-      <PopularProducts />
-      <ScrollToTop />
-    </>
+    <div className="bg-light">
+      <Container className="bg-white">
+        <HeaderHero />
+        <ServiceGrid />
+        <FeaturedProducts />
+        <BestSeller />
+        <PopularProducts />
+        <BackToTop />
+      </Container>
+    </div>
   );
 }

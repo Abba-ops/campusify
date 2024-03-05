@@ -4,14 +4,12 @@ import CarouselProducts from "./CarouselProducts";
 
 export default function PopularProducts() {
   return (
-    <section>
-      <Container className="py-5 bg-white">
-        <div className="text-center">
-          <p className="text-muted mb-3">Discover Our</p>
-          <h2 className="text-uppercase mb-4">Popular Products</h2>
-        </div>
-        <CarouselProducts lgColumnSize={3} showPreviewIcon={true} />
-      </Container>
+    <section className="py-5">
+      <div className="text-center">
+        <p className="text-muted mb-3">Discover Our</p>
+        <h2 className="text-uppercase mb-4">Popular Products</h2>
+      </div>
+      <CarouselProducts lgColumnSize={3} showPreviewIcon={true} />
     </section>
   );
 }

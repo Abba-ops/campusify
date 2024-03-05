@@ -116,7 +116,7 @@ export default function ProductDetail() {
   }, []);
 
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
       {!productError ? (
         <Container>
           <Row>
@@ -189,8 +189,8 @@ export default function ProductDetail() {
                     />
                   </div>
                   <h5>
-                    {productData.data.vendor.vendorName}{" "}
-                    {productData.data.vendor.verificationStatus && (
+                    {productData.data.vendor.businessName}{" "}
+                    {productData.data.vendor.isApproved && (
                       <FaCheckCircle color="green" title="Verified" />
                     )}
                   </h5>

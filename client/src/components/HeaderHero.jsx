@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function HeaderHero() {
   return (
-    <Container className="bg-white px-4 border-bottom">
+    <header className="px-4 border-bottom">
       <div className="row flex-column-reverse flex-lg-row align-items-center py-5">
         <div className="col-lg-6 order-lg-2 mb-4 mb-lg-0">
           <Carousel indicators={false} controls={false}>
@@ -47,6 +47,6 @@ export default function HeaderHero() {
           </div>
         </div>
       </div>
-    </Container>
+    </header>
   );
 }

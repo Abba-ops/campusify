@@ -4,7 +4,7 @@ import { services } from "../constants";
 
 export default function ServiceGrid() {
   return (
-    <Container className="bg-white py-5 border-bottom">
+    <section className="py-5 border-bottom">
       <Row>
         {services.map(({ icon, service, text }, index) => (
           <Col
@@ -20,6 +20,6 @@ export default function ServiceGrid() {
           </Col>
         ))}
       </Row>
-    </Container>
+    </section>
   );
 }

@@ -50,8 +50,8 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                 />
               </div>
               <h6 className="mt-3">
-                {product.vendor.vendorName}{" "}
-                {product.vendor.verificationStatus && (
+                {product.vendor.businessName}{" "}
+                {product.vendor.isApproved && (
                   <FaCheckCircle color="green" title="Verified" />
                 )}
               </h6>

@@ -54,14 +54,14 @@ const router = createBrowserRouter(
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/product/:productId" element={<ProductDetail />} />
       <Route path="/profile/:userId" element={<UserProfile />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/faq" component={FAQ} />
 
       <Route path="*" element={<PageNotFound />} />
 
       <Route path="/" element={<PrivateRoute />}>
         <Route path="/checkout" element={<CartCheckout />} />
         <Route path="/profile" element={<MyProfileDetails />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/faq" component={FAQ} />
         <Route path="/vendor-application" element={<VendorApplication />} />
       </Route>
 

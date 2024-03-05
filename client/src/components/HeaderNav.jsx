@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Nav,
   Form,
@@ -12,46 +13,42 @@ import {
   Offcanvas,
 } from "react-bootstrap";
 import { BiCategoryAlt } from "react-icons/bi";
-import { useLogoutMutation } from "../features/usersApiSlice";
-import { LinkContainer } from "react-router-bootstrap";
 import { FaSearch } from "react-icons/fa";
-import logo from "../assets/logo.png";
+import { RiShoppingBag2Line, RiUserLine, RiSearch2Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { RiShoppingBag2Line, RiUserLine, RiSearch2Line } from "react-icons/ri";
-import { clearCredentials } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useLogoutMutation } from "../features/usersApiSlice";
+import { LinkContainer } from "react-router-bootstrap";
+import logo from "../assets/logo.png";
+import { clearCredentials } from "../features/authSlice";
 import { clearCartItems } from "../features/cartSlice";
 
 export default function HeaderNav() {
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [showSearch, setShowSearch] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
-  const handleShowSearch = () => setShowSearch((prev) => !prev);
-
   const location = useLocation();
   const [logout] = useLogoutMutation();
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleShowSearch = () => setShowSearch((prev) => !prev);
 
   const logoutHandler = async () => {
     try {
       await logout().unwrap();
       dispatch(clearCredentials());
       dispatch(clearCartItems());
-      toast.success("Happy Shopping! Goodbye!");
+      toast.success("Logged out successfully!");
       navigate("/");
     } catch (error) {
-      console.error(error);
+      toast.error("Logout failed. Please try again.");
     }
   };
 
@@ -79,38 +76,16 @@ export default function HeaderNav() {
           <Navbar.Collapse>
             <Nav className="me-auto mb-3 mb-lg-0">
               <Stack direction="horizontal" gap={4}>
-                <LinkContainer to={"/"}>
-                  <Nav.Link
-                    className={`fw-semibold text-uppercase ${
-                      location.pathname === "/" && "text-primary"
-                    }`}>
-                    Home
-                  </Nav.Link>
-                </LinkContainer>
-                <LinkContainer to={"/contact"}>
-                  <Nav.Link
-                    className={`fw-semibold text-uppercase ${
-                      location.pathname === "/contact" && "text-primary"
-                    }`}>
-                    Contact Us
-                  </Nav.Link>
-                </LinkContainer>
-                <LinkContainer to={"/about"}>
-                  <Nav.Link
-                    className={`fw-semibold text-uppercase ${
-                      location.pathname === "/about" && "text-primary"
-                    }`}>
-                    About Us
-                  </Nav.Link>
-                </LinkContainer>
-                <LinkContainer to={"/faq"}>
-                  <Nav.Link
-                    className={`fw-semibold text-uppercase ${
-                      location.pathname === "/faq" && "text-primary"
-                    }`}>
-                    FAQ
-                  </Nav.Link>
-                </LinkContainer>
+                {["/", "/contact", "/about", "/faq"].map((path) => (
+                  <LinkContainer key={path} to={path}>
+                    <Nav.Link
+                      className={`fw-semibold text-uppercase ${
+                        location.pathname === path && "text-primary"
+                      }`}>
+                      {path === "/" ? "Home" : path.replace("/", "")}
+                    </Nav.Link>
+                  </LinkContainer>
+                ))}
               </Stack>
             </Nav>
             {showSearch && (
@@ -132,7 +107,6 @@ export default function HeaderNav() {
               <Nav.Link>
                 <BiCategoryAlt className="fs-4" onClick={handleShow} />
               </Nav.Link>
-
               <LinkContainer to={"/cart"}>
                 <Nav.Link>
                   <div className="position-relative">
@@ -162,10 +136,16 @@ export default function HeaderNav() {
                       src={userInfo.data.profilePictureURL}
                     />
                   </Dropdown.Toggle>
-                  <Dropdown.Menu className="">
+                  <Dropdown.Menu>
+                    <Dropdown.Header>
+                      {(userInfo.data.otherNames &&
+                        `${userInfo.data.otherNames} ${userInfo.data.lastName}`) ||
+                        "User"}{" "}
+                      Options
+                    </Dropdown.Header>
                     <Nav.Link>
                       <LinkContainer to="/profile">
-                        <Dropdown.Item>Profile</Dropdown.Item>
+                        <Dropdown.Item>View Profile</Dropdown.Item>
                       </LinkContainer>
                     </Nav.Link>
                     {userInfo.data.isAdmin && (
@@ -182,6 +162,7 @@ export default function HeaderNav() {
                         </LinkContainer>
                       </Nav.Link>
                     )}
+                    <Dropdown.Divider />
                     <Dropdown.Item onClick={logoutHandler}>
                       Logout
                     </Dropdown.Item>
@@ -201,8 +182,8 @@ export default function HeaderNav() {
           <Offcanvas.Title>Offcanvas</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
+          Some text as a placeholder. In real life, you can have the elements
+          you have chosen, like text, images, lists, etc.
         </Offcanvas.Body>
       </Offcanvas>
     </>
