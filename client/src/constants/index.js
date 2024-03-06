@@ -1,3 +1,13 @@
+import {
+  BsBarChart,
+  BsBox,
+  BsCart,
+  BsClipboardData,
+  BsGraphUp,
+  BsPeople,
+  BsPerson,
+  BsPersonCheck,
+} from "react-icons/bs";
 import { FaPhoneAlt } from "react-icons/fa";
 import {
   MdOutlineSecurity,
@@ -11,6 +21,61 @@ export const USERS_URL = "/api/users";
 export const PRODUCTS_URL = "/api/products";
 export const VENDORS_URL = "/api/vendors";
 export const UPLOAD_URL = "/api/upload";
+
+export const adminLinks = [
+  {
+    title: "Dashboard Overview",
+    link: "/admin/dashboard/",
+    icon: <BsGraphUp />,
+  },
+  {
+    title: "User Management",
+    link: "/admin/dashboard/users",
+    icon: <BsPeople />,
+  },
+  {
+    title: "Order Overview",
+    link: "/admin/dashboard/orders",
+    icon: <BsClipboardData />,
+  },
+  {
+    title: "Product Management",
+    link: "/admin/dashboard/products",
+    icon: <BsBox />,
+  },
+  {
+    title: "Vendor Management",
+    link: "/admin/dashboard/vendors",
+    icon: <BsPersonCheck />,
+  },
+];
+export const vendorLinks = [
+  {
+    title: "Dashboard",
+    link: "/vendor/dashboard/",
+    icon: <BsBarChart />,
+  },
+  {
+    title: "Order Management",
+    link: "/vendor/dashboard/orders",
+    icon: <BsCart />,
+  },
+  {
+    title: "Product Management",
+    link: "/vendor/dashboard/products",
+    icon: <BsBox />,
+  },
+  {
+    title: "Customer Management",
+    link: "/vendor/dashboard/customers",
+    icon: <BsPeople />,
+  },
+  {
+    title: "Profile",
+    link: "/vendor/dashboard/profile",
+    icon: <BsPerson />,
+  },
+];
 
 export const services = [
   {

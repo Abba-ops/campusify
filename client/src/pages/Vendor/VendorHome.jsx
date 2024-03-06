@@ -1,90 +1,46 @@
 import React from "react";
-import {
-  Badge,
-  Button,
-  Col,
-  Container,
-  Form,
-  ListGroup,
-  Row,
-  Stack,
-} from "react-bootstrap";
-import { FaRegUser, FaUser } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { Col, Container, Row, Card } from "react-bootstrap";
+import { FaRegUser } from "react-icons/fa";
 
 export default function VendorHome() {
   return (
-    <Container className="py-4">
-      <h6 className="fw-medium">Welcome to Your Vendor Dashboard!</h6>
-      <div className="text-secondary">
-        Manage your products and sales effortlessly.
-      </div>
-      <Container className="my-4">
-        <Row>
-          <Col lg={9}>
-            <Row></Row>
-          </Col>
-          <Col lg={3}>
-            <Col className="bg-white rounded py-2"></Col>
-          </Col>
-        </Row>
-      </Container>
-      {/* <Container>
-        <Row className="my-4 gap-4">
-          <Col lg={2} className="bg-white rounded">
-            <Row>
-              <Col lg={2}>
-                <FaUser />
-              </Col>
-              <Col>
-                <div>
-                  <div>Welcome</div>
-                  <h5>124</h5>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-          <Col lg={2} className="bg-white rounded">
-            <Row>
-              <Col lg={2}>
-                <FaUser />
-              </Col>
-              <Col>
-                <div>
-                  <div>Welcome</div>
-                  <h5>124</h5>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-          <Col lg={2} className="bg-white rounded">
-            <Row>
-              <Col lg={2}>
-                <FaUser />
-              </Col>
-              <Col>
-                <div>
-                  <div>Welcome</div>
-                  <h5>124</h5>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-          <Col lg={2} className="bg-white rounded">
-            <Row>
-              <Col lg={2}>
-                <FaUser />
-              </Col>
-              <Col>
-                <div>
-                  <div>Welcome</div>
-                  <h5>124</h5>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Container> */}
-    </Container>
+    <>
+      <h2 className="mb-4">Vendor Dashboard</h2>
+      <Row>
+        <Col lg={8}>
+          <Card className="mb-4">
+            <Card.Body>
+              <h5 className="mb-3">Welcome to Your Vendor Dashboard!</h5>
+              <p className="text-secondary">
+                Manage your products, view sales, and interact with customers
+                effortlessly. Explore the available features below.
+              </p>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col lg={4}>
+          <Card className="mb-4">
+            <Card.Body>
+              <h5 className="mb-3">Quick Stats</h5>
+              <Row>
+                <Col xs={6} className="text-center">
+                  <h6 className="mb-0">Total Products</h6>
+                  <p className="text-secondary">120</p>
+                </Col>
+                <Col xs={6} className="text-center">
+                  <h6 className="mb-0">Total Sales</h6>
+                  <p className="text-secondary">$50,000</p>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+          <Card className="mb-4">
+            <Card.Body>
+              <h5 className="mb-3">Recent Orders</h5>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 }

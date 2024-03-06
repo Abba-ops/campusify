@@ -140,11 +140,9 @@ export default function HeaderNav() {
                     <Dropdown.Header>
                       {userInfo.data.lastName || "User"} Options
                     </Dropdown.Header>
-                    <Nav.Link>
-                      <LinkContainer to="/profile">
-                        <Dropdown.Item>View Profile</Dropdown.Item>
-                      </LinkContainer>
-                    </Nav.Link>
+                    <LinkContainer to="/profile">
+                      <Dropdown.Item>View Profile</Dropdown.Item>
+                    </LinkContainer>
                     {userInfo.data.isAdmin && (
                       <Nav.Link>
                         <LinkContainer to="/admin/dashboard/">

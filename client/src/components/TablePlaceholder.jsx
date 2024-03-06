@@ -3,7 +3,7 @@ import { Placeholder } from "react-bootstrap";
 
 export default function TablePlaceholder() {
   return (
-    <Placeholder as="div" animation="glow" className="placeholder-glow">
+    <Placeholder as="div" animation="glow">
       <div className="d-flex align-items-center justify-content-between mb-2">
         <span className="placeholder col-2" style={{ height: "20px" }}></span>
         <span className="placeholder col-4" style={{ height: "20px" }}></span>
