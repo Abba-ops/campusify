@@ -141,7 +141,7 @@ export default function AdminDashboard() {
               ))}
             </ul>
           </Col>
-          <Col lg={10} className="bg-light vh-100">
+          <Col lg={10} className="bg-light">
             <Container className="py-4">
               <Outlet />
             </Container>

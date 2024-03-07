@@ -23,7 +23,7 @@ const getVendors = asyncHandler(async (req, res) => {
  * @access     Private/Admin
  */
 const getVendorById = asyncHandler(async (req, res) => {
-  const vendor = await Vendor.findById(req.params.vendorId);
+  const vendor = await Vendor.findById(req.params.vendorId).populate("user");
 
   if (!vendor) {
     return res

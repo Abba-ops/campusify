@@ -1,13 +1,20 @@
 import React from "react";
 import { useGetVendorByIdQuery } from "../../features/vendorApiSlice";
 import { useParams } from "react-router-dom";
-import { Col, Container, Row, Card, Button } from "react-bootstrap";
+import {
+  Col,
+  Container,
+  Row,
+  Card,
+  Button,
+  Image,
+  Badge,
+  ListGroup,
+} from "react-bootstrap";
 
 export default function AdminVendorDetails() {
   const { vendorId } = useParams();
-  const { data: vendor, isLoading } = useGetVendorByIdQuery(vendorId);
-
-  console.log(vendor);
+  const { data: vendor, isLoading, isError } = useGetVendorByIdQuery(vendorId);
 
   const handleApprove = () => {
     // Implement logic to approve vendor
@@ -20,92 +27,108 @@ export default function AdminVendorDetails() {
   };
 
   return (
-    <Container className="mt-4">
-      {isLoading ? (
+    <>
+      {isError ? (
+        <div>Error loading vendor details</div>
+      ) : isLoading ? (
         <div>Loading...</div>
       ) : (
         <Row>
-          <Col md={6}>
-            {vendor.data.approvalStatus === "pending" ? (
-              // Show vendor application UI if approval status is pending
-              <Card>
-                <Card.Body>
-                  <h1 className="text-center">Vendor Application Review</h1>
-                  <p>
-                    <strong>Business Name:</strong> {vendor.data.businessName}
-                  </p>
-                  <p>
-                    <strong>Business Description:</strong>{" "}
-                    {vendor.data.businessDescription}
-                  </p>
-                  {/* Other vendor application details... */}
-                  <div className="text-center mt-3">
-                    <Button variant="success" onClick={handleApprove}>
-                      Approve
-                    </Button>{" "}
-                    <Button variant="danger" onClick={handleReject}>
-                      Reject
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            ) : (
-              // Show vendor details if approval status is approved
-              <Card>
-                <Card.Header>
-                  <h1 className="text-center">{vendor.data.businessName}</h1>
-                </Card.Header>
-                <Card.Body>
-                  <p>Email: {vendor.data.businessEmail}</p>
-                  <p>Phone: {vendor.data.businessPhone}</p>
-                  <p>Sales Count: {vendor.data.salesCount}</p>
-                  <p>Approval Status: {vendor.data.approvalStatus}</p>
-                  <p>Description: {vendor.data.businessDescription}</p>
-                  <p>
-                    Date Joined:{" "}
-                    {new Date(vendor.data.dateJoined).toLocaleDateString()}
-                  </p>
-                  <p>Approved: {vendor.data.isApproved ? "Yes" : "No"}</p>
-                  <p>Average Rating: {vendor.data.averageRating}</p>
-
-                  {/* Social Media Links */}
-                  <p>Social Media Links:</p>
-                  <ul className="list-unstyled">
-                    <li>
-                      Facebook:{" "}
-                      <a
-                        href={vendor?.socialMediaLinks?.facebook}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {vendor?.socialMediaLinks?.facebook}
-                      </a>
-                    </li>
-                    <li>
-                      Twitter:{" "}
-                      <a
-                        href={vendor?.socialMediaLinks?.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {vendor?.socialMediaLinks?.twitter}
-                      </a>
-                    </li>
-                    <li>
-                      Instagram:{" "}
-                      <a
-                        href={vendor?.socialMediaLinks?.instagram}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {vendor?.socialMediaLinks?.instagram}
-                      </a>
-                    </li>
-                  </ul>
-                </Card.Body>
-              </Card>
-            )}
+          <Col md={4} className="col-12">
+            <Card className="p-3">
+              <div className="d-flex justify-content-center my-3">
+                <Image
+                  fluid
+                  roundedCircle
+                  loading="lazy"
+                  className="profile-picture-lg border"
+                  src={vendor.data.user.profilePictureURL}
+                />
+              </div>
+              <Card.Title className="text-center">
+                {`${vendor.data.businessName}`}
+                {vendor.data.isApproved && (
+                  <Badge bg="success" className="ms-2">
+                    Approved
+                  </Badge>
+                )}
+              </Card.Title>
+              <Card.Subtitle className="text-center mb-2 text-muted">
+                {vendor.data.businessEmail}
+              </Card.Subtitle>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <strong>Sales Count:</strong> {vendor.data.salesCount}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Approval Status:</strong> {vendor.data.approvalStatus}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Date Joined:</strong>{" "}
+                  {new Date(vendor.data.dateJoined).toLocaleDateString()}
+                </ListGroup.Item>
+              </ListGroup>
+              {vendor.data.approvalStatus === "pending" && (
+                <div className="text-center mt-3">
+                  <Button variant="success" onClick={handleApprove}>
+                    Approve
+                  </Button>{" "}
+                  <Button variant="danger" onClick={handleReject}>
+                    Reject
+                  </Button>
+                </div>
+              )}
+            </Card>
           </Col>
-          <Col md={6}></Col>
+          <Col md={8} className="col-12">
+            <Card className="p-3">
+              <h2 className="mb-4 text-center">Vendor Details</h2>
+              <ListGroup variant="flush">
+                <ListGroup.Item className="d-flex justify-content-between">
+                  <span>
+                    <strong>Vendor ID:</strong>
+                  </span>
+                  <span>{vendor.data._id}</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex justify-content-between">
+                  <span>
+                    <strong>Description:</strong>
+                  </span>
+                  <span>{vendor.data.businessDescription}</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex justify-content-between">
+                  <span>
+                    <strong>Approved:</strong>
+                  </span>
+                  <span>{vendor.data.isApproved ? "Yes" : "No"}</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex justify-content-between">
+                  <span>
+                    <strong>Average Rating:</strong>
+                  </span>
+                  <span>{vendor.data.averageRating}</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex justify-content-between">
+                  <span>
+                    <strong>Business Phone:</strong>
+                  </span>
+                  <span>{vendor.data.businessPhone}</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex justify-content-between">
+                  <span>
+                    <strong>Approval Date:</strong>
+                  </span>
+                  <span>
+                    {vendor.data.approvalDate
+                      ? new Date(vendor.data.approvalDate).toLocaleDateString()
+                      : "Not Approved"}
+                  </span>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
         </Row>
       )}
-    </Container>
+    </>
   );
 }

@@ -1,12 +1,13 @@
+import React from "react";
 import {
   Card,
   Col,
   Container,
-  FloatingLabel,
-  Form,
   Image,
   ListGroup,
   Row,
+  Badge,
+  Button,
 } from "react-bootstrap";
 import { useGetUserDetailsQuery } from "../../features/usersApiSlice";
 import { useParams } from "react-router-dom";
@@ -14,14 +15,26 @@ import { useParams } from "react-router-dom";
 export default function AdminUserDetails() {
   const { userId } = useParams();
 
-  const { data: user, isLoading } = useGetUserDetailsQuery(userId);
+  const { data: user, isLoading, isError } = useGetUserDetailsQuery(userId);
 
   return (
-    <Row>
-      <Col className="bg-white" as={Card}>
-        {!isLoading && (
-          <ListGroup variant="flush">
-            <ListGroup.Item>
+    <>
+      {isLoading ? (
+        <Row>
+          <Col md={4}>
+            <p>Loading...</p>
+          </Col>
+        </Row>
+      ) : isError ? (
+        <Row>
+          <Col md={4}>
+            <p>Error loading user details</p>
+          </Col>
+        </Row>
+      ) : (
+        <Row>
+          <Col md={4}>
+            <Card className="p-3">
               <div className="d-flex justify-content-center my-3">
                 <Image
                   fluid
@@ -31,28 +44,66 @@ export default function AdminUserDetails() {
                   src={user.data.profilePictureURL}
                 />
               </div>
-            </ListGroup.Item>
-            <ListGroup.Item>User ID: {user.data._id}</ListGroup.Item>
-            <ListGroup.Item>
-              Full Name: {user.data.lastName} {user.data.otherNames}
-            </ListGroup.Item>
-            <ListGroup.Item>Email Address: {user.data.email}</ListGroup.Item>
-            <ListGroup.Item>
-              Email Address: {user.data.phoneNumber}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              Admin Status: {user.data.isAdmin ? "Yes" : "No"}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              Vendor Status: {user.data.isVendor ? "Yes" : "No"}
-            </ListGroup.Item>
-
-            <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-            <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-          </ListGroup>
-        )}
-      </Col>
-      <Col></Col>
-    </Row>
+              <Card.Title>
+                {`${user.data.lastName}, ${user.data.otherNames}`}
+                {user.data.isAdmin && (
+                  <Badge bg="success" className="ms-2">
+                    Admin
+                  </Badge>
+                )}
+                {user.data.isVendor && (
+                  <Badge bg="primary" className="ms-2">
+                    Vendor
+                  </Badge>
+                )}
+              </Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                {user.data.email}
+              </Card.Subtitle>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <strong>User Type:</strong> {user.data.userType}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Phone Number:</strong> {user.data.phoneNumber}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Account Creation Date:</strong>{" "}
+                  {new Date(user.data.accountCreationDate).toLocaleString()}
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
+          <Col md={8}>
+            <Card className="p-3">
+              <h2 className="mb-4">User Details</h2>
+              <ListGroup variant="flush">
+                <ListGroup.Item className="d-flex justify-content-between">
+                  <span>
+                    <strong>User ID:</strong>
+                  </span>
+                  <span>{user.data._id}</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex justify-content-between">
+                  <span>
+                    <strong>Password:</strong>
+                  </span>
+                  <span className="text-muted">(Encrypted)</span>
+                </ListGroup.Item>
+                <ListGroup.Item className="d-flex justify-content-between">
+                  <span>
+                    <strong>Last Updated:</strong>
+                  </span>
+                  <span>{new Date(user.data.updatedAt).toLocaleString()}</span>
+                </ListGroup.Item>
+              </ListGroup>
+              <div className="mt-4 d-flex justify-content-end">
+                <Button variant="danger">Delete User</Button>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      )}
+    </>
   );
 }
