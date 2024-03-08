@@ -4,6 +4,10 @@ import {
   reviewSchema,
 } from "../validators/userValidator.js";
 
+/**
+ * Middleware to validate request body against a specified Joi schema.
+ * Throws a 400 Bad Request error with the first validation error message if validation fails.
+ */
 const validateSchema = (schema) => {
   return (req, res, next) => {
     const validationResult = schema.validate(req.body, {
@@ -23,6 +27,7 @@ const validateSchema = (schema) => {
   };
 };
 
+// Specific middleware instances for registration, login, and review validation
 const validateRegister = validateSchema(registrationSchema);
 const validateLogin = validateSchema(loginSchema);
 const validateReview = validateSchema(reviewSchema);

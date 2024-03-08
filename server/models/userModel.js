@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+// Schema for users
 const userSchema = new mongoose.Schema(
   {
     lastName: {
@@ -49,10 +50,12 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Method to compare entered password with stored hashed password
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+// Middleware to hash the password before saving it to the database
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();

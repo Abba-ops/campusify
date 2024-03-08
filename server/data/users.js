@@ -10,6 +10,8 @@ const userData = [
     profilePictureURL:
       "https://portal.tau.edu.ng/uploads/student/kajeyale-jadesola-oluwaseun.jpg",
     userType: "student",
+    isVendor: true,
+    isAdmin: true,
   },
   {
     lastName: "Smith",
@@ -20,6 +22,8 @@ const userData = [
     profilePictureURL:
       "https://tau.edu.ng/assets/images/staffphotos/TAUSSPF035.jpg",
     userType: "staff",
+    isVendor: false,
+    isAdmin: true,
   },
   {
     lastName: "Brown",
@@ -30,6 +34,8 @@ const userData = [
     profilePictureURL:
       "https://portal.tau.edu.ng/uploads/student/adebayo-oluwafemi-samuel.jpg",
     userType: "student",
+    isVendor: true,
+    isAdmin: false,
   },
   {
     lastName: "Taylor",
@@ -40,6 +46,32 @@ const userData = [
     profilePictureURL:
       "https://portal.tau.edu.ng/uploads/student/elelu-abdulkareem-ayomikun.jpg",
     userType: "staff",
+    isVendor: true,
+    isAdmin: false,
+  },
+  {
+    lastName: "Johnson",
+    otherNames: "Sarah",
+    email: "sarah.johnson@example.com",
+    phoneNumber: "444-555-6666",
+    password: bcrypt.hashSync("123456", 10),
+    profilePictureURL:
+      "https://portal.tau.edu.ng/uploads/student/bello-joy-ayomide.jpeg",
+    userType: "student",
+    isVendor: false,
+    isAdmin: true,
+  },
+  {
+    lastName: "Miller",
+    otherNames: "David",
+    email: "david.miller@example.com",
+    phoneNumber: "777-888-9999",
+    password: bcrypt.hashSync("123456", 10),
+    profilePictureURL:
+      "https://portal.tau.edu.ng/uploads/student/akpama-frieda-nyonor.jpg",
+    userType: "staff",
+    isVendor: true,
+    isAdmin: false,
   },
 ];
 

@@ -44,6 +44,11 @@ const getVendorProducts = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: vendorProducts });
 });
 
+/**
+ * @desc   Apply as a vendor
+ * @route  POST /api/vendors/application
+ * @access Private
+ */
 const vendorApplication = asyncHandler(async (req, res) => {
   const { businessEmail, businessName, businessPhone, businessDescription } =
     req.body;
@@ -58,7 +63,10 @@ const vendorApplication = asyncHandler(async (req, res) => {
 
   const createdVendor = await Vendor.create(newVendorData);
 
-  res.status(201).json({ success: true, data: createdVendor });
+  res.status(201).json({
+    success: true,
+    data: createdVendor,
+  });
 });
 
 export { getVendors, getVendorById, getVendorProducts, vendorApplication };

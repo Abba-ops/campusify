@@ -11,14 +11,20 @@ import Product from "./models/productModel.js";
 dotenv.config();
 connectDB();
 
+/**
+ * Import data into the database.
+ */
 const importData = async () => {
   try {
+    // Clear existing data
     await Product.deleteMany({});
     await Vendor.deleteMany({});
     await User.deleteMany({});
 
+    // Insert user data
     const createdUsers = await User.insertMany(userData);
 
+    // Insert vendor data, linking to users
     const createdVendors = await Vendor.insertMany(
       vendorData.map((vendor, index) => ({
         ...vendor,
@@ -26,24 +32,30 @@ const importData = async () => {
       }))
     );
 
+    // Generate sample products, linking to vendors
     const sampleProducts = products.map((product) => {
       const random = Math.floor(Math.random() * createdVendors.length);
       const vendorId = createdVendors[random]._id;
       return { ...product, vendor: vendorId };
     });
 
+    // Insert product data
     await Product.insertMany(sampleProducts);
 
     console.log("Data saved successfully".green.inverse);
     process.exit();
   } catch (error) {
-    console.error(`Error saving data: ${error || error.message}`.red.inverse);
+    console.error(`Error saving data: ${error.message}`.red.inverse);
     process.exit(1);
   }
 };
 
+/**
+ * Destroy all data in the database.
+ */
 const destroyData = async () => {
   try {
+    // Delete all vendor, product, and user data
     await Vendor.deleteMany();
     await Product.deleteMany();
     await User.deleteMany();
@@ -56,6 +68,7 @@ const destroyData = async () => {
   }
 };
 
+// Check command line argument to determine whether to import or destroy data
 if (process.argv[2] === "-d") {
   destroyData();
 } else {

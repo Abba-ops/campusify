@@ -47,6 +47,38 @@ const vendorData = [
     isApproved: true,
     averageRating: 4.0,
   },
+  {
+    businessName: "Home Decor Emporium",
+    businessEmail: "homedecor@example.com",
+    businessPhone: "123-456-7890",
+    salesCount: 10,
+    approvalStatus: "approved",
+    businessDescription: "Transform your home with our stylish decor items",
+    socialMediaLinks: {
+      facebook: "https://www.facebook.com/homedecoremporium",
+      twitter: "https://twitter.com/homedecor_emporium",
+      instagram: "https://www.instagram.com/homedecoremporium/",
+    },
+    dateJoined: new Date(),
+    isApproved: true,
+    averageRating: 4.2,
+  },
+  {
+    businessName: "Sports Gear Zone",
+    businessEmail: "sports@example.com",
+    businessPhone: "777-888-9999",
+    salesCount: 12,
+    approvalStatus: "pending",
+    businessDescription: "Equip yourself with top-notch sports gear",
+    socialMediaLinks: {
+      facebook: "https://www.facebook.com/sportsgearzone",
+      twitter: "https://twitter.com/sports_gear_zone",
+      instagram: "https://www.instagram.com/sportsgearzone/",
+    },
+    dateJoined: new Date(),
+    isApproved: false,
+    averageRating: 3.8,
+  },
 ];
 
 export default vendorData;

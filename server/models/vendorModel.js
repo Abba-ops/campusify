@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 
+// Subschema for social media links
 const socialMediaSchema = new mongoose.Schema({
   facebook: String,
   twitter: String,
   instagram: String,
 });
 
+// Subschema for reviews
 const reviewSchema = new mongoose.Schema({
   profilePictureURL: {
     type: String,
@@ -30,6 +32,7 @@ const reviewSchema = new mongoose.Schema({
   },
 });
 
+// Schema for vendors
 const vendorSchema = new mongoose.Schema(
   {
     businessName: {
@@ -75,7 +78,7 @@ const vendorSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    reviews: [reviewSchema],
+    reviews: [reviewSchema], // Embedding the review schema
   },
   { timestamps: true }
 );

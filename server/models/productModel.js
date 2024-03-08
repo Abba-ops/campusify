@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Schema for reviews
 const reviewSchema = new mongoose.Schema(
   {
     profilePictureURL: {
@@ -27,6 +28,7 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Schema for products
 const productSchema = new mongoose.Schema(
   {
     productName: {
@@ -59,7 +61,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    reviews: [reviewSchema],
+    reviews: [reviewSchema], // Embedding the review schema
     reviewCount: {
       type: Number,
       default: 0,
