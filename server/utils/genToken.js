@@ -8,14 +8,14 @@ import jwt from "jsonwebtoken";
 export default function genToken(res, userId) {
   // Generate JWT token with user ID payload
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-    expiresIn: "4h", // Set to a few hours for a balance between security and convenience
+    expiresIn: "30d", // Set to 30 days
   });
 
   // Set the JWT token as a cookie in the response
   res.cookie("jwt_token", token, {
     httpOnly: true,
     sameSite: "strict",
-    maxAge: 4 * 60 * 60 * 1000, // 4 hours expiration
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days expiration
     secure: process.env.NODE_ENV !== "development",
   });
 }

@@ -1,6 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
+import { Product } from "../models/productModel.js";
 import Vendor from "../models/vendorModel.js";
-import Product from "../models/productModel.js";
 
 /**
  * @desc       Get all vendors

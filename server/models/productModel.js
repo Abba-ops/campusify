@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+});
+
 // Schema for reviews
 const reviewSchema = new mongoose.Schema(
   {
@@ -46,6 +55,7 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      trim: true,
     },
     brand: {
       type: String,
@@ -79,6 +89,6 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Product = mongoose.model("Product", productSchema);
+export const Product = mongoose.model("Product", productSchema);
 
-export default Product;
+export const Category = mongoose.model("Category", categorySchema);

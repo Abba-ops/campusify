@@ -1,7 +1,16 @@
 import React, { useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import {
   useCreateProductMutation,
+  useGetCategoriesQuery,
   useUploadProductImageMutation,
 } from "../../features/productsApiSlice";
 import { toast } from "react-toastify";
@@ -9,6 +18,9 @@ import { useNavigate } from "react-router-dom";
 
 export default function VendorCreateProduct() {
   const [imageUrl, setImageUrl] = useState("");
+  const { data: categories, isLoading: loadingCategories } =
+    useGetCategoriesQuery();
+
   const [formData, setFormData] = useState({
     productName: "",
     productDescription: "",
@@ -19,39 +31,34 @@ export default function VendorCreateProduct() {
   });
 
   const [createProduct, { isLoading }] = useCreateProductMutation();
-
+  const [uploadProductImage] = useUploadProductImageMutation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await createProduct({ ...formData, imageUrl });
+
     if (result.error) {
       toast.error(result.error);
     } else {
-      toast.success("Product updated successfully");
-            navigate("/vendor/dashboard/products");
-
+      toast.success("Product created successfully");
+      navigate("/vendor/dashboard/products");
     }
   };
-
-  const [uploadProductImage, { isLoading: loadingUpload }] =
-    useUploadProductImageMutation();
-
-  const navigate = useNavigate();
 
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
+
     try {
       const res = await uploadProductImage(formData).unwrap();
-      console.log(res.image);
       setImageUrl(res.image);
-      toast.success(res.message || "uploadFileHandler");
+      toast.success(res.message || "Image uploaded successfully");
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
   };
 
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -60,14 +67,13 @@ export default function VendorCreateProduct() {
     });
   };
 
-
   return (
-    <Container>
-      <Row className="justify-content-md-center mt-5">
-        <Col xs={12} md={12}>
-          <Card>
-            <Card.Body>
-              <Form onSubmit={handleSubmit}>
+    <>
+      <Card className="border-0 rounded-0">
+        <Card.Body>
+          <Form onSubmit={handleSubmit}>
+            <Row>
+              <Col xs={12} md={6} className="mb-3">
                 <Form.Group controlId="productName">
                   <Form.Label>Product Name</Form.Label>
                   <Form.Control
@@ -75,15 +81,33 @@ export default function VendorCreateProduct() {
                     name="productName"
                     value={formData.productName}
                     onChange={handleChange}
+                    placeholder="Enter product name"
                     required
                   />
                 </Form.Group>
-
-                <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Label>Image</Form.Label>
-                  <Form.Control type="file" onChange={uploadFileHandler} />
+              </Col>
+              <Col xs={12} md={6}>
+                <Form.Group controlId="formFile">
+                  <Form.Label>Upload Image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    onChange={uploadFileHandler}
+                    className="mb-3"
+                  />
+                  {imageUrl && (
+                    <img
+                      src={imageUrl}
+                      alt="Product"
+                      className="img-fluid rounded mb-3"
+                      style={{ maxWidth: "100%" }}
+                    />
+                  )}
                 </Form.Group>
+              </Col>
+            </Row>
 
+            <Row className="mb-3">
+              <Col xs={12}>
                 <Form.Group controlId="productDescription">
                   <Form.Label>Product Description</Form.Label>
                   <Form.Control
@@ -92,71 +116,86 @@ export default function VendorCreateProduct() {
                     name="productDescription"
                     value={formData.productDescription}
                     onChange={handleChange}
+                    placeholder="Enter product description"
                     required
                   />
                 </Form.Group>
+              </Col>
+            </Row>
 
-                <Row>
-                  <Col>
-                    <Form.Group controlId="category">
-                      <Form.Label>Category</Form.Label>
-                      <Form.Select name="category" onChange={handleChange}>
-                        <option>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                  <Col>
-                    <Form.Group controlId="brand">
-                      <Form.Label>Brand</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="brand"
-                        value={formData.brand}
-                        onChange={handleChange}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
+            <Row>
+              <Col xs={12} md={6} className="mb-3">
+                <Form.Group controlId="category">
+                  <Form.Label>Category</Form.Label>
+                  <Form.Select name="category" onChange={handleChange}>
+                    {categories?.data.map((category) => (
+                      <option value={category.name} key={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              <Col xs={12} md={6} className="mb-3">
+                <Form.Group controlId="brand">
+                  <Form.Label>Brand</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="brand"
+                    value={formData.brand}
+                    onChange={handleChange}
+                    placeholder="Enter brand name"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-                <Row>
-                  <Col>
-                    <Form.Group controlId="price">
-                      <Form.Label>Price</Form.Label>
-                      <Form.Control
-                        type="number"
-                        name="price"
-                        value={formData.price}
-                        onChange={handleChange}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col>
-                    <Form.Group controlId="countInStock">
-                      <Form.Label>Count In Stock</Form.Label>
-                      <Form.Control
-                        type="number"
-                        name="countInStock"
-                        value={formData.countInStock}
-                        onChange={handleChange}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
+            <Row>
+              <Col xs={12} md={6} className="mb-3">
+                <Form.Group controlId="price">
+                  <Form.Label>Price (&#8358;)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    placeholder="Enter price"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col xs={12} md={6} className="mb-3">
+                <Form.Group controlId="countInStock">
+                  <Form.Label>Count In Stock</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="countInStock"
+                    value={formData.countInStock}
+                    onChange={handleChange}
+                    placeholder="Enter stock count"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-                <Button variant="primary" type="submit">
-                  Create Product
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+            <Button
+              variant="dark"
+              className=""
+              type="submit"
+              disabled={isLoading || !imageUrl}>
+              {isLoading ? (
+                <Spinner size="sm" animation="border">
+                  <span className="visually-hidden"></span>
+                </Spinner>
+              ) : (
+                "Create Product"
+              )}
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+    </>
   );
 }

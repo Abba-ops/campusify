@@ -1,5 +1,5 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
-import Product from "../models/productModel.js";
+import { Category, Product } from "../models/productModel.js";
 import Vendor from "../models/vendorModel.js";
 
 /**
@@ -199,6 +199,45 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const addCategory = asyncHandler(async (req, res, next) => {
+  const { name } = req.body;
+
+  try {
+    const newCategory = await Category.create({ name });
+
+    res.status(201).json({
+      success: true,
+      message: "Category created successfully",
+      data: newCategory,
+    });
+  } catch (error) {
+    res.status(400);
+    next(new Error("Invalid input"));
+  }
+});
+
+const getCategories = asyncHandler(async (req, res) => {
+  try {
+    const categories = await Category.find({});
+    res.status(200).json({ success: true, data: categories });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Internal Server Error");
+  }
+});
+
+const deleteCategory = asyncHandler(async (req, res) => {
+  try {
+    await Category.findByIdAndDelete(req.params.categoryId);
+    res
+      .status(200)
+      .json({ success: true, message: "Category deleted successfully" });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Internal Server Error");
+  }
+});
+
 export {
   getProducts,
   getProductById,
@@ -206,4 +245,7 @@ export {
   deleteReview,
   createProduct,
   updateProduct,
+  addCategory,
+  deleteCategory,
+  getCategories,
 };

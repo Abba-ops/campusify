@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
 import {
   Button,
   ButtonGroup,
@@ -9,13 +10,27 @@ import {
   InputGroup,
   FormControl,
   Pagination,
+  Badge,
+  Form,
+  ListGroup,
+  Card,
+  Col,
+  Row,
+  Container,
 } from "react-bootstrap";
 import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
-import { useGetProductsQuery } from "../../features/productsApiSlice";
+import {
+  useAddCategoryMutation,
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+  useGetProductsQuery,
+} from "../../features/productsApiSlice";
 import { Link } from "react-router-dom";
 import { numberWithCommas } from "../../utils/cartUtils";
 import Loader from "../../components/Loader";
 import TablePlaceholder from "../../components/TablePlaceholder";
+import { toast } from "react-toastify";
+import { MdDelete } from "react-icons/md";
 
 export default function AdminProductsTable() {
   const { data: products, isLoading, isError } = useGetProductsQuery();
@@ -24,6 +39,14 @@ export default function AdminProductsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+
+  const {
+    data: categories,
+    isLoading: loadingCategories,
+    refetch,
+  } = useGetCategoriesQuery();
+
+  console.log("data", categories);
 
   const handleDelete = (product) => {
     setShowDeleteModal(false);
@@ -42,7 +65,39 @@ export default function AdminProductsTable() {
     filteredProducts &&
     filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
+  const [addCategory, { isLoading: addingCategory }] = useAddCategoryMutation();
+  const [deleteCategory, { isLoading: deletingCategory }] =
+    useDeleteCategoryMutation();
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const [newCategory, setNewCategory] = useState("");
+
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await addCategory({ name: newCategory }).unwrap();
+      if (res.success) {
+        refetch();
+        setNewCategory("");
+        toast.success(res.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleRemoveCategory = async (categoryId) => {
+    try {
+      const res = await deleteCategory(categoryId).unwrap();
+      if (res.success) {
+        refetch();
+        toast.success(res.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <>
@@ -177,6 +232,52 @@ export default function AdminProductsTable() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Container className="mt-4">
+        <h3>Manage Categories</h3>
+
+        <Form onSubmit={handleAddCategory}>
+          <InputGroup className="mb-3">
+            <FormControl
+              placeholder="New Category"
+              aria-label="New Category"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+            />
+            <Button type="submit" variant="primary">
+              <RiAddLine /> Add
+            </Button>
+          </InputGroup>
+        </Form>
+
+        <Row>
+          {categories?.data.map((category) => (
+            <Col
+              key={category._id}
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              className="mb-3">
+              <Card className="border-0 rounded-0">
+                <Card.Body className="d-flex justify-content-between align-items-center">
+                  <span>{category.name}</span>
+                  <h4>
+                    <MdDelete
+                      onClick={() => handleRemoveCategory(category._id)}
+                    />
+                  </h4>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+
+        {categories?.data.length === 0 && (
+          <Badge variant="info" className="mt-2">
+            No categories available
+          </Badge>
+        )}
+      </Container>
     </>
   );
 }

@@ -4,9 +4,9 @@ import userData from "./data/users.js";
 import connectDB from "./config/dbConfig.js";
 import vendorData from "./data/vendors.js";
 import User from "./models/userModel.js";
-import products from "./data/products.js";
+import products, { categories } from "./data/products.js";
 import Vendor from "./models/vendorModel.js";
-import Product from "./models/productModel.js";
+import { Category, Product } from "./models/productModel.js";
 
 dotenv.config();
 connectDB();
@@ -20,9 +20,12 @@ const importData = async () => {
     await Product.deleteMany({});
     await Vendor.deleteMany({});
     await User.deleteMany({});
+    await Category.deleteMany({});
 
     // Insert user data
     const createdUsers = await User.insertMany(userData);
+
+    await Category.insertMany(categories);
 
     // Insert vendor data, linking to users
     const createdVendors = await Vendor.insertMany(
@@ -36,7 +39,13 @@ const importData = async () => {
     const sampleProducts = products.map((product) => {
       const random = Math.floor(Math.random() * createdVendors.length);
       const vendorId = createdVendors[random]._id;
-      return { ...product, vendor: vendorId };
+
+      return {
+        ...product,
+        vendor: vendorId,
+        category:
+          categories[Math.floor(Math.random() * categories.length)].name,
+      };
     });
 
     // Insert product data

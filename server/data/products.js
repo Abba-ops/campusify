@@ -5,7 +5,6 @@ const products = [
     productDescription:
       "Bluetooth technology lets you connect it with compatible devices wirelessly. High-quality AAC audio offers an immersive listening experience. Built-in microphone allows you to take calls while working.",
     brand: "Apple",
-    category: "Electronics",
     price: 45000,
     countInStock: 10,
     rating: 4.5,
@@ -17,7 +16,6 @@ const products = [
     productDescription:
       "Introducing the iPhone 13 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life.",
     brand: "Apple",
-    category: "Electronics",
     price: 500000,
     countInStock: 7,
     rating: 4.0,
@@ -29,7 +27,6 @@ const products = [
     productDescription:
       "Characterized by versatile imaging specs, the Canon EOS 80D further clarifies itself using a pair of robust focusing systems and an intuitive design.",
     brand: "Canon",
-    category: "Electronics",
     price: 250000,
     countInStock: 5,
     rating: 3,
@@ -41,7 +38,6 @@ const products = [
     productDescription:
       "The ultimate home entertainment center starts with PlayStation. Whether you are into gaming, HD movies, television, or music.",
     brand: "Sony",
-    category: "Electronics",
     price: 220000,
     countInStock: 11,
     rating: 5,
@@ -53,7 +49,6 @@ const products = [
     productDescription:
       "Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience.",
     brand: "Logitech",
-    category: "Electronics",
     price: 15000,
     countInStock: 7,
     rating: 3.5,
@@ -65,12 +60,19 @@ const products = [
     productDescription:
       "Meet Echo Dot - Our most popular smart speaker with a fabric design. It is our most compact smart speaker that fits perfectly into small spaces.",
     brand: "Amazon",
-    category: "Electronics",
     price: 15000,
     countInStock: 0,
     rating: 4,
     reviewCount: 12,
   },
+];
+
+export const categories = [
+  { name: "Technology" },
+  { name: "Science" },
+  { name: "Travel" },
+  { name: "Food" },
+  { name: "Health" },
 ];
 
 export default products;

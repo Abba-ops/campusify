@@ -144,7 +144,7 @@ export default function VendorDashboard() {
               ))}
             </ul>
           </Col>
-          <Col md={10} className="bg-light vh-100">
+          <Col md={10} className="bg-light">
             <Container className="py-4">
               <Outlet />
             </Container>

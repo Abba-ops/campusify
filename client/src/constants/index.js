@@ -66,7 +66,7 @@ export const vendorLinks = [
     icon: <BsBox />,
   },
   {
-    title: "Customer Management",
+    title: "Customer",
     link: "/vendor/dashboard/customers",
     icon: <BsPeople />,
   },
