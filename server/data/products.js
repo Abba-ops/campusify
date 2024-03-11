@@ -67,12 +67,52 @@ const products = [
   },
 ];
 
-export const categories = [
-  { name: "Technology" },
-  { name: "Science" },
-  { name: "Travel" },
-  { name: "Food" },
-  { name: "Health" },
+export const categoryData = [
+  {
+    name: "Electronics",
+    subcategories: [
+      { name: "Smartphones" },
+      { name: "Laptops" },
+      { name: "Headphones" },
+      { name: "Cameras & Photography" },
+    ],
+  },
+  {
+    name: "Clothing",
+    subcategories: [
+      { name: "Men's Clothing" },
+      { name: "Women's Clothing" },
+      { name: "Footwear" },
+      { name: "Accessories" },
+    ],
+  },
+  {
+    name: "Home and Garden",
+    subcategories: [
+      { name: "Furniture" },
+      { name: "Kitchen Appliances" },
+      { name: "Home Decor" },
+      { name: "Bedding & Linens" },
+    ],
+  },
+  {
+    name: "Sports & Outdoors",
+    subcategories: [
+      { name: "Outdoor Recreation" },
+      { name: "Fitness Equipment" },
+      { name: "Sports Apparel" },
+      { name: "Camping & Hiking" },
+    ],
+  },
+  {
+    name: "Books & Stationery",
+    subcategories: [
+      { name: "Fiction" },
+      { name: "Non-Fiction" },
+      { name: "Office Supplies" },
+      { name: "Notebooks & Journals" },
+    ],
+  },
 ];
 
 export default products;

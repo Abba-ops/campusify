@@ -1,39 +1,7 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
+import { reviewSchema } from "./productModel.js";
 
-// Subschema for social media links
-const socialMediaSchema = new mongoose.Schema({
-  facebook: String,
-  twitter: String,
-  instagram: String,
-});
-
-// Subschema for reviews
-const reviewSchema = new mongoose.Schema({
-  profilePictureURL: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  rating: {
-    type: Number,
-    required: true,
-  },
-  comment: {
-    type: String,
-    required: true,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "User",
-  },
-});
-
-// Schema for vendors
-const vendorSchema = new mongoose.Schema(
+const vendorSchema = new Schema(
   {
     businessName: {
       type: String,
@@ -60,7 +28,11 @@ const vendorSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    socialMediaLinks: socialMediaSchema,
+    socialMediaLinks: {
+      facebook: String,
+      twitter: String,
+      instagram: String,
+    },
     dateJoined: {
       type: Date,
       default: Date.now,
@@ -70,7 +42,7 @@ const vendorSchema = new mongoose.Schema(
       default: false,
     },
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
@@ -78,11 +50,11 @@ const vendorSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    reviews: [reviewSchema], // Embedding the review schema
+    vendorReviews: [reviewSchema],
   },
   { timestamps: true }
 );
 
-const Vendor = mongoose.model("Vendor", vendorSchema);
+const Vendor = model("Vendor", vendorSchema);
 
 export default Vendor;

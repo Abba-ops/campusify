@@ -1,16 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const categorySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-});
-
-// Schema for reviews
-const reviewSchema = new mongoose.Schema(
+export const reviewSchema = new Schema(
   {
     profilePictureURL: {
       type: String,
@@ -29,7 +19,7 @@ const reviewSchema = new mongoose.Schema(
       required: true,
     },
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
@@ -37,8 +27,7 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Schema for products
-const productSchema = new mongoose.Schema(
+const productSchema = new Schema(
   {
     productName: {
       type: String,
@@ -53,9 +42,13 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     category: {
-      type: String,
+      type: Schema.Types.ObjectId,
       required: true,
-      trim: true,
+      ref: "Category",
+    },
+    subcategory: {
+      type: Schema.Types.ObjectId,
+      ref: "Subcategory",
     },
     brand: {
       type: String,
@@ -71,7 +64,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    reviews: [reviewSchema], // Embedding the review schema
+    reviews: [reviewSchema],
     reviewCount: {
       type: Number,
       default: 0,
@@ -81,7 +74,7 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     vendor: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: "Vendor",
     },
@@ -89,6 +82,30 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Product = mongoose.model("Product", productSchema);
+const subcategorySchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
+});
 
-export const Category = mongoose.model("Category", categorySchema);
+const categorySchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+  subcategories: [subcategorySchema],
+});
+
+export const Product = model("Product", productSchema);
+export const Category = model("Category", categorySchema);

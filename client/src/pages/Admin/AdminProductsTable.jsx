@@ -37,6 +37,10 @@ export default function AdminProductsTable() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [newSubcategory, setNewSubcategory] = useState("");
+  const [selectedCategoryForSubcategory, setSelectedCategoryForSubcategory] =
+    useState("");
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -90,6 +94,35 @@ export default function AdminProductsTable() {
   const handleRemoveCategory = async (categoryId) => {
     try {
       const res = await deleteCategory(categoryId).unwrap();
+      if (res.success) {
+        refetch();
+        toast.success(res.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleAddSubcategory = async (e, categoryId) => {
+    e.preventDefault();
+    try {
+      const res = await addCategory({
+        name: newSubcategory,
+        parentCategory: categoryId,
+      }).unwrap();
+      if (res.success) {
+        refetch();
+        setNewSubcategory("");
+        toast.success(res.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleRemoveSubcategory = async (categoryId, subcategoryId) => {
+    try {
+      const res = await deleteCategory(subcategoryId).unwrap();
       if (res.success) {
         refetch();
         toast.success(res.message);
@@ -232,7 +265,7 @@ export default function AdminProductsTable() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Container className="mt-4">
+      <>
         <h3>Manage Categories</h3>
 
         <Form onSubmit={handleAddCategory}>
@@ -261,12 +294,49 @@ export default function AdminProductsTable() {
               <Card className="border-0 rounded-0">
                 <Card.Body className="d-flex justify-content-between align-items-center">
                   <span>{category.name}</span>
-                  <h4>
-                    <MdDelete
-                      onClick={() => handleRemoveCategory(category._id)}
-                    />
-                  </h4>
+                  <div className="d-flex align-items-center">
+                    <h4>
+                      <MdDelete
+                        onClick={() => handleRemoveCategory(category._id)}
+                      />
+                    </h4>
+                  </div>
                 </Card.Body>
+                {category.subcategories &&
+                  category.subcategories.length > 0 && (
+                    <Card.Body>
+                      <h5>Subcategories:</h5>
+                      <ul>
+                        {category.subcategories.map((subcat) => (
+                          <li key={subcat._id}>
+                            {subcat.name}
+                            <MdDelete
+                              onClick={() =>
+                                handleRemoveSubcategory(
+                                  category._id,
+                                  subcat._id
+                                )
+                              }
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    </Card.Body>
+                  )}
+                {/* New Subcategory Section */}
+                <Form onSubmit={(e) => handleAddSubcategory(e, category._id)}>
+                  <InputGroup className="mb-3">
+                    <FormControl
+                      placeholder="New Subcategory"
+                      aria-label="New Subcategory"
+                      value={newSubcategory}
+                      onChange={(e) => setNewSubcategory(e.target.value)}
+                    />
+                    <Button type="submit" variant="primary">
+                      <RiAddLine /> Add
+                    </Button>
+                  </InputGroup>
+                </Form>
               </Card>
             </Col>
           ))}
@@ -277,7 +347,7 @@ export default function AdminProductsTable() {
             No categories available
           </Badge>
         )}
-      </Container>
+      </>
     </>
   );
 }

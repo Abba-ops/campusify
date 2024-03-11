@@ -23,9 +23,15 @@ import { LinkContainer } from "react-router-bootstrap";
 import logo from "../assets/logo.png";
 import { clearCredentials } from "../features/authSlice";
 import { clearCartItems } from "../features/cartSlice";
+import { useGetCategoriesQuery } from "../features/productsApiSlice";
 
 export default function HeaderNav() {
   const [show, setShow] = useState(false);
+  const {
+    data: categories,
+    isLoading: loadingCategories,
+    refetch,
+  } = useGetCategoriesQuery();
   const [showSearch, setShowSearch] = useState(false);
 
   const dispatch = useDispatch();
@@ -174,11 +180,24 @@ export default function HeaderNav() {
       </Navbar>
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          <Offcanvas.Title>Categories</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          Some text as a placeholder. In real life, you can have the elements
-          you have chosen, like text, images, lists, etc.
+          <ul className="list-unstyled">
+            {categories?.data.map((category) => (
+              <li key={category._id} className="mb-3">
+                <h5>{category.name}</h5>
+                {category.subcategories &&
+                  category.subcategories.length > 0 && (
+                    <ul className="list-unstyled ms-3">
+                      {category.subcategories.map((subcat) => (
+                        <li key={subcat._id}>{subcat.name}</li>
+                      ))}
+                    </ul>
+                  )}
+              </li>
+            ))}
+          </ul>
         </Offcanvas.Body>
       </Offcanvas>
     </>
