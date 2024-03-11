@@ -8,13 +8,18 @@ import {
   getCategories,
   getProductById,
   getProducts,
+  getProductsByCategory,
+  getProductsBySubcategory,
+  searchProducts,
   updateProduct,
 } from "../controllers/productController.js";
 import { isLoggedIn, isVendor } from "../middlewares/authMiddleware.js";
 import { validateReview } from "../middlewares/validateData.js";
 
 const router = express.Router();
-
+router.get("/search", searchProducts);
+router.get("/subcategory/:subcategory", getProductsBySubcategory);
+router.get("/category/:category", getProductsByCategory);
 router.route("/").get(getProducts).post(isLoggedIn, isVendor, createProduct);
 router.route("/categories").get(getCategories).post(addCategory);
 router

@@ -9,6 +9,7 @@ import {
   getUserProfile,
   updateUserPassword,
   deleteMyAccount,
+  getCurrentUser,
 } from "../controllers/userController.js";
 import { isAdmin, isLoggedIn } from "../middlewares/authMiddleware.js";
 import {
@@ -18,6 +19,7 @@ import {
 
 const router = express.Router();
 
+router.get("/current", isLoggedIn, getCurrentUser);
 router.post("/auth", validateLogin, authUser);
 router.post("/logout", logoutUser);
 router.get("/profile/:userId", getUserProfile);

@@ -9,7 +9,6 @@ import Vendor from "../models/vendorModel.js";
  */
 const getVendors = asyncHandler(async (req, res) => {
   const vendors = await Vendor.find({}).populate("user");
-
   res.status(200).json({
     success: true,
     count: vendors.length,
@@ -26,12 +25,14 @@ const getVendorById = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findById(req.params.vendorId).populate("user");
 
   if (!vendor) {
-    return res
-      .status(404)
-      .json({ success: false, message: "Vendor not found" });
+    res.status(404);
+    throw new Error("Vendor not found");
   }
 
-  res.status(200).json({ success: true, data: vendor });
+  res.status(200).json({
+    success: true,
+    data: vendor,
+  });
 });
 
 /**
@@ -41,7 +42,10 @@ const getVendorById = asyncHandler(async (req, res) => {
  */
 const getVendorProducts = asyncHandler(async (req, res) => {
   const vendorProducts = await Product.find({ vendor: req.vendor._id });
-  res.status(200).json({ success: true, data: vendorProducts });
+  res.status(200).json({
+    success: true,
+    data: vendorProducts,
+  });
 });
 
 /**

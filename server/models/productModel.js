@@ -43,7 +43,6 @@ const productSchema = new Schema(
     },
     category: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: "Category",
     },
     subcategory: {
@@ -86,26 +85,23 @@ const subcategorySchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
+    // unique: true,
     trim: true,
+    lowercase: true,
   },
-  products: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-    },
-  ],
 });
 
 const categorySchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
+    // unique: true,
     trim: true,
+    lowercase: true,
   },
   subcategories: [subcategorySchema],
 });
 
 export const Product = model("Product", productSchema);
 export const Category = model("Category", categorySchema);
+export const Subcategory = model("Subcategory", categorySchema);

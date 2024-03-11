@@ -43,6 +43,9 @@ import { HelmetProvider } from "react-helmet-async";
 import AdminVendorDetails from "./pages/Admin/AdminVendorDetails";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
+import CategoryPage from "./pages/CategoryPage";
+import ProductSearch from "./pages/ProductSearch";
+import SubcategoryProducts from "./pages/SubcategoryProducts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,7 +55,10 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<UserCart />} />
       <Route path="/register" element={<UserRegistration />} />
       <Route path="/contact" element={<ContactUs />} />
+      <Route path="/search/:query" element={<ProductSearch />} />
+      <Route path="/category/:category" element={<CategoryPage />} />
       <Route path="/product/:productId" element={<ProductDetail />} />
+      <Route path="/:category/:subcategory" element={<SubcategoryProducts />} />
       <Route path="/profile/:userId" element={<UserProfile />} />
       <Route path="/about" element={<About />} />
       <Route path="/faq" component={FAQ} />

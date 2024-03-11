@@ -34,6 +34,14 @@ export default function HeaderNav() {
   } = useGetCategoriesQuery();
   const [showSearch, setShowSearch] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    console.log("handleSearchSubmit");
+    navigate(`/search/${searchQuery.toLowerCase()}`);
+  };
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
@@ -95,16 +103,23 @@ export default function HeaderNav() {
               </Stack>
             </Nav>
             {showSearch && (
-              <InputGroup className="mb-3 mb-lg-0 me-lg-4 w-auto">
-                <Form.Control
-                  type="text"
-                  className="rounded-0"
-                  placeholder="Enter Your Search"
-                />
-                <Button variant="primary" className="text-white rounded-0">
-                  <FaSearch />
-                </Button>
-              </InputGroup>
+              <Form onSubmit={handleSearchSubmit}>
+                <InputGroup className="mb-3 mb-lg-0 me-lg-4 w-auto">
+                  <Form.Control
+                    type="text"
+                    className="rounded-0"
+                    placeholder="Enter Your Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <Button
+                    variant="primary"
+                    className="text-white rounded-0"
+                    type="submit">
+                    <FaSearch />
+                  </Button>
+                </InputGroup>
+              </Form>
             )}
             <Stack direction="horizontal" gap={4}>
               <Nav.Link>
@@ -186,12 +201,28 @@ export default function HeaderNav() {
           <ul className="list-unstyled">
             {categories?.data.map((category) => (
               <li key={category._id} className="mb-3">
-                <h5>{category.name}</h5>
+                <h5 className="mb-2">
+                  <LinkContainer
+                    to={`/category/${category.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}>
+                    <a className="text-dark">{category.name}</a>
+                  </LinkContainer>
+                </h5>
                 {category.subcategories &&
                   category.subcategories.length > 0 && (
                     <ul className="list-unstyled ms-3">
                       {category.subcategories.map((subcat) => (
-                        <li key={subcat._id}>{subcat.name}</li>
+                        <li key={subcat._id} className="mb-2">
+                          <LinkContainer
+                            to={`/${category.name
+                              .toLowerCase()
+                              .replace(/\s+/g, "-")}/${subcat.name
+                              .toLowerCase()
+                              .replace(/\s+/g, "-")}`}>
+                            <a className="text-dark">{subcat.name}</a>
+                          </LinkContainer>
+                        </li>
                       ))}
                     </ul>
                   )}

@@ -72,6 +72,24 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getProductsByCategory: builder.query({
+      query: (category) => ({
+        url: `${PRODUCTS_URL}/category/${category}`,
+        method: "GET",
+      }),
+    }),
+    searchProducts: builder.query({
+      query: (query) => ({
+        url: `${PRODUCTS_URL}/search?query=${query}`,
+        method: "GET",
+      }),
+    }),
+    getProductsBySubcategory: builder.query({
+      query: (subcategory) => ({
+        url: `${PRODUCTS_URL}/subcategory/${subcategory}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -86,4 +104,7 @@ export const {
   useAddCategoryMutation,
   useDeleteCategoryMutation,
   useGetCategoriesQuery,
+  useGetProductsByCategoryQuery,
+  useSearchProductsQuery,
+  useGetProductsBySubcategoryQuery,
 } = productsApiSlice;

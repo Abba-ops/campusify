@@ -2,35 +2,13 @@ import React from "react";
 import { Container, Col, Row, Placeholder } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import { useGetProductsQuery } from "../features/productsApiSlice";
+import SingleProductPlaceholder from "./SingleProductPlaceholder";
 
 export default function CarouselProducts({
   lgColumnSize = 12,
   showPreviewIcon,
 }) {
   const { data: productsData, isLoading, error } = useGetProductsQuery();
-
-  const renderSinglePlaceholder = () => (
-    <Col lg={lgColumnSize} md={6}>
-      <Placeholder as="div" animation="glow" className="placeholder-glow">
-        <span className="placeholder col-12" style={{ height: "250px" }}></span>
-        <span
-          className="placeholder col-12 mt-2"
-          style={{ height: "20px" }}></span>
-        <span
-          className="placeholder col-10 mt-2"
-          style={{ height: "10px" }}></span>
-        <span
-          className="placeholder col-12 mt-2"
-          style={{ height: "20px" }}></span>
-        <span
-          className="placeholder col-8 mt-2"
-          style={{ height: "10px" }}></span>
-        <span
-          className="placeholder col-10 mt-2"
-          style={{ height: "15px" }}></span>
-      </Placeholder>
-    </Col>
-  );
 
   return (
     <Container className="pt-4">
@@ -47,7 +25,7 @@ export default function CarouselProducts({
               ))
             : Array.from({ length: 4 }, (_, index) => (
                 <React.Fragment key={index}>
-                  {renderSinglePlaceholder()}
+                  <SingleProductPlaceholder lgColumnSize={3} />
                 </React.Fragment>
               ))}
         </Row>

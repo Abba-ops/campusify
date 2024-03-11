@@ -3,71 +3,80 @@ import colors from "colors";
 import userData from "./data/users.js";
 import connectDB from "./config/dbConfig.js";
 import vendorData from "./data/vendors.js";
+import { categoryData, products } from "./data/products.js";
 import User from "./models/userModel.js";
-import products, { categoryData } from "./data/products.js";
+import { Category, Product, Subcategory } from "./models/productModel.js";
 import Vendor from "./models/vendorModel.js";
-import { Category, Product } from "./models/productModel.js";
 
 dotenv.config();
 connectDB();
 
-/**
- * Import data into the database.
- */
+const clearDatabase = async () => {
+  await Product.deleteMany();
+  await Vendor.deleteMany();
+  await User.deleteMany();
+  await Category.deleteMany();
+  await Subcategory.deleteMany();
+};
+
+const linkVendorToUser = (vendors, users) => {
+  return vendors.map((vendor) => ({
+    ...vendor,
+    user: users.find((user) => user.isVendor)?._id || null,
+  }));
+};
+
+const generateSampleProducts = (vendors, categories, subcategories) => {
+  return products.map((product) => {
+    const randomVendorIndex = Math.floor(Math.random() * vendors.length);
+    const vendorId = vendors[randomVendorIndex]._id;
+
+    const randomCategoryIndex = Math.floor(Math.random() * categories.length);
+    const category = categories[randomCategoryIndex];
+
+    const randomSubcategoryIndex = Math.floor(
+      Math.random() * subcategories.length
+    );
+    const subcategory = subcategories[randomSubcategoryIndex]._id;
+
+    return {
+      ...product,
+      vendor: vendorId,
+      category: category._id,
+      subcategory,
+    };
+  });
+};
+
 const importData = async () => {
   try {
-    // Clear existing data
-    await Product.deleteMany({});
-    await Vendor.deleteMany({});
-    await User.deleteMany({});
-    await Category.deleteMany({});
+    await clearDatabase();
 
-    // Insert user data
+    const allSubcategories = categoryData.reduce((subcategories, category) => {
+      return subcategories.concat(
+        category.subcategories.map((subcategory) => ({
+          name: subcategory.name,
+        }))
+      );
+    }, []);
+
+    const uniqueSubcategories = Array.from(
+      new Set(allSubcategories.map((subcategory) => subcategory.name))
+    ).map((name) => ({ name }));
+
     const createdUsers = await User.insertMany(userData);
-
     const createdCategories = await Category.insertMany(categoryData);
-
-    console.log(createdUsers[Math.floor(Math.random() * createdUsers.length)]);
-
-    // Insert vendor data, linking to users
-    const createdVendors = await Vendor.insertMany(
-      vendorData.map((vendor, index) => {
-        // Find a user with isVendor true
-        const vendorUser = createdUsers.find((user) => user.isVendor);
-
-        return {
-          ...vendor,
-          user: vendorUser ? vendorUser._id : null,
-        };
-      })
+    const createdSubcategories = await Subcategory.insertMany(
+      uniqueSubcategories
+    );
+    const linkedVendors = linkVendorToUser(vendorData, createdUsers);
+    const createdVendors = await Vendor.insertMany(linkedVendors);
+    const sampleProducts = generateSampleProducts(
+      createdVendors,
+      createdCategories,
+      createdSubcategories
     );
 
-    // Generate sample products, linking to vendors, categories, and subcategories
-    const sampleProducts = products.map((product) => {
-      const randomVendorIndex = Math.floor(
-        Math.random() * createdVendors.length
-      );
-      const vendorId = createdVendors[randomVendorIndex]._id;
-
-      // Randomly select a category and subcategory
-      const randomCategoryIndex = Math.floor(
-        Math.random() * createdCategories.length
-      );
-      const category = createdCategories[randomCategoryIndex];
-      const randomSubcategoryIndex = Math.floor(
-        Math.random() * category.subcategories.length
-      );
-      const subcategory = category.subcategories[randomSubcategoryIndex];
-
-      return {
-        ...product,
-        vendor: vendorId,
-        category: category._id,
-        subcategory: subcategory._id,
-      };
-    });
-    
-    // Insert product data
     await Product.insertMany(sampleProducts);
 
     console.log("Data saved successfully".green.inverse);
@@ -78,15 +87,9 @@ const importData = async () => {
   }
 };
 
-/**
- * Destroy all data in the database.
- */
 const destroyData = async () => {
   try {
-    // Delete all vendor, product, and user data
-    await Vendor.deleteMany();
-    await Product.deleteMany();
-    await User.deleteMany();
+    await clearDatabase();
 
     console.log("Data deleted successfully".red.inverse);
     process.exit();
@@ -96,7 +99,6 @@ const destroyData = async () => {
   }
 };
 
-// Check command line argument to determine whether to import or destroy data
 if (process.argv[2] === "-d") {
   destroyData();
 } else {

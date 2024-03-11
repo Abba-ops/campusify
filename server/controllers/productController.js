@@ -1,5 +1,5 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
-import { Category, Product } from "../models/productModel.js";
+import { Category, Product, Subcategory } from "../models/productModel.js";
 import Vendor from "../models/vendorModel.js";
 
 /**
@@ -28,8 +28,8 @@ const getProductById = asyncHandler(async (req, res) => {
   );
 
   if (!product) {
-    res.status(404).json({ success: false, message: "Product not found" });
-    return;
+    res.status(404);
+    throw new Error("Product not found");
   }
 
   res.json({
@@ -51,8 +51,8 @@ const createProductReview = asyncHandler(async (req, res) => {
   const product = await Product.findById(productId);
 
   if (!product) {
-    res.status(404).json({ success: false, message: "Product not found" });
-    return;
+    res.status(404);
+    throw new Error("Product not found");
   }
 
   const alreadyReviewed = product.reviews.find(
@@ -60,10 +60,8 @@ const createProductReview = asyncHandler(async (req, res) => {
   );
 
   if (alreadyReviewed) {
-    res
-      .status(400)
-      .json({ success: false, message: "Product already reviewed" });
-    return;
+    res.status(400);
+    throw new Error("Product already reviewed");
   }
 
   const newReview = {
@@ -75,7 +73,6 @@ const createProductReview = asyncHandler(async (req, res) => {
   };
 
   product.reviews.push(newReview);
-
   product.reviewCount = product.reviews.length;
 
   const totalRating = product.reviews.reduce(
@@ -98,8 +95,8 @@ const deleteReview = asyncHandler(async (req, res) => {
   const product = await Product.findById(productId);
 
   if (!product) {
-    res.status(404).json({ success: false, message: "Product not found" });
-    return;
+    res.status(404);
+    throw new Error("Product not found");
   }
 
   product.reviews = product.reviews.filter(
@@ -151,15 +148,16 @@ const createProduct = asyncHandler(async (req, res) => {
     vendor: vendor._id,
   });
 
-  if (product) {
-    res.status(201).json({
-      success: true,
-      data: product,
-      message: "Product created successfully",
-    });
-  } else {
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+  if (!product) {
+    res.status(500);
+    throw new Error("Internal Server Error");
   }
+
+  res.status(201).json({
+    success: true,
+    data: product,
+    message: "Product created successfully",
+  });
 });
 
 /**
@@ -169,6 +167,11 @@ const createProduct = asyncHandler(async (req, res) => {
  */
 const updateProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.productId);
+
+  if (!product) {
+    res.status(404);
+    throw new Error("Product not found");
+  }
 
   const {
     productName,
@@ -180,58 +183,143 @@ const updateProduct = asyncHandler(async (req, res) => {
     countInStock,
   } = req.body;
 
-  if (product) {
-    product.productName = productName;
-    product.productDescription = productDescription;
-    product.category = category;
-    product.brand = brand;
-    product.price = price;
-    product.countInStock = countInStock;
-    product.imageUrl = imageUrl;
+  product.productName = productName;
+  product.productDescription = productDescription;
+  product.category = category;
+  product.brand = brand;
+  product.price = price;
+  product.countInStock = countInStock;
+  product.imageUrl = imageUrl;
 
-    const updatedProduct = await product.save();
-    res.json({
-      success: true,
-      data: updatedProduct,
-    });
-  } else {
-    res.status(404).json({ success: false, message: "Product not found" });
-  }
+  const updatedProduct = await product.save();
+
+  res.json({
+    success: true,
+    data: updatedProduct,
+  });
 });
 
-const addCategory = asyncHandler(async (req, res, next) => {
+/**
+ * @desc    Add a new category
+ * @route   POST /api/products/categories
+ * @access  Private
+ */
+const addCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
-  try {
-    const newCategory = await Category.create({ name });
+  const newCategory = await Category.create({ name });
 
-    res.status(201).json({
-      success: true,
-      message: "Category created successfully",
-      data: newCategory,
-    });
-  } catch (error) {
-    res.status(400);
-    next(new Error("Invalid input"));
+  if (!newCategory) {
+    res.status(500);
+    throw new Error("Internal Server Error");
   }
+
+  res.status(201).json({
+    success: true,
+    message: "Category created successfully",
+    data: newCategory,
+  });
 });
 
+/**
+ * @desc    Get all categories
+ * @route   GET /api/products/categories
+ * @access  Public
+ */
 const getCategories = asyncHandler(async (req, res) => {
+  const categories = await Category.find({});
+
+  res.status(200).json({
+    success: true,
+    data: categories,
+  });
+});
+
+/**
+ * @desc    Delete a category by ID
+ * @route   DELETE /api/products/categories/:categoryId
+ * @access  Private
+ */
+const deleteCategory = asyncHandler(async (req, res) => {
+  await Category.findByIdAndDelete(req.params.categoryId);
+
+  res.status(200).json({
+    success: true,
+    message: "Category deleted successfully",
+  });
+});
+
+/**
+ * @desc    Get products by category
+ * @route   GET /api/products/categories/:category
+ * @access  Public
+ */
+const getProductsByCategory = asyncHandler(async (req, res) => {
+  const { category } = req.params;
+
   try {
-    const categories = await Category.find({});
-    res.status(200).json({ success: true, data: categories });
+    const categoryData = await Category.findOne({
+      name: category.replace(/[-&]+/g, " "),
+    });
+
+    if (!categoryData) {
+      return res.json({ success: true, data: [] });
+    }
+
+    const products = await Product.find({ category: categoryData._id });
+
+    res.json({ success: true, data: products });
   } catch (error) {
     res.status(500);
     throw new Error("Internal Server Error");
   }
 });
 
-const deleteCategory = asyncHandler(async (req, res) => {
+/**
+ * @desc    Get products by subcategory
+ * @route   GET /api/products/subcategory/:subcategory
+ * @access  Public
+ */
+const getProductsBySubcategory = asyncHandler(async (req, res) => {
+  const { subcategory } = req.params;
+
   try {
-    await Category.findByIdAndDelete(req.params.categoryId);
-    res
-      .status(200)
-      .json({ success: true, message: "Category deleted successfully" });
+    const subcategoriesData = await Subcategory.findOne({
+      name: subcategory.replace(/[-&]+/g, " "),
+    });
+
+    if (!subcategoriesData) {
+      return res.json({ success: true, data: [] });
+    }
+
+    const products = await Product.find({
+      subcategory: subcategoriesData._id,
+    });
+
+    res.json({ success: true, data: products });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Internal Server Error");
+  }
+});
+
+/**
+ * @desc    Search products
+ * @route   GET /api/products/search
+ * @access  Public
+ */
+const searchProducts = asyncHandler(async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const products = await Product.find({
+      $or: [
+        { productName: { $regex: new RegExp(query, "i") } },
+        { description: { $regex: new RegExp(query, "i") } },
+      ],
+    });
+
+    res.json({ success: true, data: products });
   } catch (error) {
     res.status(500);
     throw new Error("Internal Server Error");
@@ -246,6 +334,9 @@ export {
   createProduct,
   updateProduct,
   addCategory,
-  deleteCategory,
   getCategories,
+  deleteCategory,
+  getProductsByCategory,
+  getProductsBySubcategory,
+  searchProducts,
 };

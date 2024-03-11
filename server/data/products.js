@@ -67,7 +67,7 @@ const products = [
   },
 ];
 
-export const categoryData = [
+const categoryData = [
   {
     name: "Electronics",
     subcategories: [
@@ -115,4 +115,4 @@ export const categoryData = [
   },
 ];
 
-export default products;
+export { products, categoryData };
