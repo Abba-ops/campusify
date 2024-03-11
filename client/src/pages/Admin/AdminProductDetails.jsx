@@ -78,7 +78,10 @@ export default function AdminProductDetails() {
             <Col lg={6}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  <strong>Category:</strong> {product.data.category}
+                  <strong>Category:</strong> {product.data.category.name}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Subcategory:</strong> {product.data.subcategory.name}
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <strong>Brand:</strong> {product.data.brand}

@@ -8,7 +8,10 @@ import Vendor from "../models/vendorModel.js";
  * @access  Public
  */
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find().populate("vendor");
+  const products = await Product.find()
+    .populate("vendor")
+    .populate("subcategory")
+    .populate("category");
 
   res.json({
     success: true,
@@ -23,9 +26,10 @@ const getProducts = asyncHandler(async (req, res) => {
  * @access  Public
  */
 const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.productId).populate(
-    "vendor"
-  );
+  const product = await Product.findById(req.params.productId)
+    .populate("vendor")
+    .populate("subcategory")
+    .populate("category");
 
   if (!product) {
     res.status(404);
@@ -259,7 +263,7 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
 
   try {
     const categoryData = await Category.findOne({
-      name: category.replace(/[-&]+/g, " "),
+      name: { $regex: category, $options: "i" },
     });
 
     if (!categoryData) {
@@ -285,7 +289,7 @@ const getProductsBySubcategory = asyncHandler(async (req, res) => {
 
   try {
     const subcategoriesData = await Subcategory.findOne({
-      name: subcategory.replace(/[-&]+/g, " "),
+      name: { $regex: subcategory, $options: "i" },
     });
 
     if (!subcategoriesData) {

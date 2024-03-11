@@ -192,7 +192,7 @@ export default function AdminProductsTable() {
                       <td>
                         <Image src={product.imageUrl} width={50} />
                       </td>
-                      <td>{product.category}</td>
+                      <td>{product.category.name}</td>
                       <td>{product.brand}</td>
                       <td>&#8358;{numberWithCommas(product.price)}</td>
                       <td>{product.countInStock}</td>

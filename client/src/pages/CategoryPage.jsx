@@ -7,17 +7,15 @@ import SingleProductPlaceholder from "../components/SingleProductPlaceholder";
 
 export default function CategoryPage() {
   const { category } = useParams();
-  let productCategory = category.replace(/[-&]+/g, " ");
-
   const {
     data: products,
     isLoading,
     isError,
-  } = useGetProductsByCategoryQuery(productCategory);
+  } = useGetProductsByCategoryQuery(category);
 
   return (
     <Container className="mt-5">
-      <h2 className="text-capitalize">{productCategory} Products</h2>
+      <h2 className="text-capitalize">{category} Products</h2>
       {isError ? (
         <div className="text-center mt-5">
           <h4 className="text-danger">Error Fetching Products</h4>

@@ -7,15 +7,15 @@ import SingleProductPlaceholder from "../components/SingleProductPlaceholder";
 
 export default function SubcategoryProducts() {
   const { subcategory } = useParams();
-  const subcategoryQuery = subcategory.replace(/[-&]+/g, " ");
+  console.log(subcategory);
   const {
     data: products,
     isError,
     isLoading,
-  } = useGetProductsBySubcategoryQuery(subcategoryQuery);
+  } = useGetProductsBySubcategoryQuery(subcategory);
   return (
     <Container className="mt-5">
-      <h2 className="text-capitalize">{subcategoryQuery} Products</h2>
+      <h2 className="text-capitalize">{subcategory} Products</h2>
       {isError ? (
         <div className="text-center mt-5">
           <h4 className="text-danger">Error Fetching Products</h4>
