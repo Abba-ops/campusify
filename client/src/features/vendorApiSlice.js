@@ -28,6 +28,18 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    rejectVendor: builder.mutation({
+      query: (vendorId) => ({
+        url: `${VENDORS_URL}/reject/${vendorId}`,
+        method: "PUT",
+      }),
+    }),
+    approveVendor: builder.mutation({
+      query: (vendorId) => ({
+        url: `${VENDORS_URL}/approve/${vendorId}`,
+        method: "PUT",
+      }),
+    }),
   }),
 });
 
@@ -35,5 +47,7 @@ export const {
   useGetVendorsQuery,
   useGetVendorProductsQuery,
   useVendorApplicationMutation,
-  useGetVendorByIdQuery
+  useGetVendorByIdQuery,
+  useApproveVendorMutation,
+  useRejectVendorMutation,
 } = vendorApiSlice;

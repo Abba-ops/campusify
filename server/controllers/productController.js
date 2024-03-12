@@ -139,6 +139,7 @@ const createProduct = asyncHandler(async (req, res) => {
     brand,
     price,
     countInStock,
+    subcategory,
   } = req.body;
 
   const product = await Product.create({
@@ -149,6 +150,7 @@ const createProduct = asyncHandler(async (req, res) => {
     price,
     countInStock,
     imageUrl,
+    subcategory,
     vendor: vendor._id,
   });
 

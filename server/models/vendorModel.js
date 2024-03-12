@@ -21,7 +21,7 @@ const vendorSchema = new Schema(
     },
     approvalStatus: {
       type: String,
-      enum: ["pending", "approved"],
+      enum: ["pending", "approved", "rejected"],
       default: "pending",
     },
     businessDescription: {

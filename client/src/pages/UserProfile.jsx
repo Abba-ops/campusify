@@ -7,10 +7,6 @@ export default function UserProfile() {
   const { userId } = useParams();
   const { data: userProfile, isLoading, error } = useUserProfileQuery(userId);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const renderLoadingState = (
     <div className="text-center">
       <div className="placeholder-glow">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -8,14 +8,28 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useVendorApplicationMutation } from "../../features/vendorApiSlice";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useGetCurrentUserQuery } from "../../features/usersApiSlice";
+import { setCredentials } from "../../features/authSlice";
 
 export default function VendorApplication() {
   const { userInfo } = useSelector((state) => state.auth);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userInfo && userInfo.success && userInfo.data.vendor) {
+      navigate("/profile");
+    }
+  }, [userInfo, navigate]);
+
   const [vendorApplication, { isLoading }] = useVendorApplicationMutation();
+  const { data: currentUserData, isLoading: isCurrentUserLoading } =
+    useGetCurrentUserQuery();
+
 
   const [formState, setFormState] = useState({
     businessEmail: "",
@@ -24,12 +38,18 @@ export default function VendorApplication() {
     businessDescription: "",
   });
 
+  const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const res = await vendorApplication(formState).unwrap();
       if (res.success) {
+        if (!isCurrentUserLoading && currentUserData) {
+          dispatch(setCredentials({ ...currentUserData }));
+          navigate('/profile')
+        }
         toast.success("Application submitted successfully");
       }
     } catch (error) {

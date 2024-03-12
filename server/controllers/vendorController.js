@@ -1,5 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import { Product } from "../models/productModel.js";
+import User from "../models/userModel.js";
 import Vendor from "../models/vendorModel.js";
 
 /**
@@ -73,4 +74,90 @@ const vendorApplication = asyncHandler(async (req, res) => {
   });
 });
 
-export { getVendors, getVendorById, getVendorProducts, vendorApplication };
+/**
+ * @desc    Approve a vendor
+ * @route   PUT /api/vendors/approve/:vendorId
+ * @access  Private/Admin
+ */
+const approveVendor = asyncHandler(async (req, res) => {
+  const vendorId = req.params.vendorId;
+
+  try {
+    const vendor = await Vendor.findById(vendorId);
+
+    if (!vendor) {
+      res.status(404);
+      throw new Error("Vendor not found");
+    }
+
+    const user = await User.findById(vendor.user);
+
+    if (!user) {
+      res.status(404);
+      throw new Error("User not found");
+    }
+
+    user.isVendor = true;
+    await user.save();
+
+    vendor.isApproved = true;
+    vendor.approvalStatus = "approved";
+    await vendor.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Vendor approved successfully",
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal Server Error",
+    });
+  }
+});
+
+/**
+ * @desc    Reject a vendor
+ * @route   PUT /api/vendors/reject/:vendorId
+ * @access  Private/Admin
+ */
+const rejectVendor = asyncHandler(async (req, res) => {
+  const vendorId = req.params.vendorId;
+
+  try {
+    const vendor = await Vendor.findById(vendorId);
+
+    if (!vendor) {
+      res.status(404);
+      throw new Error("Vendor not found");
+    }
+
+    const user = await User.findById(vendor.user);
+
+    if (!user) {
+      res.status(404);
+      throw new Error("User not found");
+    }
+
+    await vendor.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: "Vendor rejected successfully",
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal Server Error",
+    });
+  }
+});
+
+export {
+  getVendors,
+  getVendorById,
+  getVendorProducts,
+  vendorApplication,
+  approveVendor,
+  rejectVendor,
+};

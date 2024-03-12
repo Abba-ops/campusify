@@ -87,14 +87,22 @@ export default function MyProfileDetails() {
                 </p>
               </ListGroup.Item>
               <ListGroup.Item className="text-center">
-                <div className="my-3">
-                  Interested in becoming a vendor?{" "}
-                  <Link
-                    to={"/vendor-application"}
-                    className="text-decoration-none">
-                    Apply here
-                  </Link>
-                </div>
+                {userInfo.data.vendor ? (
+                  <div>
+                    {userInfo.data.vendor.isApproved
+                      ? "Approved"
+                      : "Not Approved"}
+                  </div>
+                ) : (
+                  <div className="my-3">
+                    Interested in becoming a vendor?{" "}
+                    <Link
+                      to={"/vendor-application"}
+                      className="text-decoration-none">
+                      Apply here
+                    </Link>
+                  </div>
+                )}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Form>

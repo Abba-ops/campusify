@@ -60,6 +60,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getCurrentUser: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/current`,
+        method: "get",
+      }),
+    }),
   }),
 });
 
@@ -73,4 +79,5 @@ export const {
   useGetUserDetailsQuery,
   useDeleteUserMutation,
   useUserProfileQuery,
+  useGetCurrentUserQuery,
 } = usersApiSlice;

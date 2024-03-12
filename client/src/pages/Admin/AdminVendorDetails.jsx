@@ -1,6 +1,10 @@
 import React from "react";
-import { useGetVendorByIdQuery } from "../../features/vendorApiSlice";
-import { useParams } from "react-router-dom";
+import {
+  useApproveVendorMutation,
+  useGetVendorByIdQuery,
+  useRejectVendorMutation,
+} from "../../features/vendorApiSlice";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Col,
   Container,
@@ -11,19 +15,39 @@ import {
   Badge,
   ListGroup,
 } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 export default function AdminVendorDetails() {
+  const navigate = useNavigate();
   const { vendorId } = useParams();
-  const { data: vendor, isLoading, isError } = useGetVendorByIdQuery(vendorId);
-
-  const handleApprove = () => {
-    // Implement logic to approve vendor
-    console.log("Vendor approved");
+  const {
+    data: vendor,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetVendorByIdQuery(vendorId);
+  const [approveVendor, { isLoading: isApproving }] =
+    useApproveVendorMutation();
+  const [rejectVendor, { isLoading: isRejecting }] = useRejectVendorMutation();
+  const handleApprove = async () => {
+    try {
+      const res = await approveVendor(vendorId).unwrap();
+      refetch();
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
   };
 
-  const handleReject = () => {
-    // Implement logic to reject vendor
-    console.log("Vendor rejected");
+  const handleReject = async () => {
+    try {
+      const res = await rejectVendor(vendorId).unwrap();
+      refetch();
+      navigate("/admin/dashboard/vendors");
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
   };
 
   return (

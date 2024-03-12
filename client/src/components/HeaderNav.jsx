@@ -38,7 +38,6 @@ export default function HeaderNav() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log("handleSearchSubmit");
     navigate(`/search/${searchQuery.toLowerCase()}`);
   };
 
