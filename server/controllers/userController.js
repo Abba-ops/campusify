@@ -4,6 +4,21 @@ import User from "../models/userModel.js";
 import axios from "axios";
 import Vendor from "../models/vendorModel.js";
 
+const constructUserData = (user, vendor = null) => {
+  return {
+    id: user._id,
+    email: user.email,
+    isAdmin: user.isAdmin,
+    isVendor: user.isVendor,
+    userType: user.userType,
+    lastName: user.lastName,
+    otherNames: user.otherNames,
+    phoneNumber: user.phoneNumber,
+    profilePictureURL: user.profilePictureURL,
+    vendor,
+  };
+};
+
 /**
  * @desc    Authenticate user
  * @route   POST /api/users/auth
@@ -20,23 +35,11 @@ const authUser = asyncHandler(async (req, res) => {
   }
 
   const vendor = await Vendor.findOne({ user: user._id });
-  const userData = {
-    id: user._id,
-    email: user.email,
-    isAdmin: user.isAdmin,
-    isVendor: user.isVendor,
-    userType: user.userType,
-    lastName: user.lastName,
-    otherNames: user.otherNames,
-    phoneNumber: user.phoneNumber,
-    profilePictureURL: user.profilePictureURL,
-    vendor,
-  };
 
   genToken(res, user._id);
   res.status(200).json({
     success: true,
-    data: userData,
+    data: constructUserData(user, vendor),
     message: "Login successful. Welcome!",
   });
 });
@@ -55,8 +58,8 @@ const registerUser = asyncHandler(async (req, res) => {
     api_key: process.env.PORTAL_API_KEY,
   });
 
-  const { data } = portalRes;
-  const { lastname, othernames, image, email, phone_number } = data.data;
+  const { data } = portalRes.data;
+  const { lastname, othernames, image, email, phone_number } = data;
 
   if (await User.findOne({ email })) {
     res.status(400);
@@ -73,23 +76,11 @@ const registerUser = asyncHandler(async (req, res) => {
     phoneNumber: phone_number,
   });
 
-  const userData = {
-    id: user._id,
-    email: user.email,
-    isAdmin: user.isAdmin,
-    isVendor: user.isVendor,
-    userType: user.userType,
-    lastName: user.lastName,
-    otherNames: user.otherNames,
-    phoneNumber: user.phoneNumber,
-    profilePictureURL: user.profilePictureURL,
-  };
-
   genToken(res, user._id);
 
   res.status(201).json({
     success: true,
-    data: userData,
+    data: constructUserData(user),
     message: "Account created successfully!",
   });
 });
@@ -119,21 +110,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  const userData = {
-    id: user._id,
-    email: user.email,
-    isAdmin: user.isAdmin,
-    isVendor: user.isVendor,
-    userType: user.userType,
-    lastName: user.lastName,
-    otherNames: user.otherNames,
-    phoneNumber: user.phoneNumber,
-    profilePictureURL: user.profilePictureURL,
-  };
-
   res.status(200).json({
     success: true,
-    data: userData,
+    data: constructUserData(user),
     message: "User found. Welcome!",
   });
 });
@@ -248,22 +227,10 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     }
 
     const vendor = await Vendor.findOne({ user: user._id });
-    const userData = {
-      id: user._id,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      isVendor: user.isVendor,
-      userType: user.userType,
-      lastName: user.lastName,
-      otherNames: user.otherNames,
-      phoneNumber: user.phoneNumber,
-      profilePictureURL: user.profilePictureURL,
-      vendor,
-    };
 
     res.status(200).json({
       success: true,
-      data: userData,
+      data: constructUserData(user, vendor),
       message: "Current user retrieved successfully",
     });
   } catch (error) {
@@ -276,14 +243,13 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 export {
   authUser,
+  registerUser,
+  logoutUser,
+  getUserProfile,
+  updateUserPassword,
+  deleteMyAccount,
   getUsers,
   deleteUser,
-  logoutUser,
   getUserById,
-  registerUser,
-  getUserProfile,
-  deleteMyAccount,
-  updateUserPassword,
   getCurrentUser,
-
 };

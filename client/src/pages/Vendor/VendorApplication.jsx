@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useVendorApplicationMutation } from "../../features/vendorApiSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useGetCurrentUserQuery } from "../../features/usersApiSlice";
 import { setCredentials } from "../../features/authSlice";
 
 export default function VendorApplication() {
@@ -27,9 +26,6 @@ export default function VendorApplication() {
   }, [userInfo, navigate]);
 
   const [vendorApplication, { isLoading }] = useVendorApplicationMutation();
-  const { data: currentUserData, isLoading: isCurrentUserLoading } =
-    useGetCurrentUserQuery();
-
 
   const [formState, setFormState] = useState({
     businessEmail: "",
@@ -46,10 +42,8 @@ export default function VendorApplication() {
     try {
       const res = await vendorApplication(formState).unwrap();
       if (res.success) {
-        if (!isCurrentUserLoading && currentUserData) {
-          dispatch(setCredentials({ ...currentUserData }));
-          navigate('/profile')
-        }
+        dispatch(setCredentials({ ...res }));
+        navigate("/profile");
         toast.success("Application submitted successfully");
       }
     } catch (error) {

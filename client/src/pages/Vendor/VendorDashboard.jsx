@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCredentials } from "../../features/authSlice";
 import { clearCartItems } from "../../features/cartSlice";
 import { toast } from "react-toastify";
-import { useLogoutMutation } from "../../features/usersApiSlice";
+import { useLogoutUserMutation } from "../../features/usersApiSlice";
 import { BsBarChart, BsBox, BsCart, BsPeople, BsPerson } from "react-icons/bs";
 import { vendorLinks } from "../../constants";
 
@@ -34,14 +34,14 @@ export default function VendorDashboard() {
   const [activeLink, setActiveLink] = useState("Home");
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [logout] = useLogoutMutation();
+  const [logoutUser] = useLogoutUserMutation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
     try {
-      await logout().unwrap();
+      await logoutUser().unwrap();
       dispatch(clearCredentials());
       dispatch(clearCartItems());
       toast.success("Happy Shopping! Goodbye!");

@@ -6,19 +6,19 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
     getVendors: builder.query({
       query: () => ({
         url: `${VENDORS_URL}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getVendorById: builder.query({
       query: (vendorId) => ({
         url: `${VENDORS_URL}/${vendorId}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getVendorProducts: builder.query({
       query: () => ({
         url: `${VENDORS_URL}/products`,
-        method: "get",
+        method: "GET",
       }),
     }),
     vendorApplication: builder.mutation({
@@ -28,15 +28,9 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    rejectVendor: builder.mutation({
-      query: (vendorId) => ({
-        url: `${VENDORS_URL}/reject/${vendorId}`,
-        method: "PUT",
-      }),
-    }),
-    approveVendor: builder.mutation({
-      query: (vendorId) => ({
-        url: `${VENDORS_URL}/approve/${vendorId}`,
+    updateVendorStatus: builder.mutation({
+      query: ({ vendorId, status }) => ({
+        url: `${VENDORS_URL}/${vendorId}/${status}`,
         method: "PUT",
       }),
     }),
@@ -48,6 +42,5 @@ export const {
   useGetVendorProductsQuery,
   useVendorApplicationMutation,
   useGetVendorByIdQuery,
-  useApproveVendorMutation,
-  useRejectVendorMutation,
+  useUpdateVendorStatusMutation,
 } = vendorApiSlice;

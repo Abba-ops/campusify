@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
-import { useUserProfileQuery } from "../features/usersApiSlice";
+import { Link, useParams } from "react-router-dom";
+import { useGetUserProfileQuery } from "../features/usersApiSlice";
 
 export default function UserProfile() {
   const { userId } = useParams();
-  const { data: userProfile, isLoading, error } = useUserProfileQuery(userId);
+  const {
+    data: userProfile,
+    isLoading,
+    isError,
+  } = useGetUserProfileQuery(userId);
 
   const renderLoadingState = (
     <div className="text-center">
@@ -23,35 +27,35 @@ export default function UserProfile() {
   );
 
   const renderUserProfile = (
-    <>
-      <div className="text-center">
-        <Image
-          fluid
-          roundedCircle
-          loading="lazy"
-          className="profile-picture-lg border"
-          src={userProfile?.data?.profilePictureURL || ""}
-          alt={`${userProfile?.data?.lastName}'s Profile`}
-        />
-      </div>
-      <h2 className="text-center mt-3">
-        {`${userProfile?.data?.otherNames || ""} ${
-          userProfile?.data?.lastName || ""
-        }`}
-      </h2>
-      <p className="text-center mb-0">{userProfile?.data?.email || ""}</p>
-    </>
+    <div className="text-center">
+      <Image
+        fluid
+        roundedCircle
+        loading="lazy"
+        className="profile-picture-lg border"
+        src={userProfile?.data?.profilePictureURL || ""}
+        alt={`${userProfile?.data?.lastName}'s Profile`}
+      />
+      <h2 className="mt-3">{`${userProfile?.data?.otherNames || ""} ${
+        userProfile?.data?.lastName || ""
+      }`}</h2>
+      <Link
+        to={`mailto:${userProfile?.data?.email}`}
+        className="text-decoration-none">
+        {userProfile?.data?.email || ""}
+      </Link>
+    </div>
   );
 
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
       <Container>
         <Row className="justify-content-center">
           <Col lg={8}>
             <Card>
               <Card.Body>
-                {error ? (
-                  <div className="text-center text-danger">
+                {isError ? (
+                  <div className="text-danger text-center">
                     Error loading user profile. Please try again later.
                   </div>
                 ) : isLoading ? (

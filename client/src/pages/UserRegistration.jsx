@@ -13,50 +13,49 @@ import {
 import { toast } from "react-toastify";
 import { setCredentials } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useRegisterMutation } from "../features/usersApiSlice";
+import { useRegisterUserMutation } from "../features/usersApiSlice";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function UserRegistration() {
   const [showPassword, setShowPassword] = useState(false);
-  const [conditions, setConditions] = useState(false);
+  const [agreeToConditions, setAgreeToConditions] = useState(false);
   const [userType, setUserType] = useState("student");
   const [password, setPassword] = useState("");
-  const [uniqueId, setUniqueId] = useState("");
+  const [identifier, setIdentifier] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [register, { isLoading }] = useRegisterMutation();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
-  const searchParams = new URLSearchParams(search);
-  const redirect = searchParams.get("redirect") || "/";
+  const redirectPath = new URLSearchParams(search).get("redirect") || "/";
 
-  const handleShowPassword = () => setShowPassword((prev) => !prev);
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await register({
+      const res = await registerUser({
         password,
-        uniqueId,
+        uniqueId: identifier,
         userType,
       }).unwrap();
       dispatch(setCredentials({ ...res }));
-      toast.success(`Welcome aboard, ${res.data.lastName}!`);
-      navigate(redirect);
+      toast.success(`Welcome ${res.data.lastName}!`);
+      navigate(redirectPath);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
   };
 
   useEffect(() => {
-    if (userInfo) navigate(redirect);
-  }, [userInfo, redirect, navigate]);
+    if (userInfo) navigate(redirectPath);
+  }, [userInfo, redirectPath, navigate]);
 
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
       <Container>
         <h5 className="border-bottom pb-3 text-uppercase text-center">
           Create a New Account
@@ -111,10 +110,10 @@ export default function UserRegistration() {
                       <Form.Control
                         required
                         type="text"
-                        value={uniqueId}
+                        value={identifier}
                         spellCheck={false}
                         onChange={(e) =>
-                          setUniqueId(
+                          setIdentifier(
                             userType === "student"
                               ? e.target.value.toUpperCase()
                               : e.target.value.toLowerCase()
@@ -142,8 +141,8 @@ export default function UserRegistration() {
                         <Button
                           variant="secondary"
                           className="text-uppercase"
-                          onClick={handleShowPassword}>
-                          Show
+                          onClick={togglePasswordVisibility}>
+                          {showPassword ? "Hide" : "Show"}
                         </Button>
                       </InputGroup>
                     </Col>
@@ -152,9 +151,9 @@ export default function UserRegistration() {
                     <Form.Check
                       required
                       type="checkbox"
-                      value={conditions}
+                      checked={agreeToConditions}
                       label="Agree to terms and conditions"
-                      onChange={(e) => setConditions(e.target.checked)}
+                      onChange={(e) => setAgreeToConditions(e.target.checked)}
                     />
                   </Form.Group>
                   <div className="d-flex justify-content-end my-3">

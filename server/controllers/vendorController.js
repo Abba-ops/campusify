@@ -26,8 +26,8 @@ const getVendorById = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findById(req.params.vendorId).populate("user");
 
   if (!vendor) {
-    res.status(404);
-    throw new Error("Vendor not found");
+    res.status(404).json({ success: false, message: "Vendor not found" });
+    return;
   }
 
   res.status(200).json({
@@ -68,89 +68,63 @@ const vendorApplication = asyncHandler(async (req, res) => {
 
   const createdVendor = await Vendor.create(newVendorData);
 
+  const userData = {
+    id: req.user._id,
+    email: req.user.email,
+    isAdmin: req.user.isAdmin,
+    isVendor: req.user.isVendor,
+    userType: req.user.userType,
+    lastName: req.user.lastName,
+    otherNames: req.user.otherNames,
+    phoneNumber: req.user.phoneNumber,
+    profilePictureURL: req.user.profilePictureURL,
+    vendor: createdVendor,
+  };
+
   res.status(201).json({
     success: true,
-    data: createdVendor,
+    data: userData,
   });
 });
 
 /**
- * @desc    Approve a vendor
- * @route   PUT /api/vendors/approve/:vendorId
+ * @desc    Update vendor status
+ * @route   PUT /api/vendors/:vendorId/status
  * @access  Private/Admin
  */
-const approveVendor = asyncHandler(async (req, res) => {
-  const vendorId = req.params.vendorId;
+const updateVendorStatus = asyncHandler(async (req, res) => {
+  const { vendorId } = req.params;
+  const { status } = req.params;
 
-  try {
-    const vendor = await Vendor.findById(vendorId);
+  let vendor = await Vendor.findById(vendorId);
 
-    if (!vendor) {
-      res.status(404);
-      throw new Error("Vendor not found");
-    }
+  if (!vendor) {
+    res.status(404).json({ success: false, message: "Vendor not found" });
+    return;
+  }
 
-    const user = await User.findById(vendor.user);
+  let user = await User.findById(vendor.user);
 
-    if (!user) {
-      res.status(404);
-      throw new Error("User not found");
-    }
+  if (!user) {
+    res.status(404).json({ success: false, message: "User not found" });
+    return;
+  }
 
+  if (status === "approved") {
     user.isVendor = true;
-    await user.save();
-
     vendor.isApproved = true;
     vendor.approvalStatus = "approved";
-    await vendor.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Vendor approved successfully",
-    });
-  } catch (error) {
-    res.status(error.statusCode || 500).json({
-      success: false,
-      message: error.message || "Internal Server Error",
-    });
-  }
-});
-
-/**
- * @desc    Reject a vendor
- * @route   PUT /api/vendors/reject/:vendorId
- * @access  Private/Admin
- */
-const rejectVendor = asyncHandler(async (req, res) => {
-  const vendorId = req.params.vendorId;
-
-  try {
-    const vendor = await Vendor.findById(vendorId);
-
-    if (!vendor) {
-      res.status(404);
-      throw new Error("Vendor not found");
-    }
-
-    const user = await User.findById(vendor.user);
-
-    if (!user) {
-      res.status(404);
-      throw new Error("User not found");
-    }
-
+  } else if (status === "rejected") {
     await vendor.deleteOne();
-
-    res.status(200).json({
-      success: true,
-      message: "Vendor rejected successfully",
-    });
-  } catch (error) {
-    res.status(error.statusCode || 500).json({
-      success: false,
-      message: error.message || "Internal Server Error",
-    });
   }
+
+  await user.save();
+  await vendor.save();
+
+  res.status(200).json({
+    success: true,
+    message: `Vendor ${status} successfully`,
+  });
 });
 
 export {
@@ -158,6 +132,5 @@ export {
   getVendorById,
   getVendorProducts,
   vendorApplication,
-  approveVendor,
-  rejectVendor,
+  updateVendorStatus,
 };

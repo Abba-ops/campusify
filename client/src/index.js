@@ -38,7 +38,7 @@ import VendorCreateProduct from "./pages/Vendor/VendorCreateProduct";
 import VendorProductDetails from "./pages/Vendor/VendorProductDetails";
 import VendorEditProduct from "./pages/Vendor/VendorEditProduct";
 import UserProfile from "./pages/UserProfile";
-import MyProfileDetails from "./pages/MyProfileDetails";
+import UserProfileDetails from "./pages/UserProfileDetails";
 import { HelmetProvider } from "react-helmet-async";
 import AdminVendorDetails from "./pages/Admin/AdminVendorDetails";
 import About from "./pages/About";
@@ -67,7 +67,7 @@ const router = createBrowserRouter(
 
       <Route path="/" element={<PrivateRoute />}>
         <Route path="/checkout" element={<CartCheckout />} />
-        <Route path="/profile" element={<MyProfileDetails />} />
+        <Route path="/profile" element={<UserProfileDetails />} />
         <Route path="/vendor-application" element={<VendorApplication />} />
       </Route>
 

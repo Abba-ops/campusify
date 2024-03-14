@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCredentials } from "../../features/authSlice";
 import { clearCartItems } from "../../features/cartSlice";
 import { toast } from "react-toastify";
-import { useLogoutMutation } from "../../features/usersApiSlice";
+import { useLogoutUserMutation } from "../../features/usersApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
 import {
   BsBox,
@@ -42,7 +42,7 @@ import { adminLinks } from "../../constants";
 export default function AdminDashboard() {
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [logout] = useLogoutMutation();
+  const [logoutUser] = useLogoutUserMutation();
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
 
   const logoutHandler = async () => {
     try {
-      await logout().unwrap();
+      await logoutUser().unwrap();
       dispatch(clearCredentials());
       dispatch(clearCartItems());
       toast.success("Happy Shopping! Goodbye!");

@@ -265,7 +265,7 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
 
   try {
     const categoryData = await Category.findOne({
-      name: { $regex: category, $options: "i" },
+      name: { $regex: category.replace(/-/g, " "), $options: "i" },
     });
 
     if (!categoryData) {
@@ -291,7 +291,7 @@ const getProductsBySubcategory = asyncHandler(async (req, res) => {
 
   try {
     const subcategoriesData = await Subcategory.findOne({
-      name: { $regex: subcategory, $options: "i" },
+      name: { $regex: subcategory.replace(/-/g, " "), $options: "i" },
     });
 
     if (!subcategoriesData) {

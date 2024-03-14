@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   useDeleteMyAccountMutation,
-  useUpdatePasswordMutation,
+  useUpdateUserPasswordMutation,
 } from "../features/usersApiSlice";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -20,7 +20,7 @@ import { BiTrash } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import DeleteAccountModal from "../components/ConfirmDeletionModal";
 
-export default function MyProfileDetails() {
+export default function UserProfileDetails() {
   const [showDelete, setShowDelete] = useState(false);
 
   const handleCloseDelete = () => setShowDelete(false);
@@ -29,7 +29,7 @@ export default function MyProfileDetails() {
   const { userInfo } = useSelector((state) => state.auth);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [password, setPassword] = useState("");
-  const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
+  const [updateUserPassword, { isLoading }] = useUpdateUserPasswordMutation();
 
   const [deleteMyAccount, { isLoading: isDeletingAccount }] =
     useDeleteMyAccountMutation();
@@ -40,7 +40,7 @@ export default function MyProfileDetails() {
       toast.error("Passwords do not match");
     } else {
       try {
-        await updatePassword({ password });
+        await updateUserPassword({ password });
         toast.success("Password updated successfully");
       } catch (error) {
         toast.error(error && (error.data.message || error.error));

@@ -3,6 +3,7 @@ import {
   useApproveVendorMutation,
   useGetVendorByIdQuery,
   useRejectVendorMutation,
+  useUpdateVendorStatusMutation,
 } from "../../features/vendorApiSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -26,12 +27,10 @@ export default function AdminVendorDetails() {
     isError,
     refetch,
   } = useGetVendorByIdQuery(vendorId);
-  const [approveVendor, { isLoading: isApproving }] =
-    useApproveVendorMutation();
-  const [rejectVendor, { isLoading: isRejecting }] = useRejectVendorMutation();
+  const [updateVendorStatus, { isLoading: isApproving }] = useUpdateVendorStatusMutation()
   const handleApprove = async () => {
     try {
-      const res = await approveVendor(vendorId).unwrap();
+      const res = await updateVendorStatus({vendorId, status: "approved"}).unwrap();
       refetch();
       toast.success(res.message);
     } catch (error) {
@@ -41,7 +40,10 @@ export default function AdminVendorDetails() {
 
   const handleReject = async () => {
     try {
-      const res = await rejectVendor(vendorId).unwrap();
+      const res = await updateVendorStatus({
+        vendorId,
+        status: "rejected",
+      }).unwrap();
       refetch();
       navigate("/admin/dashboard/vendors");
       toast.success(res.message);

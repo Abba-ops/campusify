@@ -74,7 +74,7 @@ const categoryData = [
       { name: "Smartphones" },
       { name: "Laptops" },
       { name: "Headphones" },
-      { name: "Cameras & Photography" },
+      { name: "Cameras and Photography" },
     ],
   },
   {
@@ -92,25 +92,25 @@ const categoryData = [
       { name: "Furniture" },
       { name: "Kitchen Appliances" },
       { name: "Home Decor" },
-      { name: "Bedding & Linens" },
+      { name: "Bedding and Linens" },
     ],
   },
   {
-    name: "Sports & Outdoors",
+    name: "Sports and Outdoors",
     subcategories: [
       { name: "Outdoor Recreation" },
       { name: "Fitness Equipment" },
       { name: "Sports Apparel" },
-      { name: "Camping & Hiking" },
+      { name: "Camping and Hiking" },
     ],
   },
   {
-    name: "Books & Stationery",
+    name: "Books and Stationery",
     subcategories: [
       { name: "Fiction" },
       { name: "Non-Fiction" },
       { name: "Office Supplies" },
-      { name: "Notebooks & Journals" },
+      { name: "Notebooks and Journals" },
     ],
   },
 ];

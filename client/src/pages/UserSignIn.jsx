@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../features/authSlice";
 import { toast } from "react-toastify";
-import { useLoginMutation } from "../features/usersApiSlice";
+import { useAuthUserMutation } from "../features/usersApiSlice";
 import {
   Container,
   Button,
@@ -22,34 +22,34 @@ export default function UserSignIn() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
   const { userInfo } = useSelector((state) => state.auth);
-
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
-  const redirect = searchParams.get("redirect") || "/";
+  const redirectPath = searchParams.get("redirect") || "/";
 
-  const handleShowPassword = () => setShowPassword((prev) => !prev);
+  const [authenticateUser, { isLoading }] = useAuthUserMutation();
 
-  const handleSubmit = async (e) => {
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+
+  const handleSignIn = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      toast.success(`Welcome back, ${res.data.lastName}!`);
-      navigate(redirect);
+      const response = await authenticateUser({ email, password }).unwrap();
+      dispatch(setCredentials({ ...response }));
+      toast.success(`Welcome back, ${response.data.lastName}!`);
+      navigate(redirectPath);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
   };
 
   useEffect(() => {
-    if (userInfo) navigate(redirect);
-  }, [userInfo, redirect, navigate]);
+    if (userInfo) navigate(redirectPath);
+  }, [userInfo, redirectPath, navigate]);
 
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
       <Container>
         <h5 className="border-bottom pb-3 text-uppercase text-center">
           Log In to Your Account
@@ -58,7 +58,7 @@ export default function UserSignIn() {
           <Col lg={8}>
             <Card className="my-3 py-3">
               <Card.Body>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSignIn}>
                   <Form.Group as={Row} className="mb-3">
                     <Form.Label
                       sm={3}
@@ -95,14 +95,14 @@ export default function UserSignIn() {
                         <Button
                           variant="secondary"
                           className="text-uppercase"
-                          onClick={handleShowPassword}>
-                          Show
+                          onClick={togglePasswordVisibility}>
+                          {showPassword ? "Hide" : "Show"}
                         </Button>
                       </InputGroup>
                     </Col>
                   </Form.Group>
                   <div className="text-center">
-                    <Link className="text-decoration-none">
+                    <Link to="#" className="text-decoration-none">
                       Forgot your password?
                     </Link>
                   </div>
@@ -125,8 +125,8 @@ export default function UserSignIn() {
                     <Link
                       className="text-decoration-none"
                       to={
-                        redirect
-                          ? `/register?redirect=${redirect}`
+                        redirectPath
+                          ? `/register?redirect=${redirectPath}`
                           : "/register"
                       }>
                       No account? Create one here

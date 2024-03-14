@@ -9,13 +9,13 @@ import {
   Badge,
   Button,
 } from "react-bootstrap";
-import { useGetUserDetailsQuery } from "../../features/usersApiSlice";
+import { useGetUserByIdQuery } from "../../features/usersApiSlice";
 import { useParams } from "react-router-dom";
 
 export default function AdminUserDetails() {
   const { userId } = useParams();
 
-  const { data: user, isLoading, isError } = useGetUserDetailsQuery(userId);
+  const { data: user, isLoading, isError } = useGetUserByIdQuery(userId);
 
   return (
     <>

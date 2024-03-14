@@ -3,33 +3,33 @@ import { apiSlice } from "./apiSlice";
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation({
+    authUser: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/auth`,
         method: "POST",
         body: data,
       }),
     }),
-    logout: builder.mutation({
+    logoutUser: builder.mutation({
       query: () => ({
         url: `${USERS_URL}/logout`,
         method: "POST",
       }),
     }),
-    register: builder.mutation({
+    registerUser: builder.mutation({
       query: (data) => ({
         url: USERS_URL,
         method: "POST",
         body: data,
       }),
     }),
-    userProfile: builder.query({
+    getUserProfile: builder.query({
       query: (userId) => ({
         url: `${USERS_URL}/profile/${userId}`,
         method: "GET",
       }),
     }),
-    updatePassword: builder.mutation({
+    updateUserPassword: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/update-password`,
         method: "PUT",
@@ -39,19 +39,19 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     deleteMyAccount: builder.mutation({
       query: () => ({
         url: `${USERS_URL}/delete-account`,
-        method: "delete",
+        method: "DELETE",
       }),
     }),
     getUsers: builder.query({
       query: () => ({
         url: `${USERS_URL}`,
-        method: "get",
+        method: "GET",
       }),
     }),
-    getUserDetails: builder.query({
+    getUserById: builder.query({
       query: (userId) => ({
         url: `${USERS_URL}/${userId}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     deleteUser: builder.mutation({
@@ -63,21 +63,21 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     getCurrentUser: builder.query({
       query: () => ({
         url: `${USERS_URL}/current`,
-        method: "get",
+        method: "GET",
       }),
     }),
   }),
 });
 
 export const {
-  useLoginMutation,
-  useLogoutMutation,
-  useRegisterMutation,
-  useUpdatePasswordMutation,
+  useAuthUserMutation,
+  useLogoutUserMutation,
+  useRegisterUserMutation,
+  useUpdateUserPasswordMutation,
   useDeleteMyAccountMutation,
   useGetUsersQuery,
-  useGetUserDetailsQuery,
+  useGetUserByIdQuery,
   useDeleteUserMutation,
-  useUserProfileQuery,
+  useGetUserProfileQuery,
   useGetCurrentUserQuery,
 } = usersApiSlice;

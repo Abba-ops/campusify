@@ -18,12 +18,13 @@ import { RiShoppingBag2Line, RiUserLine, RiSearch2Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { useLogoutMutation } from "../features/usersApiSlice";
+import { useLogoutUserMutation } from "../features/usersApiSlice";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../assets/logo.png";
 import { clearCredentials } from "../features/authSlice";
 import { clearCartItems } from "../features/cartSlice";
 import { useGetCategoriesQuery } from "../features/productsApiSlice";
+import CategoryOffcanvas from "./CategoryOffcanvas";
 
 export default function HeaderNav() {
   const [show, setShow] = useState(false);
@@ -47,7 +48,7 @@ export default function HeaderNav() {
   const { userInfo } = useSelector((state) => state.auth);
 
   const location = useLocation();
-  const [logout] = useLogoutMutation();
+  const [logoutUser] = useLogoutUserMutation();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -55,7 +56,7 @@ export default function HeaderNav() {
 
   const logoutHandler = async () => {
     try {
-      await logout().unwrap();
+      await logoutUser().unwrap();
       dispatch(clearCredentials());
       dispatch(clearCartItems());
       toast.success("Logged out successfully!");
@@ -192,44 +193,11 @@ export default function HeaderNav() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Offcanvas show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Categories</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <ul className="list-unstyled">
-            {categories?.data.map((category) => (
-              <li key={category._id} className="mb-3">
-                <h5 className="mb-2">
-                  <LinkContainer
-                    to={`/category/${category.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}`}>
-                    <a className="text-dark">{category.name}</a>
-                  </LinkContainer>
-                </h5>
-                {category.subcategories &&
-                  category.subcategories.length > 0 && (
-                    <ul className="list-unstyled ms-3">
-                      {category.subcategories.map((subcat) => (
-                        <li key={subcat._id} className="mb-2">
-                          <LinkContainer
-                            to={`/${category.name
-                              .toLowerCase()
-                              .replace(/\s+/g, "-")}/${subcat.name
-                              .toLowerCase()
-                              .replace(/\s+/g, "-")}`}>
-                            <a className="text-dark">{subcat.name}</a>
-                          </LinkContainer>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-              </li>
-            ))}
-          </ul>
-        </Offcanvas.Body>
-      </Offcanvas>
+      <CategoryOffcanvas
+        categories={categories}
+        show={show}
+        handleClose={handleClose}
+      />
     </>
   );
 }

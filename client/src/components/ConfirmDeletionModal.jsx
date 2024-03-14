@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
-import { useLogoutMutation } from "../features/usersApiSlice";
+import { useLogoutUserMutation } from "../features/usersApiSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -13,7 +13,7 @@ export default function ConfirmDeletionModal({
   handleDeleteAccount,
 }) {
   const [confirmDeleteAccount, setConfirmDeleteAccount] = useState("");
-  const [logout] = useLogoutMutation();
+  const [logoutUser] = useLogoutUserMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ export default function ConfirmDeletionModal({
     try {
       handleDeleteAccount();
       handleCloseDelete();
-      await logout().unwrap();
+      await logoutUser().unwrap();
       dispatch(clearCredentials());
       navigate("/");
     } catch (error) {

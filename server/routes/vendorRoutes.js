@@ -10,8 +10,7 @@ import {
   getVendorById,
   getVendorProducts,
   vendorApplication,
-  rejectVendor,
-  approveVendor,
+  updateVendorStatus,
 } from "../controllers/vendorController.js";
 
 const router = express.Router();
@@ -20,7 +19,6 @@ router.route("/").get(isLoggedIn, isAdmin, getVendors);
 router.get("/products", isLoggedIn, isVendor, getVendorProducts);
 router.route("/:vendorId").get(isLoggedIn, isAdminOrVendor, getVendorById);
 router.route("/application").post(isLoggedIn, vendorApplication);
-router.put("/approve/:vendorId", approveVendor);
-router.put("/reject/:vendorId", rejectVendor);
+router.put("/:vendorId/:status", isLoggedIn, isAdmin, updateVendorStatus);
 
 export default router;
