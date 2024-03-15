@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -20,6 +20,7 @@ export default function VendorCreateProduct() {
   const [imageUrl, setImageUrl] = useState("");
   const { data: categories, isLoading: loadingCategories } =
     useGetCategoriesQuery();
+  const [subcategories, setSubcategories] = useState([]);
 
   const [formData, setFormData] = useState({
     productName: "",
@@ -28,6 +29,10 @@ export default function VendorCreateProduct() {
     brand: "",
     price: 0,
     countInStock: 0,
+    subcategory: {
+      _id: "",
+      name: "",
+    },
   });
 
   const [createProduct, { isLoading }] = useCreateProductMutation();
@@ -61,11 +66,24 @@ export default function VendorCreateProduct() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "category") {
+      const category = categories.data.filter((c) => c.name === value);
+      setSubcategories(category[0].subcategories);
+    } else if (name === "subcategory") {
+      setFormData({
+        ...formData,
+        [name]: {
+          _id: value._id,
+          name: value.name,
+        },
+      });
+    }
     setFormData({
       ...formData,
       [name]: value,
     });
   };
+
 
   return (
     <>
@@ -131,6 +149,19 @@ export default function VendorCreateProduct() {
                     {categories?.data.map((category) => (
                       <option value={category.name} key={category._id}>
                         {category.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              <Col xs={12} md={6} className="mb-3">
+                <Form.Group controlId="subcategory">
+                  <Form.Label>Subcategories</Form.Label>
+                  <Form.Select name="subcategory" onChange={handleChange}>
+                    {subcategories?.map((subcategory) => (
+                      <option value={subcategory} key={subcategory._id}>
+                        {console.log("subcategory", subcategory)}{" "}
+                        {subcategory.name}
                       </option>
                     ))}
                   </Form.Select>

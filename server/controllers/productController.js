@@ -1,5 +1,5 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
-import { Category, Product, Subcategory } from "../models/productModel.js";
+import { Category, Product } from "../models/productModel.js";
 import Vendor from "../models/vendorModel.js";
 
 /**
@@ -8,10 +8,7 @@ import Vendor from "../models/vendorModel.js";
  * @access  Public
  */
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find()
-    .populate("vendor")
-    .populate("subcategory")
-    .populate("category");
+  const products = await Product.find().populate("vendor").populate("category");
 
   res.json({
     success: true,
@@ -28,7 +25,6 @@ const getProducts = asyncHandler(async (req, res) => {
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.productId)
     .populate("vendor")
-    .populate("subcategory")
     .populate("category");
 
   if (!product) {
@@ -187,6 +183,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     brand,
     price,
     countInStock,
+    subcategory,
   } = req.body;
 
   product.productName = productName;
@@ -196,6 +193,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   product.price = price;
   product.countInStock = countInStock;
   product.imageUrl = imageUrl;
+  product.subcategory = subcategory;
 
   const updatedProduct = await product.save();
 
@@ -257,22 +255,14 @@ const deleteCategory = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Get products by category
- * @route   GET /api/products/categories/:category
+ * @route   GET /api/products/categories/:category/:categoryId
  * @access  Public
  */
 const getProductsByCategory = asyncHandler(async (req, res) => {
-  const { category } = req.params;
+  const { categoryId } = req.params;
 
   try {
-    const categoryData = await Category.findOne({
-      name: { $regex: category.replace(/-/g, " "), $options: "i" },
-    });
-
-    if (!categoryData) {
-      return res.json({ success: true, data: [] });
-    }
-
-    const products = await Product.find({ category: categoryData._id });
+    const products = await Product.find({ category: categoryId });
 
     res.json({ success: true, data: products });
   } catch (error) {
@@ -283,23 +273,15 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Get products by subcategory
- * @route   GET /api/products/subcategory/:subcategory
+ * @route   GET /api/products/subcategory/:subcategory/:subcategoryId
  * @access  Public
  */
 const getProductsBySubcategory = asyncHandler(async (req, res) => {
-  const { subcategory } = req.params;
+  const { subcategoryId } = req.params;
 
   try {
-    const subcategoriesData = await Subcategory.findOne({
-      name: { $regex: subcategory.replace(/-/g, " "), $options: "i" },
-    });
-
-    if (!subcategoriesData) {
-      return res.json({ success: true, data: [] });
-    }
-
     const products = await Product.find({
-      subcategory: subcategoriesData._id,
+      "subcategory._id": subcategoryId,
     });
 
     res.json({ success: true, data: products });

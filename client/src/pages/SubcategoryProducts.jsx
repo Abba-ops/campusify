@@ -6,13 +6,13 @@ import { Col, Container, Row } from "react-bootstrap";
 import SingleProductPlaceholder from "../components/SingleProductPlaceholder";
 
 export default function SubcategoryProducts() {
-  const { subcategory } = useParams();
-  console.log(subcategory);
+  const { subcategory, subcategoryId } = useParams();
   const {
     data: products,
     isError,
     isLoading,
-  } = useGetProductsBySubcategoryQuery(subcategory);
+  } = useGetProductsBySubcategoryQuery({ subcategory, subcategoryId });
+
   return (
     <Container className="mt-5">
       <h2 className="text-capitalize">{subcategory} Products</h2>

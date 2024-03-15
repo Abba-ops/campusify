@@ -56,9 +56,15 @@ const router = createBrowserRouter(
       <Route path="/register" element={<UserRegistration />} />
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/search/:query" element={<ProductSearch />} />
-      <Route path="/category/:category" element={<CategoryPage />} />
+      <Route
+        path="/category/:category/:categoryId"
+        element={<CategoryPage />}
+      />
       <Route path="/product/:productId" element={<ProductDetail />} />
-      <Route path="/:category/:subcategory" element={<SubcategoryProducts />} />
+      <Route
+        path="/:category/:subcategory/:subcategoryId"
+        element={<SubcategoryProducts />}
+      />
       <Route path="/profile/:userId" element={<UserProfile />} />
       <Route path="/about" element={<About />} />
       <Route path="/faq" component={FAQ} />

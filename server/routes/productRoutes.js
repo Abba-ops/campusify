@@ -18,8 +18,11 @@ import { validateReview } from "../middlewares/validateData.js";
 
 const router = express.Router();
 router.get("/search", searchProducts);
-router.get("/subcategory/:subcategory", getProductsBySubcategory);
-router.get("/category/:category", getProductsByCategory);
+router.get(
+  "/subcategory/:subcategory/:subcategoryId",
+  getProductsBySubcategory
+);
+router.get("/category/:category/:categoryId", getProductsByCategory);
 router.route("/").get(getProducts).post(isLoggedIn, isVendor, createProduct);
 router.route("/categories").get(getCategories).post(addCategory);
 router

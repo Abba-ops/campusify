@@ -17,7 +17,7 @@ export default function CategoryOffcanvas({ show, handleClose, categories }) {
                   onClick={() => handleClose()}
                   to={`/category/${category.name
                     .toLowerCase()
-                    .replace(/\s+/g, "-")}`}
+                    .replace(/\s+/g, "-")}/${category._id}`}
                   className="text-decoration-none text-capitalize text-dark">
                   {category.name}
                 </Link>
@@ -32,7 +32,7 @@ export default function CategoryOffcanvas({ show, handleClose, categories }) {
                           .toLowerCase()
                           .replace(/\s+/g, "-")}/${subcat.name
                           .toLowerCase()
-                          .replace(/\s+/g, "-")}`}
+                          .replace(/\s+/g, "-")}/${subcat._id}`}
                         className="text-decoration-none text-capitalize text-muted">
                         {subcat.name}
                       </Link>

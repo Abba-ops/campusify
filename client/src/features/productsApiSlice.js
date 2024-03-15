@@ -73,8 +73,8 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getProductsByCategory: builder.query({
-      query: (category) => ({
-        url: `${PRODUCTS_URL}/category/${category}`,
+      query: ({ category, categoryId }) => ({
+        url: `${PRODUCTS_URL}/category/${category}/${categoryId}`,
         method: "GET",
       }),
     }),
@@ -85,8 +85,8 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getProductsBySubcategory: builder.query({
-      query: (subcategory) => ({
-        url: `${PRODUCTS_URL}/subcategory/${subcategory}`,
+      query: ({ subcategory, subcategoryId }) => ({
+        url: `${PRODUCTS_URL}/subcategory/${subcategory}/${subcategoryId}`,
         method: "GET",
       }),
     }),

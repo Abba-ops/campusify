@@ -1,5 +1,26 @@
 import { Schema, model } from "mongoose";
 
+const subcategorySchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true,
+  },
+});
+
+const categorySchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true,
+  },
+  subcategories: [subcategorySchema],
+});
+
 export const reviewSchema = new Schema(
   {
     profilePictureURL: {
@@ -46,8 +67,7 @@ const productSchema = new Schema(
       ref: "Category",
     },
     subcategory: {
-      type: Schema.Types.ObjectId,
-      ref: "Subcategory",
+      type: subcategorySchema,
     },
     brand: {
       type: String,
@@ -81,27 +101,5 @@ const productSchema = new Schema(
   { timestamps: true }
 );
 
-const subcategorySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    // unique: true,
-    trim: true,
-    lowercase: true,
-  },
-});
-
-const categorySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    // unique: true,
-    trim: true,
-    lowercase: true,
-  },
-  subcategories: [subcategorySchema],
-});
-
 export const Product = model("Product", productSchema);
 export const Category = model("Category", categorySchema);
-export const Subcategory = model("Subcategory", categorySchema);

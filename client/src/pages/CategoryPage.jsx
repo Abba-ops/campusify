@@ -6,12 +6,12 @@ import ProductCard from "../components/ProductCard";
 import SingleProductPlaceholder from "../components/SingleProductPlaceholder";
 
 export default function CategoryPage() {
-  const { category } = useParams();
+  const { category, categoryId } = useParams();
   const {
     data: products,
     isLoading,
     isError,
-  } = useGetProductsByCategoryQuery(category);
+  } = useGetProductsByCategoryQuery({ category, categoryId });
 
   return (
     <Container className="mt-5">

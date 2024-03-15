@@ -5,7 +5,7 @@ import connectDB from "./config/dbConfig.js";
 import vendorData from "./data/vendors.js";
 import { categoryData, products } from "./data/products.js";
 import User from "./models/userModel.js";
-import { Category, Product, Subcategory } from "./models/productModel.js";
+import { Category, Product } from "./models/productModel.js";
 import Vendor from "./models/vendorModel.js";
 
 dotenv.config();
@@ -16,7 +16,6 @@ const clearDatabase = async () => {
   await Vendor.deleteMany();
   await User.deleteMany();
   await Category.deleteMany();
-  await Subcategory.deleteMany();
 };
 
 const linkVendorToUser = (vendors, users) => {
@@ -26,7 +25,7 @@ const linkVendorToUser = (vendors, users) => {
   }));
 };
 
-const generateSampleProducts = (vendors, categories, subcategories) => {
+const generateSampleProducts = (vendors, categories) => {
   return products.map((product) => {
     const randomVendorIndex = Math.floor(Math.random() * vendors.length);
     const vendorId = vendors[randomVendorIndex]._id;
@@ -35,14 +34,14 @@ const generateSampleProducts = (vendors, categories, subcategories) => {
     const category = categories[randomCategoryIndex];
 
     const randomSubcategoryIndex = Math.floor(
-      Math.random() * subcategories.length
+      Math.random() * category.subcategories.length
     );
-    const subcategory = subcategories[randomSubcategoryIndex]._id;
+    const subcategory = category.subcategories[randomSubcategoryIndex];
 
     return {
       ...product,
       vendor: vendorId,
-      category: category._id,
+      category: category,
       subcategory,
     };
   });
@@ -52,29 +51,13 @@ const importData = async () => {
   try {
     await clearDatabase();
 
-    const allSubcategories = categoryData.reduce((subcategories, category) => {
-      return subcategories.concat(
-        category.subcategories.map((subcategory) => ({
-          name: subcategory.name,
-        }))
-      );
-    }, []);
-
-    const uniqueSubcategories = Array.from(
-      new Set(allSubcategories.map((subcategory) => subcategory.name))
-    ).map((name) => ({ name }));
-
     const createdUsers = await User.insertMany(userData);
     const createdCategories = await Category.insertMany(categoryData);
-    const createdSubcategories = await Subcategory.insertMany(
-      uniqueSubcategories
-    );
     const linkedVendors = linkVendorToUser(vendorData, createdUsers);
     const createdVendors = await Vendor.insertMany(linkedVendors);
     const sampleProducts = generateSampleProducts(
       createdVendors,
-      createdCategories,
-      createdSubcategories
+      createdCategories
     );
 
     await Product.insertMany(sampleProducts);
