@@ -18,6 +18,7 @@ export default function VendorProductsTable() {
   const {
     data: vendorProducts,
     isLoading,
+    isError,
     error,
   } = useGetVendorProductsQuery();
   const [searchTerm, setSearchTerm] = useState("");
@@ -43,9 +44,12 @@ export default function VendorProductsTable() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  console.log(vendorProducts);
+  console.log("error", error && error);
+
   return (
     <>
-      {error ? (
+      {isError ? (
         <div>Error fetching data</div>
       ) : (
         <>

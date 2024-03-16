@@ -24,6 +24,22 @@ export default function VendorEditProduct() {
   const { productId } = useParams();
   const { data: categories, isLoading: loadingCategories } =
     useGetCategoriesQuery();
+  const navigate = useNavigate();
+
+  const [subcategories, setSubcategories] = useState([]);
+
+  const [formData, setFormData] = useState({
+    productName: "",
+    productDescription: "",
+    category: "",
+    brand: "",
+    price: 0,
+    countInStock: 0,
+    subcategory: {
+      _id: "",
+      name: "",
+    },
+  });
 
   const {
     error,
@@ -43,6 +59,7 @@ export default function VendorEditProduct() {
         brand: product.data.brand,
         price: product.data.price,
         countInStock: product.data.countInStock,
+        subcategory: product.data.subcategory,
       });
       setImageUrl(product.data.imageUrl);
     }
@@ -64,19 +81,23 @@ export default function VendorEditProduct() {
   const [updateProduct, { isLoading: updatingProduct }] =
     useUpdateProductMutation();
 
-  const [formData, setFormData] = useState({
-    productName: "",
-    productDescription: "",
-    category: "",
-    brand: "",
-    price: 0,
-    countInStock: 0,
-  });
-
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "category") {
+      const category = categories.data.find((c) => c._id === value);
+      console.log(category);
+      setSubcategories(category ? category.subcategories : []);
+    } else if (name === "subcategory") {
+      const subcategory = subcategories.find((c) => c._id === value);
+      setFormData({
+        ...formData,
+        [name]: {
+          name: subcategory.name,
+          _id: subcategory._id,
+        },
+      });
+      return;
+    }
     setFormData({
       ...formData,
       [name]: value,
@@ -105,6 +126,17 @@ export default function VendorEditProduct() {
       <span className="placeholder col-10" style={{ height: "15px" }}></span>
     </Placeholder>
   );
+
+  useEffect(() => {
+    if (!loadingCategories) {
+      const category = categories.data.find(
+        (c) => c._id === categories.data[0]._id
+      );
+      setSubcategories(category ? category.subcategories : []);
+    }
+  }, [loadingCategories, setSubcategories, categories]);
+
+  console.log("formData", formData);
 
   return (
     <Card className="border-0 rounded-0">
@@ -171,14 +203,25 @@ export default function VendorEditProduct() {
               <Col xs={12} md={6} className="mb-3">
                 <Form.Group controlId="category">
                   <Form.Label>Category</Form.Label>
-
                   <Form.Select
                     name="category"
                     onChange={handleChange}
-                    value={formData.category}>
+                    value={formData.category.name}>
                     {categories?.data.map((category) => (
-                      <option value={category.name} key={category._id}>
+                      <option value={category._id} key={category._id}>
                         {category.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              <Col xs={12} md={6} className="mb-3">
+                <Form.Group controlId="subcategory">
+                  <Form.Label>Subcategories</Form.Label>
+                  <Form.Select name="subcategory" onChange={handleChange}>
+                    {subcategories?.map((subcategory) => (
+                      <option value={subcategory._id} key={subcategory._id}>
+                        {subcategory.name}
                       </option>
                     ))}
                   </Form.Select>

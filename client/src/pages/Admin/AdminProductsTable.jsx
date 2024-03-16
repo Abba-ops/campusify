@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
 import {
   Button,
-  ButtonGroup,
   Image,
   Table,
   Modal,
-  Dropdown,
   InputGroup,
   FormControl,
   Pagination,
@@ -19,9 +17,12 @@ import {
   Container,
 } from "react-bootstrap";
 import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
 import {
   useAddCategoryMutation,
+  useAddSubcategoryMutation,
   useDeleteCategoryMutation,
+  useDeleteSubcategoryMutation,
   useGetCategoriesQuery,
   useGetProductsQuery,
 } from "../../features/productsApiSlice";
@@ -30,7 +31,6 @@ import { numberWithCommas } from "../../utils/cartUtils";
 import Loader from "../../components/Loader";
 import TablePlaceholder from "../../components/TablePlaceholder";
 import { toast } from "react-toastify";
-import { MdDelete } from "react-icons/md";
 
 export default function AdminProductsTable() {
   const { data: products, isLoading, isError } = useGetProductsQuery();
@@ -38,8 +38,6 @@ export default function AdminProductsTable() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [newSubcategory, setNewSubcategory] = useState("");
-  const [selectedCategoryForSubcategory, setSelectedCategoryForSubcategory] =
-    useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -50,11 +48,11 @@ export default function AdminProductsTable() {
     refetch,
   } = useGetCategoriesQuery();
 
-  console.log("data", categories);
-
   const handleDelete = (product) => {
     setShowDeleteModal(false);
   };
+
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const filteredProducts =
     products &&
@@ -73,7 +71,11 @@ export default function AdminProductsTable() {
   const [deleteCategory, { isLoading: deletingCategory }] =
     useDeleteCategoryMutation();
 
+  const [deleteSubcategory] = useDeleteSubcategoryMutation();
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const [addSubcategory, { isLoading: addingSubcategory }] =
+    useAddSubcategoryMutation();
 
   const [newCategory, setNewCategory] = useState("");
 
@@ -106,13 +108,12 @@ export default function AdminProductsTable() {
   const handleAddSubcategory = async (e, categoryId) => {
     e.preventDefault();
     try {
-      const res = await addCategory({
+      const res = await addSubcategory({
         name: newSubcategory,
-        parentCategory: categoryId,
+        parentCategory: selectedCategory,
       }).unwrap();
       if (res.success) {
         refetch();
-        setNewSubcategory("");
         toast.success(res.message);
       }
     } catch (error) {
@@ -122,7 +123,10 @@ export default function AdminProductsTable() {
 
   const handleRemoveSubcategory = async (categoryId, subcategoryId) => {
     try {
-      const res = await deleteCategory(subcategoryId).unwrap();
+      const res = await deleteSubcategory({
+        subcategoryId,
+        categoryId,
+      }).unwrap();
       if (res.success) {
         refetch();
         toast.success(res.message);
@@ -131,6 +135,8 @@ export default function AdminProductsTable() {
       toast.error(error.message);
     }
   };
+
+  console.log(newSubcategory, selectedCategory);
 
   return (
     <>
@@ -198,31 +204,19 @@ export default function AdminProductsTable() {
                       <td>{product.countInStock}</td>
                       <td>{product.rating}</td>
                       <td className="text-center">
-                        <Dropdown align="end">
-                          <Dropdown.Toggle variant="dark" size="sm">
-                            Actions
-                          </Dropdown.Toggle>
-
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              as={Link}
-                              to={`/admin/dashboard/products/${product._id}`}>
-                              <BsEye className="me-2" /> View
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              as={Link}
-                              to={`/admin/dashboard/products/${product._id}/edit`}>
-                              <BsPencil className="me-2" /> Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() => {
-                                setSelectedProduct(product);
-                                setShowDeleteModal(true);
-                              }}>
-                              <BsTrash className="me-2" /> Delete
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                        <Link to={`/admin/dashboard/products/${product._id}`}>
+                          <BsEye className="me-2" /> View
+                        </Link>
+                        <Link
+                          to={`/admin/dashboard/products/${product._id}/edit`}>
+                          <BsPencil className="me-2" /> Edit
+                        </Link>
+                        <BsTrash
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            setShowDeleteModal(true);
+                          }}
+                        />
                       </td>
                     </tr>
                   ))}
@@ -230,16 +224,19 @@ export default function AdminProductsTable() {
               </Table>
               <div className="d-flex justify-content-center">
                 <Pagination>
-                  {[
-                    ...Array(Math.ceil(filteredProducts.length / itemsPerPage)),
-                  ].map((_, index) => (
-                    <Pagination.Item
-                      key={index + 1}
-                      active={index + 1 === currentPage}
-                      onClick={() => paginate(index + 1)}>
-                      {index + 1}
-                    </Pagination.Item>
-                  ))}
+                  {Array.from(
+                    {
+                      length: Math.ceil(filteredProducts.length / itemsPerPage),
+                    },
+                    (_, i) => (
+                      <Pagination.Item
+                        key={i + 1}
+                        active={i + 1 === currentPage}
+                        onClick={() => paginate(i + 1)}>
+                        {i + 1}
+                      </Pagination.Item>
+                    )
+                  )}
                 </Pagination>
               </div>
             </>
@@ -265,9 +262,8 @@ export default function AdminProductsTable() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <>
+      <div>
         <h3>Manage Categories</h3>
-
         <Form onSubmit={handleAddCategory}>
           <InputGroup className="mb-3">
             <FormControl
@@ -281,7 +277,6 @@ export default function AdminProductsTable() {
             </Button>
           </InputGroup>
         </Form>
-
         <Row>
           {categories?.data.map((category) => (
             <Col
@@ -294,13 +289,9 @@ export default function AdminProductsTable() {
               <Card className="border-0 rounded-0">
                 <Card.Body className="d-flex justify-content-between align-items-center">
                   <span>{category.name}</span>
-                  <div className="d-flex align-items-center">
-                    <h4>
-                      <MdDelete
-                        onClick={() => handleRemoveCategory(category._id)}
-                      />
-                    </h4>
-                  </div>
+                  <MdDelete
+                    onClick={() => handleRemoveCategory(category._id)}
+                  />
                 </Card.Body>
                 {category.subcategories &&
                   category.subcategories.length > 0 && (
@@ -323,31 +314,36 @@ export default function AdminProductsTable() {
                       </ul>
                     </Card.Body>
                   )}
-                {/* New Subcategory Section */}
-                <Form onSubmit={(e) => handleAddSubcategory(e, category._id)}>
-                  <InputGroup className="mb-3">
-                    <FormControl
-                      placeholder="New Subcategory"
-                      aria-label="New Subcategory"
-                      value={newSubcategory}
-                      onChange={(e) => setNewSubcategory(e.target.value)}
-                    />
-                    <Button type="submit" variant="primary">
-                      <RiAddLine /> Add
-                    </Button>
-                  </InputGroup>
-                </Form>
               </Card>
             </Col>
           ))}
         </Row>
-
+        <Form.Select onChange={(e) => setSelectedCategory(e.target.value)}>
+          {categories?.data.map((category) => (
+            <option value={category._id} key={category._id}>
+              {category.name}
+            </option>
+          ))}
+        </Form.Select>
+        <Form onSubmit={handleAddSubcategory}>
+          <InputGroup className="mb-3">
+            <FormControl
+              placeholder="New Subcategory"
+              aria-label="New Subcategory"
+              value={newSubcategory}
+              onChange={(e) => setNewSubcategory(e.target.value)}
+            />
+            <Button type="submit" variant="primary">
+              <RiAddLine /> Add
+            </Button>
+          </InputGroup>
+        </Form>
         {categories?.data.length === 0 && (
           <Badge variant="info" className="mt-2">
             No categories available
           </Badge>
         )}
-      </>
+      </div>
     </>
   );
 }

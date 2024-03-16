@@ -10,6 +10,7 @@ import Vendor from "../models/vendorModel.js";
  */
 const getVendors = asyncHandler(async (req, res) => {
   const vendors = await Vendor.find({}).populate("user");
+
   res.status(200).json({
     success: true,
     count: vendors.length,
@@ -43,6 +44,7 @@ const getVendorById = asyncHandler(async (req, res) => {
  */
 const getVendorProducts = asyncHandler(async (req, res) => {
   const vendorProducts = await Product.find({ vendor: req.vendor._id });
+
   res.status(200).json({
     success: true,
     data: vendorProducts,
@@ -114,12 +116,11 @@ const updateVendorStatus = asyncHandler(async (req, res) => {
     user.isVendor = true;
     vendor.isApproved = true;
     vendor.approvalStatus = "approved";
+    await user.save();
+    await vendor.save();
   } else if (status === "rejected") {
     await vendor.deleteOne();
   }
-
-  await user.save();
-  await vendor.save();
 
   res.status(200).json({
     success: true,

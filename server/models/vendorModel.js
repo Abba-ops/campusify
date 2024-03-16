@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import { reviewSchema } from "./productModel.js";
 
 const vendorSchema = new Schema(
   {
@@ -21,7 +20,7 @@ const vendorSchema = new Schema(
     },
     approvalStatus: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
+      enum: ["pending", "approved"],
       default: "pending",
     },
     businessDescription: {
@@ -50,7 +49,6 @@ const vendorSchema = new Schema(
       type: Number,
       default: 0,
     },
-    vendorReviews: [reviewSchema],
   },
   { timestamps: true }
 );

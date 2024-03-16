@@ -29,8 +29,6 @@ import { vendorLinks } from "../../constants";
 export default function VendorDashboard() {
   const location = useLocation();
 
-  console.log(location);
-
   const [activeLink, setActiveLink] = useState("Home");
   const { userInfo } = useSelector((state) => state.auth);
 

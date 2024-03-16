@@ -139,15 +139,15 @@ const createProduct = asyncHandler(async (req, res) => {
   } = req.body;
 
   const product = await Product.create({
-    productName,
-    productDescription,
-    category,
     brand,
-    price,
-    countInStock,
+    category,
+    countInStock: Number(countInStock),
     imageUrl,
-    subcategory,
+    productDescription,
+    price: Number(price),
+    productName,
     vendor: vendor._id,
+    subcategory,
   });
 
   if (!product) {
@@ -314,6 +314,62 @@ const searchProducts = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * @desc    Add a subcategory to a category
+ * @route   POST /api/products/add-subcategory
+ * @access  Private/Admin
+ */
+const addSubcategory = asyncHandler(async (req, res) => {
+  const { name, parentCategory } = req.body;
+
+  if (!name || !parentCategory) {
+    res.status(400);
+    throw new Error("Name and parent category are required");
+  }
+
+  const category = await Category.findById(parentCategory);
+
+  if (!category) {
+    res.status(404);
+    throw new Error("Parent category not found");
+  }
+
+  category.subcategories.push({ name });
+  await category.save();
+
+  res.status(201).json({
+    success: true,
+    message: "Subcategory added successfully",
+    category,
+  });
+});
+
+/**
+ * @desc    Delete a subcategory from a category
+ * @route   DELETE /api/products/delete-subcategory/:categoryId/:subcategoryId
+ * @access  Private/Admin
+ */
+const deleteSubcategory = asyncHandler(async (req, res) => {
+  const { categoryId, subcategoryId } = req.params;
+
+  const category = await Category.findById(categoryId);
+
+  if (!category) {
+    res.status(404);
+    throw new Error("Category not found");
+  }
+
+  category.subcategories = category.subcategories.filter(
+    (sub) => sub._id.toString() !== subcategoryId
+  );
+
+  await category.save();
+
+  res
+    .status(200)
+    .json({ success: true, message: "Subcategory deleted successfully" });
+});
+
 export {
   getProducts,
   getProductById,
@@ -327,4 +383,6 @@ export {
   getProductsByCategory,
   getProductsBySubcategory,
   searchProducts,
+  addSubcategory,
+  deleteSubcategory,
 };

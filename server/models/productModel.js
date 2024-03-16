@@ -3,23 +3,23 @@ import { Schema, model } from "mongoose";
 const subcategorySchema = new Schema({
   name: {
     type: String,
-    required: true,
     trim: true,
     lowercase: true,
+    require: true,
   },
 });
 
 const categorySchema = new Schema({
   name: {
     type: String,
-    required: true,
     trim: true,
+    require: true,
     lowercase: true,
   },
   subcategories: [subcategorySchema],
 });
 
-export const reviewSchema = new Schema(
+const reviewSchema = new Schema(
   {
     profilePictureURL: {
       type: String,
@@ -64,9 +64,7 @@ const productSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Category",
     },
-    subcategory: {
-      type: subcategorySchema,
-    },
+    subcategory: subcategorySchema,
     brand: {
       type: String,
       required: true,

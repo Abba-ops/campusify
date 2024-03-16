@@ -67,16 +67,18 @@ export default function VendorCreateProduct() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "category") {
-      const category = categories.data.filter((c) => c.name === value);
-      setSubcategories(category[0].subcategories);
+      const category = categories.data.find((c) => c._id === value);
+      setSubcategories(category ? category.subcategories : []);
     } else if (name === "subcategory") {
+      const subcategory = subcategories.find((c) => c._id === value);
       setFormData({
         ...formData,
         [name]: {
-          _id: value._id,
-          name: value.name,
+          name: subcategory.name,
+          _id: subcategory._id,
         },
       });
+      return;
     }
     setFormData({
       ...formData,
@@ -84,6 +86,16 @@ export default function VendorCreateProduct() {
     });
   };
 
+  useEffect(() => {
+    if (!loadingCategories) {
+      const category = categories.data.find(
+        (c) => c._id === categories.data[0]._id
+      );
+      setSubcategories(category ? category.subcategories : []);
+    }
+  }, [loadingCategories, setSubcategories, categories]);
+
+  console.log(formData);
 
   return (
     <>
@@ -147,7 +159,7 @@ export default function VendorCreateProduct() {
                   <Form.Label>Category</Form.Label>
                   <Form.Select name="category" onChange={handleChange}>
                     {categories?.data.map((category) => (
-                      <option value={category.name} key={category._id}>
+                      <option value={category._id} key={category._id}>
                         {category.name}
                       </option>
                     ))}
@@ -159,8 +171,7 @@ export default function VendorCreateProduct() {
                   <Form.Label>Subcategories</Form.Label>
                   <Form.Select name="subcategory" onChange={handleChange}>
                     {subcategories?.map((subcategory) => (
-                      <option value={subcategory} key={subcategory._id}>
-                        {console.log("subcategory", subcategory)}{" "}
+                      <option value={subcategory._id} key={subcategory._id}>
                         {subcategory.name}
                       </option>
                     ))}
