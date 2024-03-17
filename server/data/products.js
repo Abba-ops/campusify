@@ -1,8 +1,8 @@
 const products = [
   {
-    productName:
+    productName: "Airpods Wireless Bluetooth Headphones",
+    imageUrl:
       "https://res.cloudinary.com/drmy6ss8n/image/upload/v1710688729/campusify/airpods_xguql5.jpg",
-    imageUrl: "/images/airpods.jpg",
     productDescription:
       "Bluetooth technology lets you connect it with compatible devices wirelessly. High-quality AAC audio offers an immersive listening experience. Built-in microphone allows you to take calls while working.",
     brand: "Apple",
