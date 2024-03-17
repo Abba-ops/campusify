@@ -1,13 +1,11 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
+import cloudinary from "../config/cloudinary.js";
 
 const router = express.Router();
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
   filename: function (req, file, cb) {
     cb(
       null,
@@ -34,10 +32,15 @@ const upload = multer({
   },
 });
 
-router.post("/", upload.single("image"), (req, res) => {
+router.post("/", upload.single("image"), async (req, res) => {
+  const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+    folder: "campusify",
+  });
+
   res.json({
+    success: true,
+    image: uploadedImage.secure_url,
     message: "Uploaded successfully",
-    image: `/${req.file.path}`,
   });
 });
 
