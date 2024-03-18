@@ -37,16 +37,19 @@ export default function UserRegistration() {
     e.preventDefault();
 
     try {
-      const res = await registerUser({
+      const response = await registerUser({
         password,
         uniqueId: identifier,
         userType,
       }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      toast.success(`Welcome ${res.data.lastName}!`);
-      navigate(redirectPath);
+
+      if (response.success) {
+        dispatch(setCredentials({ ...response }));
+        toast.success(response.message);
+        navigate(redirectPath);
+      }
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error(error?.data?.message || "Registration failed.");
     }
   };
 

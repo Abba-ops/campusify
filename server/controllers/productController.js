@@ -52,7 +52,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
   if (!product) {
     res.status(404);
-    throw new Error("Product not found");
+    throw new Error("Product not found.");
   }
 
   const alreadyReviewed = product.reviews.find(
@@ -61,7 +61,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
   if (alreadyReviewed) {
     res.status(400);
-    throw new Error("Product already reviewed");
+    throw new Error("Already reviewed.");
   }
 
   const newReview = {
@@ -82,7 +82,7 @@ const createProductReview = asyncHandler(async (req, res) => {
   product.rating = totalRating / product.reviews.length;
 
   await product.save();
-  res.status(201).json({ success: true, message: "Review added" });
+  res.status(201).json({ success: true, message: "Review added." });
 });
 
 /**
@@ -96,7 +96,7 @@ const deleteReview = asyncHandler(async (req, res) => {
 
   if (!product) {
     res.status(404);
-    throw new Error("Product not found");
+    throw new Error("Product not found.");
   }
 
   product.reviews = product.reviews.filter(
@@ -114,9 +114,7 @@ const deleteReview = asyncHandler(async (req, res) => {
 
   await product.save();
 
-  res
-    .status(200)
-    .json({ success: true, message: "Review deleted successfully" });
+  res.status(200).json({ success: true, message: "Review deleted." });
 });
 
 /**
@@ -152,13 +150,13 @@ const createProduct = asyncHandler(async (req, res) => {
 
   if (!product) {
     res.status(500);
-    throw new Error("Internal Server Error");
+    throw new Error("Failed to create product.");
   }
 
   res.status(201).json({
     success: true,
     data: product,
-    message: "Product created successfully",
+    message: "Product created successfully.",
   });
 });
 
@@ -172,7 +170,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 
   if (!product) {
     res.status(404);
-    throw new Error("Product not found");
+    throw new Error("Product not found.");
   }
 
   const {
@@ -215,12 +213,12 @@ const addCategory = asyncHandler(async (req, res) => {
 
   if (!newCategory) {
     res.status(500);
-    throw new Error("Internal Server Error");
+    throw new Error("Failed to create category.");
   }
 
   res.status(201).json({
     success: true,
-    message: "Category created successfully",
+    message: "Category created successfully.",
     data: newCategory,
   });
 });
@@ -249,7 +247,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: "Category deleted successfully",
+    message: "Category deleted successfully.",
   });
 });
 

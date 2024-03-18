@@ -36,11 +36,14 @@ export default function UserSignIn() {
 
     try {
       const response = await authenticateUser({ email, password }).unwrap();
-      dispatch(setCredentials({ ...response }));
-      toast.success(`Welcome back, ${response.data.lastName}!`);
-      navigate(redirectPath);
+
+      if (response.success) {
+        dispatch(setCredentials({ ...response }));
+        toast.success(response.message);
+        navigate(redirectPath);
+      }
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error(error?.data?.message || "Sign in failed. Please try again.");
     }
   };
 

@@ -4,8 +4,7 @@ const subcategorySchema = new Schema({
   name: {
     type: String,
     trim: true,
-    lowercase: true,
-    require: true,
+    required: true,
   },
 });
 
@@ -13,8 +12,8 @@ const categorySchema = new Schema({
   name: {
     type: String,
     trim: true,
-    require: true,
-    lowercase: true,
+    required: true,
+    unique: true,
   },
   subcategories: [subcategorySchema],
 });

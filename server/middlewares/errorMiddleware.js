@@ -22,6 +22,11 @@ const errorHandler = (err, req, res, next) => {
     message = "Resource not found";
   }
 
+  // Add a message for the 500 status code
+  if (statusCode === 500) {
+    message = "Internal Server Error";
+  }
+
   // Send JSON response with error details
   res.status(statusCode).json({
     success: false,

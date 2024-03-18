@@ -4,9 +4,9 @@ import User from "../models/userModel.js";
 import Vendor from "../models/vendorModel.js";
 
 /**
- * @desc       Get all vendors
- * @route      GET /api/vendors
- * @access     Private/Admin
+ * @desc    Get all vendors
+ * @route   GET /api/vendors
+ * @access  Private/Admin
  */
 const getVendors = asyncHandler(async (req, res) => {
   const vendors = await Vendor.find({}).populate("user");
@@ -19,9 +19,9 @@ const getVendors = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc       Get a vendor by ID
- * @route      GET /api/vendors/:id
- * @access     Private/Admin
+ * @desc    Get a vendor by ID
+ * @route   GET /api/vendors/:id
+ * @access  Private/Admin
  */
 const getVendorById = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findById(req.params.vendorId).populate("user");
@@ -47,14 +47,15 @@ const getVendorProducts = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
+    count: vendorProducts.length,
     data: vendorProducts,
   });
 });
 
 /**
- * @desc   Apply as a vendor
- * @route  POST /api/vendors/application
- * @access Private
+ * @desc    Apply as a vendor
+ * @route   POST /api/vendors/application
+ * @access  Private
  */
 const vendorApplication = asyncHandler(async (req, res) => {
   const { businessEmail, businessName, businessPhone, businessDescription } =

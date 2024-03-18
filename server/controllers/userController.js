@@ -31,16 +31,17 @@ const authUser = asyncHandler(async (req, res) => {
 
   if (!user || !(await user.matchPassword(password))) {
     res.status(401);
-    throw new Error("Invalid email or password");
+    throw new Error("Incorrect email or password");
   }
 
   const vendor = await Vendor.findOne({ user: user._id });
 
   genToken(res, user._id);
+
   res.status(200).json({
     success: true,
     data: constructUserData(user, vendor),
-    message: "Login successful. Welcome!",
+    message: "Welcome! Login successful",
   });
 });
 
@@ -52,37 +53,50 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { uniqueId, userType, password } = req.body;
 
-  const portalRes = await axios.post(process.env.PORTAL_ENDPOINT, {
-    uniqueId,
-    role: userType,
-    api_key: process.env.PORTAL_API_KEY,
-  });
+  try {
+    const portalRes = await axios.post(process.env.PORTAL_ENDPOINT, {
+      uniqueId,
+      role: userType,
+      api_key: process.env.PORTAL_API_KEY,
+    });
 
-  const { data } = portalRes.data;
-  const { lastname, othernames, image, email, phone_number } = data;
+    const { data } = portalRes;
+    const { lastname, othernames, image, email, phone_number } = data.data;
 
-  if (await User.findOne({ email })) {
+    if (await User.findOne({ email })) {
+      res.status(400);
+      throw new Error("Email already taken");
+    }
+
+    const user = await User.create({
+      email,
+      password,
+      userType,
+      lastName: lastname,
+      otherNames: othernames,
+      profilePictureURL: image,
+      phoneNumber: phone_number,
+    });
+
+    genToken(res, user._id);
+
+    res.status(201).json({
+      success: true,
+      data: constructUserData(user),
+      message: "Account created!",
+    });
+  } catch (error) {
+    let errorMessage = "Registration failed. Please try again.";
+
+    if (error.response && error.response.status === 400) {
+      errorMessage = "Invalid information provided.";
+    } else if (error.message.includes("Email already taken")) {
+      errorMessage = "Email already in use.";
+    }
+
     res.status(400);
-    throw new Error("User already exists.");
+    throw new Error(errorMessage);
   }
-
-  const user = await User.create({
-    email,
-    password,
-    userType,
-    lastName: lastname,
-    otherNames: othernames,
-    profilePictureURL: image,
-    phoneNumber: phone_number,
-  });
-
-  genToken(res, user._id);
-
-  res.status(201).json({
-    success: true,
-    data: constructUserData(user),
-    message: "Account created successfully!",
-  });
 });
 
 /**
@@ -92,9 +106,7 @@ const registerUser = asyncHandler(async (req, res) => {
  */
 const logoutUser = asyncHandler(async (req, res) => {
   res.clearCookie("jwt_token");
-  res
-    .status(200)
-    .json({ success: true, message: "Logout successful. Goodbye!" });
+  res.status(200).json({ success: true, message: "Logged out. Goodbye!" });
 });
 
 /**
@@ -118,9 +130,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc     Update user password
- * @route    PUT /api/users/update-password
- * @access   Private
+ * @desc    Update user password
+ * @route   PUT /api/users/update-password
+ * @access  Private
  */
 const updateUserPassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -140,15 +152,13 @@ const updateUserPassword = asyncHandler(async (req, res) => {
   user.password = password;
 
   await user.save();
-  res
-    .status(200)
-    .json({ success: true, message: "Password updated successfully" });
+  res.status(200).json({ success: true, message: "Password updated" });
 });
 
 /**
- * @desc     Delete user account
- * @route    DELETE /api/users/delete-account
- * @access   Private
+ * @desc    Delete user account
+ * @route   DELETE /api/users/delete-account
+ * @access  Private
  */
 const deleteMyAccount = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -160,56 +170,59 @@ const deleteMyAccount = asyncHandler(async (req, res) => {
 
   await User.deleteOne({ _id: req.user._id });
   res.clearCookie("jwt_token");
-  res
-    .status(200)
-    .json({ success: true, message: "Account deleted successfully" });
+  res.status(200).json({ success: true, message: "Account deleted" });
 });
 
 /**
- * @desc       Get all users
- * @route      GET /api/users
- * @access     Private/Admin
+ * @desc    Get all users
+ * @route   GET /api/users
+ * @access  Private/Admin
  */
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
-  res.status(200).json({
-    success: true,
-    count: users.length,
-    data: users,
-  });
+  try {
+    const users = await User.find({});
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      data: users,
+    });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Failed to retrieve users. Please try again later.");
+  }
 });
 
 /**
- * @desc     Delete a user
- * @route    DELETE /api/users/:userId
- * @access   Private/Admin
+ * @desc    Delete a user
+ * @route   DELETE /api/users/:userId
+ * @access  Private/Admin
  */
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.userId);
 
   if (!user) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("User not found.");
   }
 
   await user.deleteOne();
-  res.status(200).json({ success: true, message: "User deleted successfully" });
+  res.status(200).json({ success: true, message: "User deleted." });
 });
 
 /**
- * @desc     Get a user by ID
- * @route    GET /api/users/:userId
- * @access   Private/Admin
+ * @desc    Get a user by ID
+ * @route   GET /api/users/:userId
+ * @access  Private/Admin
  */
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.userId);
 
   if (!user) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("User not found.");
   }
 
-  res.status(200).json({ success: true, data: user });
+  res.status(200).json({ success: true, data: user, message: "User found." });
 });
 
 /**
@@ -218,27 +231,20 @@ const getUserById = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const getCurrentUser = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id);
 
-    if (!user) {
-      res.status(404);
-      throw new Error("User not found");
-    }
-
-    const vendor = await Vendor.findOne({ user: user._id });
-
-    res.status(200).json({
-      success: true,
-      data: constructUserData(user, vendor),
-      message: "Current user retrieved successfully",
-    });
-  } catch (error) {
-    res.status(error.statusCode || 500).json({
-      success: false,
-      message: error.message || "Internal Server Error",
-    });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found. Please log in again.");
   }
+
+  const vendor = await Vendor.findOne({ user: user._id });
+
+  res.status(200).json({
+    success: true,
+    data: constructUserData(user, vendor),
+    message: "User retrieved successfully.",
+  });
 });
 
 export {
