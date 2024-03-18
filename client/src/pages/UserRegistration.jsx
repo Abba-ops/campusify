@@ -15,6 +15,7 @@ import { setCredentials } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRegisterUserMutation } from "../features/usersApiSlice";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import MetaTags from "../components/MetaTags";
 
 export default function UserRegistration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -49,7 +50,7 @@ export default function UserRegistration() {
         navigate(redirectPath);
       }
     } catch (error) {
-      toast.error(error?.data?.message || "Registration failed.");
+      toast.error((error && error.data.message) || "Registration failed.");
     }
   };
 
@@ -59,6 +60,11 @@ export default function UserRegistration() {
 
   return (
     <section className="py-5">
+      <MetaTags
+        title="Create Account - Campusify"
+        description="Sign up and create a new account on Campusify to access the ultimate campus marketplace."
+        keywords="Campusify, sign up, register, campus marketplace"
+      />
       <Container>
         <h5 className="border-bottom pb-3 text-uppercase text-center">
           Create a New Account

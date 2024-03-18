@@ -62,11 +62,13 @@ export default function ProductDetail() {
 
   const handleDeleteReview = async (reviewId) => {
     try {
-      await deleteReview({ productId, reviewId });
-      refetchProduct();
-      toast.success("Review deleted successfully");
+      const response = await deleteReview({ productId, reviewId }).unwrap();
+      if (response.success) {
+        refetchProduct();
+        toast.success(response.message);
+      }
     } catch (error) {
-      toast.error(error && (error.data.message || error.error));
+      toast.error((error && error.data.message) || "");
     }
   };
 
@@ -85,19 +87,21 @@ export default function ProductDetail() {
     }
 
     try {
-      await createReview({
+      const response = await createReview({
         productId,
         rating: userRating,
         comment: userComment,
         userId: userInfo.id,
         name: `${userInfo.data.lastName} ${userInfo.data.otherNames}`,
       }).unwrap();
-      refetchProduct();
-      setUserRating(0);
-      setUserComment("");
-      toast.success("Review submitted successfully");
+      if (response.success) {
+        refetchProduct();
+        toast.success(response.message);
+        setUserRating(0);
+        setUserComment("");
+      }
     } catch (error) {
-      toast.error(error && (error.data.message || error.error));
+      toast.error((error && error.data.message) || "");
     }
   };
 
@@ -411,6 +415,12 @@ export default function ProductDetail() {
         <ErrorPage />
       )}
       <BackToTop />
+      <div className="text-center mt-3">
+        <Link to="/" className="btn btn-outline-dark">
+          <BsArrowLeft className="me-2" />
+          Back to Products
+        </Link>
+      </div>
     </section>
   );
 }

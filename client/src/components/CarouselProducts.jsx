@@ -25,7 +25,9 @@ export default function CarouselProducts({
               ))
             : Array.from({ length: 4 }, (_, index) => (
                 <React.Fragment key={index}>
-                  <SingleProductPlaceholder lgColumnSize={3} />
+                  <Col lg={lgColumnSize} md={6}>
+                    <SingleProductPlaceholder />
+                  </Col>
                 </React.Fragment>
               ))}
         </Row>

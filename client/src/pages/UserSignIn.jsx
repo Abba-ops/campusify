@@ -14,6 +14,7 @@ import {
   InputGroup,
   Card,
 } from "react-bootstrap";
+import MetaTags from "../components/MetaTags";
 
 export default function UserSignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,7 +44,9 @@ export default function UserSignIn() {
         navigate(redirectPath);
       }
     } catch (error) {
-      toast.error(error?.data?.message || "Sign in failed. Please try again.");
+      toast.error(
+        (error && error.data.message) || "Sign in failed. Please try again."
+      );
     }
   };
 
@@ -53,6 +56,11 @@ export default function UserSignIn() {
 
   return (
     <section className="py-5">
+      <MetaTags
+        title="Log In - Campusify"
+        description="Log in to your Campusify account to access the ultimate campus marketplace."
+        keywords="Campusify, log in, sign in, campus marketplace"
+      />
       <Container>
         <h5 className="border-bottom pb-3 text-uppercase text-center">
           Log In to Your Account

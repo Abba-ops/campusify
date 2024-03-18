@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useGetUserProfileQuery } from "../features/usersApiSlice";
+import MetaTags from "../components/MetaTags";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -49,6 +50,15 @@ export default function UserProfile() {
 
   return (
     <section className="py-5">
+      {userProfile && userProfile.data && (
+        <MetaTags
+          title={`${userProfile.data.otherNames || ""} ${
+            userProfile.data.lastName || ""
+          } - Profile`}
+          description="View user profile on Campusify"
+          keywords="Campusify, user profile"
+        />
+      )}
       <Container>
         <Row className="justify-content-center">
           <Col lg={8}>
