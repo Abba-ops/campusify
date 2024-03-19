@@ -1,48 +1,149 @@
-import React from "react";
-import { useGetProductsByCategoryQuery } from "../features/productsApiSlice";
-import { useParams } from "react-router-dom";
-import { Col, Container, Row } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  useGetCategoriesQuery,
+  useGetProductsByCategoryQuery,
+} from "../features/productsApiSlice";
+import { Link, useParams } from "react-router-dom";
+import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
 import ProductCard from "../components/ProductCard";
 import SingleProductPlaceholder from "../components/SingleProductPlaceholder";
 
 export default function CategoryPage() {
   const { category, categoryId } = useParams();
+  const [visibleProducts, setVisibleProducts] = useState(6);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const {
     data: products,
     isLoading,
     isError,
   } = useGetProductsByCategoryQuery({ category, categoryId });
 
+  const { data: categories, isLoading: loadingCategories } =
+    useGetCategoriesQuery();
+
+  let sortedProducts = [];
+
+  if (products && products.data) {
+    sortedProducts = [...products.data].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+  }
+
+  const handleLoadMore = () => {
+    setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 8);
+  };
+
+  const formattedCategoryName = category.replace(/-/g, " ");
+
+  useEffect(() => {
+    if (!loadingCategories) {
+      const foundCategory = categories.data.find(
+        (category) => category.name.toLowerCase() === formattedCategoryName
+      );
+      setSelectedCategory(foundCategory);
+    }
+  }, [
+    categories,
+    setSelectedCategory,
+    loadingCategories,
+    formattedCategoryName,
+  ]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <Container className="mt-5">
-      <h2 className="text-capitalize">{category} Products</h2>
-      {isError ? (
-        <div className="text-center mt-5">
-          <h4 className="text-danger">Error Fetching Products</h4>
-          <p className="mt-3">
-            Sorry, we couldn't retrieve the products at the moment. Please try
-            again later or contact support.
-          </p>
-        </div>
-      ) : (
-        <Row className="overflow-x-scroll overflow-y-hidden flex-nowrap products-slider">
-          {isLoading ? (
-            Array.from({ length: 4 }, (_, index) => (
-              <React.Fragment key={index}>
-                <SingleProductPlaceholder lgColumnSize={3} />
-              </React.Fragment>
-            ))
+    <Container className="my-5">
+      <Row className="mb-3">
+        <Col>
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item">
+                <Link to="/">Home</Link>
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                <Link to={`/category/${category}/${category?._id}`}>
+                  {formattedCategoryName}
+                </Link>
+              </li>
+            </ol>
+          </nav>
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={3} className="d-none d-lg-block">
+          <ListGroup className="rounded-0">
+            <ListGroup.Item className="text-bg-dark">
+              <h5 className="text-uppercase">{selectedCategory?.name}</h5>
+            </ListGroup.Item>
+            {selectedCategory?.subcategories.map((subcategory) => (
+              <ListGroup.Item key={subcategory._id} className="py-3">
+                <Link
+                  to={`/${selectedCategory.name
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}/${subcategory.name
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}/${subcategory._id}`}
+                  className="text-decoration-none text-uppercase fw-semibold">
+                  {subcategory.name}
+                </Link>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Col>
+        <Col lg={9}>
+          {isError ? (
+            <div className="text-center mt-5">
+              <h4 className="text-danger">Error Fetching Products</h4>
+              <p className="mt-3">
+                Sorry, we couldn't retrieve the products at the moment. Please
+                try again later or contact support.
+              </p>
+            </div>
           ) : (
             <>
-              {products.data.map((product) => (
-                <Col key={product.id} md={4} lg={3} className="mb-3">
-                  <ProductCard product={product} />
-                </Col>
-              ))}
+              {sortedProducts.length === 0 && !isLoading && (
+                <div className="text-center mt-5">
+                  <h4>No products found in this category</h4>
+                  <p>Please check back later or explore other categories.</p>
+                </div>
+              )}
+              <Row>
+                {isLoading ? (
+                  Array.from({ length: visibleProducts }, (_, index) => (
+                    <Col key={index} lg={4} md={6} className="mb-4">
+                      <SingleProductPlaceholder />
+                    </Col>
+                  ))
+                ) : (
+                  <>
+                    {sortedProducts
+                      .slice(0, visibleProducts)
+                      .map((product, index) => (
+                        <Col key={index} md={4} lg={4} className="mb-4">
+                          <ProductCard product={product} />
+                        </Col>
+                      ))}
+                    {!isLoading &&
+                      visibleProducts <
+                        (sortedProducts ? sortedProducts.length : 0) && (
+                        <div className="d-flex justify-content-center">
+                          <Button
+                            variant="dark"
+                            onClick={handleLoadMore}
+                            className="text-uppercase mt-4">
+                            Load More
+                          </Button>
+                        </div>
+                      )}
+                  </>
+                )}
+              </Row>
             </>
           )}
-        </Row>
-      )}
+        </Col>
+      </Row>
     </Container>
   );
 }

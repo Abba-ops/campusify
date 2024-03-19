@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { contactInfo } from "../constants";
+import MetaTags from "../components/MetaTags";
 
 export default function PageNotFound() {
+  const supportEmail = contactInfo.find((info) => info.type === "email");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
+      <MetaTags
+        title="Page Not Found - Campusify"
+        description="Oops! Page not found. It seems you've taken a detour to an undiscovered part of our store. Let's get you back on track."
+        keywords="404, page not found, store, website"
+      />
       <Container>
         <Row className="justify-content-center align-items-center text-center">
           <Col lg={8}>
@@ -26,9 +39,7 @@ export default function PageNotFound() {
             </div>
             <div>
               <p className="mb-1">Need assistance? Contact our support team:</p>
-              <Link to="mailto:jadesolakajeyale@gmail.com">
-                jadesolakajeyale@gmail.com
-              </Link>
+              <a href={`mailto:${supportEmail.info}`}>{supportEmail.info}</a>
             </div>
           </Col>
         </Row>

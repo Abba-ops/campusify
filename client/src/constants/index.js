@@ -8,7 +8,7 @@ import {
   BsPerson,
   BsPersonCheck,
 } from "react-icons/bs";
-import { FaPhoneAlt } from "react-icons/fa";
+import { FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import {
   MdOutlineSecurity,
   MdOutlineLocalShipping,
@@ -102,15 +102,18 @@ export const services = [
 
 export const contactInfo = [
   {
+    type: "phone",
     icon: <FaPhoneAlt />,
     info: "0905-392-9899",
   },
   {
+    type: "phone",
     icon: <FaPhoneAlt />,
     info: "0905-392-9899",
   },
   {
-    icon: <FaPhoneAlt />,
-    info: "0905-392-9899",
+    type: "email",
+    icon: <FaEnvelope />,
+    info: "jadesolakajeyale@gmail.com",
   },
 ];

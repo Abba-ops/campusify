@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useGetUserProfileQuery } from "../features/usersApiSlice";
@@ -47,6 +47,10 @@ export default function UserProfile() {
       </Link>
     </div>
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <section className="py-5">

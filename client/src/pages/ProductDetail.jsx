@@ -8,6 +8,7 @@ import {
   Spinner,
   ListGroup,
   Container,
+  Alert,
 } from "react-bootstrap";
 import {
   useCreateReviewMutation,
@@ -54,8 +55,10 @@ export default function ProductDetail() {
     useCreateReviewMutation(productId);
 
   const addToCartHandler = () => {
-    dispatch(addToCart({ ...productData?.data, quantity: cartQuantity }));
-    navigate("/cart");
+    if (!productLoading) {
+      dispatch(addToCart({ ...productData.data, quantity: cartQuantity }));
+      navigate("/cart");
+    }
   };
 
   const [deleteReview] = useDeleteReviewMutation();
@@ -94,6 +97,7 @@ export default function ProductDetail() {
         userId: userInfo.id,
         name: `${userInfo.data.lastName} ${userInfo.data.otherNames}`,
       }).unwrap();
+
       if (response.success) {
         refetchProduct();
         toast.success(response.message);
@@ -142,7 +146,7 @@ export default function ProductDetail() {
                 </div>
               )}
             </Col>
-            <Col lg={5} className="mb-6 mb-lg-0">
+            <Col lg={5} className="mb-5 mb-lg-0">
               {productLoading ? (
                 <div className="placeholder-glow">
                   <span
@@ -192,13 +196,17 @@ export default function ProductDetail() {
                       }`}
                     />
                   </div>
-                  <h5>
-                    {productData.data.vendor.businessName}{" "}
-                    {productData.data.vendor.isApproved && (
-                      <FaCheckCircle color="green" title="Verified" />
-                    )}
-                  </h5>
-                  <p className="my-3">{productData.data.productDescription}</p>
+                  <Link className="text-decoration-none">
+                    <h5>
+                      {productData.data.vendor.businessName}{" "}
+                      {productData.data.vendor.isApproved && (
+                        <FaCheckCircle color="green" title="Verified" />
+                      )}
+                    </h5>
+                  </Link>
+                  <p className="my-3 text-break">
+                    {productData.data.productDescription}
+                  </p>
                   <h4 className="text-primary mb-3">
                     &#8358;{numberWithCommas(productData.data.price)}
                   </h4>
@@ -281,13 +289,16 @@ export default function ProductDetail() {
                   <h5 className="text-uppercase mb-3">Customer Reviews</h5>
                   {productData && productData.data.reviews.length === 0 && (
                     <>
-                      <p className="mb-3">
-                        No reviews yet for {productData.data.productName}.
-                      </p>
-                      <p className="mb-3">
-                        Be the first to share your thoughts and help others make
-                        informed decisions about this product.
-                      </p>
+                      <Alert variant="primary" className="rounded-0 border-0">
+                        <p className="mb-3">
+                          No reviews yet for{" "}
+                          <strong>{productData.data.productName}</strong>.
+                        </p>
+                        <p>
+                          Be the first to share your thoughts and help others
+                          make informed decisions about this product.
+                        </p>
+                      </Alert>
                     </>
                   )}
                   <ListGroup variant="flush">
@@ -353,7 +364,7 @@ export default function ProductDetail() {
                         </Button>
                       )}
                     </div>
-                    <div className="mt-5">
+                    <div className="mb-5">
                       <h5 className="text-uppercase mb-3">Write a Review</h5>
                       {userInfo ? (
                         <Form onSubmit={handleReviewSubmit}>
@@ -376,32 +387,36 @@ export default function ProductDetail() {
                             />
                           </Form.Group>
                           <p className="text-muted text-end">{`${userComment.length} / ${maxChars}`}</p>
-                          <Button
-                            type="submit"
-                            className="text-uppercase"
-                            disabled={loadingCreateReview}
-                            variant="dark">
-                            {loadingCreateReview ? (
-                              <Spinner animation="border" size="sm" />
-                            ) : (
-                              "Submit"
-                            )}
-                          </Button>
+                          <div className="d-flex justify-content-center">
+                            <Button
+                              type="submit"
+                              className="text-uppercase"
+                              disabled={loadingCreateReview}
+                              variant="dark">
+                              {loadingCreateReview ? (
+                                <Spinner animation="border" size="sm" />
+                              ) : (
+                                "Submit"
+                              )}
+                            </Button>
+                          </div>
                         </Form>
                       ) : (
                         <>
-                          <p className="mb-4">
-                            Ready to share your thoughts on{" "}
-                            {productData.data.productName}? Your feedback can
-                            help others make informed decisions.
-                          </p>
-                          <div className="d-flex justify-content-center">
-                            <Link
-                              to={"/login"}
-                              className="btn btn-dark text-uppercase">
-                              Login
-                            </Link>
-                          </div>
+                          <Alert
+                            variant="primary"
+                            className="rounded-0 border-0">
+                            <p className="mb-0">
+                              Ready to share your thoughts on{" "}
+                              <strong>{productData.data.productName}</strong>?
+                              Your feedback can help others make informed
+                              decisions.
+                            </p>
+                            <p className="mb-0">
+                              Please <Link to={"/login"}>login</Link> to leave
+                              your feedback.
+                            </p>
+                          </Alert>
                         </>
                       )}
                     </div>
@@ -415,7 +430,7 @@ export default function ProductDetail() {
         <ErrorPage />
       )}
       <BackToTop />
-      <div className="text-center mt-3">
+      <div className="text-center my-3">
         <Link to="/" className="btn btn-outline-dark">
           <BsArrowLeft className="me-2" />
           Back to Products

@@ -39,7 +39,7 @@ export default function HeaderNav() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search/${searchQuery.toLowerCase()}`);
+    navigate(`/search/${searchQuery}`);
   };
 
   const dispatch = useDispatch();
@@ -110,7 +110,7 @@ export default function HeaderNav() {
                     className="rounded-0"
                     placeholder="Enter Your Search"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
                   />
                   <Button
                     variant="primary"
