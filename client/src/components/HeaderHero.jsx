@@ -7,7 +7,7 @@ export default function HeaderHero() {
   const { userInfo } = useSelector((state) => state.auth);
 
   return (
-    <header className="px-4 border-bottom">
+    <header className="px-lg-4 border-bottom">
       <div className="row flex-lg-row align-items-center py-5">
         <div className="col-lg-6 order-lg-2 mb-4 mb-lg-0">
           <Carousel indicators={false} controls={false}>
