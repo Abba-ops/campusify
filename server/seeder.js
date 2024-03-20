@@ -6,6 +6,7 @@ import vendorData from "./data/vendors.js";
 import { categoryData, products } from "./data/products.js";
 import User from "./models/userModel.js";
 import { Category, Product } from "./models/productModel.js";
+import cloudinary from "./config/cloudinary.js";
 import Vendor from "./models/vendorModel.js";
 
 dotenv.config();
@@ -73,8 +74,10 @@ const importData = async () => {
 const destroyData = async () => {
   try {
     await clearDatabase();
+    await cloudinary.api.delete_resources_by_prefix("campusify/");
 
     console.log("Data deleted successfully".red.inverse);
+    console.log("Images deleted successfully".red.inverse);
     process.exit();
   } catch (error) {
     console.error(`Error deleting data: ${error.message}`.red.inverse);

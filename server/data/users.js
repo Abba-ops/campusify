@@ -23,7 +23,7 @@ const userData = [
       "https://tau.edu.ng/assets/images/staffphotos/TAUSSPF035.jpg",
     userType: "staff",
     isVendor: false,
-    isAdmin: true,
+    isAdmin: false,
   },
   {
     lastName: "Brown",
@@ -34,7 +34,7 @@ const userData = [
     profilePictureURL:
       "https://portal.tau.edu.ng/uploads/student/adebayo-oluwafemi-samuel.jpg",
     userType: "student",
-    isVendor: true,
+    isVendor: false,
     isAdmin: false,
   },
   {
@@ -46,7 +46,7 @@ const userData = [
     profilePictureURL:
       "https://portal.tau.edu.ng/uploads/student/elelu-abdulkareem-ayomikun.jpg",
     userType: "staff",
-    isVendor: true,
+    isVendor: false,
     isAdmin: false,
   },
 ];

@@ -1,49 +1,51 @@
 import React from "react";
-import { Carousel, Image, Button, Container } from "react-bootstrap";
+import { Carousel, Image, Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function HeaderHero() {
+  const { userInfo } = useSelector((state) => state.auth);
+
   return (
     <header className="px-4 border-bottom">
-      <div className="row flex-column-reverse flex-lg-row align-items-center py-5">
+      <div className="row flex-lg-row align-items-center py-5">
         <div className="col-lg-6 order-lg-2 mb-4 mb-lg-0">
           <Carousel indicators={false} controls={false}>
-            <Carousel.Item>
-              <Image src="/images/playstation.jpg" fluid />
-            </Carousel.Item>
-            <Carousel.Item>
-              <Image src="/images/playstation.jpg" fluid />
-            </Carousel.Item>
-            <Carousel.Item>
-              <Image src="/images/playstation.jpg" fluid />
-            </Carousel.Item>
+            {[1, 2, 3].map((index) => (
+              <Carousel.Item key={index}>
+                <Image src="/images/playstation.jpg" fluid />
+              </Carousel.Item>
+            ))}
           </Carousel>
         </div>
         <div className="col-lg-6 order-lg-1 text-center text-lg-start">
-          <h1 className="display-5 fw-bold lh-sm mb-3">
+          <h1 className="display-5 fw-bold lh-sm mb-3 d-none d-lg-block">
             Empowering Campus Entrepreneurs
           </h1>
-          <p className="lead fw-normal text-muted mb-4">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit
-            voluptates atque eum modi dicta officia consequatur provident neque,
-            esse, repudiandae iusto nemo sapiente optio ratione?
+          <p className="lead fw-normal text-muted mb-4 d-none d-lg-block">
+            Empower yourself with our platform designed for campus
+            entrepreneurs. Discover opportunities, connect with like-minded
+            individuals, and turn your ideas into reality. Join us in building a
+            vibrant community of innovators and creators, shaping the future
+            together.
           </p>
-          <div className="d-grid gap-2">
+          <div className="d-grid gap-3">
             <Button
+              as={Link}
               size="lg"
-              className="px-4 text-white text-uppercase"
               variant="primary"
-              block>
-              Browse Now
+              to={userInfo ? "/vendor-application" : "/login"}
+              className="text-uppercase text-white">
+              {userInfo ? "Start Selling" : "Get Started"}
             </Button>
-            <Link to="/login" className="text-decoration-none">
-              <Button
-                size="lg"
-                variant="outline-primary"
-                className="px-4 mt-3 w-100 text-uppercase">
-                Start Selling
-              </Button>
-            </Link>
+            <Button
+              as={Link}
+              size="lg"
+              variant="dark"
+              to={"/about"}
+              className="text-uppercase">
+              Explore More
+            </Button>
           </div>
         </div>
       </div>

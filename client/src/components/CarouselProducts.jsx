@@ -1,36 +1,44 @@
 import React from "react";
-import { Container, Col, Row, Placeholder } from "react-bootstrap";
+import { Container, Col, Row, Badge } from "react-bootstrap";
+import { BsArrowRight } from "react-icons/bs";
 import ProductCard from "./ProductCard";
-import { useGetProductsQuery } from "../features/productsApiSlice";
 import SingleProductPlaceholder from "./SingleProductPlaceholder";
 
 export default function CarouselProducts({
   lgColumnSize = 12,
   showPreviewIcon,
+  productsData,
+  isLoading,
+  isError,
 }) {
-  const { data: productsData, isLoading, error } = useGetProductsQuery();
-
   return (
     <Container className="pt-4">
-      {!error ? (
-        <Row className="overflow-x-scroll overflow-y-hidden flex-nowrap products-slider">
-          {!isLoading
-            ? productsData.data.map((product, index) => (
-                <Col lg={lgColumnSize} key={index} md={6}>
-                  <ProductCard
-                    product={product}
-                    showPreviewIcon={showPreviewIcon}
-                  />
-                </Col>
-              ))
-            : Array.from({ length: 4 }, (_, index) => (
-                <React.Fragment key={index}>
-                  <Col lg={lgColumnSize} md={6}>
+      {!isError ? (
+        <div>
+          <Row className="overflow-x-scroll overflow-y-hidden flex-nowrap products-slider">
+            {!isLoading
+              ? productsData?.map((product, index) => (
+                  <Col lg={lgColumnSize} key={index} md={6}>
+                    <ProductCard
+                      product={product}
+                      showPreviewIcon={showPreviewIcon}
+                    />
+                  </Col>
+                ))
+              : Array.from({ length: 4 }, (_, index) => (
+                  <Col lg={lgColumnSize} md={6} key={index}>
                     <SingleProductPlaceholder />
                   </Col>
-                </React.Fragment>
-              ))}
-        </Row>
+                ))}
+          </Row>
+          <div className="scroll-indicator text-center mt-3">
+            <BsArrowRight className="scroll-icon" />
+            <span className="scroll-text">
+              Swipe or scroll <Badge variant="secondary">right</Badge> to see
+              more
+            </span>
+          </div>
+        </div>
       ) : (
         <div className="text-center mt-5">
           <h4 className="text-danger">Error Fetching Products</h4>

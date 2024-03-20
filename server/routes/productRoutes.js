@@ -7,7 +7,10 @@ import {
   deleteCategory,
   deleteReview,
   deleteSubcategory,
+  getBestSellingProducts,
   getCategories,
+  getIsFeatured,
+  getPopularProducts,
   getProductById,
   getProducts,
   getProductsByCategory,
@@ -25,6 +28,9 @@ import { validateReview } from "../middlewares/validateData.js";
 const router = express.Router();
 
 router.get("/search", searchProducts);
+router.get("/popular", getPopularProducts);
+router.get("/best-sellers", getBestSellingProducts);
+router.get("/is-featured", getIsFeatured);
 router.get(
   "/subcategory/:subcategory/:subcategoryId",
   getProductsBySubcategory

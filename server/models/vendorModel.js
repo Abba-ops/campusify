@@ -2,15 +2,15 @@ import { Schema, model } from "mongoose";
 
 const vendorSchema = new Schema(
   {
-    businessName: {
+    vendorName: {
       type: String,
       required: true,
     },
-    businessEmail: {
+    vendorEmail: {
       type: String,
       required: true,
     },
-    businessPhone: {
+    vendorPhone: {
       type: String,
       required: true,
     },
@@ -23,7 +23,7 @@ const vendorSchema = new Schema(
       enum: ["pending", "approved"],
       default: "pending",
     },
-    businessDescription: {
+    vendorDescription: {
       type: String,
       required: true,
     },

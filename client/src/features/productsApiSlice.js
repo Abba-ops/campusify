@@ -103,6 +103,24 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getIsFeatured: builder.query({
+      query: () => ({
+        url: `${PRODUCTS_URL}/is-featured`,
+        method: "GET",
+      }),
+    }),
+    getPopularProducts: builder.query({
+      query: () => ({
+        url: `${PRODUCTS_URL}/popular`,
+        method: "GET",
+      }),
+    }),
+    getBestSellingProducts: builder.query({
+      query: () => ({
+        url: `${PRODUCTS_URL}/best-sellers`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -122,4 +140,7 @@ export const {
   useGetProductsBySubcategoryQuery,
   useAddSubcategoryMutation,
   useDeleteSubcategoryMutation,
+  useGetIsFeaturedQuery,
+  useGetPopularProductsQuery,
+  useGetBestSellingProductsQuery,
 } = productsApiSlice;

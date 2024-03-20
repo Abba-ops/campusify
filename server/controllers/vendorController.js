@@ -58,15 +58,14 @@ const getVendorProducts = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const vendorApplication = asyncHandler(async (req, res) => {
-  const { businessEmail, businessName, businessPhone, businessDescription } =
-    req.body;
+  const { vendorEmail, vendorName, vendorPhone, vendorDescription } = req.body;
 
   const newVendorData = {
-    businessName,
-    businessDescription,
+    vendorName,
+    vendorDescription,
     user: req.user._id,
-    businessEmail,
-    businessPhone,
+    vendorEmail,
+    vendorPhone,
   };
 
   const createdVendor = await Vendor.create(newVendorData);

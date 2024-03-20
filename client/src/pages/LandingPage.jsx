@@ -7,8 +7,12 @@ import HeaderHero from "../components/HeaderHero";
 import MetaTags from "../components/MetaTags";
 import PopularProducts from "../components/PopularProducts";
 import ServiceGrid from "../components/ServiceGrid";
+import ApplyAsVendorAlert from "../components/ApplyAsVendorAlert";
+import { useSelector } from "react-redux";
 
 export default function LandingPage() {
+  const { userInfo } = useSelector((state) => state.auth);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -24,6 +28,8 @@ export default function LandingPage() {
         <HeaderHero />
         <ServiceGrid />
         <FeaturedProducts />
+        {userInfo && !userInfo.data.isVendor && <ApplyAsVendorAlert />}
+        {!userInfo && <ApplyAsVendorAlert />}
         <BestSeller />
         <PopularProducts />
         <BackToTop />

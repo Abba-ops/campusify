@@ -94,18 +94,6 @@ export default function UserProfileDetails() {
                   {userInfo.data.phoneNumber || "No phone number provided"}
                 </p>
               </ListGroup.Item>
-              {!userInfo.data.vendor && (
-                <ListGroup.Item>
-                  <div className="my-3">
-                    Interested in becoming a vendor?{" "}
-                    <Link
-                      to={"/vendor-application"}
-                      className="text-decoration-none">
-                      Apply here
-                    </Link>
-                  </div>
-                </ListGroup.Item>
-              )}
               <ListGroup.Item>
                 <Form>
                   <Form.Group className="mb-3">

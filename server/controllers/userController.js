@@ -36,12 +36,15 @@ const authUser = asyncHandler(async (req, res) => {
 
   const vendor = await Vendor.findOne({ user: user._id });
 
+  const { otherNames } = user;
+  const firstName = otherNames.split(" ")[0];
+
   genToken(res, user._id);
 
   res.status(200).json({
     success: true,
     data: constructUserData(user, vendor),
-    message: "Welcome! Login successful",
+    message: `Welcome, ${firstName}! Login successful`,
   });
 });
 
@@ -78,12 +81,14 @@ const registerUser = asyncHandler(async (req, res) => {
       phoneNumber: phone_number,
     });
 
+    const firstName = othernames.split(" ")[0];
+
     genToken(res, user._id);
 
     res.status(201).json({
       success: true,
       data: constructUserData(user),
-      message: "Account created!",
+      message: `Welcome, ${firstName}! Account created!`,
     });
   } catch (error) {
     let errorMessage = "Registration failed. Please try again.";
@@ -152,7 +157,9 @@ const updateUserPassword = asyncHandler(async (req, res) => {
   user.password = password;
 
   await user.save();
-  res.status(200).json({ success: true, message: "Password updated" });
+  res
+    .status(200)
+    .json({ success: true, message: "Password successfully updated." });
 });
 
 /**
@@ -170,7 +177,10 @@ const deleteMyAccount = asyncHandler(async (req, res) => {
 
   await User.deleteOne({ _id: req.user._id });
   res.clearCookie("jwt_token");
-  res.status(200).json({ success: true, message: "Account deleted" });
+  res.status(200).json({
+    success: true,
+    message: "Your account has been successfully deleted.",
+  });
 });
 
 /**

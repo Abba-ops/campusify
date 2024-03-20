@@ -1,19 +1,6 @@
 import React, { useState } from "react";
-import {
-  Nav,
-  Form,
-  Stack,
-  Image,
-  Badge,
-  Button,
-  Navbar,
-  Dropdown,
-  Container,
-  InputGroup,
-  Offcanvas,
-} from "react-bootstrap";
+import { Nav, Stack, Image, Badge, Navbar, Container } from "react-bootstrap";
 import { BiCategoryAlt } from "react-icons/bi";
-import { FaSearch } from "react-icons/fa";
 import { RiShoppingBag2Line, RiUserLine, RiSearch2Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -25,25 +12,22 @@ import { clearCredentials } from "../features/authSlice";
 import { clearCartItems } from "../features/cartSlice";
 import { useGetCategoriesQuery } from "../features/productsApiSlice";
 import CategoryOffcanvas from "./CategoryOffcanvas";
+import SearchForm from "./SearchForm";
+import UserProfileDropdown from "./UserProfileDropdown";
 
 export default function HeaderNav() {
+  const [showSearch, setShowSearch] = useState(false);
   const [show, setShow] = useState(false);
+
   const {
     data: categories,
     isLoading: loadingCategories,
-    refetch,
+    isError: errorCategories,
   } = useGetCategoriesQuery();
-  const [showSearch, setShowSearch] = useState(false);
-
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    navigate(`/search/${searchQuery}`);
-  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -54,13 +38,19 @@ export default function HeaderNav() {
   const handleShow = () => setShow(true);
   const handleShowSearch = () => setShowSearch((prev) => !prev);
 
+  const handleSearchSubmit = (searchQuery) => {
+    navigate(`/search/${searchQuery}`);
+  };
+
   const logoutHandler = async () => {
     try {
-      await logoutUser().unwrap();
-      dispatch(clearCredentials());
-      dispatch(clearCartItems());
-      toast.success("Logged out successfully!");
-      navigate("/");
+      const response = await logoutUser().unwrap();
+      if (response.success) {
+        dispatch(clearCredentials());
+        dispatch(clearCartItems());
+        toast.success(response.message);
+        navigate("/");
+      }
     } catch (error) {
       toast.error("Logout failed. Please try again.");
     }
@@ -73,11 +63,11 @@ export default function HeaderNav() {
         sticky="top"
         collapseOnSelect
         className={`p-0 bg-light ${
-          !(location.pathname === "/") && "bg-white border-bottom"
+          location.pathname !== "/" && "bg-white navbar-shadow"
         }`}>
         <Container
           className={`bg-white py-2 py-lg-3 ${
-            location.pathname === "/" && "border-bottom"
+            location.pathname === "/" && "navbar-shadow"
           }`}>
           <Navbar.Brand>
             <LinkContainer to={"/"}>
@@ -102,25 +92,7 @@ export default function HeaderNav() {
                 ))}
               </Stack>
             </Nav>
-            {showSearch && (
-              <Form onSubmit={handleSearchSubmit}>
-                <InputGroup className="mb-3 mb-lg-0 me-lg-4 w-auto">
-                  <Form.Control
-                    type="text"
-                    className="rounded-0"
-                    placeholder="Enter Your Search"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
-                  />
-                  <Button
-                    variant="primary"
-                    className="text-white rounded-0"
-                    type="submit">
-                    <FaSearch />
-                  </Button>
-                </InputGroup>
-              </Form>
-            )}
+            {showSearch && <SearchForm onSubmit={handleSearchSubmit} />}
             <Stack direction="horizontal" gap={4}>
               <Nav.Link>
                 <RiSearch2Line className="fs-4" onClick={handleShowSearch} />
@@ -147,46 +119,17 @@ export default function HeaderNav() {
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <Dropdown align={"end"}>
-                  <Dropdown.Toggle variant="success" as={"span"}>
-                    <Image
-                      fluid
-                      roundedCircle
-                      loading="lazy"
-                      className="profile-picture-sm"
-                      src={userInfo.data.profilePictureURL}
-                    />
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Header>
-                      {userInfo.data.lastName || "User"} Options
-                    </Dropdown.Header>
-                    <LinkContainer to="/profile">
-                      <Dropdown.Item>View Profile</Dropdown.Item>
-                    </LinkContainer>
-                    {userInfo.data.isAdmin && (
-                      <Nav.Link>
-                        <LinkContainer to="/admin/dashboard/">
-                          <Dropdown.Item>Admin Dashboard</Dropdown.Item>
-                        </LinkContainer>
-                      </Nav.Link>
-                    )}
-                    {userInfo.data.isVendor && (
-                      <Nav.Link>
-                        <LinkContainer to="/vendor/dashboard/">
-                          <Dropdown.Item>Vendor Dashboard</Dropdown.Item>
-                        </LinkContainer>
-                      </Nav.Link>
-                    )}
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={logoutHandler}>
-                      Logout
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <UserProfileDropdown
+                  userInfo={userInfo}
+                  isAdmin={userInfo.data.isAdmin}
+                  isVendor={userInfo.data.isVendor}
+                  logoutHandler={logoutHandler}
+                />
               ) : (
                 <LinkContainer to={"/login"}>
-                  <RiUserLine className="fs-4" />
+                  <Nav.Link>
+                    <RiUserLine className="fs-4" />
+                  </Nav.Link>
                 </LinkContainer>
               )}
             </Stack>
@@ -196,6 +139,8 @@ export default function HeaderNav() {
       <CategoryOffcanvas
         categories={categories}
         show={show}
+        isError={errorCategories}
+        isLoading={loadingCategories}
         handleClose={handleClose}
       />
     </>

@@ -92,6 +92,14 @@ const productSchema = new Schema(
       required: true,
       ref: "Vendor",
     },
+    isFeatured: {
+      type: Boolean,
+      default: false,
+    },
+    salesCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

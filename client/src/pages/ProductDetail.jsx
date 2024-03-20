@@ -13,17 +13,18 @@ import {
 import {
   useCreateReviewMutation,
   useDeleteReviewMutation,
+  useGetBestSellingProductsQuery,
   useGetProductDetailsQuery,
 } from "../features/productsApiSlice";
 import MetaTags from "../components/MetaTags";
-import { BsArrowLeft, BsCartPlus } from "react-icons/bs";
+import { BsArrowLeft } from "react-icons/bs";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { numberWithCommas } from "../utils/cartUtils";
 import { toast } from "react-toastify";
 import { addToCart } from "../features/cartSlice";
 import { formatDistanceToNow } from "date-fns";
-import { MdDelete } from "react-icons/md";
+import { MdAddShoppingCart, MdDelete } from "react-icons/md";
 import ErrorPage from "./ErrorPage";
 import CarouselProducts from "../components/CarouselProducts";
 import { FaCheckCircle } from "react-icons/fa";
@@ -61,6 +62,12 @@ export default function ProductDetail() {
     }
   };
 
+  const {
+    data: bestSellingProducts,
+    isError: errorBestSellingProducts,
+    isLoading: loadingBestSellingProducts,
+  } = useGetBestSellingProductsQuery();
+
   const [deleteReview] = useDeleteReviewMutation();
 
   const handleDeleteReview = async (reviewId) => {
@@ -71,7 +78,7 @@ export default function ProductDetail() {
         toast.success(response.message);
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "");
+      toast.error((error && error.data.message) || "Error deleting review.");
     }
   };
 
@@ -105,7 +112,7 @@ export default function ProductDetail() {
         setUserComment("");
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "");
+      toast.error((error && error.data.message) || "Error submitting review.");
     }
   };
 
@@ -146,7 +153,7 @@ export default function ProductDetail() {
                 </div>
               )}
             </Col>
-            <Col lg={5} className="mb-5 mb-lg-0">
+            <Col lg={5} className="mb-6 mb-lg-0">
               {productLoading ? (
                 <div className="placeholder-glow">
                   <span
@@ -182,7 +189,11 @@ export default function ProductDetail() {
                 </div>
               ) : (
                 <>
-                  <MetaTags title={productData.data.productName} />
+                  <MetaTags
+                    title={productData.data.productName}
+                    description={productData.data.productDescription}
+                    keywords="product, ecommerce, online shopping"
+                  />
                   <h3 className="text-uppercase mb-3">
                     {productData.data.productName}
                   </h3>
@@ -198,7 +209,7 @@ export default function ProductDetail() {
                   </div>
                   <Link className="text-decoration-none">
                     <h5>
-                      {productData.data.vendor.businessName}{" "}
+                      {productData.data.vendor.vendorName}{" "}
                       {productData.data.vendor.isApproved && (
                         <FaCheckCircle color="green" title="Verified" />
                       )}
@@ -231,7 +242,7 @@ export default function ProductDetail() {
                       className="text-uppercase"
                       onClick={addToCartHandler}
                       disabled={productData.data.countInStock === 0}>
-                      <BsCartPlus className="me-2" />{" "}
+                      <MdAddShoppingCart className="me-2" />{" "}
                       {productData.data.countInStock > 0
                         ? "Add to Cart"
                         : "Out of Stock"}
@@ -241,12 +252,18 @@ export default function ProductDetail() {
               )}
             </Col>
             <Col lg={3} className="mb-6">
-              {!productLoading && (
+              {!loadingBestSellingProducts && (
                 <h4 className="text-uppercase text-center mb-0">
                   Other Products
                 </h4>
               )}
-              <CarouselProducts lg={12} showPreviewIcon={false} />
+              <CarouselProducts
+                lg={12}
+                showPreviewIcon={false}
+                isError={errorBestSellingProducts}
+                isLoading={loadingBestSellingProducts}
+                productsData={bestSellingProducts && bestSellingProducts.data}
+              />
             </Col>
           </Row>
           <Row>
@@ -286,17 +303,20 @@ export default function ProductDetail() {
                 </div>
               ) : (
                 <>
-                  <h5 className="text-uppercase mb-3">Customer Reviews</h5>
+                  <h5 className="text-uppercase mb-3">
+                    What Our Customers Say
+                  </h5>
                   {productData && productData.data.reviews.length === 0 && (
                     <>
                       <Alert variant="primary" className="rounded-0 border-0">
                         <p className="mb-3">
-                          No reviews yet for{" "}
+                          There are no reviews yet for{" "}
                           <strong>{productData.data.productName}</strong>.
                         </p>
                         <p>
-                          Be the first to share your thoughts and help others
-                          make informed decisions about this product.
+                          Be the first to share your experience and assist
+                          others in making informed decisions about this
+                          product.
                         </p>
                       </Alert>
                     </>
@@ -353,19 +373,21 @@ export default function ProductDetail() {
                           )}
                         </ListGroup.Item>
                       ))}
-                    <div className="d-flex justify-content-center mt-3">
-                      {visibleComments <
-                        (sortedReviews ? sortedReviews.length : 0) && (
+                    {visibleComments <
+                      (sortedReviews ? sortedReviews.length : 0) && (
+                      <div className="d-flex justify-content-center mt-3 mb-5">
                         <Button
                           variant="dark"
                           onClick={handleLoadMore}
                           className="text-uppercase">
                           Load More
                         </Button>
-                      )}
-                    </div>
+                      </div>
+                    )}
                     <div className="mb-5">
-                      <h5 className="text-uppercase mb-3">Write a Review</h5>
+                      <h5 className="text-uppercase mb-3">
+                        Share Your Experience
+                      </h5>
                       {userInfo ? (
                         <Form onSubmit={handleReviewSubmit}>
                           <div className="mb-3">
@@ -382,7 +404,7 @@ export default function ProductDetail() {
                               rows={3}
                               as="textarea"
                               value={userComment}
-                              placeholder="Write your review here..."
+                              placeholder="Tell us about your experience..."
                               onChange={(e) => setUserComment(e.target.value)}
                             />
                           </Form.Group>
@@ -407,13 +429,13 @@ export default function ProductDetail() {
                             variant="primary"
                             className="rounded-0 border-0">
                             <p className="mb-0">
-                              Ready to share your thoughts on{" "}
+                              Are you ready to share your thoughts on{" "}
                               <strong>{productData.data.productName}</strong>?
-                              Your feedback can help others make informed
+                              Your feedback can assist others in making informed
                               decisions.
                             </p>
                             <p className="mb-0">
-                              Please <Link to={"/login"}>login</Link> to leave
+                              Please <Link to={"/login"}>log in</Link> to leave
                               your feedback.
                             </p>
                           </Alert>
@@ -431,9 +453,9 @@ export default function ProductDetail() {
       )}
       <BackToTop />
       <div className="text-center my-3">
-        <Link to="/" className="btn btn-outline-dark">
+        <Link to="/" className="btn btn-outline-dark text-uppercase">
           <BsArrowLeft className="me-2" />
-          Back to Products
+          Discover More
         </Link>
       </div>
     </section>

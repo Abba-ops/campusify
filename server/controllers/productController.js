@@ -61,7 +61,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
   if (alreadyReviewed) {
     res.status(400);
-    throw new Error("Already reviewed.");
+    throw new Error("Review already submitted.");
   }
 
   const newReview = {
@@ -82,7 +82,10 @@ const createProductReview = asyncHandler(async (req, res) => {
   product.rating = totalRating / product.reviews.length;
 
   await product.save();
-  res.status(201).json({ success: true, message: "Review added." });
+  res.status(201).json({
+    success: true,
+    message: "Review added successfully.",
+  });
 });
 
 /**
@@ -114,7 +117,9 @@ const deleteReview = asyncHandler(async (req, res) => {
 
   await product.save();
 
-  res.status(200).json({ success: true, message: "Review deleted." });
+  res
+    .status(200)
+    .json({ success: true, message: "Review successfully deleted." });
 });
 
 /**
@@ -156,7 +161,7 @@ const createProduct = asyncHandler(async (req, res) => {
   res.status(201).json({
     success: true,
     data: product,
-    message: "Product created successfully.",
+    message: "Product successfully created.",
   });
 });
 
@@ -198,6 +203,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   res.json({
     success: true,
     data: updatedProduct,
+    message: "Product successfully updated.",
   });
 });
 
@@ -368,6 +374,63 @@ const deleteSubcategory = asyncHandler(async (req, res) => {
     .json({ success: true, message: "Subcategory deleted successfully" });
 });
 
+/**
+ * @desc    Fetch featured products
+ * @route   GET /api/products/is-featured
+ * @access  Public
+ */
+const getIsFeatured = asyncHandler(async (req, res) => {
+  const featuredProducts = await Product.aggregate([
+    { $match: { isFeatured: true } },
+    { $sample: { size: 10 } },
+  ]);
+
+  if (featuredProducts.length > 0) {
+    res.status(200).json({ success: true, data: featuredProducts });
+  } else {
+    res.status(404);
+    throw new Error("No featured products found");
+  }
+});
+
+/**
+ * @desc    Fetch popular products
+ * @route   GET /api/products/popular
+ * @access  Public
+ */
+const getPopularProducts = asyncHandler(async (req, res) => {
+  const popularProductsByRatings = await Product.aggregate([
+    { $match: { rating: { $gt: 4 } } },
+    { $sample: { size: 10 } },
+  ]);
+
+  if (popularProductsByRatings.length > 0) {
+    res.status(200).json({ success: true, data: popularProductsByRatings });
+  } else {
+    res.status(404);
+    throw new Error("No popular products found based on ratings");
+  }
+});
+
+/**
+ * @desc    Fetch best-selling products
+ * @route   GET /api/products/best-sellers
+ * @access  Public
+ */
+const getBestSellingProducts = asyncHandler(async (req, res) => {
+  const bestSellingProducts = await Product.aggregate([
+    { $sort: { salesCount: -1 } },
+    { $sample: { size: 10 } },
+  ]);
+
+  if (bestSellingProducts.length > 0) {
+    res.status(200).json({ success: true, data: bestSellingProducts });
+  } else {
+    res.status(404);
+    throw new Error("No best-selling products found");
+  }
+});
+
 export {
   getProducts,
   getProductById,
@@ -383,4 +446,7 @@ export {
   searchProducts,
   addSubcategory,
   deleteSubcategory,
+  getIsFeatured,
+  getPopularProducts,
+  getBestSellingProducts,
 };
