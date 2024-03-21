@@ -25,29 +25,33 @@ export default function ConfirmDeletionModal({
       dispatch(clearCredentials());
       navigate("/");
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error((error && error.data.message) || "An error occurred.");
     }
   };
 
   return (
     <Modal show={showDelete} onHide={handleCloseDelete} centered>
       <Modal.Body>
-        <Modal.Title className="mb-3">Confirm Account Deletion</Modal.Title>
-        <p className="text-muted">
-          Confirming account deletion will permanently erase all your data,
-          including profile information, order history, and preferences. This
-          action is irreversible. Please be certain before proceeding.
+        <Modal.Title className="mb-3 text-uppercase">
+          Confirm Account Deletion
+        </Modal.Title>
+        <p>
+          By confirming account deletion, you will permanently erase all your
+          data, including profile information, order history, and preferences.
+          This action is irreversible, so please be absolutely sure before
+          proceeding.
         </p>
-        <Alert className="border-0">
-          <strong>Warning:</strong> This action is not reversible. Please be
-          certain.
+        <Alert variant="warning" className="border-0 rounded-0">
+          <strong>Warning:</strong> This action cannot be undone. Please make
+          sure you want to proceed.
         </Alert>
       </Modal.Body>
-      <Modal.Footer className="d-block">
+
+      <Modal.Footer>
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>
-              To verify, type{" "}
+              To confirm, type{" "}
               <strong className="user-select-all">delete my account</strong>{" "}
               below:
             </Form.Label>
@@ -61,13 +65,13 @@ export default function ConfirmDeletionModal({
           </Form.Group>
         </Form>
       </Modal.Footer>
+
       <Modal.Footer>
         <Button
           variant="primary"
           className="text-white text-uppercase rounded-0"
-          onClick={handleCloseDelete}
-          type="button">
-          Close
+          onClick={handleCloseDelete}>
+          Cancel
         </Button>
         <Button
           type="button"
@@ -77,10 +81,10 @@ export default function ConfirmDeletionModal({
           disabled={confirmDeleteAccount !== "delete my account"}>
           {isDeletingAccount ? (
             <Spinner size="sm" animation="border">
-              <span className="visually-hidden"></span>
+              <span className="visually-hidden">Loading...</span>
             </Spinner>
           ) : (
-            "Continue"
+            "Delete Account"
           )}
         </Button>
       </Modal.Footer>

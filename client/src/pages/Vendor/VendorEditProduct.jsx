@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   Col,
-  Container,
   Form,
   Placeholder,
   Row,
@@ -41,12 +40,7 @@ export default function VendorEditProduct() {
     },
   });
 
-  const {
-    error,
-    refetch,
-    isLoading,
-    data: product,
-  } = useGetProductDetailsQuery(productId);
+  const { isLoading, data: product } = useGetProductDetailsQuery(productId);
 
   const [uploadProductImage] = useUploadProductImageMutation();
 
@@ -74,7 +68,7 @@ export default function VendorEditProduct() {
       setImageUrl(res.image);
       toast.success(res.message || "Image uploaded successfully");
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error((error && error.data.message) || "Failed to upload image");
     }
   };
 
@@ -85,8 +79,17 @@ export default function VendorEditProduct() {
     const { name, value } = e.target;
     if (name === "category") {
       const category = categories.data.find((c) => c._id === value);
-      console.log(category);
       setSubcategories(category ? category.subcategories : []);
+      const subcategory = category.subcategories[0];
+      setFormData((prev) => ({
+        ...prev,
+        category: category._id,
+        subcategory: {
+          _id: subcategory._id,
+          name: subcategory.name,
+        },
+      }));
+      return;
     } else if (name === "subcategory") {
       const subcategory = subcategories.find((c) => c._id === value);
       setFormData({
@@ -106,13 +109,19 @@ export default function VendorEditProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedProduct = { ...formData, productId, imageUrl };
-    const result = await updateProduct(updatedProduct);
-    if (result.error) {
-      toast.error(result.error);
-    } else {
-      toast.success("Updated product successfully");
-      navigate("/vendor/dashboard/products");
+
+    try {
+      const updatedProduct = { ...formData, productId, imageUrl };
+      const result = await updateProduct(updatedProduct);
+
+      if (result.success) {
+        toast.success(result.message);
+        navigate("/vendor/dashboard/products");
+      }
+    } catch (error) {
+      toast.error(
+        (error && error?.data?.message) || "Failed to update product"
+      );
     }
   };
 
@@ -128,15 +137,13 @@ export default function VendorEditProduct() {
   );
 
   useEffect(() => {
-    if (!loadingCategories) {
+    if (!loadingCategories && product) {
       const category = categories.data.find(
-        (c) => c._id === categories.data[0]._id
+        (c) => c._id === product.data.category._id
       );
       setSubcategories(category ? category.subcategories : []);
     }
-  }, [loadingCategories, setSubcategories, categories]);
-
-  console.log("formData", formData);
+  }, [loadingCategories, product, setSubcategories, categories]);
 
   return (
     <Card className="border-0 rounded-0">
@@ -148,8 +155,8 @@ export default function VendorEditProduct() {
           </>
         ) : (
           <Form onSubmit={handleSubmit}>
-            <Row>
-              <Col xs={12} md={6} className="mb-3">
+            <Row className="mb-3">
+              <Col xs={12} md={6}>
                 <Form.Group controlId="productName">
                   <Form.Label>Product Name</Form.Label>
                   <Form.Control
@@ -199,35 +206,43 @@ export default function VendorEditProduct() {
               </Col>
             </Row>
 
-            <Row>
-              <Col xs={12} md={6} className="mb-3">
+            <Row className="mb-3">
+              <Col xs={12} md={6}>
                 <Form.Group controlId="category">
                   <Form.Label>Category</Form.Label>
                   <Form.Select
                     name="category"
                     onChange={handleChange}
-                    value={formData.category.name}>
-                    {categories?.data.map((category) => (
-                      <option value={category._id} key={category._id}>
-                        {category.name}
-                      </option>
-                    ))}
+                    value={formData.category._id}>
+                    {categories &&
+                      categories.data.map((category) => (
+                        <option value={category._id} key={category._id}>
+                          {category.name}
+                        </option>
+                      ))}
                   </Form.Select>
                 </Form.Group>
               </Col>
-              <Col xs={12} md={6} className="mb-3">
+              <Col xs={12} md={6}>
                 <Form.Group controlId="subcategory">
                   <Form.Label>Subcategories</Form.Label>
-                  <Form.Select name="subcategory" onChange={handleChange}>
-                    {subcategories?.map((subcategory) => (
-                      <option value={subcategory._id} key={subcategory._id}>
-                        {subcategory.name}
-                      </option>
-                    ))}
+                  <Form.Select
+                    name="subcategory"
+                    onChange={handleChange}
+                    value={formData.subcategory._id}>
+                    {subcategories &&
+                      subcategories.map((subcategory) => (
+                        <option value={subcategory._id} key={subcategory._id}>
+                          {subcategory.name}
+                        </option>
+                      ))}
                   </Form.Select>
                 </Form.Group>
               </Col>
-              <Col xs={12} md={6} className="mb-3">
+            </Row>
+
+            <Row className="mb-3">
+              <Col xs={12} md={6}>
                 <Form.Group controlId="brand">
                   <Form.Label>Brand</Form.Label>
                   <Form.Control
@@ -240,10 +255,7 @@ export default function VendorEditProduct() {
                   />
                 </Form.Group>
               </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} md={6} className="mb-3">
+              <Col xs={12} md={6}>
                 <Form.Group controlId="price">
                   <Form.Label>Price (&#8358;)</Form.Label>
                   <Form.Control
@@ -256,7 +268,10 @@ export default function VendorEditProduct() {
                   />
                 </Form.Group>
               </Col>
-              <Col xs={12} md={6} className="mb-3">
+            </Row>
+
+            <Row className="mb-3">
+              <Col xs={12} md={6}>
                 <Form.Group controlId="countInStock">
                   <Form.Label>Count In Stock</Form.Label>
                   <Form.Control
@@ -271,7 +286,10 @@ export default function VendorEditProduct() {
               </Col>
             </Row>
 
-            <Button variant="dark" className="" type="submit">
+            <Button
+              variant="dark"
+              type="submit"
+              className="text-uppercase px-4">
               {updatingProduct ? (
                 <Spinner size="sm" animation="border">
                   <span className="visually-hidden"></span>

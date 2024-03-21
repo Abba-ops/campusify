@@ -124,6 +124,7 @@ export default function HeaderNav() {
                   isAdmin={userInfo.data.isAdmin}
                   isVendor={userInfo.data.isVendor}
                   logoutHandler={logoutHandler}
+                  showDeleteOption={true}
                 />
               ) : (
                 <LinkContainer to={"/login"}>

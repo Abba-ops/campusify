@@ -45,9 +45,9 @@ export default function ProductCard({ product, showPreviewIcon }) {
               {productName}
             </Link>
           </Card.Text>
-          <Card.Text className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center mb-3">
             <StarRating value={rating} size={16} />
-          </Card.Text>
+          </div>
           <Card.Title>&#8358;{numberWithCommas(price)}</Card.Title>
           {showPreviewIcon && (
             <>

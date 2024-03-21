@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import { Button, Card, Col, Form, Image, Row, Spinner } from "react-bootstrap";
 import {
   useCreateProductMutation,
   useGetCategoriesQuery,
@@ -17,10 +9,14 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function VendorCreateProduct() {
+  const [subcategories, setSubcategories] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
+  const navigate = useNavigate();
+
   const { data: categories, isLoading: loadingCategories } =
     useGetCategoriesQuery();
-  const [subcategories, setSubcategories] = useState([]);
+  const [createProduct, { isLoading }] = useCreateProductMutation();
+  const [uploadProductImage] = useUploadProductImageMutation();
 
   const [formData, setFormData] = useState({
     productName: "",
@@ -35,32 +31,30 @@ export default function VendorCreateProduct() {
     },
   });
 
-  const [createProduct, { isLoading }] = useCreateProductMutation();
-  const [uploadProductImage] = useUploadProductImageMutation();
-  const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await createProduct({ ...formData, imageUrl });
-
-    if (result.error) {
-      toast.error(result.error);
-    } else {
-      toast.success("Product created successfully");
-      navigate("/vendor/dashboard/products");
+    try {
+      const result = await createProduct({ ...formData, imageUrl }).unwrap();
+      if (result.success) {
+        toast.success(result.message);
+        navigate("/vendor/dashboard/products");
+      }
+    } catch (error) {
+      toast.error(
+        (error && error?.data?.message) || "Failed to create product"
+      );
     }
   };
 
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
-
     try {
       const res = await uploadProductImage(formData).unwrap();
       setImageUrl(res.image);
       toast.success(res.message || "Image uploaded successfully");
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error((error && error?.data?.message) || "Failed to upload image");
     }
   };
 
@@ -69,6 +63,15 @@ export default function VendorCreateProduct() {
     if (name === "category") {
       const category = categories.data.find((c) => c._id === value);
       setSubcategories(category ? category.subcategories : []);
+      const subcategory = category.subcategories[0];
+      setFormData((prev) => ({
+        ...prev,
+        category: category._id,
+        subcategory: {
+          _id: subcategory._id,
+          name: subcategory.name,
+        },
+      }));
     } else if (name === "subcategory") {
       const subcategory = subcategories.find((c) => c._id === value);
       setFormData({
@@ -78,12 +81,12 @@ export default function VendorCreateProduct() {
           _id: subcategory._id,
         },
       });
-      return;
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
     }
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
   };
 
   useEffect(() => {
@@ -92,152 +95,149 @@ export default function VendorCreateProduct() {
         (c) => c._id === categories.data[0]._id
       );
       setSubcategories(category ? category.subcategories : []);
+      const subcategory = category.subcategories[0];
+      setFormData((prev) => ({
+        ...prev,
+        category: category._id,
+        subcategory: {
+          _id: subcategory._id,
+          name: subcategory.name,
+        },
+      }));
     }
-  }, [loadingCategories, setSubcategories, categories]);
-
-  console.log(formData);
+  }, [loadingCategories, categories]);
 
   return (
-    <>
-      <Card className="border-0 rounded-0">
-        <Card.Body>
-          <Form onSubmit={handleSubmit}>
-            <Row>
-              <Col xs={12} md={6} className="mb-3">
-                <Form.Group controlId="productName">
-                  <Form.Label>Product Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="productName"
-                    value={formData.productName}
-                    onChange={handleChange}
-                    placeholder="Enter product name"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-              <Col xs={12} md={6}>
-                <Form.Group controlId="formFile">
-                  <Form.Label>Upload Image</Form.Label>
-                  <Form.Control
-                    type="file"
-                    onChange={uploadFileHandler}
-                    className="mb-3"
-                  />
-                  {imageUrl && (
-                    <img
-                      src={imageUrl}
-                      alt="Product"
-                      className="img-fluid rounded mb-3"
-                      style={{ maxWidth: "100%" }}
-                    />
-                  )}
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row className="mb-3">
-              <Col xs={12}>
-                <Form.Group controlId="productDescription">
-                  <Form.Label>Product Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    name="productDescription"
-                    value={formData.productDescription}
-                    onChange={handleChange}
-                    placeholder="Enter product description"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} md={6} className="mb-3">
-                <Form.Group controlId="category">
-                  <Form.Label>Category</Form.Label>
-                  <Form.Select name="category" onChange={handleChange}>
-                    {categories?.data.map((category) => (
+    <Card className="border-0 rounded-0">
+      <Card.Body>
+        <Form onSubmit={handleSubmit}>
+          <Row className="mb-3">
+            <Col xs={12} md={6}>
+              <Form.Group controlId="productName">
+                <Form.Label>Product Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="productName"
+                  value={formData.productName}
+                  onChange={handleChange}
+                  placeholder="Enter product name"
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col xs={12} md={6}>
+              <Form.Group controlId="formFile">
+                <Form.Label>Upload Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  onChange={uploadFileHandler}
+                  className="mb-3"
+                />
+                {imageUrl && (
+                  <Image fluid src={imageUrl} alt="Product" className="mb-3" />
+                )}
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="mb-3">
+            <Col xs={12}>
+              <Form.Group controlId="productDescription">
+                <Form.Label>Product Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="productDescription"
+                  value={formData.productDescription}
+                  onChange={handleChange}
+                  placeholder="Enter product description"
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="mb-3">
+            <Col xs={12} md={6}>
+              <Form.Group controlId="category">
+                <Form.Label>Category</Form.Label>
+                <Form.Select name="category" onChange={handleChange}>
+                  {categories &&
+                    categories.data.map((category) => (
                       <option value={category._id} key={category._id}>
                         {category.name}
                       </option>
                     ))}
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col xs={12} md={6} className="mb-3">
-                <Form.Group controlId="subcategory">
-                  <Form.Label>Subcategories</Form.Label>
-                  <Form.Select name="subcategory" onChange={handleChange}>
-                    {subcategories?.map((subcategory) => (
-                      <option value={subcategory._id} key={subcategory._id}>
-                        {subcategory.name}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col xs={12} md={6} className="mb-3">
-                <Form.Group controlId="brand">
-                  <Form.Label>Brand</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="brand"
-                    value={formData.brand}
-                    onChange={handleChange}
-                    placeholder="Enter brand name"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} md={6} className="mb-3">
-                <Form.Group controlId="price">
-                  <Form.Label>Price (&#8358;)</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    placeholder="Enter price"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-              <Col xs={12} md={6} className="mb-3">
-                <Form.Group controlId="countInStock">
-                  <Form.Label>Count In Stock</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="countInStock"
-                    value={formData.countInStock}
-                    onChange={handleChange}
-                    placeholder="Enter stock count"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Button
-              variant="dark"
-              className=""
-              type="submit"
-              disabled={isLoading || !imageUrl}>
-              {isLoading ? (
-                <Spinner size="sm" animation="border">
-                  <span className="visually-hidden"></span>
-                </Spinner>
-              ) : (
-                "Create Product"
-              )}
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col xs={12} md={6}>
+              <Form.Group controlId="subcategory">
+                <Form.Label>Subcategories</Form.Label>
+                <Form.Select name="subcategory" onChange={handleChange}>
+                  {subcategories?.map((subcategory) => (
+                    <option value={subcategory._id} key={subcategory._id}>
+                      {subcategory.name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="mb-3">
+            <Col xs={12} md={6}>
+              <Form.Group controlId="brand">
+                <Form.Label>Brand</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="brand"
+                  value={formData.brand}
+                  onChange={handleChange}
+                  placeholder="Enter brand name"
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col xs={12} md={6}>
+              <Form.Group controlId="price">
+                <Form.Label>Price (&#8358;)</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="Enter price"
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="mb-3">
+            <Col xs={12} md={6}>
+              <Form.Group controlId="countInStock">
+                <Form.Label>Count In Stock</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="countInStock"
+                  value={formData.countInStock}
+                  onChange={handleChange}
+                  placeholder="Enter stock count"
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Button
+            variant="dark"
+            type="submit"
+            className="text-uppercase px-4"
+            disabled={isLoading || !imageUrl}>
+            {isLoading ? (
+              <Spinner size="sm" animation="border" />
+            ) : (
+              "Create Product"
+            )}
+          </Button>
+        </Form>
+      </Card.Body>
+    </Card>
   );
 }

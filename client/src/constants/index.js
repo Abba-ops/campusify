@@ -49,6 +49,7 @@ export const adminLinks = [
     icon: <BsPersonCheck />,
   },
 ];
+
 export const vendorLinks = [
   {
     title: "Dashboard",
@@ -56,22 +57,22 @@ export const vendorLinks = [
     icon: <BsBarChart />,
   },
   {
-    title: "Order Management",
+    title: "Manage Orders",
     link: "/vendor/dashboard/orders",
     icon: <BsCart />,
   },
   {
-    title: "Product Management",
+    title: "Manage Products",
     link: "/vendor/dashboard/products",
     icon: <BsBox />,
   },
   {
-    title: "Customer",
+    title: "Manage Customers",
     link: "/vendor/dashboard/customers",
     icon: <BsPeople />,
   },
   {
-    title: "Profile",
+    title: "Profile Settings",
     link: "/vendor/dashboard/profile",
     icon: <BsPerson />,
   },

@@ -33,7 +33,7 @@ export default function BestSeller() {
           <Carousel indicators={false} controls={false}>
             {bestSellingProducts &&
               bestSellingProducts.data.slice(0, 3).map((item) => (
-                <Carousel.Item key={item}>
+                <Carousel.Item key={item._id}>
                   <Image src={item.imageUrl} fluid />
                 </Carousel.Item>
               ))}

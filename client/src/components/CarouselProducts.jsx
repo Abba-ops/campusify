@@ -17,8 +17,8 @@ export default function CarouselProducts({
         <div>
           <Row className="overflow-x-scroll overflow-y-hidden flex-nowrap products-slider">
             {!isLoading
-              ? productsData?.map((product, index) => (
-                  <Col lg={lgColumnSize} key={index} md={6}>
+              ? productsData?.map((product) => (
+                  <Col lg={lgColumnSize} key={product._id} md={6}>
                     <ProductCard
                       product={product}
                       showPreviewIcon={showPreviewIcon}

@@ -43,7 +43,9 @@ const getVendorById = asyncHandler(async (req, res) => {
  * @access     Private
  */
 const getVendorProducts = asyncHandler(async (req, res) => {
-  const vendorProducts = await Product.find({ vendor: req.vendor._id });
+  const vendorProducts = await Product.find({
+    vendor: req.vendor._id,
+  }).populate("category");
 
   res.status(200).json({
     success: true,

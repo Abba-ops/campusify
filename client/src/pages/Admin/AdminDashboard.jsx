@@ -1,68 +1,55 @@
-import React, { useState } from "react";
-import {
-  Badge,
-  Button,
-  Col,
-  Container,
-  Dropdown,
-  Form,
-  Image,
-  InputGroup,
-  ListGroup,
-  Nav,
-  NavDropdown,
-  Navbar,
-  Row,
-} from "react-bootstrap";
+import React from "react";
+import { Col, Container, Image, Nav, Navbar, Row } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import MetaTags from "../../components/MetaTags";
 import logo from "../../assets/logo.png";
-import {
-  FaBox,
-  FaShoppingCart,
-  FaTachometerAlt,
-  FaUserTie,
-  FaUsers,
-} from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCredentials } from "../../features/authSlice";
 import { clearCartItems } from "../../features/cartSlice";
 import { toast } from "react-toastify";
 import { useLogoutUserMutation } from "../../features/usersApiSlice";
-import TablePlaceholder from "../../components/TablePlaceholder";
-import {
-  BsBox,
-  BsClipboardData,
-  BsGraphUp,
-  BsPeople,
-  BsPersonCheck,
-} from "react-icons/bs";
 import { adminLinks } from "../../constants";
+import UserProfileDropdown from "../../components/UserProfileDropdown";
 
 export default function AdminDashboard() {
   const { userInfo } = useSelector((state) => state.auth);
-
   const [logoutUser] = useLogoutUserMutation();
-
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
     try {
-      await logoutUser().unwrap();
-      dispatch(clearCredentials());
-      dispatch(clearCartItems());
-      toast.success("Happy Shopping! Goodbye!");
-      navigate("/");
+      const response = await logoutUser().unwrap();
+      if (response.success) {
+        dispatch(clearCredentials());
+        dispatch(clearCartItems());
+        toast.success(response.message);
+        navigate("/");
+      }
     } catch (error) {
       toast.error("Logout failed. Please try again.");
     }
   };
 
+  const currentPageTitle = "Admin Dashboard";
+  const currentPageDescription = "Manage your admin dashboard";
+  const currentPageKeywords = "admin, dashboard, management";
+
   return (
     <>
-      <Navbar bg="white" sticky="top" expand="lg" collapseOnSelect>
+      <MetaTags
+        title={currentPageTitle}
+        description={currentPageDescription}
+        keywords={currentPageKeywords}
+      />
+      <Navbar
+        bg="white"
+        expand="lg"
+        sticky="top"
+        collapseOnSelect
+        className="navbar-shadow">
         <Container fluid>
           <Navbar.Brand>
             <LinkContainer to={"/"}>
@@ -74,9 +61,9 @@ export default function AdminDashboard() {
           <Navbar.Toggle />
           <Navbar.Collapse>
             <Nav className="ms-auto">
-              <div className="my-2 d-lg-none">
+              <div className="my-3 d-lg-none">
                 {adminLinks.map(({ title, link, icon }, index) => (
-                  <LinkContainer to={link}>
+                  <LinkContainer to={link} key={index}>
                     <Nav.Link>
                       <div className="d-flex align-items-center gap-3">
                         {icon}
@@ -86,38 +73,13 @@ export default function AdminDashboard() {
                   </LinkContainer>
                 ))}
               </div>
-              <Dropdown align="end">
-                <Dropdown.Toggle as="span">
-                  <Image
-                    fluid
-                    roundedCircle
-                    loading="lazy"
-                    className="profile-picture-sm"
-                    src={userInfo && userInfo.data.profilePictureURL}
-                  />
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Header>
-                    {(userInfo && userInfo.data.lastName) || "User"} Options
-                  </Dropdown.Header>
-                  <LinkContainer to="/profile">
-                    <Dropdown.Item>View Profile</Dropdown.Item>
-                  </LinkContainer>
-                  {userInfo && userInfo.data.isAdmin && (
-                    <LinkContainer to="/admin/dashboard/">
-                      <Dropdown.Item>Admin Dashboard</Dropdown.Item>
-                    </LinkContainer>
-                  )}
-                  {userInfo && userInfo.data.isVendor && (
-                    <LinkContainer to="/vendor/dashboard/">
-                      <Dropdown.Item>Vendor Dashboard</Dropdown.Item>
-                    </LinkContainer>
-                  )}
-                  <Dropdown.Divider />
-                  <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
             </Nav>
+            <UserProfileDropdown
+              userInfo={userInfo}
+              isVendor={userInfo.data.isVendor}
+              logoutHandler={logoutHandler}
+              showDeleteOption={true}
+            />
           </Navbar.Collapse>
         </Container>
       </Navbar>
