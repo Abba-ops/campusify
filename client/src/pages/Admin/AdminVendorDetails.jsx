@@ -27,10 +27,14 @@ export default function AdminVendorDetails() {
     isError,
     refetch,
   } = useGetVendorByIdQuery(vendorId);
-  const [updateVendorStatus, { isLoading: isApproving }] = useUpdateVendorStatusMutation()
+  const [updateVendorStatus, { isLoading: isApproving }] =
+    useUpdateVendorStatusMutation();
   const handleApprove = async () => {
     try {
-      const res = await updateVendorStatus({vendorId, status: "approved"}).unwrap();
+      const res = await updateVendorStatus({
+        vendorId,
+        status: "approved",
+      }).unwrap();
       refetch();
       toast.success(res.message);
     } catch (error) {
@@ -68,11 +72,11 @@ export default function AdminVendorDetails() {
                   roundedCircle
                   loading="lazy"
                   className="profile-picture-lg border"
-                  src={vendor.data.user.profilePictureURL}
+                  src={vendor?.data?.user?.profilePictureURL}
                 />
               </div>
               <Card.Title className="text-center">
-                {`${vendor.data.businessName}`}
+                {`${vendor.data.vendorName}`}
                 {vendor.data.isApproved && (
                   <Badge bg="success" className="ms-2">
                     Approved
@@ -80,7 +84,7 @@ export default function AdminVendorDetails() {
                 )}
               </Card.Title>
               <Card.Subtitle className="text-center mb-2 text-muted">
-                {vendor.data.businessEmail}
+                {vendor.data.vendorEmail}
               </Card.Subtitle>
               <ListGroup variant="flush">
                 <ListGroup.Item>

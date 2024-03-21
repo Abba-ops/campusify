@@ -108,9 +108,9 @@ export default function VendorManagementPage() {
                 <tbody>
                   {currentVendors.map((vendor, index) => (
                     <tr key={index}>
-                      <td>{vendor.businessName}</td>
-                      <td>{vendor.businessEmail}</td>
-                      <td>{vendor.businessPhone}</td>
+                      <td>{vendor.vendorName}</td>
+                      <td>{vendor.vendorEmail}</td>
+                      <td>{vendor.vendorPhone}</td>
                       <td>{vendor.approvalStatus}</td>
                       <td>{vendor.dateJoined}</td>
                       <td>{vendor.averageRating}</td>

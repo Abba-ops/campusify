@@ -12,6 +12,7 @@ import {
   Row,
   Badge,
   Spinner,
+  Alert,
 } from "react-bootstrap";
 import MetaTags from "../components/MetaTags";
 
@@ -19,6 +20,7 @@ export default function UserProfileDetails() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(true);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const { userInfo } = useSelector((state) => state.auth);
@@ -58,6 +60,23 @@ export default function UserProfileDetails() {
       <Container>
         <Row>
           <Col lg={4} className="mb-5 mb-lg-0">
+            {userInfo &&
+              userInfo.data.vendor &&
+              userInfo.data.vendor.approvalStatus === "pending" &&
+              show && (
+                <Alert
+                  className="rounded-0 border-0"
+                  onClose={() => setShow(false)}
+                  dismissible
+                  variant="warning">
+                  <Alert.Heading>Vendor Approval Pending</Alert.Heading>
+                  <p>
+                    Your vendor account approval is pending. You won't be able
+                    to access vendor features until your account is approved.
+                    Please contact support for assistance.
+                  </p>
+                </Alert>
+              )}
             <h4 className="text-uppercase text-center mb-3">
               Account Information
             </h4>

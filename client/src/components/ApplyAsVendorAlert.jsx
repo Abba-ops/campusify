@@ -11,6 +11,7 @@ export default function ApplyAsVendorAlert() {
         <Alert
           onClose={() => setShow(false)}
           dismissible
+          variant="warning"
           className="rounded-0 border-0">
           <Alert.Heading>Become a Vendor!</Alert.Heading>
           <p>

@@ -13,8 +13,10 @@ import { useVendorApplicationMutation } from "../../features/vendorApiSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { setCredentials } from "../../features/authSlice";
+import MetaTags from "../../components/MetaTags";
 
 export default function VendorApplication() {
+  const [agreeToConditions, setAgreeToConditions] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
@@ -28,10 +30,10 @@ export default function VendorApplication() {
   const [vendorApplication, { isLoading }] = useVendorApplicationMutation();
 
   const [formState, setFormState] = useState({
-    businessEmail: "",
-    businessName: "",
-    businessPhone: "",
-    businessDescription: "",
+    vendorEmail: "",
+    vendorName: "",
+    vendorPhone: "",
+    vendorDescription: "",
   });
 
   const dispatch = useDispatch();
@@ -43,11 +45,14 @@ export default function VendorApplication() {
       const res = await vendorApplication(formState).unwrap();
       if (res.success) {
         dispatch(setCredentials({ ...res }));
+        toast.success("Application submitted successfully!");
         navigate("/profile");
-        toast.success("Application submitted successfully");
       }
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error(
+        (error && error.data.message) ||
+          "An error occurred while submitting the form."
+      );
     }
   };
 
@@ -56,14 +61,23 @@ export default function VendorApplication() {
     setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
+      <MetaTags
+        title="Apply Now to Become a Vendor - Campusify"
+        description="Apply now to become a vendor on Campusify. Fill in the required details and submit your application."
+        keywords="vendor application, apply to become a vendor, Campusify"
+      />
       <Container>
         <h5 className="border-bottom pb-3 text-uppercase text-center">
           Apply Now to Become a Vendor!
         </h5>
-        <Row>
-          <Col>
+        <Row className="justify-content-center">
+          <Col lg={8}>
             <Card className="my-3 py-3">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
@@ -87,14 +101,14 @@ export default function VendorApplication() {
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Business Email
+                      Vendor Email
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
                         required
                         type="email"
-                        name="businessEmail"
-                        value={formState.businessEmail}
+                        name="vendorEmail"
+                        value={formState.vendorEmail}
                         onChange={handleInputChange}
                       />
                     </Col>
@@ -104,14 +118,14 @@ export default function VendorApplication() {
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Business Name
+                      Vendor Name
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
                         required
                         type="text"
-                        name="businessName"
-                        value={formState.businessName}
+                        name="vendorName"
+                        value={formState.vendorName}
                         onChange={handleInputChange}
                       />
                     </Col>
@@ -121,14 +135,14 @@ export default function VendorApplication() {
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Business Phone
+                      Vendor Phone
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
                         required
                         type="tel"
-                        name="businessPhone"
-                        value={formState.businessPhone}
+                        name="vendorPhone"
+                        value={formState.vendorPhone}
                         onChange={handleInputChange}
                       />
                     </Col>
@@ -144,11 +158,20 @@ export default function VendorApplication() {
                       <Form.Control
                         as="textarea"
                         rows={3}
-                        name="businessDescription"
-                        value={formState.businessDescription}
+                        name="vendorDescription"
+                        value={formState.vendorDescription}
                         onChange={handleInputChange}
                       />
                     </Col>
+                  </Form.Group>
+                  <Form.Group className="my-4 d-flex justify-content-center">
+                    <Form.Check
+                      required
+                      type="checkbox"
+                      checked={agreeToConditions}
+                      label="Agree to terms and conditions"
+                      onChange={(e) => setAgreeToConditions(e.target.checked)}
+                    />
                   </Form.Group>
                   <div className="d-flex justify-content-end my-3">
                     <Button

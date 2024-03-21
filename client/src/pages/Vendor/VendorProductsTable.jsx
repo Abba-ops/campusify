@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   ButtonGroup,
@@ -7,17 +8,19 @@ import {
   Pagination,
   InputGroup,
   FormControl,
-  Dropdown,
+  Breadcrumb,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
+import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 import { useGetVendorProductsQuery } from "../../features/vendorApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
-import { BsEye, BsPencil, BsThreeDotsVertical, BsTrash } from "react-icons/bs";
-import { Link } from "react-router-dom";
 import { numberWithCommas } from "../../utils/cartUtils";
 
 export default function VendorProductsTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const {
     data: vendorProducts,
@@ -25,54 +28,67 @@ export default function VendorProductsTable() {
     isError,
   } = useGetVendorProductsQuery();
 
-  const itemsPerPage = 5;
-
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
 
-  const filteredProducts =
-    vendorProducts &&
-    vendorProducts.data.filter((product) =>
-      product.productName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  const filteredProducts = vendorProducts
+    ? vendorProducts.data.filter((product) =>
+        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProducts =
-    filteredProducts &&
-    filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
       {isError ? (
-        <div>Error fetching data</div>
+        <div className="text-center mt-5">
+          <h4 className="text-danger">Error Fetching Products</h4>
+          <p className="mt-3">
+            Sorry, we couldn't retrieve the products at the moment. Please try
+            again later or contact support.
+          </p>
+        </div>
       ) : (
         <>
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <Link to={"/vendor/dashboard/"}>Home</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item active>Products</Breadcrumb.Item>
+          </Breadcrumb>
           <div className="d-lg-flex justify-content-between align-items-center">
             <div>
-              <h2>Product Management</h2>
+              <h2>Manage Your Products</h2>
               <p>
-                View and manage product listings. Ensure accurate and up-to-date
-                product information.
+                Efficiently oversee your product listings. Keep your product
+                information accurate and up-to-date with ease.
               </p>
             </div>
             <div>
-              <Link to={"/vendor/dashboard/products/create"}>
-                <Button variant="dark">Create Product</Button>
-              </Link>
+              <Button
+                as={Link}
+                variant="dark"
+                to={"/vendor/dashboard/products/create"}
+                className="d-flex align-items-center mb-3 mb-lg-0 text-uppercase px-4">
+                Create New Product
+              </Button>
             </div>
           </div>
           {isLoading ? (
             <>
-              <TablePlaceholder />
-              <TablePlaceholder />
-              <TablePlaceholder />
-              <TablePlaceholder />
-              <TablePlaceholder />
+              {[...Array(5)].map((_, index) => (
+                <TablePlaceholder key={index} />
+              ))}
             </>
           ) : (
             <>
@@ -85,9 +101,9 @@ export default function VendorProductsTable() {
                   />
                 </InputGroup>
               </div>
-              <Table size="lg" responsive striped>
+              <Table size="sm" responsive striped className="mb-3">
                 <thead>
-                  <tr className="text-uppercase">
+                  <tr>
                     <th>Product ID</th>
                     <th>Product Name</th>
                     <th>Image</th>
@@ -113,34 +129,45 @@ export default function VendorProductsTable() {
                       <td>{product.brand}</td>
                       <td>&#8358;{numberWithCommas(product.price)}</td>
                       <td>
-                        <Dropdown>
-                          <Dropdown.Toggle variant="link" id="dropdown-basic">
-                            <BsThreeDotsVertical size={20} />
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            <Dropdown.Item
+                        <ButtonGroup size="sm">
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
+                            <Button
                               as={Link}
                               to={`/vendor/dashboard/products/${product._id}`}
-                              className="custom-dropdown-item">
-                              <BsEye className="me-2" /> View
-                            </Dropdown.Item>
-                            <Dropdown.Item
+                              variant="light">
+                              <BsEye />
+                            </Button>
+                          </OverlayTrigger>
+
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={<Tooltip id="tooltip-edit">Edit</Tooltip>}>
+                            <Button
                               as={Link}
                               to={`/vendor/dashboard/products/${product._id}/edit`}
-                              className="custom-dropdown-item">
-                              <BsPencil className="me-2" /> Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item className="custom-dropdown-item">
-                              <BsTrash className="me-2" /> Delete
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                              variant="light">
+                              <BsPencil />
+                            </Button>
+                          </OverlayTrigger>
+
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="tooltip-delete">Delete</Tooltip>
+                            }>
+                            <Button variant="light">
+                              <BsTrash />
+                            </Button>
+                          </OverlayTrigger>
+                        </ButtonGroup>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
-              <div className="d-flex justify-content-center mt-3">
+              <div className="d-flex justify-content-center">
                 <Pagination>
                   {[
                     ...Array(Math.ceil(filteredProducts.length / itemsPerPage)),
