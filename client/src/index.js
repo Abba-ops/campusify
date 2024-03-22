@@ -29,7 +29,6 @@ import VendorHome from "./pages/Vendor/VendorHome";
 import VendorRoute from "./components/VendorRoute";
 import AdminUserDetails from "./pages/Admin/AdminUserDetails";
 import AdminProductDetails from "./pages/Admin/AdminProductDetails";
-import AdminEditProduct from "./pages/Admin/AdminEditProduct";
 import VendorApplication from "./pages/Vendor/VendorApplication";
 import VendorDashboard from "./pages/Vendor/VendorDashboard";
 import PageNotFound from "./pages/PageNotFound";
@@ -67,7 +66,7 @@ const router = createBrowserRouter(
       />
       <Route path="/profile/:userId" element={<UserProfile />} />
       <Route path="/about" element={<About />} />
-      <Route path="/faq" component={FAQ} />
+      <Route path="/faq" component={<FAQ />} />
 
       <Route path="*" element={<PageNotFound />} />
 
@@ -120,10 +119,6 @@ const router = createBrowserRouter(
             element={<AdminVendorDetails />}
           />
           <Route
-            path="/admin/dashboard/products/:productId/edit"
-            element={<AdminEditProduct />}
-          />
-          <Route
             path="/admin/dashboard/vendors"
             element={<AdminVendorsTable />}
           />
@@ -134,6 +129,7 @@ const router = createBrowserRouter(
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
     <HelmetProvider>

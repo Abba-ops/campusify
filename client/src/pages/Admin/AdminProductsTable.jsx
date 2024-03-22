@@ -176,8 +176,8 @@ export default function AdminProductsTable() {
         <div className="d-flex align-items-center">
           <InputGroup>
             <FormControl
-              aria-label="Search"
               value={searchTerm}
+              aria-label="Search"
               placeholder="Search by product name"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -307,9 +307,8 @@ export default function AdminProductsTable() {
             <Form onSubmit={handleAddCategory}>
               <InputGroup className="mb-3">
                 <FormControl
-                  placeholder="Enter New Category"
-                  aria-label="New Category"
                   value={newCategory}
+                  placeholder="Enter New Category"
                   onChange={(e) => setNewCategory(e.target.value)}
                 />
                 <Button type="submit" variant="dark" className="text-uppercase">
@@ -320,55 +319,52 @@ export default function AdminProductsTable() {
           </Col>
         </Row>
         <Row className="mb-5">
-          {categories?.data.map((category) => (
-            <Col
-              key={category._id}
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              className="mb-3">
-              <Card className="border-0 rounded-0 shadow-sm mb-3">
-                <Card.Body className="d-flex justify-content-between align-items-center">
-                  <h5 className="mb-0">{category.name}</h5>
-                  <Link
-                    className="text-danger"
-                    onClick={() => handleRemoveCategory(category._id)}>
-                    <MdDelete />
-                  </Link>
-                </Card.Body>
-                {category.subcategories &&
-                  category.subcategories.length > 0 && (
-                    <Card.Body>
-                      <h6 className="mb-3">Subcategories:</h6>
-                      <ul className="list-unstyled">
-                        {category.subcategories.map((subcat) => (
-                          <li
-                            key={subcat._id}
-                            className="d-flex justify-content-between align-items-center">
-                            <span>{subcat.name}</span>
-                            <Link
-                              className="text-danger"
-                              onClick={() =>
-                                handleRemoveSubcategory(
-                                  category._id,
-                                  subcat._id
-                                )
-                              }>
-                              <MdDelete />
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </Card.Body>
-                  )}
-              </Card>
-            </Col>
-          ))}
+          {categories &&
+            categories.data.map((category) => (
+              <Col
+                key={category._id}
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                className="mb-3">
+                <Card className="border-0 rounded-0 shadow-sm mb-3">
+                  <Card.Body className="d-flex justify-content-between align-items-center">
+                    <h5 className="mb-0">{category.name}</h5>
+                    <Link onClick={() => handleRemoveCategory(category._id)}>
+                      <MdDelete />
+                    </Link>
+                  </Card.Body>
+                  {category.subcategories &&
+                    category.subcategories.length > 0 && (
+                      <Card.Body>
+                        <ul className="list-unstyled">
+                          {category.subcategories.map((subcat) => (
+                            <li
+                              key={subcat._id}
+                              className="d-flex justify-content-between align-items-center">
+                              <span>{subcat.name}</span>
+                              <Link
+                                onClick={() =>
+                                  handleRemoveSubcategory(
+                                    category._id,
+                                    subcat._id
+                                  )
+                                }>
+                                <MdDelete />
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </Card.Body>
+                    )}
+                </Card>
+              </Col>
+            ))}
         </Row>
         <Row>
           <Col lg={3}>
-            <div className="mb-4">
+            <div>
               <h5 className="mb-3">Add New Subcategory</h5>
               <Form onSubmit={handleAddSubcategory}>
                 <Form.Select
@@ -383,9 +379,8 @@ export default function AdminProductsTable() {
                 </Form.Select>
                 <InputGroup className="mb-3">
                   <FormControl
-                    placeholder="New Subcategory"
-                    aria-label="New Subcategory"
                     value={newSubcategory}
+                    placeholder="New Subcategory"
                     onChange={(e) => setNewSubcategory(e.target.value)}
                   />
                   <Button

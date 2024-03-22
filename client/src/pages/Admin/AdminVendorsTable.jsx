@@ -155,7 +155,7 @@ export default function VendorManagementPage() {
               </p>
             </div>
           ) : (
-            <Table striped responsive>
+            <Table striped responsive size="sm">
               <thead>
                 <tr>
                   <th>Vendor Name</th>
@@ -176,7 +176,7 @@ export default function VendorManagementPage() {
                     <td>{vendor.salesCount}</td>
                     <td>{vendor.vendorPhone}</td>
                     <td>{`${vendor.user.lastName} ${vendor.user.otherNames}`}</td>
-                    <td>{vendor.approvalStatus}</td>
+                    <td className="text-capitalize">{vendor.approvalStatus}</td>
                     <td>{format(new Date(vendor.dateJoined), "dd/MM/yyyy")}</td>
                     <td>
                       <ButtonGroup size="sm">

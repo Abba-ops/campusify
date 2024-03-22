@@ -127,7 +127,7 @@ export default function VendorCreateProduct() {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>Create Product</Breadcrumb.Item>
       </Breadcrumb>
-      <Card className="border-0 rounded-0">
+      <Card className="border-0 rounded-0 shadow-sm">
         <Card.Body>
           <Form onSubmit={handleSubmit}>
             <Row className="mb-3">

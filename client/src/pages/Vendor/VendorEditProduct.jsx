@@ -6,7 +6,6 @@ import {
   Col,
   Form,
   Image,
-  Placeholder,
   Row,
   Spinner,
 } from "react-bootstrap";
@@ -18,6 +17,7 @@ import {
 } from "../../features/productsApiSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import TablePlaceholder from "../../components/TablePlaceholder";
 
 export default function VendorEditProduct() {
   const [imageUrl, setImageUrl] = useState("");
@@ -127,17 +127,6 @@ export default function VendorEditProduct() {
     }
   };
 
-  const renderPlaceholder = () => (
-    <Placeholder as="div" animation="glow" className="placeholder-glow">
-      <span className="placeholder col-12" style={{ height: "40px" }}></span>
-      <span className="placeholder col-12" style={{ height: "20px" }}></span>
-      <span className="placeholder col-10" style={{ height: "70px" }}></span>
-      <span className="placeholder col-12" style={{ height: "20px" }}></span>
-      <span className="placeholder col-8" style={{ height: "20px" }}></span>
-      <span className="placeholder col-10" style={{ height: "15px" }}></span>
-    </Placeholder>
-  );
-
   useEffect(() => {
     if (!loadingCategories && product) {
       const category = categories.data.find(
@@ -158,12 +147,16 @@ export default function VendorEditProduct() {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>Edit Product</Breadcrumb.Item>
       </Breadcrumb>
-      <Card className="border-0 rounded-0">
+      <Card className="border-0 rounded-0 shadow-sm">
         <Card.Body>
           {isLoading ? (
             <>
-              {renderPlaceholder()}
-              {renderPlaceholder()}
+              <TablePlaceholder />
+              <TablePlaceholder />
+              <TablePlaceholder />
+              <TablePlaceholder />
+              <TablePlaceholder />
+              <TablePlaceholder />
             </>
           ) : (
             <Form onSubmit={handleSubmit}>

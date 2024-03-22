@@ -149,7 +149,7 @@ export default function AdminUsersTable() {
                       </td>
                       <td>{user.phoneNumber}</td>
                       <td>{user.isVendor ? "Yes" : "No"}</td>
-                      <td>{user.userType}</td>
+                      <td className="text-capitalize">{user.userType}</td>
                       <td>
                         <ButtonGroup size="sm">
                           <OverlayTrigger
