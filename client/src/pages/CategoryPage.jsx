@@ -134,7 +134,7 @@ export default function CategoryPage() {
                           <Button
                             variant="dark"
                             onClick={handleLoadMore}
-                            className="text-uppercase mt-4">
+                            className="text-uppercase mt-4 px-4">
                             Load More
                           </Button>
                         </div>

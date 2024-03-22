@@ -112,7 +112,7 @@ export default function VendorProductsTable() {
                 as={Link}
                 variant="dark"
                 to={"/vendor/dashboard/products/create"}
-                className="d-flex align-items-center mb-3 mb-lg-0 px-4">
+                className="d-flex align-items-center mb-3 mb-lg-0 px-4 text-uppercase">
                 Create New Product
               </Button>
             </div>

@@ -379,7 +379,7 @@ export default function ProductDetail() {
                         <Button
                           variant="dark"
                           onClick={handleLoadMore}
-                          className="text-uppercase">
+                          className="text-uppercase px-4">
                           Load More
                         </Button>
                       </div>
@@ -412,7 +412,7 @@ export default function ProductDetail() {
                           <div className="d-flex justify-content-center">
                             <Button
                               type="submit"
-                              className="text-uppercase"
+                              className="text-uppercase px-4"
                               disabled={loadingCreateReview}
                               variant="dark">
                               {loadingCreateReview ? (
@@ -458,7 +458,7 @@ export default function ProductDetail() {
       )}
       <BackToTop />
       <div className="text-center my-3">
-        <Link to="/" className="btn btn-outline-dark text-uppercase">
+        <Link to="/" className="btn btn-outline-dark text-uppercase px-4">
           <BsArrowLeft className="me-2" />
           Discover More
         </Link>
