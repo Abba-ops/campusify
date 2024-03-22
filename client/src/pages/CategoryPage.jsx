@@ -62,7 +62,9 @@ export default function CategoryPage() {
               <li className="breadcrumb-item">
                 <Link to="/">Home</Link>
               </li>
-              <li className="breadcrumb-item active" aria-current="page">
+              <li
+                className="breadcrumb-item active text-capitalize"
+                aria-current="page">
                 <Link to={`/category/${category}/${category?._id}`}>
                   {formattedCategoryName}
                 </Link>

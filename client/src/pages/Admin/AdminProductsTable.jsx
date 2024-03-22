@@ -1,58 +1,71 @@
 import React, { useState } from "react";
-import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
 import {
   Button,
   Image,
   Table,
-  Modal,
   InputGroup,
   FormControl,
   Pagination,
   Badge,
   Form,
-  ListGroup,
   Card,
   Col,
   Row,
-  Container,
+  Breadcrumb,
+  OverlayTrigger,
+  Tooltip,
+  ButtonGroup,
 } from "react-bootstrap";
-import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
+import { BsEye, BsTrash } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import {
   useAddCategoryMutation,
   useAddSubcategoryMutation,
   useDeleteCategoryMutation,
+  useDeleteProductMutation,
   useDeleteSubcategoryMutation,
   useGetCategoriesQuery,
   useGetProductsQuery,
 } from "../../features/productsApiSlice";
 import { Link } from "react-router-dom";
 import { numberWithCommas } from "../../utils/cartUtils";
-import Loader from "../../components/Loader";
 import TablePlaceholder from "../../components/TablePlaceholder";
 import { toast } from "react-toastify";
+import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 
 export default function AdminProductsTable() {
-  const { data: products, isLoading, isError } = useGetProductsQuery();
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [newSubcategory, setNewSubcategory] = useState("");
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
   const {
-    data: categories,
-    isLoading: loadingCategories,
-    refetch,
-  } = useGetCategoriesQuery();
+    data: products,
+    isLoading,
+    isError,
+    refetch: refetchProducts,
+  } = useGetProductsQuery();
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [newSubcategory, setNewSubcategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [newCategory, setNewCategory] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleDelete = (product) => {
-    setShowDeleteModal(false);
+  const { data: categories, refetch } = useGetCategoriesQuery();
+  const [deleteSubcategory] = useDeleteSubcategoryMutation();
+  const [deleteCategory] = useDeleteCategoryMutation();
+  const [addSubcategory] = useAddSubcategoryMutation();
+  const [deleteProduct] = useDeleteProductMutation();
+  const [addCategory] = useAddCategoryMutation();
+
+  const handleShowDeleteModal = (vendorId) => {
+    setShowDeleteModal(true);
+    setProductIdToDelete(vendorId);
   };
 
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setProductIdToDelete(null);
+  };
+
+  const itemsPerPage = 5;
 
   const filteredProducts =
     products &&
@@ -60,24 +73,13 @@ export default function AdminProductsTable() {
       product.productName.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts =
     filteredProducts &&
     filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
-  const [addCategory, { isLoading: addingCategory }] = useAddCategoryMutation();
-  const [deleteCategory, { isLoading: deletingCategory }] =
-    useDeleteCategoryMutation();
-
-  const [deleteSubcategory] = useDeleteSubcategoryMutation();
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const [addSubcategory, { isLoading: addingSubcategory }] =
-    useAddSubcategoryMutation();
-
-  const [newCategory, setNewCategory] = useState("");
 
   const handleAddCategory = async (e) => {
     e.preventDefault();
@@ -89,7 +91,7 @@ export default function AdminProductsTable() {
         toast.success(res.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error((error && error.data.message) || "Failed to add category");
     }
   };
 
@@ -101,23 +103,26 @@ export default function AdminProductsTable() {
         toast.success(res.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error((error && error.data.message) || "Failed to remove category");
     }
   };
 
-  const handleAddSubcategory = async (e, categoryId) => {
+  const handleAddSubcategory = async (e) => {
     e.preventDefault();
+
     try {
       const res = await addSubcategory({
         name: newSubcategory,
         parentCategory: selectedCategory,
       }).unwrap();
+
       if (res.success) {
         refetch();
+        setNewSubcategory("");
         toast.success(res.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error((error && error.data.message) || "Failed to add subcategory");
     }
   };
 
@@ -132,28 +137,48 @@ export default function AdminProductsTable() {
         toast.success(res.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(
+        (error && error.data.message) || "Failed to remove subcategory"
+      );
     }
   };
 
-  console.log(newSubcategory, selectedCategory);
+  const handleDeleteProduct = async () => {
+    try {
+      const response = await deleteProduct(productIdToDelete).unwrap();
+      if (response.success) {
+        refetchProducts();
+        toast.success(response.message);
+      }
+    } catch (error) {
+      toast.error((error && error.data.message) || "Failed to delete product");
+    } finally {
+      handleCloseDeleteModal();
+    }
+  };
 
   return (
     <>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to={"/admin/dashboard/"}>Dashboard</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>Products</Breadcrumb.Item>
+      </Breadcrumb>
       <div className="d-lg-flex justify-content-between align-items-center mb-3">
         <div>
           <h2>Product Management</h2>
           <p>
-            View and manage product listings. Ensure accurate and up-to-date
-            product information.
+            Explore and manage your product listings to ensure accurate and
+            up-to-date information for your customers.
           </p>
         </div>
         <div className="d-flex align-items-center">
           <InputGroup>
             <FormControl
-              placeholder="Search by product name"
               aria-label="Search"
               value={searchTerm}
+              placeholder="Search by product name"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </InputGroup>
@@ -161,7 +186,13 @@ export default function AdminProductsTable() {
       </div>
 
       {isError ? (
-        <p>Error fetching products. Please try again later.</p>
+        <div className="text-center mt-5">
+          <h4 className="text-danger">Error Fetching Products</h4>
+          <p className="mt-3">
+            Sorry, we couldn't retrieve the products at the moment. Please try
+            again later or contact support.
+          </p>
+        </div>
       ) : isLoading ? (
         <>
           <TablePlaceholder />
@@ -173,56 +204,76 @@ export default function AdminProductsTable() {
       ) : (
         <>
           {filteredProducts?.length === 0 ? (
-            <p>No products found.</p>
+            <div className="text-center mt-5">
+              <h4>No Products Found</h4>
+              <p className="mt-3">
+                Apologies, but we couldn't find any products matching your
+                search criteria at the moment.
+              </p>
+            </div>
           ) : (
             <>
-              <Table size="lg" responsive striped>
+              <Table size="sm" responsive striped>
                 <thead>
                   <tr>
-                    <th>Product ID</th>
                     <th>Product Name</th>
                     <th>Image</th>
                     <th>Category</th>
+                    <th>Subcategory</th>
                     <th>Brand</th>
                     <th>Price</th>
-                    <th>Stock Count</th>
-                    <th>Average Rating</th>
+                    <th>Count In Stock</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {currentProducts?.map((product) => (
+                  {currentProducts.map((product) => (
                     <tr key={product._id}>
-                      <td>{product._id}</td>
-                      <td>{product.productName}</td>
                       <td>
-                        <Image src={product.imageUrl} width={50} />
+                        {product.productName.length > 30
+                          ? `${product.productName.slice(0, 30)}...`
+                          : product.productName}
+                      </td>
+                      <td>
+                        <Image src={product.imageUrl} width={50} height={50} />
                       </td>
                       <td>{product.category.name}</td>
+                      <td>{product.subcategory.name}</td>
                       <td>{product.brand}</td>
                       <td>&#8358;{numberWithCommas(product.price)}</td>
                       <td>{product.countInStock}</td>
-                      <td>{product.rating}</td>
-                      <td className="text-center">
-                        <Link to={`/admin/dashboard/products/${product._id}`}>
-                          <BsEye className="me-2" /> View
-                        </Link>
-                        <Link
-                          to={`/admin/dashboard/products/${product._id}/edit`}>
-                          <BsPencil className="me-2" /> Edit
-                        </Link>
-                        <BsTrash
-                          onClick={() => {
-                            setSelectedProduct(product);
-                            setShowDeleteModal(true);
-                          }}
-                        />
+                      <td>
+                        <ButtonGroup size="sm">
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
+                            <Button
+                              as={Link}
+                              to={`/vendor/dashboard/products/${product._id}`}
+                              variant="light">
+                              <BsEye />
+                            </Button>
+                          </OverlayTrigger>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="tooltip-delete">Delete</Tooltip>
+                            }>
+                            <Button
+                              variant="light"
+                              onClick={() =>
+                                handleShowDeleteModal(product._id)
+                              }>
+                              <BsTrash />
+                            </Button>
+                          </OverlayTrigger>
+                        </ButtonGroup>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
-              <div className="d-flex justify-content-center">
+              <div className="d-flex justify-content-center mt-3">
                 <Pagination>
                   {Array.from(
                     {
@@ -243,41 +294,32 @@ export default function AdminProductsTable() {
           )}
         </>
       )}
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Product</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete{" "}
-          {selectedProduct && selectedProduct.productName}?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => handleDelete(selectedProduct)}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <div>
-        <h3>Manage Categories</h3>
-        <Form onSubmit={handleAddCategory}>
-          <InputGroup className="mb-3">
-            <FormControl
-              placeholder="New Category"
-              aria-label="New Category"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
-            />
-            <Button type="submit" variant="primary">
-              <RiAddLine /> Add
-            </Button>
-          </InputGroup>
-        </Form>
+      <div className="mt-5">
+        <div>
+          <h3 className="mb-3">Manage Categories</h3>
+          <p className="mb-4">
+            Organize and oversee your categories efficiently to streamline
+            navigation and enhance user experience.
+          </p>
+        </div>
         <Row>
+          <Col lg={3}>
+            <Form onSubmit={handleAddCategory}>
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="Enter New Category"
+                  aria-label="New Category"
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                />
+                <Button type="submit" variant="dark" className="text-uppercase">
+                  Add
+                </Button>
+              </InputGroup>
+            </Form>
+          </Col>
+        </Row>
+        <Row className="mb-5">
           {categories?.data.map((category) => (
             <Col
               key={category._id}
@@ -286,29 +328,35 @@ export default function AdminProductsTable() {
               md={4}
               lg={3}
               className="mb-3">
-              <Card className="border-0 rounded-0">
+              <Card className="border-0 rounded-0 shadow-sm mb-3">
                 <Card.Body className="d-flex justify-content-between align-items-center">
-                  <span>{category.name}</span>
-                  <MdDelete
-                    onClick={() => handleRemoveCategory(category._id)}
-                  />
+                  <h5 className="mb-0">{category.name}</h5>
+                  <Link
+                    className="text-danger"
+                    onClick={() => handleRemoveCategory(category._id)}>
+                    <MdDelete />
+                  </Link>
                 </Card.Body>
                 {category.subcategories &&
                   category.subcategories.length > 0 && (
                     <Card.Body>
-                      <h5>Subcategories:</h5>
-                      <ul>
+                      <h6 className="mb-3">Subcategories:</h6>
+                      <ul className="list-unstyled">
                         {category.subcategories.map((subcat) => (
-                          <li key={subcat._id}>
-                            {subcat.name}
-                            <MdDelete
+                          <li
+                            key={subcat._id}
+                            className="d-flex justify-content-between align-items-center">
+                            <span>{subcat.name}</span>
+                            <Link
+                              className="text-danger"
                               onClick={() =>
                                 handleRemoveSubcategory(
                                   category._id,
                                   subcat._id
                                 )
-                              }
-                            />
+                              }>
+                              <MdDelete />
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -318,32 +366,54 @@ export default function AdminProductsTable() {
             </Col>
           ))}
         </Row>
-        <Form.Select onChange={(e) => setSelectedCategory(e.target.value)}>
-          {categories?.data.map((category) => (
-            <option value={category._id} key={category._id}>
-              {category.name}
-            </option>
-          ))}
-        </Form.Select>
-        <Form onSubmit={handleAddSubcategory}>
-          <InputGroup className="mb-3">
-            <FormControl
-              placeholder="New Subcategory"
-              aria-label="New Subcategory"
-              value={newSubcategory}
-              onChange={(e) => setNewSubcategory(e.target.value)}
-            />
-            <Button type="submit" variant="primary">
-              <RiAddLine /> Add
-            </Button>
-          </InputGroup>
-        </Form>
-        {categories?.data.length === 0 && (
-          <Badge variant="info" className="mt-2">
+        <Row>
+          <Col lg={3}>
+            <div className="mb-4">
+              <h5 className="mb-3">Add New Subcategory</h5>
+              <Form onSubmit={handleAddSubcategory}>
+                <Form.Select
+                  className="mb-3"
+                  onChange={(e) => setSelectedCategory(e.target.value)}>
+                  {categories &&
+                    categories.data.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
+                </Form.Select>
+                <InputGroup className="mb-3">
+                  <FormControl
+                    placeholder="New Subcategory"
+                    aria-label="New Subcategory"
+                    value={newSubcategory}
+                    onChange={(e) => setNewSubcategory(e.target.value)}
+                  />
+                  <Button
+                    type="submit"
+                    variant="dark"
+                    className="text-uppercase">
+                    Add
+                  </Button>
+                </InputGroup>
+              </Form>
+            </div>
+          </Col>
+        </Row>
+        {categories && categories.data.length === 0 && (
+          <Badge variant="dark" className="mt-2">
             No categories available
           </Badge>
         )}
       </div>
+      <DeleteConfirmationModal
+        headingText="Confirm Delete Product"
+        bodyText="Are you sure you want to delete this product?"
+        show={showDeleteModal}
+        onHide={handleCloseDeleteModal}
+        onDelete={handleDeleteProduct}
+        setShowModal={setShowDeleteModal}
+        showModal={showDeleteModal}
+      />
     </>
   );
 }

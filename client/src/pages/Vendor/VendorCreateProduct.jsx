@@ -120,7 +120,7 @@ export default function VendorCreateProduct() {
     <>
       <Breadcrumb>
         <Breadcrumb.Item>
-          <Link to={"/vendor/dashboard/"}>Home</Link>
+          <Link to={"/vendor/dashboard/"}>Dashboard</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
           <Link to={"/vendor/dashboard/products"}>Products</Link>

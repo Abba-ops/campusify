@@ -1,6 +1,14 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import { Category, Product } from "../models/productModel.js";
+import cloudinary from "../config/cloudinary.js";
 import Vendor from "../models/vendorModel.js";
+
+export const extractPublicId = (url) => {
+  const parts = url.split("/");
+  const fileName = parts.pop().split(".")[0];
+  const publicId = parts.pop() + "/" + fileName;
+  return publicId;
+};
 
 /**
  * @desc    Fetch all products
@@ -188,6 +196,11 @@ const updateProduct = asyncHandler(async (req, res) => {
     countInStock,
     subcategory,
   } = req.body;
+
+  if (imageUrl !== product.imageUrl) {
+    const publicId = extractPublicId(product.imageUrl);
+    await cloudinary.uploader.destroy(publicId);
+  }
 
   product.productName = productName;
   product.productDescription = productDescription;
@@ -431,6 +444,35 @@ const getBestSellingProducts = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * @desc    Delete a product and its associated image from Cloudinary
+ * @route   DELETE /api/products/:productId
+ * @access  Private/Admin
+ */
+const deleteProduct = asyncHandler(async (req, res) => {
+  const productId = req.params.productId;
+
+  try {
+    const product = await Product.findById(productId);
+    if (!product) {
+      res.status(404);
+      throw new Error("Product not found");
+    }
+
+    const publicId = extractPublicId(product.imageUrl);
+    await cloudinary.uploader.destroy(publicId);
+
+    await Product.findByIdAndDelete(productId);
+
+    res
+      .status(200)
+      .json({ success: true, message: "Product deleted successfully" });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Internal Server Error");
+  }
+});
+
 export {
   getProducts,
   getProductById,
@@ -449,4 +491,5 @@ export {
   getIsFeatured,
   getPopularProducts,
   getBestSellingProducts,
+  deleteProduct,
 };

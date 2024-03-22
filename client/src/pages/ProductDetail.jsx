@@ -308,7 +308,7 @@ export default function ProductDetail() {
                   </h5>
                   {productData && productData.data.reviews.length === 0 && (
                     <>
-                      <Alert variant="primary" className="rounded-0 border-0">
+                      <Alert variant="warning" className="rounded-0 border-0">
                         <p className="mb-3">
                           There are no reviews yet for{" "}
                           <strong>{productData.data.productName}</strong>.
@@ -426,7 +426,7 @@ export default function ProductDetail() {
                       ) : (
                         <>
                           <Alert
-                            variant="primary"
+                            variant="warning"
                             className="rounded-0 border-0">
                             <p className="mb-0">
                               Are you ready to share your thoughts on{" "}
@@ -435,8 +435,13 @@ export default function ProductDetail() {
                               decisions.
                             </p>
                             <p className="mb-0">
-                              Please <Link to={"/login"}>log in</Link> to leave
-                              your feedback.
+                              Please{" "}
+                              <Link
+                                to={"/login"}
+                                className="text-decoration-none">
+                                login
+                              </Link>{" "}
+                              to leave your feedback.
                             </p>
                           </Alert>
                         </>

@@ -3,6 +3,9 @@ import genToken from "../utils/genToken.js";
 import User from "../models/userModel.js";
 import axios from "axios";
 import Vendor from "../models/vendorModel.js";
+import { Product } from "../models/productModel.js";
+import { extractPublicId } from "./productController.js";
+import cloudinary from "../config/cloudinary.js";
 
 const constructUserData = (user, vendor = null) => {
   return {
@@ -175,7 +178,26 @@ const deleteMyAccount = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
+  const vendor = await Vendor.findOne({ user: user._id });
+
+  if (vendor) {
+    const products = await Product.find({ vendor: vendor._id });
+
+    await vendor.deleteOne();
+
+    products.forEach((product) => {
+      product.deleteOne();
+
+      const deleteImage = async () => {
+        const publicId = extractPublicId(product.imageUrl);
+        await cloudinary.uploader.destroy(publicId);
+      };
+      deleteImage();
+    });
+  }
+
   await User.deleteOne({ _id: req.user._id });
+
   res.clearCookie("jwt_token");
   res.status(200).json({
     success: true,
@@ -215,8 +237,29 @@ const deleteUser = asyncHandler(async (req, res) => {
     throw new Error("User not found.");
   }
 
+  const vendor = await Vendor.findOne({ user: user._id });
+
+  if (vendor) {
+    const products = await Product.find({ vendor: vendor._id });
+
+    await vendor.deleteOne();
+
+    products.forEach((product) => {
+      product.deleteOne();
+
+      const deleteImage = async () => {
+        const publicId = extractPublicId(product.imageUrl);
+        await cloudinary.uploader.destroy(publicId);
+      };
+      deleteImage();
+    });
+  }
+
   await user.deleteOne();
-  res.status(200).json({ success: true, message: "User deleted." });
+
+  res
+    .status(200)
+    .json({ success: true, message: "User has been successfully deleted." });
 });
 
 /**

@@ -5,6 +5,7 @@ import {
   createProduct,
   createProductReview,
   deleteCategory,
+  deleteProduct,
   deleteReview,
   deleteSubcategory,
   getBestSellingProducts,
@@ -20,6 +21,7 @@ import {
 } from "../controllers/productController.js";
 import {
   isAdmin,
+  isAdminOrVendor,
   isLoggedIn,
   isVendor,
 } from "../middlewares/authMiddleware.js";
@@ -44,7 +46,8 @@ router.route("/categories").get(getCategories).post(addCategory);
 router
   .route("/:productId")
   .get(getProductById)
-  .put(isLoggedIn, isVendor, updateProduct);
+  .put(isLoggedIn, isVendor, updateProduct)
+  .delete(isLoggedIn, isAdminOrVendor, deleteProduct);
 
 router
   .route("/:productId/reviews")

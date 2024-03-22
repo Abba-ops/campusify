@@ -1,7 +1,9 @@
+import cloudinary from "../config/cloudinary.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import { Product } from "../models/productModel.js";
 import User from "../models/userModel.js";
 import Vendor from "../models/vendorModel.js";
+import { extractPublicId } from "./productController.js";
 
 /**
  * @desc    Get all vendors
@@ -27,8 +29,8 @@ const getVendorById = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findById(req.params.vendorId).populate("user");
 
   if (!vendor) {
-    res.status(404).json({ success: false, message: "Vendor not found" });
-    return;
+    res.status(404);
+    throw new Error("Vendor not found");
   }
 
   res.status(200).json({
@@ -130,10 +132,51 @@ const updateVendorStatus = asyncHandler(async (req, res) => {
   });
 });
 
+/**
+ * @desc    Delete a product and its associated image from Cloudinary
+ * @route   DELETE /api/products/:productId
+ * @access  Private/Admin
+ */
+const deleteVendor = asyncHandler(async (req, res) => {
+  const vendorId = req.params.vendorId;
+
+  const vendor = await Vendor.findById(vendorId);
+
+  if (!vendor) {
+    res.status(404);
+    throw new Error("Vendor not found");
+  }
+
+  const user = await User.findOne({ _id: vendor.user });
+
+  const products = await Product.find({ vendor: vendor._id });
+
+  products.forEach((product) => {
+    product.deleteOne();
+
+    const deleteImage = async () => {
+      const publicId = extractPublicId(product.imageUrl);
+      await cloudinary.uploader.destroy(publicId);
+    };
+
+    deleteImage();
+  });
+
+  if (user) {
+    user.isVendor = false;
+    user.save();
+  }
+
+  await vendor.deleteOne();
+
+  res.json({ success: true, message: "Vendor deleted successfully" });
+});
+
 export {
   getVendors,
   getVendorById,
   getVendorProducts,
   vendorApplication,
   updateVendorStatus,
+  deleteVendor,
 };

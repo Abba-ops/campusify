@@ -66,11 +66,15 @@ export default function SubcategoryProducts() {
                 <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item">
-                <Link to={`/category/${categoryName}/${selectedCategory?._id}`}>
+                <Link
+                  to={`/category/${categoryName}/${selectedCategory?._id}`}
+                  className="text-capitalize">
                   {categoryName.replace(/-/g, " ")}
                 </Link>
               </li>
-              <li className="breadcrumb-item active" aria-current="page">
+              <li
+                className="breadcrumb-item active text-capitalize"
+                aria-current="page">
                 {formattedSubcategoryName}
               </li>
             </ol>

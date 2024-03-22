@@ -7,6 +7,9 @@ import {
   Pagination,
   InputGroup,
   FormControl,
+  OverlayTrigger,
+  Tooltip,
+  Breadcrumb,
 } from "react-bootstrap";
 import {
   useDeleteUserMutation,
@@ -15,8 +18,8 @@ import {
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BsEye, BsTrash } from "react-icons/bs";
-import Loader from "../../components/Loader";
 import TablePlaceholder from "../../components/TablePlaceholder";
+import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 
 export default function AdminUsersTable() {
   const { data: users, isLoading, refetch } = useGetUsersQuery();
@@ -25,19 +28,36 @@ export default function AdminUsersTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 5;
 
-  const handleDeleteUser = async (userId) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      try {
-        await deleteUser(userId).unwrap();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState(null);
+
+  const handleShowDeleteModal = (userId) => {
+    setShowDeleteModal(true);
+    setUserIdToDelete(userId);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setUserIdToDelete(null);
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      const response = await deleteUser(userIdToDelete).unwrap();
+      if (response.success) {
         refetch();
-        toast.success("User deleted successfully");
-      } catch (error) {
-        toast.error(error?.data?.message || error.error);
+        toast.success(response.message);
       }
+    } catch (error) {
+      toast.error(
+        (error && error.data.message) ||
+          "An error occurred while deleting the user."
+      );
+    } finally {
+      handleCloseDeleteModal();
     }
   };
 
-  // Filter users based on search term
   const filteredUsers =
     users?.data?.filter(
       (user) =>
@@ -46,7 +66,6 @@ export default function AdminUsersTable() {
         user.email.toLowerCase().includes(searchTerm.toLowerCase())
     ) || [];
 
-  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
@@ -55,22 +74,26 @@ export default function AdminUsersTable() {
 
   return (
     <>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to={"/admin/dashboard/"}>Dashboard</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>Users</Breadcrumb.Item>
+      </Breadcrumb>
       <div className="d-lg-flex justify-content-between align-items-center mb-3">
         <div>
           <h2>User Management</h2>
           <p>
-            <small>
-              View and manage user accounts. Ensure a secure and organized user
-              experience.
-            </small>
+            Explore and manage user accounts to ensure a secure and organized
+            user experience.
           </p>
         </div>
         <div className="d-flex align-items-center">
           <InputGroup>
             <FormControl
-              placeholder="Search by name or email"
               aria-label="Search"
               value={searchTerm}
+              placeholder="Search by name or email"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </InputGroup>
@@ -79,37 +102,41 @@ export default function AdminUsersTable() {
 
       {isLoading ? (
         <>
-          <TablePlaceholder />
-          <TablePlaceholder />
-          <TablePlaceholder />
-          <TablePlaceholder />
-          <TablePlaceholder />
+          {[...Array(5)].map((_, index) => (
+            <TablePlaceholder key={index} />
+          ))}
         </>
       ) : (
         <>
           {currentUsers.length === 0 ? (
-            <p>No users found.</p>
+            <div className="text-center">
+              <h4>No Users Found</h4>
+              <p>
+                Apologies, but we couldn't find any users matching your search
+                criteria at the moment.
+              </p>
+            </div>
           ) : (
             <>
-              <Table size="lg" responsive striped>
-                {/* Table header */}
+              <Table size="sm" responsive striped>
                 <thead>
                   <tr>
-                    <th>User ID</th>
-                    <th>Profile Picture</th>
-                    <th>Full Name</th>
-                    <th>Email Address</th>
-                    <th>Admin Status</th>
-                    <th>Vendor Status</th>
+                    <th>Last Name</th>
+                    <th>Other Names</th>
+                    <th>Email</th>
+                    <th>Picture</th>
+                    <th>Phone Number</th>
+                    <th>Vendor</th>
                     <th>User Type</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
-                {/* Table body */}
                 <tbody>
                   {currentUsers.map((user) => (
                     <tr key={user._id}>
-                      <td>{user._id}</td>
+                      <td>{user.lastName}</td>
+                      <td>{user.otherNames}</td>
+                      <td>{user.email}</td>
                       <td>
                         <Image
                           fluid
@@ -117,36 +144,43 @@ export default function AdminUsersTable() {
                           loading="lazy"
                           src={user.profilePictureURL}
                           className="profile-picture-sm"
+                          alt={`${user.lastName} ${user.otherNames}`}
                         />
                       </td>
-                      <td>
-                        {user.lastName} {user.otherNames}
-                      </td>
-                      <td>{user.email}</td>
-                      <td>{user.isAdmin ? "Yes" : "No"}</td>
+                      <td>{user.phoneNumber}</td>
                       <td>{user.isVendor ? "Yes" : "No"}</td>
                       <td>{user.userType}</td>
                       <td>
-                        <ButtonGroup>
-                          <Link to={`/admin/dashboard/users/${user._id}`}>
-                            <Button variant="info" size="sm">
+                        <ButtonGroup size="sm">
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
+                            <Button
+                              as={Link}
+                              to={`/admin/dashboard/users/${user._id}`}
+                              variant="light">
                               <BsEye />
                             </Button>
-                          </Link>
-                          <Button
-                            size="sm"
-                            variant="danger"
-                            onClick={() => handleDeleteUser(user._id)}
-                            disabled={isDeleting}>
-                            <BsTrash />
-                          </Button>
+                          </OverlayTrigger>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="tooltip-delete">Delete</Tooltip>
+                            }>
+                            <Button
+                              variant="light"
+                              onClick={() => handleShowDeleteModal(user._id)}
+                              disabled={isDeleting}>
+                              <BsTrash />
+                            </Button>
+                          </OverlayTrigger>
                         </ButtonGroup>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
-              {/* Pagination */}
+
               <div className="d-flex justify-content-center">
                 <Pagination>
                   {[
@@ -165,6 +199,14 @@ export default function AdminUsersTable() {
           )}
         </>
       )}
+      <DeleteConfirmationModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        headingText="Delete User"
+        bodyText="Are you sure you want to delete this user?"
+        onClose={handleCloseDeleteModal}
+        onDelete={handleDeleteUser}
+      />
     </>
   );
 }
