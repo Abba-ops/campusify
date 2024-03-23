@@ -97,7 +97,9 @@ export default function UserProfileDetails() {
                 <p className="mb-1">{userInfo.data.email}</p>
                 <div className="mb-2">
                   {userInfo.data.vendor && userInfo.data.vendor.isApproved && (
-                    <Badge bg="primary">Approved</Badge>
+                    <Badge bg="light" text="dark">
+                      Approved
+                    </Badge>
                   )}
                 </div>
               </ListGroup.Item>
