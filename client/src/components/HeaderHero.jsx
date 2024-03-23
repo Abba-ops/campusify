@@ -33,15 +33,15 @@ export default function HeaderHero() {
             <Button
               as={Link}
               size="lg"
-              variant="primary"
+              variant="dark"
               to={userInfo ? "/vendor-application" : "/login"}
-              className="text-uppercase text-white">
+              className="text-uppercase">
               {userInfo ? "Start Selling" : "Get Started"}
             </Button>
             <Button
               as={Link}
               size="lg"
-              variant="dark"
+              variant="light"
               to={"/about"}
               className="text-uppercase">
               Explore More

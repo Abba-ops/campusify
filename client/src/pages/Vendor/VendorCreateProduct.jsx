@@ -252,19 +252,17 @@ export default function VendorCreateProduct() {
                 </Form.Group>
               </Col>
             </Row>
-            <div className="d-flex justify-content-center">
-              <Button
-                variant="dark"
-                type="submit"
-                className="text-uppercase px-4"
-                disabled={isLoading}>
-                {isLoading ? (
-                  <Spinner size="sm" animation="border" />
-                ) : (
-                  "Create Product"
-                )}
-              </Button>
-            </div>
+            <Button
+              variant="light"
+              type="submit"
+              className="text-uppercase px-4"
+              disabled={isLoading}>
+              {isLoading ? (
+                <Spinner size="sm" animation="border" />
+              ) : (
+                "Create Product"
+              )}
+            </Button>
           </Form>
         </Card.Body>
       </Card>

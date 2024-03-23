@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { Button, Image, Col, Modal, Row, Form, Stack } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cartSlice";
-import CartPreviewModal from "./CartPreviewModal";
 import { numberWithCommas } from "../utils/cartUtils";
 import StarRating from "./StarRating";
-import { FaCheckCircle } from "react-icons/fa";
 
 export default function ProductPreviewModal({ product, show, handleClose }) {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -49,6 +47,7 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                     <p className="text-danger">Out of Stock</p>
                   ) : (
                     <Form.Select
+                      size="lg"
                       onChange={(e) =>
                         setSelectedQuantity(Number(e.target.value))
                       }>
@@ -63,13 +62,13 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
               </Row>
               <Stack direction="horizontal" gap={3} className="mt-4">
                 <Button
-                  variant="primary"
                   onClick={handleClose}
-                  className="text-white text-uppercase">
+                  className="text-uppercase"
+                  variant="dark">
                   Close
                 </Button>
                 <Button
-                  variant="dark"
+                  variant="light"
                   onClick={handleAddToCart}
                   className="text-uppercase"
                   disabled={isOutOfStock}>

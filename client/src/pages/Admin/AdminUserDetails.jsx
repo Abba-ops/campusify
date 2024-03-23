@@ -22,16 +22,21 @@ export default function AdminUserDetails() {
     <>
       <Breadcrumb>
         <Breadcrumb.Item>
-          <Link to={"/admin/dashboard/"}>Dashboard</Link>
+          <Link to="/admin/dashboard/">Dashboard</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <Link to={"/admin/dashboard/users"}>Users</Link>
+          <Link to="/admin/dashboard/users">Users</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item active>
-          {user && `${user.data.lastName} ${user.data.otherNames}`}
+          {user && (
+            <>
+              {`${user.data.lastName} ${user.data.otherNames}`.slice(0, 10)}
+              {user.data.lastName.length + user.data.otherNames.length > 20 &&
+                "..."}
+            </>
+          )}
         </Breadcrumb.Item>
       </Breadcrumb>
-
       {isLoading ? (
         <>
           {[...Array(6)].map((_, index) => (
@@ -48,48 +53,49 @@ export default function AdminUserDetails() {
       ) : (
         <Row>
           <Col md={4} className="mb-4 mb-lg-0">
-            <Card className="border-0 rounded-0 shadow-sm py-3">
-              <div className="d-flex justify-content-center mb-3">
-                <Image
-                  fluid
-                  roundedCircle
-                  loading="lazy"
-                  className="profile-picture-lg border"
-                  src={user.data.profilePictureURL}
-                />
-              </div>
-              <Card.Title className="text-center">{`${user.data.lastName}, ${user.data.otherNames}`}</Card.Title>
-              <Card.Text className="text-muted text-center">
-                {user.data.email}
-              </Card.Text>
-              <div className="d-flex justify-content-center">
-                <Stack direction="horizontal" gap={3}>
-                  {user.data.isAdmin && <Badge bg="dark">Admin</Badge>}
-                  {user.data.isVendor && <Badge bg="primary">Vendor</Badge>}
-                </Stack>
-              </div>
+            <Card className="border-0 rounded-0 shadow-sm">
+              <Card.Body>
+                <div className="d-flex justify-content-center mb-3">
+                  <Image
+                    fluid
+                    roundedCircle
+                    loading="lazy"
+                    className="profile-picture-lg border"
+                    src={user.data.profilePictureURL}
+                  />
+                </div>
+                <Card.Title className="text-center text-break">{`${user.data.lastName}, ${user.data.otherNames}`}</Card.Title>
+                <Card.Text className="text-muted text-center text-break">
+                  {user.data.email}
+                </Card.Text>
+                <div className="d-flex justify-content-center">
+                  <Stack direction="horizontal" gap={3}>
+                    {user.data.isAdmin && (
+                      <Badge bg="light" text="dark">
+                        Admin
+                      </Badge>
+                    )}
+                    {user.data.isVendor && (
+                      <Badge bg="light" text="dark">
+                        Vendor
+                      </Badge>
+                    )}
+                  </Stack>
+                </div>
+              </Card.Body>
             </Card>
           </Col>
 
           <Col md={8}>
             <Card className="border-0 rounded-0 shadow-sm">
               <Card.Body>
-                <Card.Title>User Information</Card.Title>
                 <Form>
-                  <FloatingLabel label="Last Name">
+                  <FloatingLabel label="User ID">
                     <Form.Control
                       readOnly
                       type="text"
                       className="border-0"
-                      value={user.data.lastName}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Other Names">
-                    <Form.Control
-                      readOnly
-                      as="textarea"
-                      className="border-0"
-                      value={user.data.otherNames}
+                      value={user.data._id}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Email">
@@ -106,6 +112,22 @@ export default function AdminUserDetails() {
                       type="text"
                       className="border-0"
                       value={user.data.phoneNumber}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel label="Last Name">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={user.data.lastName}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel label="Other Names">
+                    <Form.Control
+                      readOnly
+                      as="textarea"
+                      className="border-0"
+                      value={user.data.otherNames}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="User Type">

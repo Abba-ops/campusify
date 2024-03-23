@@ -325,7 +325,7 @@ export default function ProductDetail() {
                       sortedReviews.slice(0, visibleComments).map((review) => (
                         <ListGroup.Item
                           key={review._id}
-                          className="mb-3 p-3 shadow-sm">
+                          className="mb-3 p-3 border">
                           <div className="d-flex align-items-center mb-3">
                             <Link to={`/profile/${review.user}`}>
                               <div className="flex-shrink-0 me-3">

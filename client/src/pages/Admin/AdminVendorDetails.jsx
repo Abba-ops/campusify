@@ -76,13 +76,14 @@ export default function AdminVendorDetails() {
     <>
       <Breadcrumb>
         <Breadcrumb.Item>
-          <Link to={"/admin/dashboard/"}>Dashboard</Link>
+          <Link to="/admin/dashboard/">Dashboard</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <Link to={"/admin/dashboard/vendors"}>Vendors</Link>
+          <Link to="/admin/dashboard/vendors">Vendors</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item active>
-          {vendor && vendor.data.vendorName}
+          {vendor && vendor.data.vendorName.slice(0, 10)}
+          {vendor && vendor.data.vendorName.length > 10 && "..."}
         </Breadcrumb.Item>
       </Breadcrumb>
       {isError ? (
@@ -101,69 +102,71 @@ export default function AdminVendorDetails() {
       ) : (
         <Row>
           <Col md={4} className="mb-4 mb-lg-0">
-            <Card className="border-0 rounded-0 shadow-sm py-3">
-              <div className="d-flex justify-content-center mb-3">
-                <Image
-                  fluid
-                  roundedCircle
-                  loading="lazy"
-                  className="profile-picture-lg border"
-                  src={vendor && vendor.data.user.profilePictureURL}
-                />
-              </div>
-              <Card.Title className="text-center">
-                {vendor.data.vendorName}
-              </Card.Title>
-              <Card.Text className="text-center">
-                {vendor.data.vendorEmail}
-              </Card.Text>
-              <Card.Text className="text-center">
-                {vendor.data.vendorPhone}
-              </Card.Text>
-              {vendor.data.isApproved && (
-                <Card.Text className="text-center">
-                  <Badge bg="primary">Approved</Badge>
-                </Card.Text>
-              )}
-              {vendor.data.approvalStatus === "pending" && (
-                <div className="d-flex justify-content-center mt-3">
-                  <Stack direction="horizontal" gap={3}>
-                    <Button
-                      variant="outline-dark"
-                      className="text-uppercase"
-                      onClick={handleApprove}>
-                      {isApproving ? (
-                        <Spinner size="sm" animation="border" />
-                      ) : (
-                        "Approve"
-                      )}
-                    </Button>
-                    <Button
-                      variant="outline-dark"
-                      className="text-uppercase"
-                      onClick={handleReject}>
-                      {isApproving ? (
-                        <Spinner size="sm" animation="border" />
-                      ) : (
-                        "Reject"
-                      )}
-                    </Button>
-                  </Stack>
+            <Card className="border-0 rounded-0 shadow-sm">
+              <Card.Body>
+                <div className="d-flex justify-content-center mb-3">
+                  <Image
+                    fluid
+                    roundedCircle
+                    loading="lazy"
+                    className="profile-picture-lg border"
+                    src={vendor && vendor.data.user.profilePictureURL}
+                  />
                 </div>
-              )}
+                <Card.Title className="text-center">
+                  {vendor.data.vendorName}
+                </Card.Title>
+                <Card.Text className="text-center">
+                  {vendor.data.vendorEmail}
+                </Card.Text>
+                <Card.Text className="text-center">
+                  {vendor.data.vendorPhone}
+                </Card.Text>
+                {vendor.data.isApproved && (
+                  <Card.Text className="text-center">
+                    <Badge bg="light" text="dark">
+                      Approved
+                    </Badge>
+                  </Card.Text>
+                )}
+                {vendor.data.approvalStatus === "pending" && (
+                  <div className="d-flex justify-content-center mt-3">
+                    <Stack direction="horizontal" gap={3}>
+                      <Button
+                        variant="light"
+                        className="text-uppercase"
+                        onClick={handleApprove}>
+                        {isApproving ? (
+                          <Spinner size="sm" animation="border" />
+                        ) : (
+                          "Approve"
+                        )}
+                      </Button>
+                      <Button
+                        variant="light"
+                        className="text-uppercase"
+                        onClick={handleReject}>
+                        {isApproving ? (
+                          <Spinner size="sm" animation="border" />
+                        ) : (
+                          "Reject"
+                        )}
+                      </Button>
+                    </Stack>
+                  </div>
+                )}
+              </Card.Body>
             </Card>
           </Col>
           <Col md={8}>
             <Card className="border-0 rounded-0 shadow-sm">
               <Card.Body>
-                <Card.Title>Vendor Information</Card.Title>
                 <Form>
                   <FloatingLabel label="Vendor Description">
                     <Form.Control
                       readOnly
                       as="textarea"
                       className="border-0"
-                      style={{ minHeight: "100px" }}
                       value={vendor.data.vendorDescription}
                     />
                   </FloatingLabel>
