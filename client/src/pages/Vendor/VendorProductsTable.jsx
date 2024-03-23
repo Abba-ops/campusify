@@ -253,8 +253,8 @@ export default function VendorProductsTable() {
         </>
       )}
       <DeleteConfirmationModal
-        headingText="Confirm Delete Product"
-        bodyText="Are you sure you want to delete this product?"
+        headingText="Delete Product"
+        bodyText="Are you sure you want to delete this product? This action cannot be undone."
         show={showDeleteModal}
         onHide={handleCloseDeleteModal}
         onDelete={handleDeleteProduct}

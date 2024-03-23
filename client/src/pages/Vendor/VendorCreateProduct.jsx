@@ -49,9 +49,7 @@ export default function VendorCreateProduct() {
         navigate("/vendor/dashboard/products");
       }
     } catch (error) {
-      toast.error(
-        (error && error?.data?.message) || "Failed to create product"
-      );
+      toast.error((error && error.data.message) || "Failed to create product");
     }
   };
 
@@ -63,7 +61,7 @@ export default function VendorCreateProduct() {
       setImageUrl(res.image);
       toast.success(res.message || "Image uploaded successfully");
     } catch (error) {
-      toast.error((error && error?.data?.message) || "Failed to upload image");
+      toast.error((error && error.data.message) || "Failed to upload image");
     }
   };
 
@@ -151,6 +149,7 @@ export default function VendorCreateProduct() {
                     type="file"
                     onChange={uploadFileHandler}
                     className="mb-3"
+                    required
                   />
                   {imageUrl && (
                     <Image
@@ -184,7 +183,7 @@ export default function VendorCreateProduct() {
               <Col xs={12} md={6}>
                 <Form.Group controlId="category" className="mb-3 mb-lg-0">
                   <Form.Label>Category</Form.Label>
-                  <Form.Select name="category" onChange={handleChange}>
+                  <Form.Select required name="category" onChange={handleChange}>
                     {categories &&
                       categories.data.map((category) => (
                         <option value={category._id} key={category._id}>
@@ -197,7 +196,10 @@ export default function VendorCreateProduct() {
               <Col xs={12} md={6}>
                 <Form.Group controlId="subcategory">
                   <Form.Label>Subcategories</Form.Label>
-                  <Form.Select name="subcategory" onChange={handleChange}>
+                  <Form.Select
+                    required
+                    name="subcategory"
+                    onChange={handleChange}>
                     {subcategories?.map((subcategory) => (
                       <option value={subcategory._id} key={subcategory._id}>
                         {subcategory.name}
@@ -250,17 +252,19 @@ export default function VendorCreateProduct() {
                 </Form.Group>
               </Col>
             </Row>
-            <Button
-              variant="dark"
-              type="submit"
-              className="text-uppercase px-4"
-              disabled={isLoading || !imageUrl}>
-              {isLoading ? (
-                <Spinner size="sm" animation="border" />
-              ) : (
-                "Create Product"
-              )}
-            </Button>
+            <div className="d-flex justify-content-center">
+              <Button
+                variant="dark"
+                type="submit"
+                className="text-uppercase px-4"
+                disabled={isLoading}>
+                {isLoading ? (
+                  <Spinner size="sm" animation="border" />
+                ) : (
+                  "Create Product"
+                )}
+              </Button>
+            </div>
           </Form>
         </Card.Body>
       </Card>

@@ -34,16 +34,16 @@ export default function UserProfile() {
         roundedCircle
         loading="lazy"
         className="profile-picture-lg border"
-        src={userProfile?.data?.profilePictureURL || ""}
-        alt={`${userProfile?.data?.lastName}'s Profile`}
+        src={userProfile && userProfile.data.profilePictureURL}
+        alt={`${userProfile && userProfile.data.lastName}'s Profile`}
       />
-      <h2 className="mt-3">{`${userProfile?.data?.otherNames || ""} ${
-        userProfile?.data?.lastName || ""
+      <h2 className="mt-3">{`${userProfile && userProfile.data.otherNames} ${
+        userProfile && userProfile.data.lastName
       }`}</h2>
       <Link
-        to={`mailto:${userProfile?.data?.email}`}
+        to={`mailto:${userProfile && userProfile.data.email}`}
         className="text-decoration-none">
-        {userProfile?.data?.email || ""}
+        {userProfile && userProfile.data.email}
       </Link>
     </div>
   );

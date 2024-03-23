@@ -249,7 +249,7 @@ export default function AdminProductsTable() {
                             overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
                             <Button
                               as={Link}
-                              to={`/vendor/dashboard/products/${product._id}`}
+                              to={`/admin/dashboard/products/${product._id}`}
                               variant="light">
                               <BsEye />
                             </Button>
@@ -311,7 +311,10 @@ export default function AdminProductsTable() {
                   placeholder="Enter New Category"
                   onChange={(e) => setNewCategory(e.target.value)}
                 />
-                <Button type="submit" variant="dark" className="text-uppercase">
+                <Button
+                  type="submit"
+                  variant="secondary"
+                  className="text-uppercase">
                   Add
                 </Button>
               </InputGroup>
@@ -385,7 +388,7 @@ export default function AdminProductsTable() {
                   />
                   <Button
                     type="submit"
-                    variant="dark"
+                    variant="secondary"
                     className="text-uppercase">
                     Add
                   </Button>
@@ -395,13 +398,13 @@ export default function AdminProductsTable() {
           </Col>
         </Row>
         {categories && categories.data.length === 0 && (
-          <Badge variant="dark" className="mt-2">
+          <Badge variant="primary" className="mt-2">
             No categories available
           </Badge>
         )}
       </div>
       <DeleteConfirmationModal
-        headingText="Confirm Delete Product"
+        headingText="Confirm Delete"
         bodyText="Are you sure you want to delete this product?"
         show={showDeleteModal}
         onHide={handleCloseDeleteModal}

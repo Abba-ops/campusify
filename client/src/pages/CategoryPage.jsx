@@ -6,6 +6,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
 import ProductCard from "../components/ProductCard";
+import MetaTags from "../components/MetaTags";
 import SingleProductPlaceholder from "../components/SingleProductPlaceholder";
 
 export default function CategoryPage() {
@@ -33,12 +34,19 @@ export default function CategoryPage() {
     setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 8);
   };
 
-  const formattedCategoryName = category.replace(/-/g, " ");
+  const formattedCategoryName = category
+    .replace(/-/g, " ")
+    .replace(/-/g, " ")
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   useEffect(() => {
     if (!loadingCategories) {
       const foundCategory = categories.data.find(
-        (category) => category.name.toLowerCase() === formattedCategoryName
+        (category) =>
+          category.name.toLowerCase() === formattedCategoryName.toLowerCase()
       );
       setSelectedCategory(foundCategory);
     }
@@ -54,7 +62,14 @@ export default function CategoryPage() {
   }, []);
 
   return (
-    <Container className="my-5">
+    <Container className="py-5">
+      {!loadingCategories && (
+        <MetaTags
+          title={`${formattedCategoryName} - Campusify`}
+          description={`Explore ${formattedCategoryName} products on Campusify. Find the best deals and discover a wide range of products under ${formattedCategoryName} category.`}
+          keywords={`${formattedCategoryName}, products, ecommerce, online shopping, ${selectedCategory?.name}, Campusify`}
+        />
+      )}
       <Row className="mb-3">
         <Col>
           <nav aria-label="breadcrumb">
@@ -62,9 +77,7 @@ export default function CategoryPage() {
               <li className="breadcrumb-item">
                 <Link to="/">Home</Link>
               </li>
-              <li
-                className="breadcrumb-item active text-capitalize"
-                aria-current="page">
+              <li className="breadcrumb-item active" aria-current="page">
                 <Link to={`/category/${category}/${category?._id}`}>
                   {formattedCategoryName}
                 </Link>
@@ -79,19 +92,20 @@ export default function CategoryPage() {
             <ListGroup.Item className="text-bg-dark">
               <h5 className="text-uppercase">{selectedCategory?.name}</h5>
             </ListGroup.Item>
-            {selectedCategory?.subcategories.map((subcategory) => (
-              <ListGroup.Item key={subcategory._id} className="py-3">
-                <Link
-                  to={`/${selectedCategory.name
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")}/${subcategory.name
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")}/${subcategory._id}`}
-                  className="text-decoration-none text-uppercase fw-semibold">
-                  {subcategory.name}
-                </Link>
-              </ListGroup.Item>
-            ))}
+            {selectedCategory &&
+              selectedCategory.subcategories.map((subcategory) => (
+                <ListGroup.Item key={subcategory._id} className="py-3">
+                  <Link
+                    to={`/${selectedCategory.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}/${subcategory.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}/${subcategory._id}`}
+                    className="text-decoration-none text-uppercase fw-semibold">
+                    {subcategory.name}
+                  </Link>
+                </ListGroup.Item>
+              ))}
           </ListGroup>
         </Col>
         <Col lg={9}>

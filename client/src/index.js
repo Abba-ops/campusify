@@ -38,13 +38,13 @@ import VendorProductDetails from "./pages/Vendor/VendorProductDetails";
 import VendorEditProduct from "./pages/Vendor/VendorEditProduct";
 import UserProfile from "./pages/UserProfile";
 import UserProfileDetails from "./pages/UserProfileDetails";
-import { HelmetProvider } from "react-helmet-async";
 import AdminVendorDetails from "./pages/Admin/AdminVendorDetails";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import CategoryPage from "./pages/CategoryPage";
 import ProductSearch from "./pages/ProductSearch";
 import SubcategoryProducts from "./pages/SubcategoryProducts";
+import { HelmetProvider } from "react-helmet-async";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

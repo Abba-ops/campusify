@@ -229,7 +229,7 @@ export default function VendorManagementPage() {
         showModal={showDeleteModal}
         setShowModal={setShowDeleteModal}
         headingText="Delete Vendor"
-        bodyText="Are you sure you want to delete this vendor?"
+        bodyText="Are you sure you want to delete this vendor? This action cannot be undone."
         onClose={handleCloseDeleteModal}
         onDelete={handleDeleteVendor}
       />

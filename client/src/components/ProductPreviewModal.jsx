@@ -8,18 +8,13 @@ import StarRating from "./StarRating";
 import { FaCheckCircle } from "react-icons/fa";
 
 export default function ProductPreviewModal({ product, show, handleClose }) {
-  const [isCartPreviewVisible, setCartPreviewVisibility] = useState(false);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
 
   const dispatch = useDispatch();
 
-  const closeCartPreview = () => setCartPreviewVisibility(false);
-  const showCartPreview = () => setCartPreviewVisibility(true);
-
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity: selectedQuantity }));
     handleClose();
-    showCartPreview();
   };
 
   const isOutOfStock = product.countInStock <= 0;
@@ -29,12 +24,7 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
       <Modal show={show} onHide={handleClose} centered size="lg">
         <Row className="align-items-stretch">
           <Col lg={6} className="d-flex align-items-center">
-            <Image
-              src={product.imageUrl}
-              fluid
-              rounded
-              style={{ height: "100%" }}
-            />
+            <Image src={product.imageUrl} fluid rounded className="h-100" />
           </Col>
           <Col lg={6}>
             <Modal.Body>
@@ -49,12 +39,6 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                   }`}
                 />
               </div>
-              <h6 className="mt-3">
-                {product.vendor.businessName}{" "}
-                {product.vendor.isApproved && (
-                  <FaCheckCircle color="green" title="Verified" />
-                )}
-              </h6>
               <p className="my-3">{product.productDescription}</p>
               <Modal.Title className="text-primary mb-4">
                 &#8358;{numberWithCommas(product.price)}
@@ -96,11 +80,6 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
           </Col>
         </Row>
       </Modal>
-      <CartPreviewModal
-        product={product}
-        show={isCartPreviewVisible}
-        onHide={closeCartPreview}
-      />
     </>
   );
 }

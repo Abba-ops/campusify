@@ -152,12 +152,12 @@ export default function VendorApplication() {
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Product Description
+                      Description
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
-                        as="textarea"
                         rows={3}
+                        as="textarea"
                         name="vendorDescription"
                         value={formState.vendorDescription}
                         onChange={handleInputChange}

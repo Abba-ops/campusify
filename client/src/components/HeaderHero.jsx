@@ -22,7 +22,7 @@ export default function HeaderHero() {
           <h1 className="display-5 fw-bold lh-sm mb-3 d-none d-lg-block">
             Empowering Campus Entrepreneurs
           </h1>
-          <p className="lead fw-normal text-muted mb-4 d-none d-lg-block">
+          <p className="lead d-none d-lg-block">
             Empower yourself with our platform designed for campus
             entrepreneurs. Discover opportunities, connect with like-minded
             individuals, and turn your ideas into reality. Join us in building a

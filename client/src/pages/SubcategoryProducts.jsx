@@ -16,7 +16,14 @@ export default function SubcategoryProducts() {
 
   const { data: categories, isLoading: loadingCategories } =
     useGetCategoriesQuery();
-  const formattedSubcategoryName = subcategory.replace(/-/g, " ");
+
+  const formattedSubcategoryName = subcategory
+    .replace(/-/g, " ")
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
   const {
     data: productsData,
     isError: productsError,
@@ -50,7 +57,7 @@ export default function SubcategoryProducts() {
   }, []);
 
   return (
-    <Container className="my-5">
+    <Container className="py-5">
       {!loadingCategories && (
         <MetaTags
           title={`${formattedSubcategoryName} - ${selectedCategory?.name} - Campusify`}
@@ -72,9 +79,7 @@ export default function SubcategoryProducts() {
                   {categoryName.replace(/-/g, " ")}
                 </Link>
               </li>
-              <li
-                className="breadcrumb-item active text-capitalize"
-                aria-current="page">
+              <li className="breadcrumb-item active" aria-current="page">
                 {formattedSubcategoryName}
               </li>
             </ol>
@@ -84,22 +89,23 @@ export default function SubcategoryProducts() {
       <Row>
         <Col lg={3} className="d-none d-lg-block">
           <ListGroup className="rounded-0">
-            <ListGroup.Item className="text-bg-dark">
-              <h5 className="text-uppercase">{selectedCategory?.name}</h5>
+            <ListGroup.Item as={"h5"} className="text-bg-dark text-uppercase">
+              {selectedCategory && selectedCategory.name}
             </ListGroup.Item>
-            {selectedCategory?.subcategories.map((subcategory) => (
-              <ListGroup.Item key={subcategory._id} className="py-3">
-                <Link
-                  to={`/${selectedCategory.name
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")}/${subcategory.name
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")}/${subcategory._id}`}
-                  className="text-decoration-none text-uppercase fw-semibold">
-                  {subcategory.name}
-                </Link>
-              </ListGroup.Item>
-            ))}
+            {selectedCategory &&
+              selectedCategory.subcategories.map((subcategory) => (
+                <ListGroup.Item key={subcategory._id} className="py-3">
+                  <Link
+                    to={`/${selectedCategory.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}/${subcategory.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}/${subcategory._id}`}
+                    className="text-decoration-none text-uppercase fw-semibold">
+                    {subcategory.name}
+                  </Link>
+                </ListGroup.Item>
+              ))}
           </ListGroup>
         </Col>
         <Col lg={9}>

@@ -36,6 +36,8 @@ export default function UserProfileDetails() {
         const response = await updateUserPassword({ password }).unwrap();
         if (response.success) {
           toast.success(response.message);
+          setConfirmPassword("");
+          setPassword("");
         }
       } catch (error) {
         toast.error(
@@ -65,9 +67,9 @@ export default function UserProfileDetails() {
               userInfo.data.vendor.approvalStatus === "pending" &&
               show && (
                 <Alert
+                  dismissible
                   className="rounded-0 border-0"
                   onClose={() => setShow(false)}
-                  dismissible
                   variant="warning">
                   <Alert.Heading>Vendor Approval Pending</Alert.Heading>
                   <p>
@@ -77,9 +79,9 @@ export default function UserProfileDetails() {
                   </p>
                 </Alert>
               )}
-            <h4 className="text-uppercase text-center mb-3">
+            <h5 className="text-uppercase text-center mb-3">
               Account Information
-            </h4>
+            </h5>
             <ListGroup>
               <ListGroup.Item className="text-center">
                 <div className="d-flex justify-content-center my-3">
@@ -93,9 +95,11 @@ export default function UserProfileDetails() {
                 </div>
                 <h4 className="mb-2">{`${userInfo.data.otherNames} ${userInfo.data.lastName}`}</h4>
                 <p className="mb-1">{userInfo.data.email}</p>
-                {userInfo.data.vendor && userInfo.data.vendor.isApproved && (
-                  <Badge bg="success">Approved</Badge>
-                )}
+                <div className="mb-2">
+                  {userInfo.data.vendor && userInfo.data.vendor.isApproved && (
+                    <Badge bg="primary">Approved</Badge>
+                  )}
+                </div>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Form>
@@ -146,7 +150,7 @@ export default function UserProfileDetails() {
             </ListGroup>
           </Col>
           <Col lg={8}>
-            <h4 className="text-uppercase text-center mb-3">Order History</h4>
+            <h5 className="text-uppercase text-center mb-3">Order History</h5>
           </Col>
         </Row>
       </Container>

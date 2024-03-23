@@ -2,40 +2,54 @@ import React from "react";
 import {
   Card,
   Col,
-  Container,
   Image,
-  ListGroup,
   Row,
   Badge,
-  Button,
+  Breadcrumb,
+  Stack,
+  FloatingLabel,
+  Form,
 } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import { useGetUserByIdQuery } from "../../features/usersApiSlice";
-import { useParams } from "react-router-dom";
+import TablePlaceholder from "../../components/TablePlaceholder";
 
 export default function AdminUserDetails() {
   const { userId } = useParams();
-
   const { data: user, isLoading, isError } = useGetUserByIdQuery(userId);
 
   return (
     <>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to={"/admin/dashboard/"}>Dashboard</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={"/admin/dashboard/users"}>Users</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>
+          {user && `${user.data.lastName} ${user.data.otherNames}`}
+        </Breadcrumb.Item>
+      </Breadcrumb>
+
       {isLoading ? (
-        <Row>
-          <Col md={4}>
-            <p>Loading...</p>
-          </Col>
-        </Row>
+        <>
+          {[...Array(6)].map((_, index) => (
+            <TablePlaceholder key={index} />
+          ))}
+        </>
       ) : isError ? (
-        <Row>
-          <Col md={4}>
-            <p>Error loading user details</p>
-          </Col>
-        </Row>
+        <div className="text-center mt-5">
+          <h4 className="text-danger">Error Loading User Data</h4>
+          <p className="mt-3">
+            Failed to load user data. Please try again later.
+          </p>
+        </div>
       ) : (
         <Row>
-          <Col md={4}>
-            <Card className="p-3">
-              <div className="d-flex justify-content-center my-3">
+          <Col md={4} className="mb-4 mb-lg-0">
+            <Card className="border-0 rounded-0 shadow-sm py-3">
+              <div className="d-flex justify-content-center mb-3">
                 <Image
                   fluid
                   roundedCircle
@@ -44,62 +58,76 @@ export default function AdminUserDetails() {
                   src={user.data.profilePictureURL}
                 />
               </div>
-              <Card.Title>
-                {`${user.data.lastName}, ${user.data.otherNames}`}
-                {user.data.isAdmin && (
-                  <Badge bg="success" className="ms-2">
-                    Admin
-                  </Badge>
-                )}
-                {user.data.isVendor && (
-                  <Badge bg="primary" className="ms-2">
-                    Vendor
-                  </Badge>
-                )}
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
+              <Card.Title className="text-center">{`${user.data.lastName}, ${user.data.otherNames}`}</Card.Title>
+              <Card.Text className="text-muted text-center">
                 {user.data.email}
-              </Card.Subtitle>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <strong>User Type:</strong> {user.data.userType}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Phone Number:</strong> {user.data.phoneNumber}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Account Creation Date:</strong>{" "}
-                  {new Date(user.data.accountCreationDate).toLocaleString()}
-                </ListGroup.Item>
-              </ListGroup>
+              </Card.Text>
+              <div className="d-flex justify-content-center">
+                <Stack direction="horizontal" gap={3}>
+                  {user.data.isAdmin && <Badge bg="dark">Admin</Badge>}
+                  {user.data.isVendor && <Badge bg="primary">Vendor</Badge>}
+                </Stack>
+              </div>
             </Card>
           </Col>
+
           <Col md={8}>
-            <Card className="p-3">
-              <h2 className="mb-4">User Details</h2>
-              <ListGroup variant="flush">
-                <ListGroup.Item className="d-flex justify-content-between">
-                  <span>
-                    <strong>User ID:</strong>
-                  </span>
-                  <span>{user.data._id}</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex justify-content-between">
-                  <span>
-                    <strong>Password:</strong>
-                  </span>
-                  <span className="text-muted">(Encrypted)</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex justify-content-between">
-                  <span>
-                    <strong>Last Updated:</strong>
-                  </span>
-                  <span>{new Date(user.data.updatedAt).toLocaleString()}</span>
-                </ListGroup.Item>
-              </ListGroup>
-              <div className="mt-4 d-flex justify-content-end">
-                <Button variant="danger">Delete User</Button>
-              </div>
+            <Card className="border-0 rounded-0 shadow-sm">
+              <Card.Body>
+                <Card.Title>User Information</Card.Title>
+                <Form>
+                  <FloatingLabel label="Last Name">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={user.data.lastName}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel label="Other Names">
+                    <Form.Control
+                      readOnly
+                      as="textarea"
+                      className="border-0"
+                      value={user.data.otherNames}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel label="Email">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={user.data.email}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel label="Phone Number">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={user.data.phoneNumber}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel label="User Type">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={user.data.userType}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel label="Account Creation Date">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={new Date(
+                        user.data.accountCreationDate
+                      ).toLocaleDateString()}
+                    />
+                  </FloatingLabel>
+                </Form>
+              </Card.Body>
             </Card>
           </Col>
         </Row>

@@ -33,16 +33,12 @@ export default function AdminDashboard() {
     }
   };
 
-  const currentPageTitle = "Admin Dashboard";
-  const currentPageDescription = "Manage your admin dashboard";
-  const currentPageKeywords = "admin, dashboard, management";
-
   return (
     <>
       <MetaTags
-        title={currentPageTitle}
-        description={currentPageDescription}
-        keywords={currentPageKeywords}
+        title="Admin Dashboard - Campusify"
+        description="Welcome to the admin dashboard on Campusify. Manage users, products, orders, and settings with ease."
+        keywords="admin dashboard, Campusify, users, products, orders, settings"
       />
       <Navbar
         bg="white"

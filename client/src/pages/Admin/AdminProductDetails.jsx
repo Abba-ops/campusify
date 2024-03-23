@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import {
+  Breadcrumb,
   Button,
   Card,
   Col,
-  Container,
+  FloatingLabel,
+  Form,
   Image,
   ListGroup,
   Row,
@@ -13,12 +15,11 @@ import {
   useDeleteReviewMutation,
   useGetProductDetailsQuery,
 } from "../../features/productsApiSlice";
-import Loader from "../../components/Loader";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import StarRating from "../../components/StarRating";
 import { MdDelete } from "react-icons/md";
 import { formatDistanceToNow } from "date-fns";
+import TablePlaceholder from "../../components/TablePlaceholder";
 
 export default function AdminProductDetails() {
   const [visibleComments, setVisibleComments] = useState(3);
@@ -29,23 +30,24 @@ export default function AdminProductDetails() {
     isError,
     refetch,
   } = useGetProductDetailsQuery(productId);
-  const [deleteReview, {}] = useDeleteReviewMutation();
+  const [deleteReview] = useDeleteReviewMutation();
 
   const handleDeleteReview = async (reviewId) => {
     try {
-      await deleteReview({ productId, reviewId });
-      refetch();
-      toast.success("Review deleted successfully");
+      const res = await deleteReview({ productId, reviewId }).unwrap();
+
+      if (res.success) {
+        refetch();
+        toast.success(res.message);
+      }
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      toast.error((error && error.data.message) || "");
     }
   };
 
   const handleLoadMore = () => {
     setVisibleComments((prevVisibleComments) => prevVisibleComments + 3);
   };
-
-  const { userInfo } = useSelector((state) => state.auth);
 
   const sortedReviews =
     product &&
@@ -55,55 +57,227 @@ export default function AdminProductDetails() {
 
   return (
     <>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to={"/admin/dashboard/"}>Dashboard</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={"/admin/dashboard/products"}>Products</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>
+          {product && `${product.data.productName.slice(0, 10)}...`}
+        </Breadcrumb.Item>
+      </Breadcrumb>
+
       {isError ? (
-        <div>Error loading product details</div>
+        <div className="text-center mt-5">
+          <h4 className="text-danger">Error Loading Product Details</h4>
+          <p className="mt-3">
+            Failed to load product details. Please try again later.
+          </p>
+        </div>
       ) : isLoading ? (
-        <Loader />
+        <>
+          {[...Array(6)].map((_, index) => (
+            <TablePlaceholder key={index} />
+          ))}
+        </>
       ) : (
         <>
-          <div className="d-flex justify-content-between align-items-center">
-            <h2>{product.data.productName}</h2>
-            <div></div>
-          </div>
           <Row>
-            <Col lg={6} className="mb-4">
-              <Card className="border-0">
-                {product.data.imageUrl ? (
-                  <Card.Img variant="top" src={product.data.imageUrl} />
-                ) : (
-                  <div className="text-center">Image not available</div>
-                )}
+            <Col md={4} className="mb-4 mb-lg-0">
+              <Card className="border-0 rounded-0 shadow-sm p-3">
+                <Card.Img variant="top" src={product.data.imageUrl} />
+                <Card.Body>
+                  <Card.Title>{product.data.productName} </Card.Title>
+                  <div className="my-3">
+                    <StarRating
+                      value={product.data.rating}
+                      size={16}
+                      text={`${product.data.reviewCount} ${
+                        product.data.reviewCount === 1 ? "Review" : "Reviews"
+                      }`}
+                    />
+                  </div>
+                </Card.Body>
+              </Card>
+              <Card className="border-0 rounded-0 shadow-sm">
+                <Card.Body>
+                  <Card.Title className="text-uppercase mb-3">
+                    Customer Reviews
+                  </Card.Title>
+                  <ListGroup variant="flush">
+                    {sortedReviews && sortedReviews.length > 0 ? (
+                      sortedReviews.slice(0, visibleComments).map((review) => (
+                        <ListGroup.Item
+                          key={review._id}
+                          className="mb-3 p-3 shadow-sm">
+                          <div className="d-flex align-items-center mb-3">
+                            <Link to={`/admin/dashboard/users/${review.user}`}>
+                              <div className="flex-shrink-0 me-3">
+                                <Image
+                                  fluid
+                                  loading="lazy"
+                                  roundedCircle
+                                  src={review.profilePictureURL}
+                                  className="profile-picture-sm text-break"
+                                  alt={`${review.name}'s Profile`}
+                                />
+                              </div>
+                            </Link>
+                            <div>
+                              <Link
+                                to={`/admin/dashboard/users/${review.user}`}
+                                className="text-decoration-none">
+                                <h6 className="mb-1 text-break">
+                                  {review.name}
+                                </h6>
+                              </Link>
+                              <small className="text-muted">
+                                {formatDistanceToNow(
+                                  new Date(review.createdAt),
+                                  {
+                                    addSuffix: true,
+                                  }
+                                )}
+                              </small>
+                            </div>
+                          </div>
+                          <div className="mb-3">
+                            <StarRating value={review.rating} size={18} />
+                          </div>
+                          <p className="mb-2 text-break">{review.comment}</p>
+                          <Button
+                            variant="link"
+                            onClick={() => handleDeleteReview(review._id)}
+                            className="position-absolute top-0 end-0">
+                            <MdDelete className="fs-4" />
+                          </Button>
+                        </ListGroup.Item>
+                      ))
+                    ) : (
+                      <div className="text-center mt-5">
+                        <p className="text-muted">No reviews available</p>
+                      </div>
+                    )}
+                    <div className="d-flex justify-content-center">
+                      {visibleComments <
+                        (sortedReviews ? sortedReviews.length : 0) && (
+                        <Button
+                          variant="dark"
+                          onClick={handleLoadMore}
+                          className="text-uppercase mb-4">
+                          Load More
+                        </Button>
+                      )}
+                    </div>
+                  </ListGroup>
+                </Card.Body>
               </Card>
             </Col>
-            <Col lg={6}>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <strong>Category:</strong> {product.data.category.name}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Subcategory:</strong> {product.data.subcategory.name}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Brand:</strong> {product.data.brand}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Price:</strong> ${product.data.price}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Stock:</strong> {product.data.countInStock}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Rating:</strong>{" "}
-                  <StarRating value={product.data.rating} size={18} />
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Description:</strong>{" "}
-                  {product.data.productDescription}
-                </ListGroup.Item>
-              </ListGroup>
+            <Col md={8}>
+              <Card className="border-0 rounded-0 shadow-sm">
+                <Card.Body>
+                  <Card.Title>User Information</Card.Title>
+                  <Form>
+                    <FloatingLabel label="Product ID">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data._id}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Product Description">
+                      <Form.Control
+                        rows={3}
+                        readOnly
+                        as="textarea"
+                        className="border-0"
+                        value={product.data.productDescription}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Category">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.category.name}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Subcategory">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.subcategory.name}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Brand">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.brand}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Vendor Name">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.vendor.vendorName}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Vendor Email">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.vendor.vendorEmail}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Vendor Phone">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.vendor.vendorPhone}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Featured">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.isFeatured}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Sales Count">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.salesCount}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Created At">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={
+                          product &&
+                          new Date(product.data.createdAt).toLocaleDateString()
+                        }
+                      />
+                    </FloatingLabel>
+                  </Form>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
-          <Row className="mt-4">
+          {/* <Row className="mt-4">
             <Col lg={6}>
               <h4>Product Reviews</h4>
               <ListGroup variant="flush">
@@ -166,7 +340,7 @@ export default function AdminProductDetails() {
                 </div>
               </ListGroup>
             </Col>
-          </Row>
+          </Row> */}
         </>
       )}
     </>

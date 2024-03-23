@@ -190,9 +190,9 @@ export default function ProductDetail() {
               ) : (
                 <>
                   <MetaTags
-                    title={productData.data.productName}
+                    title={`${productData.data.productName} - ${productData.data.vendor.vendorName} - Campusify`}
                     description={productData.data.productDescription}
-                    keywords="product, ecommerce, online shopping"
+                    keywords={`${productData.data.productName}, ${productData.data.vendor.vendorName}, ${productData.data.category.name}, product, ecommerce, online shopping`}
                   />
                   <h3 className="text-uppercase mb-3">
                     {productData.data.productName}
@@ -253,9 +253,7 @@ export default function ProductDetail() {
             </Col>
             <Col lg={3} className="mb-6">
               {!loadingBestSellingProducts && (
-                <h4 className="text-uppercase text-center mb-0">
-                  Other Products
-                </h4>
+                <h4 className="text-uppercase text-center">Other Products</h4>
               )}
               <CarouselProducts
                 lg={12}
@@ -309,11 +307,11 @@ export default function ProductDetail() {
                   {productData && productData.data.reviews.length === 0 && (
                     <>
                       <Alert variant="warning" className="rounded-0 border-0">
-                        <p className="mb-3">
+                        <p className="mb-0">
                           There are no reviews yet for{" "}
                           <strong>{productData.data.productName}</strong>.
                         </p>
-                        <p>
+                        <p className="mb-0">
                           Be the first to share your experience and assist
                           others in making informed decisions about this
                           product.
@@ -327,7 +325,7 @@ export default function ProductDetail() {
                       sortedReviews.slice(0, visibleComments).map((review) => (
                         <ListGroup.Item
                           key={review._id}
-                          className="mb-3 p-3 border">
+                          className="mb-3 p-3 shadow-sm">
                           <div className="d-flex align-items-center mb-3">
                             <Link to={`/profile/${review.user}`}>
                               <div className="flex-shrink-0 me-3">

@@ -33,13 +33,13 @@ export default function ProductSearch() {
         description={`Showing search results for "${query}". Explore products related to your search on Campusify.`}
         keywords={`${query}, search results, products, Campusify`}
       />
-      <Container className="my-5">
+      <Container className="py-5">
         <Row className="mb-4">
           <Col>
-            <h3 className="mb-3 text-center">
+            <h5 className="mb-3 text-center">
               <span className="text-uppercase">Search Results for</span> "
               {query}"
-            </h3>
+            </h5>
           </Col>
         </Row>
         {isError ? (

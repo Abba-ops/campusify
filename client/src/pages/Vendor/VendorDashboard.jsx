@@ -33,16 +33,18 @@ export default function VendorDashboard() {
     }
   };
 
-  const currentPageTitle = "Vendor Dashboard";
-  const currentPageDescription = "Explore your vendor dashboard";
-  const currentPageKeywords = "vendor, dashboard, products";
-
   return (
     <>
       <MetaTags
-        title={currentPageTitle}
-        description={currentPageDescription}
-        keywords={currentPageKeywords}
+        title={`${
+          userInfo?.data?.vendor.vendorName || "Vendor Dashboard"
+        } - Campusify`}
+        description={`Manage your products, orders, and settings with ease on the ${
+          userInfo?.data?.vendor.vendorName || "Vendor Dashboard"
+        } by Campusify.`}
+        keywords={`vendor dashboard, ${
+          userInfo?.data?.vendor.vendorName || "Vendor"
+        }, products, orders, settings, Campusify`}
       />
       <Navbar
         bg="white"

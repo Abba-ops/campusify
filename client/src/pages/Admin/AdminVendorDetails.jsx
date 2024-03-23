@@ -11,16 +11,14 @@ import {
   Button,
   Image,
   Badge,
-  ListGroup,
   Spinner,
   Breadcrumb,
-  ButtonGroup,
   FloatingLabel,
   Form,
+  Stack,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import TablePlaceholder from "../../components/TablePlaceholder";
-import { format } from "date-fns";
 
 export default function AdminVendorDetails() {
   const { vendorId } = useParams();
@@ -41,8 +39,11 @@ export default function AdminVendorDetails() {
         vendorId,
         status: "approved",
       }).unwrap();
-      refetch();
-      toast.success(res.message);
+
+      if (res.success) {
+        refetch();
+        toast.success(res.message);
+      }
     } catch (error) {
       toast.error(
         (error && error.data.message) ||
@@ -113,47 +114,20 @@ export default function AdminVendorDetails() {
               <Card.Title className="text-center">
                 {vendor.data.vendorName}
               </Card.Title>
-              <Card.Text className="text-center mb-2">
+              <Card.Text className="text-center">
                 {vendor.data.vendorEmail}
               </Card.Text>
               <Card.Text className="text-center">
                 {vendor.data.vendorPhone}
               </Card.Text>
-              <Card.Text className="text-center">
-                {vendor.data.isApproved && <Badge bg="success">Approved</Badge>}
-              </Card.Text>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <strong>Sales Count:</strong> {vendor.data.salesCount}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>User Type:</strong>{" "}
-                  <span className="text-capitalize">
-                    {vendor.data.user.userType}
-                  </span>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Approval Status:</strong>{" "}
-                  <span className="text-capitalize">
-                    {vendor.data.approvalStatus}
-                  </span>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Approval Date:</strong>{" "}
-                  <span>
-                    {vendor.data.approvalDate
-                      ? new Date(vendor.data.approvalDate).toLocaleDateString()
-                      : "Not Approved"}
-                  </span>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Date Joined:</strong>{" "}
-                  {format(new Date(vendor.data.dateJoined), "MM/dd/yyyy")}
-                </ListGroup.Item>
-              </ListGroup>
+              {vendor.data.isApproved && (
+                <Card.Text className="text-center">
+                  <Badge bg="primary">Approved</Badge>
+                </Card.Text>
+              )}
               {vendor.data.approvalStatus === "pending" && (
-                <div className="text-center mt-3">
-                  <ButtonGroup>
+                <div className="d-flex justify-content-center mt-3">
+                  <Stack direction="horizontal" gap={3}>
                     <Button
                       variant="outline-dark"
                       className="text-uppercase"
@@ -174,47 +148,89 @@ export default function AdminVendorDetails() {
                         "Reject"
                       )}
                     </Button>
-                  </ButtonGroup>
+                  </Stack>
                 </div>
               )}
             </Card>
           </Col>
           <Col md={8}>
             <Card className="border-0 rounded-0 shadow-sm">
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <FloatingLabel label="Description">
+              <Card.Body>
+                <Card.Title>Vendor Information</Card.Title>
+                <Form>
+                  <FloatingLabel label="Vendor Description">
                     <Form.Control
-                      as="textarea"
-                      value={vendor.data.vendorDescription}
                       readOnly
+                      as="textarea"
+                      className="border-0"
+                      style={{ minHeight: "100px" }}
+                      value={vendor.data.vendorDescription}
                     />
                   </FloatingLabel>
-                </ListGroup.Item>
-                <ListGroup.Item>
+                  <FloatingLabel label="Sales Count">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={vendor.data.salesCount}
+                    />
+                  </FloatingLabel>
                   <FloatingLabel label="Creator Full Name">
                     <Form.Control
-                      type="email"
-                      value={`${vendor.data.user.lastName} ${vendor.data.user.otherNames}`}
                       readOnly
+                      type="text"
+                      className="border-0"
+                      value={`${vendor.data.user.lastName} ${vendor.data.user.otherNames}`}
                     />
                   </FloatingLabel>
-                </ListGroup.Item>
-                <ListGroup.Item>
+                  <FloatingLabel label="Creator Email">
+                    <Form.Control
+                      readOnly
+                      type="email"
+                      className="border-0"
+                      value={vendor.data.user.email}
+                    />
+                  </FloatingLabel>
                   <FloatingLabel label="Creator Phone Number">
                     <Form.Control
-                      value={vendor.data.user.phoneNumber}
-                      type="email"
                       readOnly
+                      type="text"
+                      className="border-0"
+                      value={vendor.data.user.phoneNumber}
                     />
                   </FloatingLabel>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <FloatingLabel label="Creator Email">
-                    <Form.Control type="email" value={vendor.data.user.email} />
+                  <FloatingLabel label="User Type">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={vendor.data.user.userType}
+                    />
                   </FloatingLabel>
-                </ListGroup.Item>
-              </ListGroup>
+                  <FloatingLabel label="Approval Status">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={vendor.data.approvalStatus}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel label="Approval Date">
+                    <Form.Control
+                      readOnly
+                      type="text"
+                      className="border-0"
+                      value={
+                        vendor.data.approvalDate
+                          ? new Date(
+                              vendor.data.approvalDate
+                            ).toLocaleDateString()
+                          : "Not Approved"
+                      }
+                    />
+                  </FloatingLabel>
+                </Form>
+              </Card.Body>
             </Card>
           </Col>
         </Row>

@@ -16,7 +16,7 @@ export const extractPublicId = (url) => {
  * @access  Public
  */
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find().populate("vendor").populate("category");
+  const products = await Product.find({});
 
   res.json({
     success: true,

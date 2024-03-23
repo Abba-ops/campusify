@@ -203,7 +203,7 @@ export default function AdminUsersTable() {
         showModal={showDeleteModal}
         setShowModal={setShowDeleteModal}
         headingText="Delete User"
-        bodyText="Are you sure you want to delete this user?"
+        bodyText="Are you sure you want to delete this user? This action cannot be undone."
         onClose={handleCloseDeleteModal}
         onDelete={handleDeleteUser}
       />

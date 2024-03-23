@@ -121,9 +121,7 @@ export default function VendorEditProduct() {
         navigate("/vendor/dashboard/products");
       }
     } catch (error) {
-      toast.error(
-        (error && error?.data?.message) || "Failed to update product"
-      );
+      toast.error((error && error.data.message) || "Failed to update product");
     }
   };
 
@@ -181,6 +179,7 @@ export default function VendorEditProduct() {
                       type="file"
                       onChange={uploadFileHandler}
                       className="mb-3"
+                      required
                     />
                     {imageUrl && (
                       <Image
@@ -215,6 +214,7 @@ export default function VendorEditProduct() {
                   <Form.Group controlId="category" className="mb-3 mb-lg-0">
                     <Form.Label>Category</Form.Label>
                     <Form.Select
+                      required
                       name="category"
                       onChange={handleChange}
                       value={formData.category._id}>
@@ -231,6 +231,7 @@ export default function VendorEditProduct() {
                   <Form.Group controlId="subcategory">
                     <Form.Label>Subcategories</Form.Label>
                     <Form.Select
+                      required
                       name="subcategory"
                       onChange={handleChange}
                       value={formData.subcategory._id}>
@@ -287,18 +288,20 @@ export default function VendorEditProduct() {
                   </Form.Group>
                 </Col>
               </Row>
-              <Button
-                variant="dark"
-                type="submit"
-                className="text-uppercase px-4">
-                {updatingProduct ? (
-                  <Spinner size="sm" animation="border">
-                    <span className="visually-hidden"></span>
-                  </Spinner>
-                ) : (
-                  "Update Product"
-                )}
-              </Button>
+              <div className="d-flex justify-content-center">
+                <Button
+                  variant="dark"
+                  type="submit"
+                  className="text-uppercase px-4">
+                  {updatingProduct ? (
+                    <Spinner size="sm" animation="border">
+                      <span className="visually-hidden"></span>
+                    </Spinner>
+                  ) : (
+                    "Update Product"
+                  )}
+                </Button>
+              </div>
             </Form>
           )}
         </Card.Body>
