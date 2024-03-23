@@ -179,7 +179,6 @@ export default function VendorEditProduct() {
                       type="file"
                       onChange={uploadFileHandler}
                       className="mb-3"
-                      required
                     />
                     {imageUrl && (
                       <Image
