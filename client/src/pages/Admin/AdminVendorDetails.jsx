@@ -144,8 +144,8 @@ export default function AdminVendorDetails() {
                   <div className="d-flex justify-content-center mt-3">
                     <Stack direction="horizontal" gap={3}>
                       <Button
-                        variant="light"
-                        className="text-uppercase"
+                        variant="primary"
+                        className="text-uppercase text-white fw-semibold"
                         onClick={handleApprove}>
                         {isApproving ? (
                           <Spinner size="sm" animation="border" />
@@ -154,8 +154,8 @@ export default function AdminVendorDetails() {
                         )}
                       </Button>
                       <Button
-                        variant="light"
-                        className="text-uppercase"
+                        variant="dark"
+                        className="text-uppercase fw-semibold"
                         onClick={handleReject}>
                         {isApproving ? (
                           <Spinner size="sm" animation="border" />
