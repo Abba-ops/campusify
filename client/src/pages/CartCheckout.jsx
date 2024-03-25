@@ -10,20 +10,44 @@ import {
 import { numberWithCommas } from "../utils/cartUtils";
 import { useSelector } from "react-redux";
 import { Accordion, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { PaystackButton } from "react-paystack";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function CartCheckout() {
-  const [showCartItems, setShowCartItems] = useState(false);
+  const { userInfo } = useSelector((state) => state.auth);
+
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  const { userInfo } = useSelector((state) => state.auth);
+  const publicKey = "pk_test_930251134c7b44c106b9cb5b678b626a4bd438c5";
 
-  const handleShowCartItems = () => setShowCartItems((prev) => !prev);
+  const [email, setEmail] = useState(userInfo.data.email);
+  const [phone, setPhone] = useState(userInfo.data.phoneNumber);
+  const [name] = useState(
+    `${userInfo.data.lastName} ${userInfo.data.otherNames}`
+  );
+
+  const componentProps = {
+    email: email,
+    amount: Math.floor(cart.totalPrice),
+    metadata: {
+      name,
+      phone,
+    },
+    publicKey,
+    text: "Pay Now",
+    onSuccess: () => {
+      toast.success("Payment Successful! Thank you for your purchase.");
+    },
+    onClose: () => {
+      toast.error("Payment Cancelled or Error occurred. Please try again.");
+    },
+  };
 
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
       <Container>
         <Row>
           <Col lg={8} className="mb-5 mb-lg-0">
@@ -71,7 +95,7 @@ export default function CartCheckout() {
                         <Form.Control
                           readOnly
                           type="text"
-                          value={`${userInfo?.data.lastName} ${userInfo?.data.otherNames}`}
+                          value={`${userInfo.data.lastName} ${userInfo.data.otherNames}`}
                         />
                       </Col>
                     </Form.Group>
@@ -86,7 +110,7 @@ export default function CartCheckout() {
                         <Form.Control
                           readOnly
                           type="text"
-                          value={userInfo?.data.email}
+                          value={userInfo.data.email}
                         />
                       </Col>
                     </Form.Group>
@@ -101,7 +125,8 @@ export default function CartCheckout() {
                         <Form.Control
                           required
                           type="text"
-                          value={userInfo?.data.phoneNumber}
+                          value={userInfo.data.phoneNumber}
+                          readOnly
                         />
                       </Col>
                     </Form.Group>
@@ -183,6 +208,61 @@ export default function CartCheckout() {
                   </Form>
                 </Accordion.Body>
               </Accordion.Item>
+              <Accordion.Item eventKey="3">
+                <Accordion.Header>
+                  <h5 className="text-uppercase">Proceed to Payment</h5>
+                </Accordion.Header>
+                <Accordion.Body>
+                  <Form>
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label
+                        sm={3}
+                        column
+                        className="text-center text-lg-start">
+                        Full Name
+                      </Form.Label>
+                      <Col sm={6}>
+                        <Form.Control readOnly type="text" value={name} />
+                      </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label
+                        sm={3}
+                        column
+                        className="text-center text-lg-start">
+                        Email Address
+                      </Form.Label>
+                      <Col sm={6}>
+                        <Form.Control
+                          type="text"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Label
+                        sm={3}
+                        column
+                        className="text-center text-lg-start">
+                        Phone Number
+                      </Form.Label>
+                      <Col sm={6}>
+                        <Form.Control
+                          required
+                          type="text"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                        />
+                      </Col>
+                    </Form.Group>
+                  </Form>
+                  <PaystackButton
+                    className="btn btn-dark text-uppercase px-4"
+                    {...componentProps}
+                  />
+                </Accordion.Body>
+              </Accordion.Item>
             </Accordion>
           </Col>
           <Col lg={4}>
@@ -194,38 +274,34 @@ export default function CartCheckout() {
                     items
                   </Col>
                 </Row>
-                <Row className="my-3">
-                  <Link
-                    className="text-decoration-none"
-                    onClick={handleShowCartItems}>
-                    show details
-                  </Link>
-                  {showCartItems && (
-                    <Col
-                      className={`${
-                        !showCartItems ? "d-none" : "d-block"
-                      } my-3`}>
-                      {cartItems.map((product, index) => (
-                        <Row className="mb-3" key={index}>
+                <Row>
+                  <ListGroup variant="flush">
+                    {cartItems.map((item, index) => (
+                      <ListGroup.Item key={index}>
+                        <Row className="align-items-center">
                           <Col xs={3}>
-                            <Image src={product.imageUrl} fluid />
+                            <Image
+                              src={item.imageUrl}
+                              fluid
+                              className="profile-picture-sm"
+                            />
                           </Col>
-                          <Col xs={6}>
-                            <Link
-                              to={`/product/${product._id}`}
-                              className="text-decoration-none">
-                              {product.productName}
-                            </Link>
+                          <Col
+                            xs={6}
+                            as={Link}
+                            to={`/product/${item._id}`}
+                            className="text-decoration-none text-capitalize text-truncate">
+                            {item.productName}
                           </Col>
-                          <Col>
-                            <div className="text-end text-primary">
-                              &#8358;{numberWithCommas(product.price)}
+                          <Col xs={3}>
+                            <div className="text-primary text-lg-center">
+                              &#8358;{numberWithCommas(item.price)}
                             </div>
                           </Col>
                         </Row>
-                      ))}
-                    </Col>
-                  )}
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
                 </Row>
                 <Row className="my-3">
                   <Col xs={6}>Subtotal</Col>

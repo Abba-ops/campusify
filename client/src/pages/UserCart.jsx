@@ -1,12 +1,14 @@
 import React from "react";
-import { MdDelete, MdArrowBackIos } from "react-icons/md";
-import Container from "react-bootstrap/Container";
-import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
-import Image from "react-bootstrap/Image";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Form from "react-bootstrap/Form";
+import { MdDelete } from "react-icons/md";
+import {
+  Container,
+  ListGroup,
+  Button,
+  Image,
+  Col,
+  Row,
+  Form,
+} from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../features/cartSlice";
@@ -15,6 +17,7 @@ import { BsArrowLeft } from "react-icons/bs";
 
 export default function UserCart() {
   const cart = useSelector((state) => state.cart);
+
   const { cartItems } = cart;
 
   const dispatch = useDispatch();
@@ -45,7 +48,7 @@ export default function UserCart() {
             {product.productName}
           </Link>
         </Col>
-        <Col xs={6} lg={2} className="mt-3 mt-lg-0">
+        <Col xs={6} lg={2} className="mt-4 mt-lg-0">
           <Form.Select
             value={product.quantity}
             onChange={(e) => addToCartHandler(product, Number(e.target.value))}>
@@ -57,9 +60,9 @@ export default function UserCart() {
           </Form.Select>
         </Col>
         <Col xs={6} lg={2}>
-          <h6 className="text-lg-center text-primary">
+          <div className="text-primary text-lg-center">
             &#8358;{numberWithCommas(product.price)}
-          </h6>
+          </div>
         </Col>
         <Col lg={2} className="text-end">
           <Link>
@@ -73,7 +76,7 @@ export default function UserCart() {
   );
 
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
       <Container>
         <Row>
           <Col lg={8}>
@@ -89,7 +92,7 @@ export default function UserCart() {
               )}
             </ListGroup>
             <Link to={"/"}>
-              <Button size="sm" className="my-5 px-3" variant="dark">
+              <Button size="sm" className="my-5 px-4" variant="dark">
                 <BsArrowLeft className="me-2" /> Continue Shopping
               </Button>
             </Link>
@@ -103,17 +106,17 @@ export default function UserCart() {
                     items
                   </Col>
                   <Col xs={6}>
-                    <h6 className="text-end text-primary">
+                    <div className="text-primary text-end">
                       &#8358;{numberWithCommas(cart.itemsPrice)}
-                    </h6>
+                    </div>
                   </Col>
                 </Row>
                 <Row className="my-3">
                   <Col xs={6}>Delivery</Col>
                   <Col xs={6}>
-                    <h6 className="text-end text-primary">
+                    <div className="text-primary text-end">
                       &#8358;{numberWithCommas(cart.shippingPrice)}
-                    </h6>
+                    </div>
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -121,17 +124,17 @@ export default function UserCart() {
                 <Row className="my-3">
                   <Col xs={6}>Taxes</Col>
                   <Col xs={6}>
-                    <h6 className="text-end text-primary">
+                    <div className="text-primary text-end">
                       &#8358;{numberWithCommas(cart.taxPrice)}
-                    </h6>
+                    </div>
                   </Col>
                 </Row>
                 <Row className="my-3">
                   <Col xs={6}>Total</Col>
                   <Col xs={6}>
-                    <h6 className="text-end text-primary">
+                    <div className="text-primary text-end">
                       &#8358;{numberWithCommas(cart.totalPrice)}
-                    </h6>
+                    </div>
                   </Col>
                 </Row>
               </ListGroup.Item>
