@@ -24,14 +24,14 @@ export default function DeleteConfirmationModal({
         <Modal.Body>{bodyText}</Modal.Body>
         <Modal.Footer>
           <Button
-            variant="light"
-            className="text-uppercase"
+            variant="primary"
+            className="text-uppercase fw-semibold text-white"
             onClick={handleClose}>
             Close
           </Button>
           <Button
             variant="dark"
-            className="text-uppercase"
+            className="text-uppercase fw-semibold"
             onClick={handleDelete}>
             Delete
           </Button>

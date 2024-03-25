@@ -288,9 +288,9 @@ export default function VendorEditProduct() {
                 </Col>
               </Row>
               <Button
-                variant="outline-dark"
+                variant="dark"
                 type="submit"
-                className="text-uppercase px-4">
+                className="text-uppercase px-4 fw-semibold">
                 {updatingProduct ? (
                   <Spinner size="sm" animation="border">
                     <span className="visually-hidden"></span>

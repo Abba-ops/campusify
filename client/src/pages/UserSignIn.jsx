@@ -126,7 +126,7 @@ export default function UserSignIn() {
                       type="submit"
                       variant="dark"
                       disabled={isLoading}
-                      className="text-uppercase px-4">
+                      className="text-uppercase px-4 fw-semibold">
                       {isLoading ? (
                         <Spinner size="sm" animation="border">
                           <span className="visually-hidden"></span>

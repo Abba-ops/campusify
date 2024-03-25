@@ -239,7 +239,7 @@ export default function ProductDetail() {
                     <Button
                       size="lg"
                       variant="dark"
-                      className="text-uppercase"
+                      className="text-uppercase fw-semibold"
                       onClick={addToCartHandler}
                       disabled={productData.data.countInStock === 0}>
                       <MdAddShoppingCart className="me-2" />{" "}
@@ -377,7 +377,7 @@ export default function ProductDetail() {
                         <Button
                           variant="dark"
                           onClick={handleLoadMore}
-                          className="text-uppercase px-4">
+                          className="text-uppercase px-4 fw-semibold">
                           Load More
                         </Button>
                       </div>
@@ -410,7 +410,7 @@ export default function ProductDetail() {
                           <div className="d-flex justify-content-center">
                             <Button
                               type="submit"
-                              className="text-uppercase px-4"
+                              className="text-uppercase px-4 fw-semibold"
                               disabled={loadingCreateReview}
                               variant="dark">
                               {loadingCreateReview ? (
@@ -456,7 +456,9 @@ export default function ProductDetail() {
       )}
       <BackToTop />
       <div className="text-center my-3">
-        <Link to="/" className="btn btn-outline-dark text-uppercase px-4">
+        <Link
+          to="/"
+          className="btn btn-outline-dark text-uppercase px-4 fw-semibold">
           <BsArrowLeft className="me-2" />
           Discover More
         </Link>

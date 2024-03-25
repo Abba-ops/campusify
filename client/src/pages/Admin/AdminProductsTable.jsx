@@ -316,8 +316,8 @@ export default function AdminProductsTable() {
                 />
                 <Button
                   type="submit"
-                  variant="outline-dark"
-                  className="text-uppercase">
+                  variant="dark"
+                  className="text-uppercase fw-semibold">
                   Add
                 </Button>
               </InputGroup>
@@ -391,8 +391,8 @@ export default function AdminProductsTable() {
                   />
                   <Button
                     type="submit"
-                    variant="outline-dark"
-                    className="text-uppercase">
+                    variant="dark"
+                    className="text-uppercase fw-semibold">
                     Add
                   </Button>
                 </InputGroup>

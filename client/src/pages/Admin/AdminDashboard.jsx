@@ -87,7 +87,7 @@ export default function AdminDashboard() {
                 <li className="nav-item my-3" key={index}>
                   <Link
                     to={link}
-                    className={`nav-link ${
+                    className={`nav-link fw-semibold ${
                       location.pathname === link && "active"
                     }`}>
                     <div className="d-flex align-items-center gap-3">

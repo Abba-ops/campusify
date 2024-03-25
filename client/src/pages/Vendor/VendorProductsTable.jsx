@@ -19,7 +19,6 @@ import { numberWithCommas } from "../../utils/cartUtils";
 import { useDeleteProductMutation } from "../../features/productsApiSlice";
 import { toast } from "react-toastify";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
-import { MdAddCircle } from "react-icons/md";
 
 export default function VendorProductsTable() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -111,10 +110,9 @@ export default function VendorProductsTable() {
             <div>
               <Button
                 as={Link}
-                variant="outline-dark"
+                variant="dark"
                 to="/vendor/dashboard/products/create"
-                className="d-flex align-items-center mb-3 mb-lg-0 px-4 text-uppercase">
-                <MdAddCircle className="me-2" />
+                className="d-flex align-items-center mb-3 mb-lg-0 px-4 text-uppercase fw-semibold">
                 Create New Product
               </Button>
             </div>

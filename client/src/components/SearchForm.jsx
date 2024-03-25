@@ -12,7 +12,7 @@ export default function SearchForm({ onSubmit }) {
 
   return (
     <Form onSubmit={handleSearchSubmit}>
-      <InputGroup className="mb-3 mb-lg-0 me-lg-4 w-auto">
+      <InputGroup className="mb-2 mb-lg-0 me-lg-4 w-auto">
         <Form.Control
           type="text"
           className="rounded-0"

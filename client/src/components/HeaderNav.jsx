@@ -78,7 +78,7 @@ export default function HeaderNav() {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Nav className="me-auto mb-3 mb-lg-0">
+            <Nav className="me-auto">
               <Stack direction="horizontal" gap={4}>
                 {["/", "/contact", "/about", "/faq"].map((path) => (
                   <LinkContainer key={path} to={path}>
@@ -138,8 +138,8 @@ export default function HeaderNav() {
         </Container>
       </Navbar>
       <CategoryOffcanvas
-        categories={categories}
         show={show}
+        categories={categories}
         isError={errorCategories}
         isLoading={loadingCategories}
         handleClose={handleClose}

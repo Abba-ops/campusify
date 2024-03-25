@@ -23,9 +23,9 @@ export default function BestSeller() {
           </div>
           <CarouselProducts
             lgColumnSize={6}
-            showPreviewIcon={true}
             isError={isError}
             isLoading={isLoading}
+            showPreviewIcon={true}
             productsData={bestSellingProducts && bestSellingProducts.data}
           />
         </Col>

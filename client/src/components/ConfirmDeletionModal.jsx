@@ -58,7 +58,6 @@ export default function ConfirmDeletionModal({
             <Form.Control
               type="text"
               spellCheck={false}
-              className="rounded-0"
               value={confirmDeleteAccount.toLowerCase()}
               onChange={(e) => setConfirmDeleteAccount(e.target.value)}
             />
@@ -68,8 +67,8 @@ export default function ConfirmDeletionModal({
 
       <Modal.Footer>
         <Button
-          variant="light"
-          className="text-uppercase"
+          variant="primary"
+          className="text-uppercase fw-semibold text-white"
           onClick={handleCloseDelete}>
           Cancel
         </Button>
@@ -77,7 +76,7 @@ export default function ConfirmDeletionModal({
           type="button"
           variant="dark"
           onClick={deleteAccount}
-          className="text-uppercase"
+          className="text-uppercase fw-semibold"
           disabled={confirmDeleteAccount !== "delete my account"}>
           {isDeletingAccount ? (
             <Spinner size="sm" animation="border">

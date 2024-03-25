@@ -63,14 +63,14 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
               <Stack direction="horizontal" gap={3} className="mt-4">
                 <Button
                   onClick={handleClose}
-                  className="text-uppercase"
-                  variant="light">
+                  className="text-uppercase fw-semibold text-white"
+                  variant="primary">
                   Close
                 </Button>
                 <Button
                   variant="dark"
                   onClick={handleAddToCart}
-                  className="text-uppercase"
+                  className="text-uppercase fw-semibold"
                   disabled={isOutOfStock}>
                   {isOutOfStock ? "Out of Stock" : "Add to Cart"}
                 </Button>

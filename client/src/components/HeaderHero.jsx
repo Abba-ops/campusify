@@ -22,7 +22,7 @@ export default function HeaderHero() {
           <h1 className="display-5 fw-bold lh-sm mb-3 d-none d-lg-block">
             Empowering Campus Entrepreneurs
           </h1>
-          <p className="lead d-none d-lg-block">
+          <p className="lead fw-normal d-none d-lg-block">
             Empower yourself with our platform designed for campus
             entrepreneurs. Discover opportunities, connect with like-minded
             individuals, and turn your ideas into reality. Join us in building a
@@ -33,9 +33,9 @@ export default function HeaderHero() {
             <Button
               as={Link}
               size="lg"
-              variant="light"
+              variant="primary"
               to={userInfo ? "/vendor-application" : "/login"}
-              className="text-uppercase">
+              className="text-uppercase fw-semibold text-white">
               {userInfo ? "Start Selling" : "Get Started"}
             </Button>
             <Button
@@ -43,7 +43,7 @@ export default function HeaderHero() {
               size="lg"
               variant="dark"
               to={"/about"}
-              className="text-uppercase">
+              className="text-uppercase fw-semibold">
               Explore More
             </Button>
           </div>

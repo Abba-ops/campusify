@@ -253,9 +253,9 @@ export default function VendorCreateProduct() {
               </Col>
             </Row>
             <Button
-              variant="outline-dark"
+              variant="dark"
               type="submit"
-              className="text-uppercase px-4"
+              className="text-uppercase px-4 fw-semibold"
               disabled={isLoading}>
               {isLoading ? (
                 <Spinner size="sm" animation="border" />
