@@ -68,14 +68,14 @@ export default function ConfirmDeletionModal({
 
       <Modal.Footer>
         <Button
-          variant="dark"
+          variant="light"
           className="text-uppercase"
           onClick={handleCloseDelete}>
           Cancel
         </Button>
         <Button
           type="button"
-          variant="light"
+          variant="dark"
           onClick={deleteAccount}
           className="text-uppercase"
           disabled={confirmDeleteAccount !== "delete my account"}>

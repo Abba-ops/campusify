@@ -288,7 +288,7 @@ export default function VendorEditProduct() {
                 </Col>
               </Row>
               <Button
-                variant="light"
+                variant="outline-dark"
                 type="submit"
                 className="text-uppercase px-4">
                 {updatingProduct ? (

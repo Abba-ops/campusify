@@ -82,10 +82,21 @@ export default function AdminVendorDetails() {
           <Link to="/admin/dashboard/vendors">Vendors</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item active>
-          {vendor && vendor.data.vendorName.slice(0, 10)}
-          {vendor && vendor.data.vendorName.length > 10 && "..."}
+          {vendor && (
+            <>
+              <span className="d-inline d-lg-none">
+                {vendor.data.vendorName.slice(0, 10)}
+                {vendor.data.vendorName.length > 10 && "..."}
+              </span>
+              <span className="d-none d-lg-inline">
+                {vendor.data.vendorName.slice(0, 20)}
+                {vendor.data.vendorName.length > 20 && "..."}
+              </span>
+            </>
+          )}
         </Breadcrumb.Item>
       </Breadcrumb>
+
       {isError ? (
         <div className="text-center mt-5">
           <h4 className="text-danger">Error Loading Vendor Details</h4>

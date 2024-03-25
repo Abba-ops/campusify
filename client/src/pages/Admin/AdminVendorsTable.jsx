@@ -103,13 +103,14 @@ export default function VendorManagementPage() {
       </Breadcrumb>
       <div>
         <h2>Vendor Management</h2>
-        <p>Manage vendors efficiently with the options below:</p>
+        <p>
+          Here you can find information about managing our vendors effectively.
+        </p>
       </div>
-
       <Nav variant="pills" defaultActiveKey="all" className="my-4">
         <Nav.Item>
           <Nav.Link eventKey="all" onClick={() => handleNavItemClick("all")}>
-            All Vendors
+            All
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>

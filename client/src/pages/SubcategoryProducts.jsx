@@ -80,7 +80,17 @@ export default function SubcategoryProducts() {
                 </Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                {formattedSubcategoryName}
+                {formattedSubcategoryName && (
+                  <>
+                    <span className="d-inline d-lg-none">
+                      {formattedSubcategoryName.slice(0, 10)}
+                      {formattedSubcategoryName.length > 10 && "..."}
+                    </span>
+                    <span className="d-none d-lg-inline">
+                      {formattedSubcategoryName}
+                    </span>
+                  </>
+                )}
               </li>
             </ol>
           </nav>

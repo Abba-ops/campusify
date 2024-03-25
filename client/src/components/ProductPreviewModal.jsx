@@ -64,11 +64,11 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                 <Button
                   onClick={handleClose}
                   className="text-uppercase"
-                  variant="dark">
+                  variant="light">
                   Close
                 </Button>
                 <Button
-                  variant="light"
+                  variant="dark"
                   onClick={handleAddToCart}
                   className="text-uppercase"
                   disabled={isOutOfStock}>

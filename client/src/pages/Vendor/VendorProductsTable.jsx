@@ -19,6 +19,7 @@ import { numberWithCommas } from "../../utils/cartUtils";
 import { useDeleteProductMutation } from "../../features/productsApiSlice";
 import { toast } from "react-toastify";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
+import { MdAddCircle } from "react-icons/md";
 
 export default function VendorProductsTable() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -110,9 +111,10 @@ export default function VendorProductsTable() {
             <div>
               <Button
                 as={Link}
-                variant="light"
-                to={"/vendor/dashboard/products/create"}
+                variant="outline-dark"
+                to="/vendor/dashboard/products/create"
                 className="d-flex align-items-center mb-3 mb-lg-0 px-4 text-uppercase">
+                <MdAddCircle className="me-2" />
                 Create New Product
               </Button>
             </div>
@@ -156,6 +158,7 @@ export default function VendorProductsTable() {
                           <th>Product Name</th>
                           <th>Image</th>
                           <th>Category</th>
+                          <th>Subcategory</th>
                           <th>Brand</th>
                           <th>Price</th>
                           <th>Actions</th>
@@ -173,11 +176,11 @@ export default function VendorProductsTable() {
                             <td>
                               <Image
                                 src={product.imageUrl}
-                                width={50}
-                                height={50}
+                                className="profile-picture-sm"
                               />
                             </td>
                             <td>{product.category.name}</td>
+                            <td>{product.subcategory.name}</td>
                             <td>{product.brand}</td>
                             <td>&#8358;{numberWithCommas(product.price)}</td>
                             <td>

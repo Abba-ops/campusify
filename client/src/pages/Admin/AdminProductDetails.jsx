@@ -72,13 +72,19 @@ export default function AdminProductDetails() {
         <Breadcrumb.Item active>
           {product && (
             <>
-              {product.data.productName.length > 10
-                ? product.data.productName.slice(0, 10) + "..."
-                : product.data.productName}
+              <span className="d-inline d-lg-none">
+                {product.data.productName.slice(0, 10)}
+                {product.data.productName.length > 10 && "..."}
+              </span>
+              <span className="d-none d-lg-inline">
+                {product.data.productName.slice(0, 20)}
+                {product.data.productName.length > 20 && "..."}
+              </span>
             </>
           )}
         </Breadcrumb.Item>
       </Breadcrumb>
+
       {isError ? (
         <div className="text-center mt-5">
           <h4 className="text-danger">Error Loading Product Details</h4>

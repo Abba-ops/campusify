@@ -72,13 +72,18 @@ export default function VendorProductDetails() {
         <Breadcrumb.Item active>
           {product && (
             <>
-              {product.data.productName.length > 10
-                ? `${product.data.productName.slice(0, 10)}...`
-                : product.data.productName}
+              <span className="d-inline d-lg-none">
+                {product.data.productName.slice(0, 10)}
+                {product.data.productName.length > 10 && "..."}
+              </span>
+              <span className="d-none d-lg-inline">
+                {product.data.productName}
+              </span>
             </>
           )}
         </Breadcrumb.Item>
       </Breadcrumb>
+
       {isError ? (
         <div className="text-center mt-5">
           <h4 className="text-danger">Error Loading Product Details</h4>
@@ -137,6 +142,22 @@ export default function VendorProductDetails() {
                         type="text"
                         className="border-0"
                         value={product.data.rating}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Category">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.category.name}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Subcategory">
+                      <Form.Control
+                        readOnly
+                        type="text"
+                        className="border-0"
+                        value={product.data.subcategory.name}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Price">

@@ -30,13 +30,21 @@ export default function AdminUserDetails() {
         <Breadcrumb.Item active>
           {user && (
             <>
-              {`${user.data.lastName} ${user.data.otherNames}`.slice(0, 10)}
-              {user.data.lastName.length + user.data.otherNames.length > 20 &&
-                "..."}
+              <span className="d-inline d-lg-none">
+                {`${user.data.lastName} ${user.data.otherNames}`.slice(0, 10)}
+                {user.data.lastName.length + user.data.otherNames.length > 10 &&
+                  "..."}
+              </span>
+              <span className="d-none d-lg-inline">
+                {`${user.data.lastName} ${user.data.otherNames}`.slice(0, 20)}
+                {user.data.lastName.length + user.data.otherNames.length > 20 &&
+                  "..."}
+              </span>
             </>
           )}
         </Breadcrumb.Item>
       </Breadcrumb>
+
       {isLoading ? (
         <>
           {[...Array(6)].map((_, index) => (

@@ -235,7 +235,10 @@ export default function AdminProductsTable() {
                           : product.productName}
                       </td>
                       <td>
-                        <Image src={product.imageUrl} width={50} height={50} />
+                        <Image
+                          src={product.imageUrl}
+                          className="profile-picture-sm"
+                        />
                       </td>
                       <td>{product.category.name}</td>
                       <td>{product.subcategory.name}</td>
@@ -313,7 +316,7 @@ export default function AdminProductsTable() {
                 />
                 <Button
                   type="submit"
-                  variant="secondary"
+                  variant="outline-dark"
                   className="text-uppercase">
                   Add
                 </Button>
@@ -388,7 +391,7 @@ export default function AdminProductsTable() {
                   />
                   <Button
                     type="submit"
-                    variant="secondary"
+                    variant="outline-dark"
                     className="text-uppercase">
                     Add
                   </Button>
