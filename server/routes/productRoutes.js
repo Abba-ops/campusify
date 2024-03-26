@@ -46,7 +46,7 @@ router.route("/categories").get(getCategories).post(addCategory);
 router
   .route("/:productId")
   .get(getProductById)
-  .put(isLoggedIn, isVendor, updateProduct)
+  .put(isLoggedIn, isAdminOrVendor, updateProduct)
   .delete(isLoggedIn, isAdminOrVendor, deleteProduct);
 
 router

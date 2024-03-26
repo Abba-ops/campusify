@@ -262,6 +262,15 @@ const getCategories = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const deleteCategory = asyncHandler(async (req, res) => {
+  const products = await Product.find({ category: req.params.categoryId });
+
+  if (products.length > 0) {
+    res.status(400);
+    throw new Error(
+      "Change the category of associated products before deleting."
+    );
+  }
+
   await Category.findByIdAndDelete(req.params.categoryId);
 
   res.status(200).json({
@@ -352,6 +361,7 @@ const addSubcategory = asyncHandler(async (req, res) => {
   }
 
   category.subcategories.push({ name });
+
   await category.save();
 
   res.status(201).json({
@@ -368,6 +378,15 @@ const addSubcategory = asyncHandler(async (req, res) => {
  */
 const deleteSubcategory = asyncHandler(async (req, res) => {
   const { categoryId, subcategoryId } = req.params;
+
+  const products = await Product.find({ "subcategory._id": subcategoryId });
+
+  if (products.length > 0) {
+    res.status(400);
+    throw new Error(
+      "Please reassign or remove associated products before deleting the subcategory."
+    );
+  }
 
   const category = await Category.findById(categoryId);
 

@@ -10,8 +10,6 @@ import {
 import App from "./App";
 import store from "./app/store";
 import PrivateRoute from "./components/PrivateRoute";
-import "./assets/css/bootstrap.min.css";
-import "./assets/css/style.min.css";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminRoute from "./components/AdminRoute";
 import AdminUsersTable from "./pages/Admin/AdminUsersTable";
@@ -44,7 +42,10 @@ import FAQ from "./pages/FAQ";
 import CategoryPage from "./pages/CategoryPage";
 import ProductSearch from "./pages/ProductSearch";
 import SubcategoryProducts from "./pages/SubcategoryProducts";
+import AdminEditProduct from "./pages/Admin/AdminEditProduct";
 import { HelmetProvider } from "react-helmet-async";
+import "./assets/css/bootstrap.min.css";
+import "./assets/css/style.min.css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -113,6 +114,10 @@ const router = createBrowserRouter(
           <Route
             path="/admin/dashboard/products/:productId"
             element={<AdminProductDetails />}
+          />
+          <Route
+            path="/admin/dashboard/products/:productId/edit"
+            element={<AdminEditProduct />}
           />
           <Route
             path="/admin/dashboard/vendors/:vendorId"

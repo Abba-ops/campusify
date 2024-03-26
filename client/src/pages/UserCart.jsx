@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import {
   Container,
@@ -14,39 +14,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../features/cartSlice";
 import { numberWithCommas } from "../utils/cartUtils";
 import { BsArrowLeft } from "react-icons/bs";
+import MetaTags from "../components/MetaTags";
 
 export default function UserCart() {
-  const cart = useSelector((state) => state.cart);
-
-  const { cartItems } = cart;
-
+  const { cartItems, itemsPrice, deliveryPrice, taxPrice, totalPrice } =
+    useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const addToCartHandler = (product, quantity) => {
+  const addToCartHandler = (product, quantity) =>
     dispatch(addToCart({ ...product, quantity }));
-  };
+  const removeFromCartHandler = (id) => dispatch(removeFromCart(id));
+  const checkoutHandler = () => navigate("/login?redirect=/checkout");
 
-  const removeFromCartHandler = async (id) => {
-    dispatch(removeFromCart(id));
-  };
-
-  const checkoutHandler = () => {
-    navigate("/login?redirect=/checkout");
-  };
-
-  const renderCartItem = (product, index) => (
-    <ListGroup.Item key={index}>
+  const renderCartItem = (product) => (
+    <ListGroup.Item key={product._id}>
       <Row className="align-items-center">
         <Col xs={6} lg={2}>
           <Image src={product.imageUrl} fluid />
         </Col>
-        <Col xs={6} lg={4}>
-          <Link
-            to={`/product/${product._id}`}
-            className="text-decoration-none text-capitalize">
-            {product.productName}
-          </Link>
+        <Col
+          xs={6}
+          lg={4}
+          as={Link}
+          to={`/product/${product._id}`}
+          className="text-decoration-none text-capitalize">
+          {product.productName}
         </Col>
         <Col xs={6} lg={2} className="mt-4 mt-lg-0">
           <Form.Select
@@ -59,24 +52,30 @@ export default function UserCart() {
             ))}
           </Form.Select>
         </Col>
-        <Col xs={6} lg={2}>
-          <div className="text-primary text-lg-center">
-            &#8358;{numberWithCommas(product.price)}
-          </div>
+        <Col xs={6} lg={2} className="text-primary text-lg-center">
+          &#8358;{numberWithCommas(product.price)}
         </Col>
         <Col lg={2} className="text-end">
-          <Link>
-            <h4>
-              <MdDelete onClick={() => removeFromCartHandler(product._id)} />
-            </h4>
-          </Link>
+          <MdDelete
+            className="fs-4"
+            onClick={() => removeFromCartHandler(product._id)}
+          />
         </Col>
       </Row>
     </ListGroup.Item>
   );
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <section className="py-5">
+      <MetaTags
+        title="Your Shopping Cart - Campusify"
+        description="View and manage items in your shopping cart on Campusify."
+        keywords="shopping cart, items, view, manage, checkout"
+      />
       <Container>
         <Row>
           <Col lg={8}>
@@ -84,56 +83,61 @@ export default function UserCart() {
               <ListGroup.Item>
                 <h5 className="text-uppercase my-2">Shopping Cart</h5>
               </ListGroup.Item>
-              {cartItems.map(renderCartItem)}
-              {cartItems.length === 0 && (
+              {cartItems.length === 0 ? (
                 <ListGroup.Item>
-                  <div>There are no more items in your cart</div>
+                  <div>Your shopping cart is currently empty.</div>
                 </ListGroup.Item>
+              ) : (
+                cartItems.map(renderCartItem)
               )}
             </ListGroup>
-            <Link to={"/"}>
-              <Button size="sm" className="my-5 px-4" variant="dark">
-                <BsArrowLeft className="me-2" /> Continue Shopping
-              </Button>
-            </Link>
+            <Button
+              to={"/"}
+              as={Link}
+              size="sm"
+              className="my-5 px-3 fw-semibold"
+              variant="dark">
+              <BsArrowLeft className="me-2" /> Continue Shopping
+            </Button>
           </Col>
           <Col lg={4}>
             <ListGroup>
               <ListGroup.Item>
                 <Row className="my-3">
                   <Col xs={6}>
-                    {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{" "}
-                    items
+                    {cartItems.length === 1
+                      ? "1 item"
+                      : `${cartItems.length} items`}
                   </Col>
                   <Col xs={6}>
                     <div className="text-primary text-end">
-                      &#8358;{numberWithCommas(cart.itemsPrice)}
+                      &#8358;{numberWithCommas(itemsPrice)}
                     </div>
                   </Col>
                 </Row>
                 <Row className="my-3">
-                  <Col xs={6}>Delivery</Col>
+                  <Col xs={6}>Delivery Fee</Col>
                   <Col xs={6}>
                     <div className="text-primary text-end">
-                      &#8358;{numberWithCommas(cart.shippingPrice)}
+                      &#8358;{numberWithCommas(deliveryPrice)}
                     </div>
                   </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row className="my-3">
-                  <Col xs={6}>Taxes</Col>
+                  <Col xs={6}>Total Taxes</Col>
                   <Col xs={6}>
                     <div className="text-primary text-end">
-                      &#8358;{numberWithCommas(cart.taxPrice)}
+                      &#8358;{numberWithCommas(taxPrice)}
                     </div>
                   </Col>
                 </Row>
                 <Row className="my-3">
-                  <Col xs={6}>Total</Col>
+                  <Col xs={6}>Total Amount</Col>
                   <Col xs={6}>
                     <div className="text-primary text-end">
-                      &#8358;{numberWithCommas(cart.totalPrice)}
+                      &#8358;{numberWithCommas(totalPrice)}
                     </div>
                   </Col>
                 </Row>
@@ -143,7 +147,7 @@ export default function UserCart() {
                   <Button
                     onClick={checkoutHandler}
                     disabled={cartItems.length === 0}
-                    className="text-uppercase px-4"
+                    className="text-uppercase px-4 fw-semibold"
                     variant="dark">
                     Proceed to Checkout
                   </Button>

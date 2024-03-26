@@ -456,9 +456,7 @@ export default function ProductDetail() {
       )}
       <BackToTop />
       <div className="text-center my-3">
-        <Link
-          to="/"
-          className="btn btn-outline-dark text-uppercase px-4 fw-semibold">
+        <Link to="/" className="btn btn-outline-dark px-4 fw-semibold">
           <BsArrowLeft className="me-2" />
           Discover More
         </Link>

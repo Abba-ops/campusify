@@ -2,7 +2,6 @@ import {
   Button,
   Col,
   Container,
-  Image,
   ListGroup,
   Row,
   Stack,
@@ -13,7 +12,6 @@ import { Accordion, Form } from "react-bootstrap";
 import { PaystackButton } from "react-paystack";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 
 export default function CartCheckout() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -31,7 +29,7 @@ export default function CartCheckout() {
 
   const componentProps = {
     email: email,
-    amount: Math.floor(cart.totalPrice),
+    amount: Math.ceil(cart.totalPrice * 100),
     metadata: {
       name,
       phone,
@@ -54,7 +52,7 @@ export default function CartCheckout() {
             <Accordion defaultActiveKey="0">
               <Accordion.Item eventKey="0">
                 <Accordion.Header>
-                  <h5 className="text-uppercase">Personal Information</h5>
+                  <h5 className="text-uppercase">Customer Information</h5>
                 </Accordion.Header>
                 <Accordion.Body>
                   <Form>
@@ -147,7 +145,7 @@ export default function CartCheckout() {
                         Building/Residence Name
                       </Form.Label>
                       <Col sm={6}>
-                        <Form.Select>
+                        <Form.Select required>
                           {userInfo.data.userType === "student" && (
                             <>
                               <option value="Rev. James Abolarin Hall">
@@ -266,75 +264,39 @@ export default function CartCheckout() {
             </Accordion>
           </Col>
           <Col lg={4}>
-            <ListGroup className="text-capitalize">
+            <ListGroup>
               <ListGroup.Item>
                 <Row className="my-3">
                   <Col xs={6}>
-                    {cartItems.reduce((acc, item) => acc + item.quantity, 0)}{" "}
-                    items
-                  </Col>
-                </Row>
-                <Row>
-                  <ListGroup variant="flush">
-                    {cartItems.map((item, index) => (
-                      <ListGroup.Item key={index}>
-                        <Row className="align-items-center">
-                          <Col xs={3}>
-                            <Image
-                              src={item.imageUrl}
-                              fluid
-                              className="profile-picture-sm"
-                            />
-                          </Col>
-                          <Col
-                            xs={6}
-                            as={Link}
-                            to={`/product/${item._id}`}
-                            className="text-decoration-none text-capitalize text-truncate">
-                            {item.productName}
-                          </Col>
-                          <Col xs={3}>
-                            <div className="text-primary text-lg-center">
-                              &#8358;{numberWithCommas(item.price)}
-                            </div>
-                          </Col>
-                        </Row>
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                </Row>
-                <Row className="my-3">
-                  <Col xs={6}>Subtotal</Col>
-                  <Col xs={6}>
-                    <div className="text-end text-primary">
-                      &#8358;{numberWithCommas(cart.itemsPrice)}
-                    </div>
+                    {cartItems.length === 1
+                      ? "1 item"
+                      : `${cartItems.length} items`}
                   </Col>
                 </Row>
                 <Row className="my-3">
-                  <Col xs={6}>Delivery</Col>
-                  <Col xs={6}>
-                    <div className="text-end text-primary">
-                      &#8358;{numberWithCommas(cart.shippingPrice)}
-                    </div>
+                  <Col xs={6}>Subtotal Amount</Col>
+                  <Col xs={6} className="text-end text-primary">
+                    &#8358;{numberWithCommas(cart.itemsPrice)}
+                  </Col>
+                </Row>
+                <Row className="my-3">
+                  <Col xs={6}>Delivery Fee</Col>
+                  <Col xs={6} className="text-end text-primary">
+                    &#8358;{numberWithCommas(cart.deliveryPrice)}
                   </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row className="my-3">
-                  <Col xs={6}>Taxes</Col>
-                  <Col xs={6}>
-                    <div className="text-end text-primary">
-                      &#8358;{numberWithCommas(cart.taxPrice)}
-                    </div>
+                  <Col xs={6}>Total Taxes</Col>
+                  <Col xs={6} className="text-end text-primary">
+                    &#8358;{numberWithCommas(cart.taxPrice)}
                   </Col>
                 </Row>
                 <Row className="my-3">
-                  <Col xs={6}>Total</Col>
-                  <Col xs={6}>
-                    <div className="text-end text-primary">
-                      &#8358;{numberWithCommas(cart.totalPrice)}
-                    </div>
+                  <Col xs={6}>Total Amount</Col>
+                  <Col xs={6} className="text-end text-primary">
+                    &#8358;{numberWithCommas(cart.totalPrice)}
                   </Col>
                 </Row>
               </ListGroup.Item>

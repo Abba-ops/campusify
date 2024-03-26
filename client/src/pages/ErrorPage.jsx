@@ -31,7 +31,10 @@ export default function ErrorPage() {
               </p>
               <div className="mb-4">
                 <Link to="/">
-                  <Button variant="primary" size="lg">
+                  <Button
+                    size="lg"
+                    variant="primary"
+                    className="text-uppercase px-4 fw-semibold text-white">
                     Refresh Page
                   </Button>
                 </Link>

@@ -29,10 +29,16 @@ export default function PageNotFound() {
             </p>
             <div className="mb-4">
               <Link to="/">
-                <Button variant="primary">Return to Home</Button>
+                <Button
+                  variant="primary"
+                  className="text-uppercase px-4 fw-semibold text-white">
+                  Return to Home
+                </Button>
               </Link>
               <Link to="/categories">
-                <Button variant="outline-primary" className="ml-2">
+                <Button
+                  variant="dark"
+                  className="ml-2 text-uppercase px-4 fw-semibold">
                   Explore Categories
                 </Button>
               </Link>

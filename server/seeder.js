@@ -8,6 +8,7 @@ import User from "./models/userModel.js";
 import { Category, Product } from "./models/productModel.js";
 import cloudinary from "./config/cloudinary.js";
 import Vendor from "./models/vendorModel.js";
+import Order from "./models/orderModel.js";
 
 dotenv.config();
 connectDB();
@@ -17,6 +18,7 @@ const clearDatabase = async () => {
   await Vendor.deleteMany();
   await User.deleteMany();
   await Category.deleteMany();
+  await Order.deleteMany();
 };
 
 const linkVendorToUser = (vendors, users) => {

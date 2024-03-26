@@ -6,6 +6,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/dbConfig.js";
 import userRoutes from "./routes/userRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 import vendorRoutes from "./routes/vendorRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/vendors", vendorRoutes);
 app.use("/api/upload", uploadRoutes);

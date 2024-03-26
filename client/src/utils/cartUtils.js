@@ -9,16 +9,16 @@ export const updateCart = (state) => {
     0
   );
 
-  // calculate shipping charges (if order is over $100, then free; otherwise, $10 shipping charges)
-  state.shippingPrice = state.itemsPrice > 100 ? 0 : 10;
+  // calculate delivery charges (1.5% of total items price, minimum 200 NGN)
+  state.deliveryPrice = Math.max(200, 0.015 * state.itemsPrice);
 
-  // calculate tax price (15% tax)
-  state.taxPrice = Number(0.15 * state.itemsPrice);
+  // calculate tax price (7.5% tax)
+  state.taxPrice = Number(0.075 * state.itemsPrice);
 
-  // calculate the total price for the items
+  // calculate the total price for the items including delivery and tax
   state.totalPrice =
     Number(state.itemsPrice) +
-    Number(state.shippingPrice) +
+    Number(state.deliveryPrice) +
     Number(state.taxPrice);
 
   // update cart in local storage

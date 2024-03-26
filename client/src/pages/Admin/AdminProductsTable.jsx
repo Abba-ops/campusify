@@ -16,8 +16,7 @@ import {
   Tooltip,
   ButtonGroup,
 } from "react-bootstrap";
-import { BsEye, BsTrash } from "react-icons/bs";
-import { MdDelete } from "react-icons/md";
+import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 import {
   useAddCategoryMutation,
   useAddSubcategoryMutation,
@@ -259,6 +258,16 @@ export default function AdminProductsTable() {
                           </OverlayTrigger>
                           <OverlayTrigger
                             placement="top"
+                            overlay={<Tooltip id="tooltip-edit">Edit</Tooltip>}>
+                            <Button
+                              as={Link}
+                              to={`/admin/dashboard/products/${product._id}/edit`}
+                              variant="light">
+                              <BsPencil />
+                            </Button>
+                          </OverlayTrigger>
+                          <OverlayTrigger
+                            placement="top"
                             overlay={
                               <Tooltip id="tooltip-delete">Delete</Tooltip>
                             }>
@@ -337,9 +346,12 @@ export default function AdminProductsTable() {
                 <Card className="border-0 rounded-0 shadow-sm mb-3">
                   <Card.Body className="d-flex justify-content-between align-items-center">
                     <h5 className="mb-0">{category.name}</h5>
-                    <Link onClick={() => handleRemoveCategory(category._id)}>
-                      <MdDelete />
-                    </Link>
+                    <Button
+                      size="sm"
+                      variant="light"
+                      onClick={() => handleRemoveCategory(category._id)}>
+                      <BsTrash />
+                    </Button>
                   </Card.Body>
                   {category.subcategories &&
                     category.subcategories.length > 0 && (
@@ -350,15 +362,17 @@ export default function AdminProductsTable() {
                               key={subcat._id}
                               className="d-flex justify-content-between align-items-center">
                               <span>{subcat.name}</span>
-                              <Link
+                              <Button
+                                size="sm"
+                                variant="light"
                                 onClick={() =>
                                   handleRemoveSubcategory(
                                     category._id,
                                     subcat._id
                                   )
                                 }>
-                                <MdDelete />
-                              </Link>
+                                <BsTrash />
+                              </Button>
                             </li>
                           ))}
                         </ul>
