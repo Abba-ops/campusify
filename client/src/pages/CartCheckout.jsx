@@ -1,11 +1,4 @@
-import {
-  Button,
-  Col,
-  Container,
-  ListGroup,
-  Row,
-  Stack,
-} from "react-bootstrap";
+import { Button, Col, Container, ListGroup, Row, Stack } from "react-bootstrap";
 import { numberWithCommas } from "../utils/cartUtils";
 import { useSelector } from "react-redux";
 import { Accordion, Form } from "react-bootstrap";

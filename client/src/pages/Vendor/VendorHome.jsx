@@ -1,6 +1,5 @@
 import React from "react";
-import { Col, Container, Row, Card } from "react-bootstrap";
-import { FaRegUser } from "react-icons/fa";
+import { Col, Row, Card } from "react-bootstrap";
 
 export default function VendorHome() {
   return (
