@@ -23,14 +23,8 @@ const getOrders = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const createNewOrder = asyncHandler(async (req, res) => {
-  const {
-    orderItems,
-    deliveryAddress,
-    itemsPrice,
-    totalPrice,
-    taxPrice,
-    deliveryPrice,
-  } = req.body;
+  const { orderItems, deliveryAddress, itemsPrice, totalPrice, taxPrice } =
+    req.body;
 
   if (!orderItems || orderItems.length === 0) {
     res.status(400);
@@ -48,7 +42,6 @@ const createNewOrder = asyncHandler(async (req, res) => {
     itemsPrice,
     totalPrice,
     taxPrice,
-    deliveryPrice,
   });
 
   const createdOrder = await order.save();

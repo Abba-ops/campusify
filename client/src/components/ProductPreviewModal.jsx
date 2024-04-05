@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Image, Col, Modal, Row, Form, Stack } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cartSlice";
+import { toast } from "react-toastify";
 import { numberWithCommas } from "../utils/cartUtils";
 import StarRating from "./StarRating";
 
@@ -12,6 +13,7 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
 
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity: selectedQuantity }));
+    toast.success("Added to cart successfully");
     handleClose();
   };
 
