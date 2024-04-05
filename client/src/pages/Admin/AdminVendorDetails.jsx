@@ -33,6 +33,8 @@ export default function AdminVendorDetails() {
   const [updateVendorStatus, { isLoading: isApproving }] =
     useUpdateVendorStatusMutation();
 
+  console.log(vendor);
+
   const handleApprove = async () => {
     try {
       const res = await updateVendorStatus({
@@ -121,7 +123,7 @@ export default function AdminVendorDetails() {
                     roundedCircle
                     loading="lazy"
                     className="profile-picture-lg border"
-                    src={vendor && vendor.data.user.profilePictureURL}
+                    src={vendor && vendor.data.vendorLogo}
                   />
                 </div>
                 <Card.Title className="text-center">
@@ -175,18 +177,35 @@ export default function AdminVendorDetails() {
                 <Form>
                   <FloatingLabel label="Vendor Description">
                     <Form.Control
+                      plaintext
                       readOnly
                       as="textarea"
-                      className="border-0"
                       value={vendor.data.vendorDescription}
                     />
                   </FloatingLabel>
+                  <FloatingLabel label="Products Description">
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      as="textarea"
+                      value={vendor.data.productsDescription}
+                    />
+                  </FloatingLabel>
+
                   <FloatingLabel label="Sales Count">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={vendor.data.salesCount}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel label="Estimated Delivery Time">
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      type="text"
+                      value={vendor.data.estimatedDeliveryTime}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Creator Full Name">
@@ -199,41 +218,41 @@ export default function AdminVendorDetails() {
                   </FloatingLabel>
                   <FloatingLabel label="Creator Email">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="email"
-                      className="border-0"
                       value={vendor.data.user.email}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Creator Phone Number">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={vendor.data.user.phoneNumber}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="User Type">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={vendor.data.user.userType}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Approval Status">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={vendor.data.approvalStatus}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Approval Date">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={
                         vendor.data.approvalDate
                           ? new Date(

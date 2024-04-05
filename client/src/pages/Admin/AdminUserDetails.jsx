@@ -100,57 +100,57 @@ export default function AdminUserDetails() {
                 <Form>
                   <FloatingLabel label="User ID">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={user.data._id}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Email">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={user.data.email}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Phone Number">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={user.data.phoneNumber}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Last Name">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={user.data.lastName}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Other Names">
                     <Form.Control
+                      plaintext
                       readOnly
                       as="textarea"
-                      className="border-0"
                       value={user.data.otherNames}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="User Type">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={user.data.userType}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Account Creation Date">
                     <Form.Control
+                      plaintext
                       readOnly
                       type="text"
-                      className="border-0"
                       value={new Date(
                         user.data.accountCreationDate
                       ).toLocaleDateString()}

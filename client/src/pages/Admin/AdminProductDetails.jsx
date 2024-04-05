@@ -114,122 +114,122 @@ export default function AdminProductDetails() {
                   <Form>
                     <FloatingLabel label="Product ID">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data._id}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Product Name">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.productName}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Product Description">
                       <Form.Control
-                        rows={3}
+                        plaintext
                         readOnly
+                        rows={3}
                         as="textarea"
-                        className="border-0"
                         value={product.data.productDescription}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Product Rating">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.rating}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Category">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.category.name}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Subcategory">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.subcategory.name}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Price">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={`${numberWithCommas(product.data.price)}`}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Brand">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.brand}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Vendor Name">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.vendor.vendorName}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Vendor Email">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.vendor.vendorEmail}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Vendor Phone">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.vendor.vendorPhone}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Count In Stock">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.countInStock}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Featured">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.isFeatured}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Sales Count">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={product.data.salesCount}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Created At">
                       <Form.Control
+                        plaintext
                         readOnly
                         type="text"
-                        className="border-0"
                         value={
                           product &&
                           new Date(product.data.createdAt).toLocaleDateString()

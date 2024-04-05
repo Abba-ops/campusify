@@ -9,7 +9,10 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useVendorApplicationMutation } from "../../features/vendorApiSlice";
+import {
+  useUploadVendorLogoMutation,
+  useVendorApplicationMutation,
+} from "../../features/vendorApiSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { setCredentials } from "../../features/authSlice";
@@ -17,6 +20,7 @@ import MetaTags from "../../components/MetaTags";
 
 export default function VendorApplication() {
   const [agreeToConditions, setAgreeToConditions] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
@@ -27,14 +31,21 @@ export default function VendorApplication() {
     }
   }, [userInfo, navigate]);
 
+  const [uploadVendorLogo, { isLoading: loadingUpload }] =
+    useUploadVendorLogoMutation();
+
   const [vendorApplication, { isLoading }] = useVendorApplicationMutation();
 
   const [formState, setFormState] = useState({
-    vendorEmail: "",
     vendorName: "",
     vendorPhone: "",
+    vendorEmail: "",
     vendorDescription: "",
+    productsDescription: "",
+    estimatedDeliveryTime: "",
   });
+
+  console.log(formState);
 
   const dispatch = useDispatch();
 
@@ -42,7 +53,10 @@ export default function VendorApplication() {
     e.preventDefault();
 
     try {
-      const res = await vendorApplication(formState).unwrap();
+      const res = await vendorApplication({
+        ...formState,
+        vendorLogo: imageUrl,
+      }).unwrap();
       if (res.success) {
         dispatch(setCredentials({ ...res }));
         toast.success("Application submitted successfully!");
@@ -65,6 +79,18 @@ export default function VendorApplication() {
     window.scrollTo(0, 0);
   }, []);
 
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("logoImage", e.target.files[0]);
+    try {
+      const res = await uploadVendorLogo(formData).unwrap();
+      setImageUrl(res.image);
+      toast.success(res.message || "Image uploaded successfully");
+    } catch (error) {
+      toast.error((error && error.data.message) || "Failed to upload image");
+    }
+  };
+
   return (
     <section className="py-5">
       <MetaTags
@@ -86,7 +112,7 @@ export default function VendorApplication() {
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Full Name
+                      Applicant's Full Name
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
@@ -101,7 +127,7 @@ export default function VendorApplication() {
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Vendor Email
+                      Business Email
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
@@ -118,7 +144,7 @@ export default function VendorApplication() {
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Vendor Name
+                      Business Name
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
@@ -130,12 +156,27 @@ export default function VendorApplication() {
                       />
                     </Col>
                   </Form.Group>
+                  <Form.Group as={Row} controlId="formFile" className="mb-3">
+                    <Form.Label
+                      sm={3}
+                      column
+                      className="text-center text-lg-start">
+                      Business Logo
+                    </Form.Label>
+                    <Col sm={6}>
+                      <Form.Control
+                        type="file"
+                        onChange={uploadFileHandler}
+                        required
+                      />
+                    </Col>
+                  </Form.Group>
                   <Form.Group as={Row} className="mb-3">
                     <Form.Label
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Vendor Phone
+                      Business Phone
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
@@ -152,7 +193,30 @@ export default function VendorApplication() {
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Description
+                      Estimated Delivery Time
+                    </Form.Label>
+                    <Col sm={6}>
+                      <Form.Select
+                      required
+                        name="estimatedDeliveryTime"
+                        value={formState.estimatedDeliveryTime}
+                        onChange={handleInputChange}>
+                        <option value="">Select Estimated Delivery Time</option>
+                        <option value="1 hour">1 Hour</option>
+                        <option value="2 hours">2 Hours</option>
+                        <option value="3 hours">3 Hours</option>
+                        <option value="1 day">1 Day</option>
+                        <option value="2 days">2 Days</option>
+                        <option value="3 days">3 Days</option>
+                      </Form.Select>
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} className="mb-3">
+                    <Form.Label
+                      sm={3}
+                      column
+                      className="text-center text-lg-start">
+                      Briefly Describe Your Business
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
@@ -160,6 +224,23 @@ export default function VendorApplication() {
                         as="textarea"
                         name="vendorDescription"
                         value={formState.vendorDescription}
+                        onChange={handleInputChange}
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} className="mb-3">
+                    <Form.Label
+                      sm={3}
+                      column
+                      className="text-center text-lg-start">
+                      Describe Your Products
+                    </Form.Label>
+                    <Col sm={6}>
+                      <Form.Control
+                        rows={3}
+                        as="textarea"
+                        name="productsDescription"
+                        value={formState.productsDescription}
                         onChange={handleInputChange}
                       />
                     </Col>

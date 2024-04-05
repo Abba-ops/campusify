@@ -79,6 +79,25 @@ export default function UserProfileDetails() {
                   </p>
                 </Alert>
               )}
+            {userInfo &&
+              userInfo.data.vendor &&
+              userInfo.data.vendor.approvalDate &&
+              (new Date() - new Date(userInfo.data.vendor.approvalDate)) /
+                (1000 * 60 * 60 * 24) <
+                7 && (
+                <Alert
+                  dismissible
+                  className="rounded-0 border-0"
+                  onClose={() => setShow(false)}
+                  variant="success">
+                  <Alert.Heading>Vendor Account Approved</Alert.Heading>
+                  <p>
+                    Congratulations! Your vendor account has been approved. You
+                    can now access vendor features and start selling your
+                    products/services.
+                  </p>
+                </Alert>
+              )}
             <h5 className="text-uppercase text-center mb-3">
               Account Information
             </h5>

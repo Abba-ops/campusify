@@ -23,7 +23,11 @@ const vendorSchema = new Schema(
       enum: ["pending", "approved"],
       default: "pending",
     },
-    vendorDescription: {
+    productsDescription: {
+      type: String,
+      required: true,
+    },
+    vendorLogo: {
       type: String,
       required: true,
     },
@@ -31,6 +35,17 @@ const vendorSchema = new Schema(
       facebook: String,
       twitter: String,
       instagram: String,
+    },
+    estimatedDeliveryTime: {
+      type: String,
+      required: true,
+    },
+    vendorDescription: {
+      type: String,
+      required: true,
+    },
+    approvalDate: {
+      type: Date,
     },
     dateJoined: {
       type: Date,

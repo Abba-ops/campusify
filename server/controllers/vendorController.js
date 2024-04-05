@@ -62,7 +62,15 @@ const getVendorProducts = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const vendorApplication = asyncHandler(async (req, res) => {
-  const { vendorEmail, vendorName, vendorPhone, vendorDescription } = req.body;
+  const {
+    vendorEmail,
+    vendorName,
+    vendorPhone,
+    vendorDescription,
+    estimatedDeliveryTime,
+    vendorLogo,
+    productsDescription,
+  } = req.body;
 
   const newVendorData = {
     vendorName,
@@ -70,6 +78,9 @@ const vendorApplication = asyncHandler(async (req, res) => {
     user: req.user._id,
     vendorEmail,
     vendorPhone,
+    vendorLogo,
+    productsDescription,
+    estimatedDeliveryTime,
   };
 
   const createdVendor = await Vendor.create(newVendorData);
@@ -120,6 +131,7 @@ const updateVendorStatus = asyncHandler(async (req, res) => {
     user.isVendor = true;
     vendor.isApproved = true;
     vendor.approvalStatus = "approved";
+    vendor.approvalDate = new Date();
     await user.save();
     await vendor.save();
   } else if (status === "rejected") {

@@ -55,7 +55,7 @@ export default function VendorCreateProduct() {
 
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
-    formData.append("image", e.target.files[0]);
+    formData.append("productImage", e.target.files[0]);
     try {
       const res = await uploadProductImage(formData).unwrap();
       setImageUrl(res.image);
