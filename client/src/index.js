@@ -46,6 +46,9 @@ import AdminEditProduct from "./pages/Admin/AdminEditProduct";
 import { HelmetProvider } from "react-helmet-async";
 import "./assets/css/bootstrap.min.css";
 import "./assets/css/style.min.css";
+import OrderScreen from "./pages/OrderScreen";
+import AdminOrdersTable from "./pages/Admin/AdminOrdersTable";
+import VendorOrdersTable from "./pages/Vendor/VendorOrdersTable";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -75,6 +78,7 @@ const router = createBrowserRouter(
         <Route path="/checkout" element={<CartCheckout />} />
         <Route path="/profile" element={<UserProfileDetails />} />
         <Route path="/vendor-application" element={<VendorApplication />} />
+        <Route path="/order/:orderId" element={<OrderScreen />} />
       </Route>
 
       <Route path="/" element={<VendorRoute />}>
@@ -91,6 +95,10 @@ const router = createBrowserRouter(
           <Route
             path="/vendor/dashboard/products/:productId"
             element={<VendorProductDetails />}
+          />
+          <Route
+            path="/vendor/dashboard/orders"
+            element={<VendorOrdersTable />}
           />
           <Route
             path="/vendor/dashboard/products/:productId/edit"
@@ -114,6 +122,10 @@ const router = createBrowserRouter(
           <Route
             path="/admin/dashboard/products/:productId"
             element={<AdminProductDetails />}
+          />
+          <Route
+            path="/admin/dashboard/orders"
+            element={<AdminOrdersTable />}
           />
           <Route
             path="/admin/dashboard/products/:productId/edit"

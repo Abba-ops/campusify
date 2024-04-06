@@ -23,34 +23,45 @@ const getOrders = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const createNewOrder = asyncHandler(async (req, res) => {
-  const { orderItems, deliveryAddress, itemsPrice, totalPrice, taxPrice } =
-    req.body;
+  try {
+    const {
+      orderItems,
+      deliveryAddress,
+      itemsPrice,
+      totalPrice,
+      taxPrice,
+      comment,
+    } = req.body;
 
-  if (!orderItems || orderItems.length === 0) {
-    res.status(400);
-    throw new Error("No order items");
+    if (!orderItems || orderItems.length === 0) {
+      res.status(400);
+      throw new Error("No order items");
+    }
+
+    const order = new Order({
+      orderItems: orderItems.map((orderItem) => ({
+        ...orderItem,
+        product: orderItem._id,
+        _id: undefined,
+      })),
+      user: req.user._id,
+      deliveryAddress,
+      itemsPrice,
+      totalPrice,
+      taxPrice,
+      comment,
+    });
+
+    const createdOrder = await order.save();
+
+    res.status(201).json({
+      data: createdOrder,
+      success: true,
+      message: "Order created successfully",
+    });
+  } catch (error) {
+    console.log(error.message);
   }
-
-  const order = new Order({
-    orderItems: orderItems.map((orderItem) => ({
-      ...orderItem,
-      product: orderItem._id,
-      _id: undefined,
-    })),
-    user: req.user._id,
-    deliveryAddress,
-    itemsPrice,
-    totalPrice,
-    taxPrice,
-  });
-
-  const createdOrder = await order.save();
-
-  res.status(201).json({
-    data: createdOrder,
-    success: true,
-    message: "Order created successfully",
-  });
 });
 
 /**
@@ -59,16 +70,15 @@ const createNewOrder = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const getMyOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ user: req.user._id }).sort({
-    createdAt: -1,
-  });
+  try {
+    const orders = await Order.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    }).populate('user');
 
-  if (!orders || orders.length === 0) {
-    res.status(404);
-    throw new Error("No orders found for the current user.");
+    res.status(200).json({ data: orders, success: true });
+  } catch (error) {
+    console.log(error.message);
   }
-
-  res.status(200).json({ data: orders, success: true });
 });
 
 /**
@@ -77,7 +87,9 @@ const getMyOrders = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const getOrderById = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id).populate("user");
+  const order = await Order.findById(req.params.orderId).populate("user");
+
+  console.log("orderId", req.params.orderId);
 
   if (!order) {
     res.status(404);

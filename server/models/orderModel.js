@@ -8,7 +8,7 @@ const orderItemSchema = new Schema({
     ref: "Product",
     required: true,
   },
-  name: { type: String, required: true },
+  productName: { type: String, required: true },
   quantity: { type: Number, required: true },
   imageUrl: { type: String, required: true },
   price: { type: Number, required: true },
@@ -27,7 +27,7 @@ const orderSchema = new Schema(
     },
     orderItems: [orderItemSchema],
     deliveryAddress: {
-      buildingName: { type: String, required: true },
+      building: { type: String, required: true },
       locationNumber: { type: String, required: true },
       campus: { type: String, required: true },
     },
