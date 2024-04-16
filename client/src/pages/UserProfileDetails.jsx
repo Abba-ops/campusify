@@ -29,14 +29,20 @@ export default function UserProfileDetails() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
-  const { data: orders, isLoading: loadingOrders } = useGetMyOrdersQuery();
-
-  console.log("orders", orders);
   const [show, setShow] = useState(true);
 
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const { userInfo } = useSelector((state) => state.auth);
+  const {
+    data: orders,
+    isLoading: loadingOrders,
+    isError: ordersError,
+  } = useGetMyOrdersQuery();
   const [updateUserPassword, { isLoading }] = useUpdateUserPasswordMutation();
+
+  console.log(orders);
+
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
@@ -74,6 +80,9 @@ export default function UserProfileDetails() {
       <Container>
         <Row>
           <Col lg={4} className="mb-5 mb-lg-0">
+            <h5 className="text-uppercase text-center mb-3">
+              Account Information
+            </h5>
             {userInfo &&
               userInfo.data.vendor &&
               userInfo.data.vendor.approvalStatus === "pending" &&
@@ -110,9 +119,6 @@ export default function UserProfileDetails() {
                   </p>
                 </Alert>
               )}
-            <h5 className="text-uppercase text-center mb-3">
-              Account Information
-            </h5>
             <ListGroup>
               <ListGroup.Item className="text-center">
                 <div className="d-flex justify-content-center my-3">
@@ -140,8 +146,8 @@ export default function UserProfileDetails() {
                     <Form.Label htmlFor="password">New Password</Form.Label>
                     <Form.Control
                       required
-                      spellCheck={false}
                       value={password}
+                      spellCheck={false}
                       type={showPassword ? "text" : "password"}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -190,6 +196,11 @@ export default function UserProfileDetails() {
                   <TablePlaceholder key={index} />
                 ))}
               </>
+            ) : ordersError ? (
+              <div className="text-center mt-5">
+                <h3>Error Loading Orders</h3>
+                <p>Failed to load order history. Please try again later.</p>
+              </div>
             ) : orders.data.length === 0 ? (
               <div className="text-center mt-5">
                 <h3>Oops! No orders found.</h3>
@@ -200,24 +211,24 @@ export default function UserProfileDetails() {
                 <thead>
                   <tr>
                     <th>Order ID</th>
-                    <th>User Name</th>
-                    <th>User Email</th>
                     <th>Items Price</th>
                     <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Delivery Status</th>
                     <th>Order Date</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {orders.data.map((order) => (
-                    <tr>
-                      <td>{order._id}</td>
-                      <td>
-                        {order.user.otherNames} {order.user.lastName}
-                      </td>
-                      <td>{order.user.email}</td>
+                    <tr key={order.orderID}>
+                      <td>{order.orderID}</td>
                       <td>&#8358;{numberWithCommas(order.itemsPrice)}</td>
                       <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
+                      <td>{order.isPaid ? "Paid" : "Unpaid"}</td>
+                      <td>
+                        {order.isOrderDelivered ? "Delivered" : "Not Delivered"}
+                      </td>
                       <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                       <td>
                         <ButtonGroup size="sm">
@@ -226,7 +237,7 @@ export default function UserProfileDetails() {
                             overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
                             <Button
                               as={Link}
-                              to={`/order/${order._id}`}
+                              to={`/order/${order.orderID}`}
                               variant="light">
                               <BsEye />
                             </Button>

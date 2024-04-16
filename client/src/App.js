@@ -1,29 +1,38 @@
 import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useGetCurrentUserQuery } from "./features/usersApiSlice";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "./features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCredentials, setCredentials } from "./features/authSlice";
 import Footer from "./components/Footer";
 import HeaderNav from "./components/HeaderNav";
+import { USERS_URL } from "./constants";
 
 export default function App() {
   const currentLocation = useLocation();
   const dispatch = useDispatch();
-
-  const { data: currentUserData, isLoading: isCurrentUserLoading } =
-    useGetCurrentUserQuery();
+  const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const updateCredentials = () => {
-      if (!isCurrentUserLoading && currentUserData) {
-        dispatch(setCredentials({ ...currentUserData }));
+    const fetchCurrentUser = async () => {
+      if (!userInfo) return;
+      try {
+        const response = await fetch(`${USERS_URL}/current`);
+        const userData = await response.json();
+        if (!userData.success) {
+          await fetch(`${USERS_URL}/logout`);
+          dispatch(clearCredentials());
+          toast.error("User not found. Please try to log in again.");
+          return;
+        }
+        dispatch(setCredentials({ ...userData }));
+      } catch (error) {
+        console.log(error);
       }
     };
 
-    updateCredentials();
-  }, [currentUserData, isCurrentUserLoading, dispatch]);
+    fetchCurrentUser();
+  }, []);
 
   const isNotDashboardPath = !currentLocation.pathname.includes("dashboard");
 

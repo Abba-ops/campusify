@@ -29,6 +29,30 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getVendorOrders: builder.query({
+      query: () => ({
+        url: `${ORDERS_URL}/vendor`,
+        method: "GET",
+      }),
+    }),
+    getVendorOrder: builder.query({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/vendor/${orderId}`,
+        method: "GET",
+      }),
+    }),
+    markOrderAsDelivered: builder.mutation({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/vendor/${orderId}`,
+        method: "PUT",
+      }),
+    }),
+    markOrderAsReceived: builder.mutation({
+      query: ({ orderId, itemId }) => ({
+        url: `${ORDERS_URL}/${orderId}/${itemId}`,
+        method: "PUT",
+      }),
+    }),
   }),
 });
 
@@ -37,4 +61,8 @@ export const {
   useCreateNewOrderMutation,
   useGetOrdersQuery,
   useGetMyOrdersQuery,
+  useGetVendorOrderQuery,
+  useGetVendorOrdersQuery,
+  useMarkOrderAsDeliveredMutation,
+  useMarkOrderAsReceivedMutation,
 } = ordersApiSlice;

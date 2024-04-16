@@ -13,7 +13,7 @@ export const extractPublicId = (url) => {
 /**
  * @desc    Fetch all products
  * @route   GET /api/products
- * @access  Public
+ * @access  Private/Admin
  */
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).populate("category");
@@ -133,7 +133,7 @@ const deleteReview = asyncHandler(async (req, res) => {
 /**
  * @desc    Create a new product
  * @route   POST /api/products
- * @access  Private
+ * @access  Private/Vendor
  */
 const createProduct = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findOne({ user: req.user._id });
@@ -176,7 +176,7 @@ const createProduct = asyncHandler(async (req, res) => {
 /**
  * @desc    Update a product by ID
  * @route   PUT /api/products/:productId
- * @access  Private
+ * @access  Private/Vendor|Admin
  */
 const updateProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.productId);
@@ -223,7 +223,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 /**
  * @desc    Add a new category
  * @route   POST /api/products/categories
- * @access  Private
+ * @access  Private/Admin
  */
 const addCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
@@ -287,14 +287,9 @@ const deleteCategory = asyncHandler(async (req, res) => {
 const getProductsByCategory = asyncHandler(async (req, res) => {
   const { categoryId } = req.params;
 
-  try {
-    const products = await Product.find({ category: categoryId });
+  const products = await Product.find({ category: categoryId });
 
-    res.json({ success: true, data: products });
-  } catch (error) {
-    res.status(500);
-    throw new Error("Internal Server Error");
-  }
+  res.json({ success: true, data: products });
 });
 
 /**
@@ -305,16 +300,11 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
 const getProductsBySubcategory = asyncHandler(async (req, res) => {
   const { subcategoryId } = req.params;
 
-  try {
-    const products = await Product.find({
-      "subcategory._id": subcategoryId,
-    });
+  const products = await Product.find({
+    "subcategory._id": subcategoryId,
+  });
 
-    res.json({ success: true, data: products });
-  } catch (error) {
-    res.status(500);
-    throw new Error("Internal Server Error");
-  }
+  res.json({ success: true, data: products });
 });
 
 /**
@@ -325,19 +315,14 @@ const getProductsBySubcategory = asyncHandler(async (req, res) => {
 const searchProducts = asyncHandler(async (req, res) => {
   const { query } = req.query;
 
-  try {
-    const products = await Product.find({
-      $or: [
-        { productName: { $regex: new RegExp(query, "i") } },
-        { description: { $regex: new RegExp(query, "i") } },
-      ],
-    });
+  const products = await Product.find({
+    $or: [
+      { productName: { $regex: new RegExp(query, "i") } },
+      { description: { $regex: new RegExp(query, "i") } },
+    ],
+  });
 
-    res.json({ success: true, data: products });
-  } catch (error) {
-    res.status(500);
-    throw new Error("Internal Server Error");
-  }
+  res.json({ success: true, data: products });
 });
 
 /**
@@ -466,24 +451,25 @@ const getBestSellingProducts = asyncHandler(async (req, res) => {
 /**
  * @desc    Delete a product and its associated image from Cloudinary
  * @route   DELETE /api/products/:productId
- * @access  Private/Admin
+ * @access  Private/Vendor|Admin
  */
 const deleteProduct = asyncHandler(async (req, res) => {
   const productId = req.params.productId;
 
   try {
     const product = await Product.findById(productId);
+
     if (!product) {
       res.status(404);
       throw new Error("Product not found");
     }
 
     const publicId = extractPublicId(product.imageUrl);
-    await cloudinary.uploader.destroy(publicId);
+    await cloudinary.uploader.destroy(`campusify/${publicId}`);
 
     await Product.findByIdAndDelete(productId);
 
-    res
+    return res
       .status(200)
       .json({ success: true, message: "Product deleted successfully" });
   } catch (error) {

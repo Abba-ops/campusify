@@ -47,6 +47,12 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getProductsByVendor: builder.query({
+      query: (vendorId) => ({
+        url: `${VENDORS_URL}/${vendorId}/products`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -57,5 +63,6 @@ export const {
   useGetVendorByIdQuery,
   useUpdateVendorStatusMutation,
   useDeleteVendorMutation,
-  useUploadVendorLogoMutation
+  useUploadVendorLogoMutation,
+  useGetProductsByVendorQuery,
 } = vendorApiSlice;

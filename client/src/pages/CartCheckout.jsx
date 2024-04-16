@@ -9,11 +9,12 @@ import {
   Stack,
 } from "react-bootstrap";
 import { numberWithCommas } from "../utils/cartUtils";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PaystackButton } from "react-paystack";
 import { toast } from "react-toastify";
 import { useCreateNewOrderMutation } from "../features/ordersApiSlice";
 import { useNavigate } from "react-router-dom";
+import { clearCartItems } from "../features/cartSlice";
 
 export default function CartCheckout() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -29,6 +30,8 @@ export default function CartCheckout() {
   const [building, setBuilding] = useState("");
   const [locationNumber, setLocationNumber] = useState("");
   const [comment, setComment] = useState("");
+
+  const dispatch = useDispatch();
 
   const publicKey = "pk_test_930251134c7b44c106b9cb5b678b626a4bd438c5";
   const [createNewOrder, { isLoading }] = useCreateNewOrderMutation();
@@ -65,8 +68,8 @@ export default function CartCheckout() {
       }).unwrap();
 
       if (result.success) {
-        toast.success(result.message);
-        navigate(`/order/${result.data._id}`);
+        dispatch(clearCartItems());
+        navigate(`/order/${result.data.orderID}`);
       }
     } catch (error) {
       console.error("Error placing order: ", error);

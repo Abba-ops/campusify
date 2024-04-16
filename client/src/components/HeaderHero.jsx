@@ -13,7 +13,7 @@ export default function HeaderHero() {
           <Carousel indicators={false} controls={false}>
             {[1, 2, 3].map((index) => (
               <Carousel.Item key={index}>
-                <Image src="/images/products/playstation.jpg" fluid />
+                <Image src={`/images/hero_image_${index}.jpg`} fluid />
               </Carousel.Item>
             ))}
           </Carousel>

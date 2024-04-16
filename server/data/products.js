@@ -6,7 +6,7 @@ const products = [
     productDescription:
       "Bluetooth technology lets you connect it with compatible devices wirelessly. High-quality AAC audio offers an immersive listening experience. Built-in microphone allows you to take calls while working.",
     brand: "Apple",
-    price: 45000,
+    price: 150,
     countInStock: 10,
     rating: 4.5,
     reviewCount: 12,
@@ -18,7 +18,7 @@ const products = [
     productDescription:
       "Introducing the iPhone 13 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life.",
     brand: "Apple",
-    price: 500000,
+    price: 1700,
     countInStock: 7,
     rating: 4.0,
     reviewCount: 8,
@@ -31,7 +31,7 @@ const products = [
     productDescription:
       "Characterized by versatile imaging specs, the Canon EOS 80D further clarifies itself using a pair of robust focusing systems and an intuitive design.",
     brand: "Canon",
-    price: 250000,
+    price: 750,
     countInStock: 5,
     rating: 3,
     reviewCount: 12,
@@ -44,7 +44,7 @@ const products = [
     productDescription:
       "The ultimate home entertainment center starts with PlayStation. Whether you are into gaming, HD movies, television, or music.",
     brand: "Sony",
-    price: 220000,
+    price: 650,
     countInStock: 11,
     rating: 5,
     reviewCount: 12,
@@ -58,7 +58,7 @@ const products = [
     productDescription:
       "Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience.",
     brand: "Logitech",
-    price: 15000,
+    price: 70,
     countInStock: 7,
     rating: 3.5,
     reviewCount: 10,
@@ -70,7 +70,7 @@ const products = [
     productDescription:
       "Meet Echo Dot - Our most popular smart speaker with a fabric design. It is our most compact smart speaker that fits perfectly into small spaces.",
     brand: "Amazon",
-    price: 15000,
+    price: 70,
     countInStock: 0,
     rating: 4,
     reviewCount: 12,
@@ -84,7 +84,7 @@ const products = [
     productDescription:
       "Ultra-fast, ultra-precise scrolling with a comfortable design. The MX Master 3 is the most advanced mouse from Logitech.",
     brand: "Logitech",
-    price: 99.99,
+    price: 60,
     countInStock: 30,
     rating: 4.9,
     reviewCount: 200,
@@ -94,11 +94,11 @@ const products = [
   {
     productName: "Nike Air Zoom Pegasus 38 Running Shoes",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1712329466/campusify/products/red_shoe_ql6m9l.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1712329438/campusify/products/sneaker_dknloo.jpg",
     productDescription:
       "The Nike Air Zoom Pegasus 38 continues to put a spring in your step, using the same responsive foam as its predecessor.",
     brand: "Nike",
-    price: 129.99,
+    price: 50,
     countInStock: 20,
     rating: 4.6,
     reviewCount: 150,
@@ -112,7 +112,7 @@ const products = [
     productDescription:
       "Experience the next level of silence with the Sony WH-1000XM4 wireless noise-canceling headphones.",
     brand: "Sony",
-    price: 349.99,
+    price: 500,
     countInStock: 5,
     rating: 4.8,
     reviewCount: 300,
@@ -126,7 +126,7 @@ const products = [
     productDescription:
       "Conquer any trail with our high-performance mountain bike. Designed for rugged terrain and adventurous riders.",
     brand: "AdventureGear",
-    price: 999.99,
+    price: 2500,
     countInStock: 20,
     rating: 4.8,
     reviewCount: 50,
@@ -140,7 +140,7 @@ const products = [
     productDescription:
       "Active Noise Cancellation for immersive sound. Transparency mode for hearing and connecting with the world around you.",
     brand: "Apple",
-    price: 249.99,
+    price: 1500,
     countInStock: 15,
     rating: 4.7,
     reviewCount: 400,
@@ -154,7 +154,7 @@ const products = [
     productDescription:
       "Capture stunning photos and videos with the Canon EOS Rebel T7. Equipped with a 24.1 Megapixel CMOS sensor and DIGIC 4+ image processor.",
     brand: "Canon",
-    price: 499.99,
+    price: 700,
     countInStock: 15,
     rating: 4.6,
     reviewCount: 80,
@@ -167,7 +167,7 @@ const products = [
     productDescription:
       "Experience ultimate comfort and style with the Nike Air Max 270. Featuring a breathable mesh upper and Max Air cushioning for all-day comfort.",
     brand: "Nike",
-    price: 129.99,
+    price: 50,
     countInStock: 25,
     rating: 4.7,
     reviewCount: 120,

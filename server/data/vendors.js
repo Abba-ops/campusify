@@ -19,7 +19,7 @@ const vendorData = [
     isApproved: true,
     averageRating: 4.5,
     vendorLogo:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1712329061/campusify/logos/2889195_ny4psy.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1713262224/campusify/logos/6537937_eoxyvi.jpg",
   },
 ];
 

@@ -8,11 +8,15 @@ const orderItemSchema = new Schema({
     ref: "Product",
     required: true,
   },
+  vendor: {
+    type: Schema.Types.ObjectId,
+    ref: "Vendor",
+    required: true,
+  },
   productName: { type: String, required: true },
   quantity: { type: Number, required: true },
-  imageUrl: { type: String, required: true },
   price: { type: Number, required: true },
-  paidAt: { type: Date },
+  imageUrl: { type: String, required: true },
   deliveredAt: { type: Date },
   isDelivered: { type: Boolean, default: false },
   isReceived: { type: Boolean, default: false },
@@ -20,6 +24,7 @@ const orderItemSchema = new Schema({
 
 const orderSchema = new Schema(
   {
+    orderID: { type: String, required: true, unique: true },
     user: {
       type: Schema.Types.ObjectId,
       required: true,
@@ -35,7 +40,17 @@ const orderSchema = new Schema(
     itemsPrice: { type: Number, default: 0 },
     totalPrice: { type: Number, default: 0 },
     isPaid: { type: Boolean, default: false },
+    isOrderDelivered: { type: Boolean, default: false },
+    paymentMethod: { type: String },
+    paymentResult: {
+      id: { type: String },
+      status: { type: String },
+      update_time: { type: String },
+      email_address: { type: String },
+    },
+    deliveredAt: { type: Date },
     comment: { type: String },
+    paidAt: { type: Date },
   },
   { timestamps: true }
 );

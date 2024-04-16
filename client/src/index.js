@@ -37,18 +37,20 @@ import VendorEditProduct from "./pages/Vendor/VendorEditProduct";
 import UserProfile from "./pages/UserProfile";
 import UserProfileDetails from "./pages/UserProfileDetails";
 import AdminVendorDetails from "./pages/Admin/AdminVendorDetails";
-import About from "./pages/About";
-import FAQ from "./pages/FAQ";
 import CategoryPage from "./pages/CategoryPage";
 import ProductSearch from "./pages/ProductSearch";
 import SubcategoryProducts from "./pages/SubcategoryProducts";
 import AdminEditProduct from "./pages/Admin/AdminEditProduct";
 import { HelmetProvider } from "react-helmet-async";
-import "./assets/css/bootstrap.min.css";
-import "./assets/css/style.min.css";
 import OrderScreen from "./pages/OrderScreen";
 import AdminOrdersTable from "./pages/Admin/AdminOrdersTable";
 import VendorOrdersTable from "./pages/Vendor/VendorOrdersTable";
+import VendorOrderDetails from "./pages/Vendor/VendorOrderDetails";
+import AdminOrderDetails from "./pages/Admin/AdminOrderDetails";
+import About from "./pages/About";
+import FAQ from "./pages/FAQ";
+import "./assets/css/bootstrap.min.css";
+import "./assets/css/style.min.css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -101,6 +103,10 @@ const router = createBrowserRouter(
             element={<VendorOrdersTable />}
           />
           <Route
+            path="/vendor/dashboard/orders/:orderId"
+            element={<VendorOrderDetails />}
+          />
+          <Route
             path="/vendor/dashboard/products/:productId/edit"
             element={<VendorEditProduct />}
           />
@@ -126,6 +132,10 @@ const router = createBrowserRouter(
           <Route
             path="/admin/dashboard/orders"
             element={<AdminOrdersTable />}
+          />
+          <Route
+            path="/admin/dashboard/orders/:orderId"
+            element={<AdminOrderDetails />}
           />
           <Route
             path="/admin/dashboard/products/:productId/edit"

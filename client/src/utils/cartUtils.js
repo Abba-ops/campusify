@@ -14,7 +14,7 @@ export const updateCart = (state) => {
 
   // calculate tax price (7.5% tax)
   state.taxPrice = Number(0.075 * state.itemsPrice);
-
+  
   // calculate the total price for the items including delivery and tax
   state.totalPrice =
     Number(state.itemsPrice) +

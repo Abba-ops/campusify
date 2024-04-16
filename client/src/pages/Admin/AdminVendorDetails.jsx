@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  useGetProductsByVendorQuery,
   useGetVendorByIdQuery,
   useUpdateVendorStatusMutation,
 } from "../../features/vendorApiSlice";
@@ -16,9 +17,11 @@ import {
   FloatingLabel,
   Form,
   Stack,
+  ListGroup,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import TablePlaceholder from "../../components/TablePlaceholder";
+import { numberWithCommas } from "../../utils/cartUtils";
 
 export default function AdminVendorDetails() {
   const { vendorId } = useParams();
@@ -33,7 +36,8 @@ export default function AdminVendorDetails() {
   const [updateVendorStatus, { isLoading: isApproving }] =
     useUpdateVendorStatusMutation();
 
-  console.log(vendor);
+  const { data: vendorProducts, isLoading: loadingVendorProducts } =
+    useGetProductsByVendorQuery(vendorId);
 
   const handleApprove = async () => {
     try {

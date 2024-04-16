@@ -22,8 +22,8 @@ const getVendors = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Get a vendor by ID
- * @route   GET /api/vendors/:id
- * @access  Private/Admin
+ * @route   GET /api/vendors/:vendorId
+ * @access  Private/Vendor|Admin
  */
 const getVendorById = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findById(req.params.vendorId).populate("user");
@@ -40,9 +40,9 @@ const getVendorById = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc       Get products of a specific vendor
- * @route      GET /api/vendors/products
- * @access     Private
+ * @desc    Get products of the logged-in vendor
+ * @route   GET /api/vendors/products
+ * @access  Private/Vendor
  */
 const getVendorProducts = asyncHandler(async (req, res) => {
   const vendorProducts = await Product.find({
@@ -106,7 +106,7 @@ const vendorApplication = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Update vendor status
- * @route   PUT /api/vendors/:vendorId/status
+ * @route   PUT /api/vendors/:vendorId/:status
  * @access  Private/Admin
  */
 const updateVendorStatus = asyncHandler(async (req, res) => {
@@ -145,8 +145,8 @@ const updateVendorStatus = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc    Delete a product and its associated image from Cloudinary
- * @route   DELETE /api/products/:productId
+ * @desc    Delete a vendor and associated products, removing their images from Cloudinary
+ * @route   DELETE /api/vendors/:vendorId
  * @access  Private/Admin
  */
 const deleteVendor = asyncHandler(async (req, res) => {
@@ -163,16 +163,11 @@ const deleteVendor = asyncHandler(async (req, res) => {
 
   const products = await Product.find({ vendor: vendor._id });
 
-  products.forEach((product) => {
-    product.deleteOne();
-
-    const deleteImage = async () => {
-      const publicId = extractPublicId(product.imageUrl);
-      await cloudinary.uploader.destroy(publicId);
-    };
-
-    deleteImage();
-  });
+  for (const product of products) {
+    const publicId = extractPublicId(product.imageUrl);
+    await cloudinary.uploader.destroy(`campusify/${publicId}`);
+    await product.deleteOne();
+  }
 
   if (user) {
     user.isVendor = false;
@@ -184,6 +179,24 @@ const deleteVendor = asyncHandler(async (req, res) => {
   res.json({ success: true, message: "Vendor deleted successfully" });
 });
 
+/**
+ * @desc    Retrieve products associated with a specific vendor
+ * @route   GET /api/vendors/:vendorId/products
+ * @access  Private/Admin
+ */
+const getProductsByVendor = asyncHandler(async (req, res) => {
+  const { vendorId } = req.params;
+
+  const products = await Product.find({ vendor: vendorId });
+
+  if (!products || products.length === 0) {
+    res.status(404);
+    throw new Error("No products found for this vendor");
+  }
+
+  return res.status(200).json({ success: true, data: products });
+});
+
 export {
   getVendors,
   getVendorById,
@@ -191,4 +204,5 @@ export {
   vendorApplication,
   updateVendorStatus,
   deleteVendor,
+  getProductsByVendor,
 };

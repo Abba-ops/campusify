@@ -7,6 +7,22 @@ import { Product } from "../models/productModel.js";
 import { extractPublicId } from "./productController.js";
 import cloudinary from "../config/cloudinary.js";
 
+const deleteProductsAndVendor = async (userId) => {
+  const vendor = await Vendor.findOne({ user: userId });
+
+  if (vendor) {
+    const products = await Product.find({ vendor: vendor._id });
+
+    for (const product of products) {
+      const publicId = extractPublicId(product.imageUrl);
+      await cloudinary.uploader.destroy(`campusify/${publicId}`);
+      await product.deleteOne();
+    }
+
+    await vendor.deleteOne();
+  }
+};
+
 const constructUserData = (user, vendor = null) => {
   return {
     id: user._id,
@@ -120,7 +136,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 /**
  * @desc    Get user profile
  * @route   GET /api/users/profile/:userId
- * @access  Private
+ * @access  Public
  */
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.userId);
@@ -160,6 +176,7 @@ const updateUserPassword = asyncHandler(async (req, res) => {
   user.password = password;
 
   await user.save();
+
   res
     .status(200)
     .json({ success: true, message: "Password successfully updated." });
@@ -178,24 +195,7 @@ const deleteMyAccount = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  const vendor = await Vendor.findOne({ user: user._id });
-
-  if (vendor) {
-    const products = await Product.find({ vendor: vendor._id });
-
-    await vendor.deleteOne();
-
-    products.forEach((product) => {
-      product.deleteOne();
-
-      const deleteImage = async () => {
-        const publicId = extractPublicId(product.imageUrl);
-        await cloudinary.uploader.destroy(publicId);
-      };
-      deleteImage();
-    });
-  }
-
+  await deleteProductsAndVendor(req.user._id);
   await User.deleteOne({ _id: req.user._id });
 
   res.clearCookie("jwt_token");
@@ -213,6 +213,7 @@ const deleteMyAccount = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
   try {
     const users = await User.find({});
+
     res.status(200).json({
       success: true,
       count: users.length,
@@ -237,24 +238,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     throw new Error("User not found.");
   }
 
-  const vendor = await Vendor.findOne({ user: user._id });
-
-  if (vendor) {
-    const products = await Product.find({ vendor: vendor._id });
-
-    await vendor.deleteOne();
-
-    products.forEach((product) => {
-      product.deleteOne();
-
-      const deleteImage = async () => {
-        const publicId = extractPublicId(product.imageUrl);
-        await cloudinary.uploader.destroy(publicId);
-      };
-      deleteImage();
-    });
-  }
-
+  await deleteProductsAndVendor(user._id);
   await user.deleteOne();
 
   res

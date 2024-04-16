@@ -39,9 +39,15 @@ router.get(
 );
 router.get("/category/:category/:categoryId", getProductsByCategory);
 
-router.route("/").get(getProducts).post(isLoggedIn, isVendor, createProduct);
+router
+  .route("/")
+  .get(isLoggedIn, isAdmin, getProducts)
+  .post(isLoggedIn, isVendor, createProduct);
 
-router.route("/categories").get(getCategories).post(addCategory);
+router
+  .route("/categories")
+  .get(getCategories)
+  .post(isLoggedIn, isAdmin, addCategory);
 
 router
   .route("/:productId")
