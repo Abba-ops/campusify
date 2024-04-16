@@ -1,5 +1,5 @@
 import React from "react";
-import { Carousel, Image, Button } from "react-bootstrap";
+import { Carousel, Image, Button, ButtonGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -23,30 +23,31 @@ export default function HeaderHero() {
             Empowering Campus Entrepreneurs
           </h1>
           <p className="lead fw-normal d-none d-lg-block text-muted">
-            Empower yourself with our platform designed for campus
-            entrepreneurs. Discover opportunities, connect with like-minded
-            individuals, and turn your ideas into reality. Join us in building a
-            vibrant community of innovators and creators, shaping the future
-            together.
+            Discover, buy, and sell everything you need for campus life. From
+            textbooks to electronics, find it all in one convenient place. Join
+            our vibrant community today!
           </p>
-          <div className="d-grid gap-3">
+          <ButtonGroup className="d-grid gap-3 d-md-flex justify-content-md-start">
             <Button
               as={Link}
               size="lg"
               variant="primary"
-              to={userInfo ? "/vendor-application" : "/login"}
               className="text-uppercase fw-semibold text-white">
-              {userInfo ? "Start Selling" : "Get Started"}
+              Shop Now
             </Button>
             <Button
               as={Link}
               size="lg"
               variant="dark"
-              to={"/about"}
+              to={
+                userInfo
+                  ? "/vendor-application"
+                  : `/register?redirect=/vendor-application`
+              }
               className="text-uppercase fw-semibold">
-              Explore More
+              Start Selling
             </Button>
-          </div>
+          </ButtonGroup>
         </div>
       </div>
     </header>

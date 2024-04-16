@@ -28,20 +28,20 @@ export default function PageNotFound() {
               happens.
             </p>
             <div className="mb-4">
-              <Link to="/">
-                <Button
-                  variant="primary"
-                  className="text-uppercase px-4 fw-semibold text-white">
-                  Return to Home
-                </Button>
-              </Link>
-              <Link to="/categories">
-                <Button
-                  variant="dark"
-                  className="ml-2 text-uppercase px-4 fw-semibold">
-                  Explore Categories
-                </Button>
-              </Link>
+              <Button
+                to="/"
+                as={Link}
+                variant="primary"
+                className="text-uppercase px-4 fw-semibold text-white">
+                Return to Home
+              </Button>
+              <Button
+                as={Link}
+                variant="dark"
+                to="/categories"
+                className="ml-2 text-uppercase px-4 fw-semibold">
+                Explore Categories
+              </Button>
             </div>
             <div>
               <p className="mb-1">Need assistance? Contact our support team:</p>

@@ -137,6 +137,7 @@ export default function UserSignIn() {
                     </Button>
                   </div>
                   <div className="text-center">
+                    No account?{" "}
                     <Link
                       className="text-decoration-none"
                       to={
@@ -144,7 +145,7 @@ export default function UserSignIn() {
                           ? `/register?redirect=${redirectPath}`
                           : "/register"
                       }>
-                      No account? Create one here
+                      Create one here
                     </Link>
                   </div>
                 </Form>

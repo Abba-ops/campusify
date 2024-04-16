@@ -21,7 +21,7 @@ export const USERS_URL = "/api/users";
 export const PRODUCTS_URL = "/api/products";
 export const VENDORS_URL = "/api/vendors";
 export const UPLOAD_URL = "/api/upload";
-export const ORDERS_URL= '/api/orders'
+export const ORDERS_URL = "/api/orders";
 
 export const adminLinks = [
   {
@@ -117,5 +117,35 @@ export const contactInfo = [
     type: "email",
     icon: <FaEnvelope />,
     info: "jadesolakajeyale@gmail.com",
+  },
+];
+
+export const footerLinks = [
+  {
+    heading: "Campus Resources",
+    links: [
+      { text: "Campus Map", url: "/campus-map" },
+      { text: "Academic Calendar", url: "/academic-calendar" },
+      { text: "Student Services", url: "/student-services" },
+      { text: "Campus News", url: "/campus-news" },
+    ],
+  },
+  {
+    heading: "Shop Categories",
+    links: [
+      { text: "Textbooks", url: "/shop/textbooks" },
+      { text: "Electronics", url: "/shop/electronics" },
+      { text: "Clothing", url: "/shop/clothing" },
+      { text: "Accessories", url: "/shop/accessories" },
+    ],
+  },
+  {
+    heading: "Helpful Links",
+    links: [
+      { text: "How to Sell", url: "/help/sell" },
+      { text: "Privacy Policy", url: "/privacy-policy" },
+      { text: "Terms of Service", url: "/terms-of-service" },
+      { text: "Contact Us", url: "/contact-us" },
+    ],
   },
 ];

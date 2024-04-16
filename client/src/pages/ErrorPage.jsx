@@ -30,14 +30,14 @@ export default function ErrorPage() {
                 contact your network administrator.
               </p>
               <div className="mb-4">
-                <Link to="/">
-                  <Button
-                    size="lg"
-                    variant="primary"
-                    className="text-uppercase px-4 fw-semibold text-white">
-                    Refresh Page
-                  </Button>
-                </Link>
+                <Button
+                  to="/"
+                  as={Link}
+                  size="lg"
+                  variant="primary"
+                  className="text-uppercase px-4 fw-semibold text-white">
+                  Refresh Page
+                </Button>
               </div>
               <p className="text-muted mb-0">
                 If the issue persists, please contact support at{" "}

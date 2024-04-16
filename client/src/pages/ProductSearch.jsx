@@ -44,7 +44,7 @@ export default function ProductSearch() {
         </Row>
         {isError ? (
           <div className="text-center mt-5">
-            <h3 className="text-danger">Error Fetching Products</h3>
+            <h4 className="text-danger">Error Fetching Products</h4>
             <p className="mt-3">
               We apologize, but we couldn't fetch the products at the moment.
               Please try again later.
@@ -54,15 +54,19 @@ export default function ProductSearch() {
           <>
             {sortedProducts.length === 0 && !isLoading && !isError ? (
               <div className="text-center mt-5">
-                <h3>Oops! No products found.</h3>
+                <h4>Oops! No products found.</h4>
                 <p>
                   It seems we couldn't find any products matching your search
                   criteria.
                 </p>
                 <p>Please try adjusting your search terms or</p>
-                <Link to="/">
-                  <Button variant="primary">Go to Home</Button>
-                </Link>
+                <Button
+                  to="/"
+                  as={Link}
+                  variant="primary"
+                  className="text-uppercase px-4 fw-semibold text-white">
+                  Go to Home
+                </Button>
               </div>
             ) : (
               <Row>

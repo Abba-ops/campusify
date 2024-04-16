@@ -21,8 +21,8 @@ export default function UserRegistration() {
   const [showPassword, setShowPassword] = useState(false);
   const [agreeToConditions, setAgreeToConditions] = useState(false);
   const [userType, setUserType] = useState("student");
-  const [password, setPassword] = useState("");
   const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
