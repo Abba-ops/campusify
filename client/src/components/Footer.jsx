@@ -7,7 +7,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="py-5 text-bg-dark">
+    <footer className="mt-6 py-5 text-bg-dark">
       <div className="container">
         <div className="row">
           {footerLinks.map((footerLink, index) => (
