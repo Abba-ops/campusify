@@ -18,7 +18,7 @@ import {
 } from "../features/productsApiSlice";
 import MetaTags from "../components/MetaTags";
 import { BsArrowLeft } from "react-icons/bs";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { numberWithCommas } from "../utils/cartUtils";
 import { toast } from "react-toastify";
@@ -31,12 +31,18 @@ import { FaCheckCircle } from "react-icons/fa";
 import ReactStars from "react-rating-stars-component";
 import StarRating from "../components/StarRating";
 import BackToTop from "../components/BackToTop";
+import CartPreviewModal from "../components/CartPreviewModal";
 
 export default function ProductDetail() {
   const [visibleComments, setVisibleComments] = useState(3);
   const [cartQuantity, setCartQuantity] = useState(1);
   const [userComment, setUserComment] = useState("");
   const [userRating, setUserRating] = useState(0);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const closeModal = () => setIsModalOpen(false);
+  const openModal = () => setIsModalOpen(true);
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -50,7 +56,6 @@ export default function ProductDetail() {
   } = useGetProductDetailsQuery(productId);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [createReview, { isLoading: loadingCreateReview }] =
     useCreateReviewMutation(productId);
@@ -58,7 +63,7 @@ export default function ProductDetail() {
   const addToCartHandler = () => {
     if (!productLoading) {
       dispatch(addToCart({ ...productData.data, quantity: cartQuantity }));
-      navigate("/cart");
+      openModal();
     }
   };
 
@@ -461,6 +466,11 @@ export default function ProductDetail() {
           Discover More
         </Link>
       </div>
+      <CartPreviewModal
+        handleClose={closeModal}
+        show={isModalOpen}
+        product={!productLoading && productData.data}
+      />
     </section>
   );
 }

@@ -38,7 +38,7 @@ export default function HeaderHero() {
             <Button
               as={Link}
               size="lg"
-              variant="outline-dark"
+              variant="dark"
               to={
                 userInfo
                   ? "/vendor-application"

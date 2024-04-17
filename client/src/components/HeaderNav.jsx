@@ -83,7 +83,7 @@ export default function HeaderNav() {
                 {["/", "/contact", "/about", "/faq"].map((path) => (
                   <LinkContainer key={path} to={path}>
                     <Nav.Link
-                      className={`fw-medium text-uppercase ${
+                      className={`fw-semibold text-uppercase ${
                         location.pathname === path && "text-primary"
                       }`}>
                       {path === "/" ? "Home" : path.replace("/", "")}
@@ -95,15 +95,15 @@ export default function HeaderNav() {
             {showSearch && <SearchForm onSubmit={handleSearchSubmit} />}
             <Stack direction="horizontal" gap={4}>
               <Nav.Link>
-                <RiSearch2Line className="fs-4" onClick={handleShowSearch} />
+                <RiSearch2Line size={24} onClick={handleShowSearch} />
               </Nav.Link>
               <Nav.Link>
-                <BiCategoryAlt className="fs-4" onClick={handleShow} />
+                <BiCategoryAlt size={24} onClick={handleShow} />
               </Nav.Link>
               <LinkContainer to={"/cart"}>
                 <Nav.Link>
                   <div className="position-relative">
-                    <RiShoppingBag2Line className="fs-4" />
+                    <RiShoppingBag2Line size={24} />
                     {cartItems.length > 0 && (
                       <Badge
                         pill
@@ -129,7 +129,7 @@ export default function HeaderNav() {
               ) : (
                 <LinkContainer to={"/login"}>
                   <Nav.Link>
-                    <RiUserLine className="fs-4" />
+                    <RiUserLine size={24} />
                   </Nav.Link>
                 </LinkContainer>
               )}

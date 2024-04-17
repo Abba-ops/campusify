@@ -38,7 +38,7 @@ export default function Footer() {
                 />
                 <Button
                   variant="primary"
-                  className="text-uppercase px-4 fw-semibold text-white"
+                  className="text-uppercase fw-semibold text-white"
                   type="button">
                   Subscribe
                 </Button>
@@ -53,7 +53,8 @@ export default function Footer() {
               ❤️
             </span>{" "}
             by Jadesola | © {year}{" "}
-            <span className="text-primary">ShopSync</span>. All rights reserved.
+            <span className="text-primary">Campusify</span>. All rights
+            reserved.
           </p>
           <ul className="list-unstyled d-flex">
             <li className="ms-3">

@@ -1,19 +1,23 @@
 import React, { useState } from "react";
-import { Button, Image, Col, Modal, Row, Form, Stack } from "react-bootstrap";
+import { Button, Image, Col, Modal, Row, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cartSlice";
-import { toast } from "react-toastify";
 import { numberWithCommas } from "../utils/cartUtils";
 import StarRating from "./StarRating";
+import CartPreviewModal from "./CartPreviewModal";
 
 export default function ProductPreviewModal({ product, show, handleClose }) {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const closeModal = () => setIsModalOpen(false);
+  const openModal = () => setIsModalOpen(true);
 
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity: selectedQuantity }));
-    toast.success("Added to cart successfully");
+    openModal();
     handleClose();
   };
 
@@ -22,12 +26,19 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
   return (
     <>
       <Modal show={show} onHide={handleClose} centered size="lg">
-        <Row className="align-items-stretch">
-          <Col lg={6} className="d-flex align-items-center">
-            <Image src={product.imageUrl} fluid rounded className="h-100" />
-          </Col>
-          <Col lg={6}>
-            <Modal.Body>
+        <Modal.Body>
+          <Row>
+            <Col lg={6} className="mb-3 mb-lg-0">
+              <div className="image-container">
+                <Image
+                  fluid
+                  loading="lazy"
+                  className="product-image"
+                  src={`${product.imageUrl}`}
+                />
+              </div>
+            </Col>
+            <Col lg={6}>
               <Modal.Title className="text-uppercase mb-3">
                 {product.productName}
               </Modal.Title>
@@ -39,7 +50,7 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                   }`}
                 />
               </div>
-              <p className="my-3">{product.productDescription}</p>
+              <p className="my-3 text-break">{product.productDescription}</p>
               <Modal.Title className="text-primary mb-4">
                 &#8358;{numberWithCommas(product.price)}
               </Modal.Title>
@@ -62,25 +73,30 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                   )}
                 </Col>
               </Row>
-              <Stack direction="horizontal" gap={3} className="mt-4">
-                <Button
-                  onClick={handleClose}
-                  className="text-uppercase fw-semibold text-white"
-                  variant="primary">
-                  Close
-                </Button>
-                <Button
-                  variant="dark"
-                  onClick={handleAddToCart}
-                  className="text-uppercase fw-semibold"
-                  disabled={isOutOfStock}>
-                  {isOutOfStock ? "Out of Stock" : "Add to Cart"}
-                </Button>
-              </Stack>
-            </Modal.Body>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={handleClose}
+            className="text-uppercase fw-semibold text-white px-4"
+            variant="primary">
+            Close
+          </Button>
+          <Button
+            variant="dark"
+            onClick={handleAddToCart}
+            className="text-uppercase fw-semibold px-4"
+            disabled={isOutOfStock}>
+            {isOutOfStock ? "Out of Stock" : "Add to Cart"}
+          </Button>
+        </Modal.Footer>
       </Modal>
+      <CartPreviewModal
+        handleClose={closeModal}
+        show={isModalOpen}
+        product={product}
+      />
     </>
   );
 }

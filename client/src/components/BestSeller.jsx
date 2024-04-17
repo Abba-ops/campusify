@@ -34,7 +34,14 @@ export default function BestSeller() {
             {bestSellingProducts &&
               bestSellingProducts.data.slice(0, 3).map((item) => (
                 <Carousel.Item key={item._id}>
-                  <Image src={item.imageUrl} fluid />
+                  <div className="image-container">
+                    <Image
+                      fluid
+                      loading="lazy"
+                      src={item.imageUrl}
+                      className="product-image"
+                    />
+                  </div>
                 </Carousel.Item>
               ))}
           </Carousel>
