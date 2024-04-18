@@ -67,9 +67,12 @@ export default function VendorOrdersTable() {
               <tr>
                 <th>Order ID</th>
                 <th>User Name</th>
+                <th>User Email</th>
+                <th>Phone Number</th>
                 <th>Delivery Address</th>
                 <th>Total Price</th>
                 <th>Order Items</th>
+                <th>Order Date</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -81,6 +84,8 @@ export default function VendorOrdersTable() {
                   <td>
                     {order.user.otherNames} {order.user.lastName}
                   </td>
+                  <td>{order.user.email}</td>
+                  <td>{order.user.phoneNumber}</td>
                   <td>{`${order.deliveryAddress.building}, ${order.deliveryAddress.locationNumber}, ${order.deliveryAddress.campus}`}</td>
                   <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
                   <td>
@@ -95,6 +100,7 @@ export default function VendorOrdersTable() {
                       ))}
                     </Row>
                   </td>
+                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                   <td>{order.isPaid ? "Paid" : "Unpaid"}</td>
                   <td>
                     <ButtonGroup size="sm">

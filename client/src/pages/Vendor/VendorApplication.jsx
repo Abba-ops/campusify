@@ -38,14 +38,12 @@ export default function VendorApplication() {
 
   const [formState, setFormState] = useState({
     vendorName: "",
-    vendorPhone: "",
-    vendorEmail: "",
+    vendorPhone: userInfo.data.phoneNumber,
+    vendorEmail: userInfo.data.email,
     vendorDescription: "",
     productsDescription: "",
     estimatedDeliveryTime: "",
   });
-
-  console.log(formState);
 
   const dispatch = useDispatch();
 
@@ -169,6 +167,7 @@ export default function VendorApplication() {
                         onChange={uploadFileHandler}
                         required
                       />
+                      {loadingUpload && <div>Loading...</div>}
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="mb-3">
@@ -197,17 +196,19 @@ export default function VendorApplication() {
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Select
-                      required
+                        required
                         name="estimatedDeliveryTime"
                         value={formState.estimatedDeliveryTime}
                         onChange={handleInputChange}>
                         <option value="">Select Estimated Delivery Time</option>
-                        <option value="1 hour">1 Hour</option>
-                        <option value="2 hours">2 Hours</option>
-                        <option value="3 hours">3 Hours</option>
-                        <option value="1 day">1 Day</option>
-                        <option value="2 days">2 Days</option>
-                        <option value="3 days">3 Days</option>
+                        <option value="15 minutes">Within 15 Minutes</option>
+                        <option value="30 minutes">Within 30 Minutes</option>
+                        <option value="1 hour">Within 1 Hour</option>
+                        <option value="2 hours">Within 2 Hours</option>
+                        <option value="3 hours">Within 3 Hours</option>
+                        <option value="1 day">Within 1 Day</option>
+                        <option value="2 days">Within 2 Days</option>
+                        <option value="3 days">Within 3 Days</option>
                       </Form.Select>
                     </Col>
                   </Form.Group>
@@ -216,7 +217,7 @@ export default function VendorApplication() {
                       sm={3}
                       column
                       className="text-center text-lg-start">
-                      Briefly Describe Your Business
+                      Describe Your Business
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control

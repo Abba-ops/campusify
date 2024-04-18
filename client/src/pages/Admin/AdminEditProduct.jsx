@@ -23,8 +23,11 @@ export default function AdminEditProduct() {
   const [imageUrl, setImageUrl] = useState("");
 
   const { productId } = useParams();
-  const { data: categories, isLoading: loadingCategories } =
-    useGetCategoriesQuery();
+  const {
+    data: categories,
+    isLoading: loadingCategories,
+    isError: errorCategories,
+  } = useGetCategoriesQuery();
   const navigate = useNavigate();
 
   const [subcategories, setSubcategories] = useState([]);
@@ -217,12 +220,18 @@ export default function AdminEditProduct() {
                       name="category"
                       onChange={handleChange}
                       value={formData.category._id}>
-                      {categories &&
+                      {errorCategories ? (
+                        <option value="">Error: Retry</option>
+                      ) : loadingCategories ? (
+                        <option value="">Loading...</option>
+                      ) : (
+                        categories &&
                         categories.data.map((category) => (
                           <option value={category._id} key={category._id}>
                             {category.name}
                           </option>
-                        ))}
+                        ))
+                      )}
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -234,12 +243,18 @@ export default function AdminEditProduct() {
                       name="subcategory"
                       onChange={handleChange}
                       value={formData.subcategory._id}>
-                      {subcategories &&
+                      {errorCategories ? (
+                        <option value="">Error: Retry</option>
+                      ) : loadingCategories ? (
+                        <option value="">Loading...</option>
+                      ) : (
+                        subcategories &&
                         subcategories.map((subcategory) => (
                           <option value={subcategory._id} key={subcategory._id}>
                             {subcategory.name}
                           </option>
-                        ))}
+                        ))
+                      )}
                     </Form.Select>
                   </Form.Group>
                 </Col>

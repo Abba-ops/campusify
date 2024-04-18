@@ -314,9 +314,9 @@ export default function AdminProductsTable() {
             navigation and enhance user experience.
           </p>
         </div>
-        <Row>
-          <Col lg={6}>
-            <Form onSubmit={handleAddCategory} className="mb-3">
+        <Row className="mb-4">
+          <Col lg={4}>
+            <Form onSubmit={handleAddCategory}>
               <InputGroup>
                 <FormControl
                   value={newCategory}
@@ -343,7 +343,7 @@ export default function AdminProductsTable() {
                 md={4}
                 lg={3}
                 className="mb-3">
-                <Card className="border-0 rounded-0 shadow-sm mb-3">
+                <Card className="border-0 rounded-0 mb-3">
                   <Card.Body className="d-flex justify-content-between align-items-center">
                     <h5 className="mb-0">{category.name}</h5>
                     <Button
@@ -382,16 +382,16 @@ export default function AdminProductsTable() {
               </Col>
             ))}
         </Row>
+        <div>
+          <h5 className="mb-3">Create New Subcategory</h5>
+          <p>
+            Add a new subcategory to further organize your products and improve
+            navigation for your customers.
+          </p>
+        </div>
         <Row>
-          <Col lg={6}>
+          <Col lg={4}>
             <div>
-              <div>
-                <h5 className="mb-3">Create New Subcategory</h5>
-                <p>
-                  Add a new subcategory to further organize your products and
-                  improve navigation for your customers.
-                </p>
-              </div>
               <Form onSubmit={handleAddSubcategory}>
                 <Form.Select
                   className="mb-3"

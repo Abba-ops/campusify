@@ -22,8 +22,11 @@ export default function VendorCreateProduct() {
   const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
 
-  const { data: categories, isLoading: loadingCategories } =
-    useGetCategoriesQuery();
+  const {
+    data: categories,
+    isLoading: loadingCategories,
+    isError: errorCategories,
+  } = useGetCategoriesQuery();
   const [createProduct, { isLoading }] = useCreateProductMutation();
   const [uploadProductImage] = useUploadProductImageMutation();
 
@@ -184,12 +187,18 @@ export default function VendorCreateProduct() {
                 <Form.Group controlId="category" className="mb-3 mb-lg-0">
                   <Form.Label>Category</Form.Label>
                   <Form.Select required name="category" onChange={handleChange}>
-                    {categories &&
+                    {errorCategories ? (
+                      <option value="">Error: Retry</option>
+                    ) : loadingCategories ? (
+                      <option value="">Loading...</option>
+                    ) : (
+                      categories &&
                       categories.data.map((category) => (
                         <option value={category._id} key={category._id}>
                           {category.name}
                         </option>
-                      ))}
+                      ))
+                    )}
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -200,11 +209,17 @@ export default function VendorCreateProduct() {
                     required
                     name="subcategory"
                     onChange={handleChange}>
-                    {subcategories?.map((subcategory) => (
-                      <option value={subcategory._id} key={subcategory._id}>
-                        {subcategory.name}
-                      </option>
-                    ))}
+                    {loadingCategories ? (
+                      <option value="">Loading...</option>
+                    ) : errorCategories ? (
+                      <option value="">Error: Retry</option>
+                    ) : (
+                      subcategories?.map((subcategory) => (
+                        <option value={subcategory._id} key={subcategory._id}>
+                          {subcategory.name}
+                        </option>
+                      ))
+                    )}
                   </Form.Select>
                 </Form.Group>
               </Col>
