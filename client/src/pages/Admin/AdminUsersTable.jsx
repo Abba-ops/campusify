@@ -83,7 +83,7 @@ export default function AdminUsersTable() {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>Users</Breadcrumb.Item>
       </Breadcrumb>
-      <div className="d-lg-flex justify-content-between align-items-center">
+      <div className="d-lg-flex justify-content-between align-items-center mb-3 mb-lg-0">
         <div>
           <h2>User Management</h2>
           <p>

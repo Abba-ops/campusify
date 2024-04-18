@@ -142,7 +142,7 @@ export default function AdminVendorDetails() {
                 </Card.Text>
                 {vendor.data.isApproved && (
                   <Card.Text className="text-center">
-                    <Badge bg="success">Approved</Badge>
+                    <Badge bg="dark">Approved</Badge>
                   </Card.Text>
                 )}
                 {vendor.data.approvalStatus === "pending" && (
@@ -171,7 +171,7 @@ export default function AdminVendorDetails() {
                     </Stack>
                   </div>
                 )}
-                {loadingVendorProducts && (
+                {!loadingVendorProducts && (
                   <ListGroup variant="flush">
                     {vendorProducts?.data.length === 0 ? (
                       <p>No products available for this vendor.</p>

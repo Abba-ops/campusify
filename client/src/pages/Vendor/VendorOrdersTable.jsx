@@ -67,7 +67,6 @@ export default function VendorOrdersTable() {
               <tr>
                 <th>Order ID</th>
                 <th>User Name</th>
-                <th>User Email</th>
                 <th>Phone Number</th>
                 <th>Delivery Address</th>
                 <th>Total Price</th>
@@ -84,12 +83,11 @@ export default function VendorOrdersTable() {
                   <td>
                     {order.user.otherNames} {order.user.lastName}
                   </td>
-                  <td>{order.user.email}</td>
                   <td>{order.user.phoneNumber}</td>
                   <td>{`${order.deliveryAddress.building}, ${order.deliveryAddress.locationNumber}, ${order.deliveryAddress.campus}`}</td>
                   <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
                   <td>
-                    <Row xs={1} md={2} lg={3} className="g-4">
+                    <Row xs={2}>
                       {order.orderItems.slice(-2).map((item) => (
                         <Col key={item._id}>
                           <Image

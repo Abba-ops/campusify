@@ -163,7 +163,7 @@ export default function AdminProductsTable() {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>Products</Breadcrumb.Item>
       </Breadcrumb>
-      <div className="d-lg-flex justify-content-between align-items-center">
+      <div className="d-lg-flex justify-content-between align-items-center mb-3 mb-lg-0">
         <div>
           <h2>Product Management</h2>
           <p>
@@ -316,21 +316,26 @@ export default function AdminProductsTable() {
         </div>
         <Row className="mb-4">
           <Col lg={4}>
-            <Form onSubmit={handleAddCategory}>
-              <InputGroup>
-                <FormControl
-                  value={newCategory}
-                  placeholder="Enter New Category"
-                  onChange={(e) => setNewCategory(e.target.value)}
-                />
-                <Button
-                  type="submit"
-                  variant="dark"
-                  className="text-uppercase fw-semibold">
-                  Add
-                </Button>
-              </InputGroup>
-            </Form>
+            <Card className="border-0 rounded-0 py-3">
+              <Card.Body>
+                <Form onSubmit={handleAddCategory}>
+                  <InputGroup>
+                    <FormControl
+                      value={newCategory}
+                      placeholder="Enter New Category"
+                      onChange={(e) => setNewCategory(e.target.value)}
+                    />
+                    <Button
+                      type="submit"
+                      variant="dark"
+                      disabled={newCategory.length === 0}
+                      className="text-uppercase fw-semibold">
+                      Add
+                    </Button>
+                  </InputGroup>
+                </Form>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
         <Row className="mb-4">
@@ -392,31 +397,36 @@ export default function AdminProductsTable() {
         <Row>
           <Col lg={4}>
             <div>
-              <Form onSubmit={handleAddSubcategory}>
-                <Form.Select
-                  className="mb-3"
-                  onChange={(e) => setSelectedCategory(e.target.value)}>
-                  {categories &&
-                    categories.data.map((category) => (
-                      <option key={category._id} value={category._id}>
-                        {category.name}
-                      </option>
-                    ))}
-                </Form.Select>
-                <InputGroup>
-                  <FormControl
-                    value={newSubcategory}
-                    placeholder="New Subcategory"
-                    onChange={(e) => setNewSubcategory(e.target.value)}
-                  />
-                  <Button
-                    type="submit"
-                    variant="dark"
-                    className="text-uppercase fw-semibold">
-                    Add
-                  </Button>
-                </InputGroup>
-              </Form>
+              <Card className="border-0 rounded-0 py-3">
+                <Card.Body>
+                  <Form onSubmit={handleAddSubcategory}>
+                    <Form.Select
+                      className="mb-3"
+                      onChange={(e) => setSelectedCategory(e.target.value)}>
+                      {categories &&
+                        categories.data.map((category) => (
+                          <option key={category._id} value={category._id}>
+                            {category.name}
+                          </option>
+                        ))}
+                    </Form.Select>
+                    <InputGroup>
+                      <FormControl
+                        value={newSubcategory}
+                        placeholder="New Subcategory"
+                        onChange={(e) => setNewSubcategory(e.target.value)}
+                      />
+                      <Button
+                        type="submit"
+                        variant="dark"
+                        disabled={newSubcategory.length === 0}
+                        className="text-uppercase fw-semibold">
+                        Add
+                      </Button>
+                    </InputGroup>
+                  </Form>
+                </Card.Body>
+              </Card>
             </div>
           </Col>
         </Row>

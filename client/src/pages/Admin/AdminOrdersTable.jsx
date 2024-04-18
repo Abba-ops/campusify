@@ -94,7 +94,7 @@ export default function AdminOrdersTable() {
                       <td>&#8358;{numberWithCommas(order.taxPrice)}</td>
                       <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
                       <td>
-                        <Row xs={1} md={2} lg={3} className="g-4">
+                        <Row xs={2}>
                           {order.orderItems.slice(-2).map((item) => (
                             <Col key={item._id}>
                               <Image

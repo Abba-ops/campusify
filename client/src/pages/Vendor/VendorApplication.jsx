@@ -163,11 +163,13 @@ export default function VendorApplication() {
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
+                        required
                         type="file"
                         onChange={uploadFileHandler}
-                        required
                       />
-                      {loadingImageUpload && <div>Uploading image...</div>}
+                      {loadingImageUpload && (
+                        <div className="mt-3">Uploading image...</div>
+                      )}
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="mb-3">
@@ -182,8 +184,8 @@ export default function VendorApplication() {
                         required
                         type="tel"
                         name="vendorPhone"
-                        value={formState.vendorPhone}
                         onChange={handleInputChange}
+                        value={formState.vendorPhone}
                       />
                     </Col>
                   </Form.Group>
@@ -224,8 +226,8 @@ export default function VendorApplication() {
                         rows={3}
                         as="textarea"
                         name="vendorDescription"
-                        value={formState.vendorDescription}
                         onChange={handleInputChange}
+                        value={formState.vendorDescription}
                       />
                     </Col>
                   </Form.Group>
@@ -241,8 +243,8 @@ export default function VendorApplication() {
                         rows={3}
                         as="textarea"
                         name="productsDescription"
-                        value={formState.productsDescription}
                         onChange={handleInputChange}
+                        value={formState.productsDescription}
                       />
                     </Col>
                   </Form.Group>

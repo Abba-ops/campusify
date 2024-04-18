@@ -65,7 +65,7 @@ export default function VendorDashboard() {
             <Nav className="ms-auto">
               <div className="my-3 d-lg-none">
                 {vendorLinks.map(({ title, link, icon }, index) => (
-                  <LinkContainer to={link} key={index}>
+                  <LinkContainer to={link} key={index} className="fw-semibold">
                     <Nav.Link>
                       <div className="d-flex align-items-center gap-3">
                         {icon}
