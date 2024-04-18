@@ -184,13 +184,14 @@ export default function VendorEditProduct() {
                       className="mb-3"
                     />
                     {imageUrl && (
-                      <Image
-                        fluid
-                        rounded
-                        src={imageUrl}
-                        alt="Product"
-                        className="mb-3"
-                      />
+                      <div className="image-container">
+                        <Image
+                          fluid
+                          loading="lazy"
+                          src={imageUrl}
+                          className="product-image mb-3"
+                        />
+                      </div>
                     )}
                   </Form.Group>
                 </Col>
