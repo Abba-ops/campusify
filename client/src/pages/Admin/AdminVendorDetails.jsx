@@ -142,9 +142,7 @@ export default function AdminVendorDetails() {
                 </Card.Text>
                 {vendor.data.isApproved && (
                   <Card.Text className="text-center">
-                    <Badge bg="primary" text="white">
-                      Approved
-                    </Badge>
+                    <Badge bg="success">Approved</Badge>
                   </Card.Text>
                 )}
                 {vendor.data.approvalStatus === "pending" && (
@@ -173,36 +171,37 @@ export default function AdminVendorDetails() {
                     </Stack>
                   </div>
                 )}
-                <ListGroup variant="flush">
-                  {!loadingVendorProducts &&
-                  vendorProducts.data.length === 0 ? (
-                    <p>No products available for this vendor.</p>
-                  ) : (
-                    vendorProducts.data.slice(-5).map((vendorProduct) => (
-                      <ListGroup.Item key={vendorProduct.id}>
-                        <Row className="align-items-center">
-                          <Col xs={2}>
-                            <Image
-                              src={vendorProduct.imageUrl}
-                              className="profile-picture-sm"
-                              alt={vendorProduct.productName}
-                            />
-                          </Col>
-                          <Col xs={7} className="text-truncate">
-                            <Link
-                              className="text-decoration-none"
-                              to={`/admin/dashboard/products/${vendorProduct._id}`}>
-                              {vendorProduct.productName}
-                            </Link>
-                          </Col>
-                          <Col xs={3}>
-                            &#8358;{numberWithCommas(vendorProduct.price)}
-                          </Col>
-                        </Row>
-                      </ListGroup.Item>
-                    ))
-                  )}
-                </ListGroup>
+                {loadingVendorProducts && (
+                  <ListGroup variant="flush">
+                    {vendorProducts?.data.length === 0 ? (
+                      <p>No products available for this vendor.</p>
+                    ) : (
+                      vendorProducts?.data.slice(-5).map((vendorProduct) => (
+                        <ListGroup.Item key={vendorProduct.id}>
+                          <Row className="align-items-center">
+                            <Col xs={2}>
+                              <Image
+                                src={vendorProduct.imageUrl}
+                                className="profile-picture-sm"
+                                alt={vendorProduct.productName}
+                              />
+                            </Col>
+                            <Col xs={7} className="text-truncate">
+                              <Link
+                                className="text-decoration-none"
+                                to={`/admin/dashboard/products/${vendorProduct._id}`}>
+                                {vendorProduct.productName}
+                              </Link>
+                            </Col>
+                            <Col xs={3}>
+                              &#8358;{numberWithCommas(vendorProduct.price)}
+                            </Col>
+                          </Row>
+                        </ListGroup.Item>
+                      ))
+                    )}
+                  </ListGroup>
+                )}
               </Card.Body>
             </Card>
           </Col>
