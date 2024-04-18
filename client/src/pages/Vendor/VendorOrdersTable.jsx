@@ -3,13 +3,11 @@ import {
   Breadcrumb,
   Button,
   ButtonGroup,
-  Col,
-  Image,
   OverlayTrigger,
-  Row,
   Table,
   Tooltip,
   Pagination,
+  ListGroup,
 } from "react-bootstrap";
 import { useGetVendorOrdersQuery } from "../../features/ordersApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
@@ -86,17 +84,14 @@ export default function VendorOrdersTable() {
                   <td>{order.user.phoneNumber}</td>
                   <td>{`${order.deliveryAddress.building}, ${order.deliveryAddress.locationNumber}, ${order.deliveryAddress.campus}`}</td>
                   <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
-                  <td>
-                    <Row xs={2}>
+                  <td style={{ maxWidth: "200px" }}>
+                    <ListGroup variant="flush">
                       {order.orderItems.slice(-2).map((item) => (
-                        <Col key={item._id}>
-                          <Image
-                            src={item.imageUrl}
-                            className="profile-picture-sm"
-                          />
-                        </Col>
+                        <ListGroup.Item className="text-truncate">
+                          {item.productName}
+                        </ListGroup.Item>
                       ))}
-                    </Row>
+                    </ListGroup>
                   </td>
                   <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                   <td>{order.isPaid ? "Paid" : "Unpaid"}</td>
