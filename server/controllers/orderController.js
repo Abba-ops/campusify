@@ -200,7 +200,7 @@ const markOrderAsReceived = asyncHandler(async (req, res) => {
   const orderId = req.params.orderId;
   const itemId = req.params.itemId;
 
-  const order = await Order.findById({ orderID: orderId });
+  const order = await Order.find({ orderID: orderId });
 
   if (!order) {
     res.status(404);
