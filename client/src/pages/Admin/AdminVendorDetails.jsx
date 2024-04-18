@@ -88,7 +88,9 @@ export default function AdminVendorDetails() {
           <Link to="/admin/dashboard/vendors">Vendors</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item active>
-          {vendor && (
+          {isLoading ? (
+            "Loading..."
+          ) : (
             <>
               <span className="d-inline d-lg-none">
                 {vendor.data.vendorName.slice(0, 10)}
@@ -102,7 +104,6 @@ export default function AdminVendorDetails() {
           )}
         </Breadcrumb.Item>
       </Breadcrumb>
-
       {isError ? (
         <div className="text-center mt-5">
           <h4 className="text-danger">Error Loading Vendor Details</h4>
@@ -172,6 +173,36 @@ export default function AdminVendorDetails() {
                     </Stack>
                   </div>
                 )}
+                <ListGroup variant="flush">
+                  {!loadingVendorProducts &&
+                  vendorProducts.data.length === 0 ? (
+                    <p>No products available for this vendor.</p>
+                  ) : (
+                    vendorProducts.data.slice(-5).map((vendorProduct) => (
+                      <ListGroup.Item key={vendorProduct.id}>
+                        <Row>
+                          <Col xs={2}>
+                            <Image
+                              src={vendorProduct.imageUrl}
+                              className="profile-picture-sm"
+                              alt={vendorProduct.productName}
+                            />
+                          </Col>
+                          <Col xs={7} className="text-truncate">
+                            <Link
+                              className="text-decoration-none"
+                              to={`/admin/dashboard/products/${vendorProduct._id}`}>
+                              {vendorProduct.productName}
+                            </Link>
+                          </Col>
+                          <Col xs={3}>
+                            &#8358;{numberWithCommas(vendorProduct.price)}
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))
+                  )}
+                </ListGroup>
               </Card.Body>
             </Card>
           </Col>

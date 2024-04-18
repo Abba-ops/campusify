@@ -195,7 +195,6 @@ export default function VendorProductsTable() {
                                     <BsEye />
                                   </Button>
                                 </OverlayTrigger>
-
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
@@ -208,7 +207,6 @@ export default function VendorProductsTable() {
                                     <BsPencil />
                                   </Button>
                                 </OverlayTrigger>
-
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
@@ -231,22 +229,24 @@ export default function VendorProductsTable() {
                       </tbody>
                     </Table>
                   )}
-                  <div className="d-flex justify-content-center">
-                    <Pagination>
-                      {[
-                        ...Array(
-                          Math.ceil(filteredProducts.length / itemsPerPage)
-                        ),
-                      ].map((_, index) => (
-                        <Pagination.Item
-                          key={index + 1}
-                          active={index + 1 === currentPage}
-                          onClick={() => paginate(index + 1)}>
-                          {index + 1}
-                        </Pagination.Item>
-                      ))}
-                    </Pagination>
-                  </div>
+                  {filteredProducts.length > itemsPerPage && (
+                    <div className="d-flex justify-content-center">
+                      <Pagination>
+                        {[
+                          ...Array(
+                            Math.ceil(filteredProducts.length / itemsPerPage)
+                          ),
+                        ].map((_, index) => (
+                          <Pagination.Item
+                            key={index + 1}
+                            active={index + 1 === currentPage}
+                            onClick={() => paginate(index + 1)}>
+                            {index + 1}
+                          </Pagination.Item>
+                        ))}
+                      </Pagination>
+                    </div>
+                  )}
                 </>
               )}
             </>

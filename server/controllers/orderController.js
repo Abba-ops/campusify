@@ -28,11 +28,6 @@ const calculateOrderPrices = (order) => {
 const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate("user");
 
-  if (!orders || orders.length === 0) {
-    res.status(404);
-    throw new Error("No orders found");
-  }
-
   res.status(200).json({ data: orders, success: true });
 });
 

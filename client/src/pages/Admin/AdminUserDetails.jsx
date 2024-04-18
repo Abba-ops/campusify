@@ -28,7 +28,9 @@ export default function AdminUserDetails() {
           <Link to="/admin/dashboard/users">Users</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item active>
-          {user && (
+          {isLoading ? (
+            "Loading..."
+          ) : (
             <>
               <span className="d-inline d-lg-none">
                 {`${user.data.lastName} ${user.data.otherNames}`.slice(0, 10)}
@@ -44,7 +46,6 @@ export default function AdminUserDetails() {
           )}
         </Breadcrumb.Item>
       </Breadcrumb>
-
       {isLoading ? (
         <>
           {[...Array(6)].map((_, index) => (
@@ -60,7 +61,7 @@ export default function AdminUserDetails() {
         </div>
       ) : (
         <Row>
-          <Col md={4} className="mb-4 mb-lg-0">
+          <Col md={6} className="mb-5 mb-lg-0">
             <Card className="border-0 rounded-0 shadow-sm">
               <Card.Body>
                 <div className="d-flex justify-content-center mb-3">
@@ -68,13 +69,16 @@ export default function AdminUserDetails() {
                     fluid
                     roundedCircle
                     loading="lazy"
-                    className="profile-picture-lg border"
                     src={user.data.profilePictureURL}
+                    className="profile-picture-lg border"
                   />
                 </div>
                 <Card.Title className="text-center text-break">{`${user.data.lastName}, ${user.data.otherNames}`}</Card.Title>
                 <Card.Text className="text-muted text-center text-break">
                   {user.data.email}
+                </Card.Text>
+                <Card.Text className="text-muted text-center text-break">
+                  {user.data.phoneNumber}
                 </Card.Text>
                 <div className="d-flex justify-content-center">
                   <Stack direction="horizontal" gap={3}>
@@ -93,8 +97,7 @@ export default function AdminUserDetails() {
               </Card.Body>
             </Card>
           </Col>
-
-          <Col md={8}>
+          <Col md={6}>
             <Card className="border-0 rounded-0 shadow-sm">
               <Card.Body>
                 <Form>

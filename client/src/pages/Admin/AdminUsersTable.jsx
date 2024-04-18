@@ -22,14 +22,15 @@ import TablePlaceholder from "../../components/TablePlaceholder";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 
 export default function AdminUsersTable() {
-  const { data: users, isLoading, refetch } = useGetUsersQuery();
-  const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const itemsPerPage = 5;
-
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const itemsPerPage = 5;
+
+  const { data: users, isLoading, isError, refetch } = useGetUsersQuery();
+  const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
 
   const handleShowDeleteModal = (userId) => {
     setShowDeleteModal(true);
@@ -72,6 +73,8 @@ export default function AdminUsersTable() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
   return (
     <>
       <Breadcrumb>
@@ -91,25 +94,31 @@ export default function AdminUsersTable() {
         <div className="d-flex align-items-center">
           <InputGroup>
             <FormControl
-              aria-label="Search"
               value={searchTerm}
+              aria-label="Search"
               placeholder="Search by name or email"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </InputGroup>
         </div>
       </div>
-
       {isLoading ? (
         <>
           {[...Array(5)].map((_, index) => (
             <TablePlaceholder key={index} />
           ))}
         </>
+      ) : isError ? (
+        <div className="text-center mt-5">
+          <h4 className="text-danger">Error Loading User Data</h4>
+          <p className="mt-3">
+            An error occurred while fetching user data. Please try again later.
+          </p>
+        </div>
       ) : (
         <>
           {currentUsers.length === 0 ? (
-            <div className="text-center">
+            <div className="text-center mt-5">
               <h4>No Users Found</h4>
               <p>
                 Apologies, but we couldn't find any users matching your search
@@ -181,20 +190,20 @@ export default function AdminUsersTable() {
                 </tbody>
               </Table>
 
-              <div className="d-flex justify-content-center">
-                <Pagination>
-                  {[
-                    ...Array(Math.ceil(filteredUsers.length / itemsPerPage)),
-                  ].map((_, index) => (
-                    <Pagination.Item
-                      key={index + 1}
-                      active={index + 1 === currentPage}
-                      onClick={() => paginate(index + 1)}>
-                      {index + 1}
-                    </Pagination.Item>
-                  ))}
-                </Pagination>
-              </div>
+              {totalPages > 1 && (
+                <div className="d-flex justify-content-center">
+                  <Pagination>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <Pagination.Item
+                        key={index + 1}
+                        active={index + 1 === currentPage}
+                        onClick={() => paginate(index + 1)}>
+                        {index + 1}
+                      </Pagination.Item>
+                    ))}
+                  </Pagination>
+                </div>
+              )}
             </>
           )}
         </>

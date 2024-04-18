@@ -6,7 +6,6 @@ import {
   InputGroup,
   FormControl,
   Pagination,
-  Badge,
   Form,
   Card,
   Col,
@@ -183,7 +182,6 @@ export default function AdminProductsTable() {
           </InputGroup>
         </div>
       </div>
-
       {isError ? (
         <div className="text-center mt-5">
           <h4 className="text-danger">Error Fetching Products</h4>
@@ -194,18 +192,16 @@ export default function AdminProductsTable() {
         </div>
       ) : isLoading ? (
         <>
-          <TablePlaceholder />
-          <TablePlaceholder />
-          <TablePlaceholder />
-          <TablePlaceholder />
-          <TablePlaceholder />
+          {[...Array(5)].map((_, index) => (
+            <TablePlaceholder key={index} />
+          ))}
         </>
       ) : (
         <>
           {filteredProducts?.length === 0 ? (
             <div className="text-center mt-5">
               <h4>No Products Found</h4>
-              <p className="mt-3">
+              <p>
                 Apologies, but we couldn't find any products matching your
                 search criteria at the moment.
               </p>
@@ -285,39 +281,43 @@ export default function AdminProductsTable() {
                   ))}
                 </tbody>
               </Table>
-              <div className="d-flex justify-content-center mt-3">
-                <Pagination>
-                  {Array.from(
-                    {
-                      length: Math.ceil(filteredProducts.length / itemsPerPage),
-                    },
-                    (_, i) => (
-                      <Pagination.Item
-                        key={i + 1}
-                        active={i + 1 === currentPage}
-                        onClick={() => paginate(i + 1)}>
-                        {i + 1}
-                      </Pagination.Item>
-                    )
-                  )}
-                </Pagination>
-              </div>
+              {filteredProducts.length > itemsPerPage && (
+                <div className="d-flex justify-content-center">
+                  <Pagination>
+                    {Array.from(
+                      {
+                        length: Math.ceil(
+                          filteredProducts.length / itemsPerPage
+                        ),
+                      },
+                      (_, i) => (
+                        <Pagination.Item
+                          key={i + 1}
+                          active={i + 1 === currentPage}
+                          onClick={() => paginate(i + 1)}>
+                          {i + 1}
+                        </Pagination.Item>
+                      )
+                    )}
+                  </Pagination>
+                </div>
+              )}
             </>
           )}
         </>
       )}
       <div className="mt-5">
-        <div>
-          <h3 className="mb-3">Manage Categories</h3>
-          <p className="mb-4">
-            Organize and oversee your categories efficiently to streamline
+        <div className="mb-3">
+          <h2>Category Management</h2>
+          <p>
+            Efficiently organize and oversee your categories to streamline
             navigation and enhance user experience.
           </p>
         </div>
         <Row>
-          <Col lg={3}>
-            <Form onSubmit={handleAddCategory}>
-              <InputGroup className="mb-3">
+          <Col lg={6}>
+            <Form onSubmit={handleAddCategory} className="mb-3">
+              <InputGroup>
                 <FormControl
                   value={newCategory}
                   placeholder="Enter New Category"
@@ -333,7 +333,7 @@ export default function AdminProductsTable() {
             </Form>
           </Col>
         </Row>
-        <Row className="mb-5">
+        <Row className="mb-4">
           {categories &&
             categories.data.map((category) => (
               <Col
@@ -383,9 +383,15 @@ export default function AdminProductsTable() {
             ))}
         </Row>
         <Row>
-          <Col lg={3}>
+          <Col lg={6}>
             <div>
-              <h5 className="mb-3">Add New Subcategory</h5>
+              <div>
+                <h5 className="mb-3">Create New Subcategory</h5>
+                <p>
+                  Add a new subcategory to further organize your products and
+                  improve navigation for your customers.
+                </p>
+              </div>
               <Form onSubmit={handleAddSubcategory}>
                 <Form.Select
                   className="mb-3"
@@ -397,7 +403,7 @@ export default function AdminProductsTable() {
                       </option>
                     ))}
                 </Form.Select>
-                <InputGroup className="mb-3">
+                <InputGroup>
                   <FormControl
                     value={newSubcategory}
                     placeholder="New Subcategory"
@@ -415,9 +421,10 @@ export default function AdminProductsTable() {
           </Col>
         </Row>
         {categories && categories.data.length === 0 && (
-          <Badge variant="primary" className="mt-2">
-            No categories available
-          </Badge>
+          <div className="text-center mt-5">
+            <h4>No categories found</h4>
+            <p>There are currently no categories available.</p>
+          </div>
         )}
       </div>
       <DeleteConfirmationModal

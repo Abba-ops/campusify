@@ -8,6 +8,7 @@ import {
   OverlayTrigger,
   Tooltip,
   Breadcrumb,
+  Image,
 } from "react-bootstrap";
 import {
   useDeleteVendorMutation,
@@ -21,13 +22,14 @@ import { toast } from "react-toastify";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 
 export default function VendorManagementPage() {
-  const { data: vendors, isLoading, isError, refetch } = useGetVendorsQuery();
-  const [currentView, setCurrentView] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [vendorIdToDelete, setVendorIdToDelete] = useState(null);
+  const [currentView, setCurrentView] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 5;
+
+  const { data: vendors, isLoading, isError, refetch } = useGetVendorsQuery();
 
   const handleShowDeleteModal = (vendorId) => {
     setShowDeleteModal(true);
@@ -128,13 +130,11 @@ export default function VendorManagementPage() {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-
       {isLoading ? (
         <>
-          <TablePlaceholder />
-          <TablePlaceholder />
-          <TablePlaceholder />
-          <TablePlaceholder />
+          {[...Array(5)].map((_, index) => (
+            <TablePlaceholder key={index} />
+          ))}
         </>
       ) : isError ? (
         <div className="text-center mt-5">
@@ -148,7 +148,7 @@ export default function VendorManagementPage() {
       ) : (
         <>
           {currentVendors.length === 0 ? (
-            <div className="text-center">
+            <div className="text-center mt-5">
               <h4>No Vendors Found</h4>
               <p>
                 Sorry, but we couldn't find any vendors that match your search
@@ -166,6 +166,7 @@ export default function VendorManagementPage() {
                   <th>Creator Name</th>
                   <th>Approval Status</th>
                   <th>Date Joined</th>
+                  <th>Vendor Logo</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -179,6 +180,15 @@ export default function VendorManagementPage() {
                     <td>{`${vendor.user.lastName} ${vendor.user.otherNames}`}</td>
                     <td className="text-capitalize">{vendor.approvalStatus}</td>
                     <td>{format(new Date(vendor.dateJoined), "dd/MM/yyyy")}</td>
+                    <td>
+                      <Image
+                        fluid
+                        roundedCircle
+                        loading="lazy"
+                        src={vendor.vendorLogo}
+                        className="profile-picture-sm"
+                      />
+                    </td>
                     <td>
                       <ButtonGroup size="sm">
                         <OverlayTrigger
@@ -209,10 +219,12 @@ export default function VendorManagementPage() {
               </tbody>
             </Table>
           )}
-          <div className="d-flex justify-content-center">
-            <Pagination>
-              {[...Array(Math.ceil(filteredVendors.length / itemsPerPage))].map(
-                (_, index) => (
+          {filteredVendors.length > itemsPerPage && (
+            <div className="d-flex justify-content-center">
+              <Pagination>
+                {[
+                  ...Array(Math.ceil(filteredVendors.length / itemsPerPage)),
+                ].map((_, index) => (
                   <Pagination.Item
                     key={index + 1}
                     active={index + 1 === currentPage}
@@ -220,10 +232,10 @@ export default function VendorManagementPage() {
                     className="pagination-item">
                     {index + 1}
                   </Pagination.Item>
-                )
-              )}
-            </Pagination>
-          </div>
+                ))}
+              </Pagination>
+            </div>
+          )}
         </>
       )}
       <DeleteConfirmationModal

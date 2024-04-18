@@ -7,6 +7,7 @@ import {
   BsPeople,
   BsPerson,
   BsPersonCheck,
+  BsWallet,
 } from "react-icons/bs";
 import { FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import {
@@ -76,6 +77,11 @@ export const vendorLinks = [
     title: "Profile Settings",
     link: "/vendor/dashboard/profile",
     icon: <BsPerson />,
+  },
+  {
+    title: "Financial Overview",
+    link: "/vendor/dashboard/wallet",
+    icon: <BsWallet />,
   },
 ];
 

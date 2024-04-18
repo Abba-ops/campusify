@@ -38,8 +38,6 @@ export default function UserProfileDetails() {
   } = useGetMyOrdersQuery();
   const [updateUserPassword, { isLoading }] = useUpdateUserPasswordMutation();
 
-  console.log(orders);
-
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const { userInfo } = useSelector((state) => state.auth);
@@ -79,10 +77,7 @@ export default function UserProfileDetails() {
       />
       <Container>
         <Row>
-          <Col lg={4} className="mb-5 mb-lg-0">
-            <h5 className="text-uppercase text-center mb-3">
-              Account Information
-            </h5>
+          <Col lg={4} className="mb-6 mb-lg-0">
             {userInfo &&
               userInfo.data.vendor &&
               userInfo.data.vendor.approvalStatus === "pending" &&
@@ -119,6 +114,9 @@ export default function UserProfileDetails() {
                   </p>
                 </Alert>
               )}
+            <h5 className="text-uppercase text-center mb-3">
+              Personal Information
+            </h5>
             <ListGroup>
               <ListGroup.Item className="text-center">
                 <div className="d-flex justify-content-center my-3">
@@ -133,11 +131,13 @@ export default function UserProfileDetails() {
                 <h4 className="mb-2">{`${userInfo.data.otherNames} ${userInfo.data.lastName}`}</h4>
                 <p className="mb-1">{userInfo.data.email}</p>
                 <div className="mb-2">
-                  {userInfo.data.vendor && userInfo.data.vendor.isApproved && (
-                    <Badge bg="light" text="dark">
-                      Approved
-                    </Badge>
-                  )}
+                  {userInfo.data.vendor ? (
+                    userInfo.data.vendor.isApproved ? (
+                      <Badge bg="dark">Approved</Badge>
+                    ) : (
+                      <Badge bg="danger">Not Approved</Badge>
+                    )
+                  ) : null}
                 </div>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -189,7 +189,9 @@ export default function UserProfileDetails() {
             </ListGroup>
           </Col>
           <Col lg={8}>
-            <h5 className="text-uppercase text-center mb-3">Order History</h5>
+            <h5 className="text-uppercase text-center mb-3">
+              Purchase History
+            </h5>
             {loadingOrders ? (
               <>
                 {[...Array(5)].map((_, index) => (
@@ -198,12 +200,14 @@ export default function UserProfileDetails() {
               </>
             ) : ordersError ? (
               <div className="text-center mt-5">
-                <h3>Error Loading Orders</h3>
-                <p>Failed to load order history. Please try again later.</p>
+                <h4 className="text-danger">Error Loading Orders</h4>
+                <p className="mt-3">
+                  Failed to load order history. Please try again later.
+                </p>
               </div>
             ) : orders.data.length === 0 ? (
               <div className="text-center mt-5">
-                <h3>Oops! No orders found.</h3>
+                <h4>Oops! No orders found.</h4>
                 <p>It seems we couldn't find any orders at the moment.</p>
               </div>
             ) : (
@@ -212,9 +216,10 @@ export default function UserProfileDetails() {
                   <tr>
                     <th>Order ID</th>
                     <th>Items Price</th>
+                    <th>Tax Price</th>
                     <th>Total Price</th>
                     <th>Status</th>
-                    <th>Delivery Status</th>
+                    <th>Completion Status</th>
                     <th>Order Date</th>
                     <th>Actions</th>
                   </tr>
@@ -224,10 +229,11 @@ export default function UserProfileDetails() {
                     <tr key={order.orderID}>
                       <td>{order.orderID}</td>
                       <td>&#8358;{numberWithCommas(order.itemsPrice)}</td>
+                      <td>&#8358;{numberWithCommas(order.taxPrice)}</td>
                       <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
                       <td>{order.isPaid ? "Paid" : "Unpaid"}</td>
                       <td>
-                        {order.isOrderDelivered ? "Delivered" : "Not Delivered"}
+                        {order.isOrderDelivered ? "Completed" : "Pending"}
                       </td>
                       <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                       <td>
