@@ -35,7 +35,7 @@ export default function CartPreviewModal({ show, handleClose, product }) {
             <ListGroup variant="flush">
               {cartItems.slice(-5).map((cartItem) => (
                 <ListGroup.Item key={cartItem.id}>
-                  <Row>
+                  <Row className="align-items-center">
                     <Col xs={2}>
                       <Image
                         src={cartItem.imageUrl}

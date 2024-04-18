@@ -142,7 +142,7 @@ export default function AdminVendorDetails() {
                 </Card.Text>
                 {vendor.data.isApproved && (
                   <Card.Text className="text-center">
-                    <Badge bg="light" text="dark">
+                    <Badge bg="primary" text="white">
                       Approved
                     </Badge>
                   </Card.Text>
@@ -180,7 +180,7 @@ export default function AdminVendorDetails() {
                   ) : (
                     vendorProducts.data.slice(-5).map((vendorProduct) => (
                       <ListGroup.Item key={vendorProduct.id}>
-                        <Row>
+                        <Row className="align-items-center">
                           <Col xs={2}>
                             <Image
                               src={vendorProduct.imageUrl}

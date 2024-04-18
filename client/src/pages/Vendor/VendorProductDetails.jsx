@@ -70,14 +70,17 @@ export default function VendorProductDetails() {
           <Link to="/vendor/dashboard/products/">Products</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item active>
-          {product && (
+          {isLoading ? (
+            "Loading..."
+          ) : (
             <>
               <span className="d-inline d-lg-none">
                 {product.data.productName.slice(0, 10)}
                 {product.data.productName.length > 10 && "..."}
               </span>
               <span className="d-none d-lg-inline">
-                {product.data.productName}
+                {product.data.productName.slice(0, 20)}
+                {product.data.productName.length > 20 && "..."}
               </span>
             </>
           )}
@@ -103,9 +106,80 @@ export default function VendorProductDetails() {
             <Col md={4} className="mb-4 mb-lg-0">
               <Card className="border-0 rounded-0 shadow-sm">
                 <Card.Body>
-                  <Image src={product.data.imageUrl} fluid />
+                  <div className="image-container">
+                    <Image
+                      fluid
+                      loading="lazy"
+                      className="product-image"
+                      src={`${product.data.imageUrl}`}
+                    />
+                  </div>
                 </Card.Body>
               </Card>
+              <ListGroup variant="flush" className="mt-4">
+                {sortedReviews && sortedReviews.length > 0 ? (
+                  sortedReviews.slice(0, visibleComments).map((review) => (
+                    <ListGroup.Item
+                      key={review._id}
+                      className="mb-3 p-3 shadow-sm">
+                      <div className="d-flex align-items-center mb-3">
+                        <Link to={`/profile/${review.user}`}>
+                          <div className="flex-shrink-0 me-3">
+                            <Image
+                              fluid
+                              loading="lazy"
+                              roundedCircle
+                              src={review.profilePictureURL}
+                              className="profile-picture-sm text-break"
+                              alt={`${review.name}'s Profile`}
+                            />
+                          </div>
+                        </Link>
+                        <div>
+                          <Link
+                            to={`/profile/${review.user}`}
+                            className="text-decoration-none">
+                            <h6 className="mb-1 text-break">{review.name}</h6>
+                          </Link>
+                          <small className="text-muted">
+                            {formatDistanceToNow(new Date(review.createdAt), {
+                              addSuffix: true,
+                            })}
+                          </small>
+                        </div>
+                      </div>
+                      <div className="mb-3">
+                        <StarRating value={review.rating} size={18} />
+                      </div>
+                      <p className="mb-2 text-break">{review.comment}</p>
+                      <Button
+                        variant="link"
+                        onClick={() => handleDeleteReview(review._id)}
+                        className="position-absolute top-0 end-0">
+                        <MdDelete className="fs-4" />
+                      </Button>
+                    </ListGroup.Item>
+                  ))
+                ) : (
+                  <div className="text-center mt-4">
+                    <h5>No reviews available</h5>
+                    <p>
+                      There are currently no reviews available for this product.
+                    </p>
+                  </div>
+                )}
+                <div className="d-flex justify-content-center">
+                  {visibleComments <
+                    (sortedReviews ? sortedReviews.length : 0) && (
+                    <Button
+                      variant="dark"
+                      onClick={handleLoadMore}
+                      className="text-uppercase my-4 px-4 fw-semibold">
+                      Load More
+                    </Button>
+                  )}
+                </div>
+              </ListGroup>
             </Col>
             <Col md={8}>
               <Card className="border-0 rounded-0 shadow-sm">
@@ -165,7 +239,23 @@ export default function VendorProductDetails() {
                         readOnly
                         type="text"
                         className="border-0"
-                        value={`${numberWithCommas(product.data.price)}`}
+                        value={`₦${numberWithCommas(product.data.price)}`}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Featured">
+                      <Form.Control
+                        plaintext
+                        readOnly
+                        type="text"
+                        value={product.data.isFeatured}
+                      />
+                    </FloatingLabel>
+                    <FloatingLabel label="Sales Count">
+                      <Form.Control
+                        plaintext
+                        readOnly
+                        type="text"
+                        value={product.data.salesCount}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Count In Stock">
@@ -190,70 +280,6 @@ export default function VendorProductDetails() {
                   </Form>
                 </Card.Body>
               </Card>
-              <ListGroup variant="flush" className="mt-4">
-                {sortedReviews && sortedReviews.length > 0 ? (
-                  sortedReviews.slice(0, visibleComments).map((review) => (
-                    <ListGroup.Item
-                      key={review._id}
-                      className="mb-3 p-3 border">
-                      <div className="d-flex align-items-center mb-3">
-                        <Link to={`/profile/${review.user}`}>
-                          <div className="flex-shrink-0 me-3">
-                            <Image
-                              fluid
-                              loading="lazy"
-                              roundedCircle
-                              src={review.profilePictureURL}
-                              className="profile-picture-sm text-break"
-                              alt={`${review.name}'s Profile`}
-                            />
-                          </div>
-                        </Link>
-                        <div>
-                          <Link
-                            to={`/profile/${review.user}`}
-                            className="text-decoration-none">
-                            <h6 className="mb-1 text-break">{review.name}</h6>
-                          </Link>
-                          <small className="text-muted">
-                            {formatDistanceToNow(new Date(review.createdAt), {
-                              addSuffix: true,
-                            })}
-                          </small>
-                        </div>
-                      </div>
-                      <div className="mb-3">
-                        <StarRating value={review.rating} size={18} />
-                      </div>
-                      <p className="mb-2 text-break">{review.comment}</p>
-                      <Button
-                        variant="link"
-                        onClick={() => handleDeleteReview(review._id)}
-                        className="position-absolute top-0 end-0">
-                        <MdDelete className="fs-4" />
-                      </Button>
-                    </ListGroup.Item>
-                  ))
-                ) : (
-                  <div className="text-center mt-5">
-                    <h5>No reviews available</h5>
-                    <p>
-                      There are currently no reviews available for this product.
-                    </p>
-                  </div>
-                )}
-                <div className="d-flex justify-content-center">
-                  {visibleComments <
-                    (sortedReviews ? sortedReviews.length : 0) && (
-                    <Button
-                      variant="dark"
-                      onClick={handleLoadMore}
-                      className="text-uppercase my-4 px-4">
-                      Load More
-                    </Button>
-                  )}
-                </div>
-              </ListGroup>
             </Col>
           </Row>
         </>
