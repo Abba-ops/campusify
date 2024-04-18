@@ -31,7 +31,7 @@ export default function VendorApplication() {
     }
   }, [userInfo, navigate]);
 
-  const [uploadVendorLogo, { isLoading: loadingUpload }] =
+  const [uploadVendorLogo, { isLoading: loadingImageUpload }] =
     useUploadVendorLogoMutation();
 
   const [vendorApplication, { isLoading }] = useVendorApplicationMutation();
@@ -167,7 +167,7 @@ export default function VendorApplication() {
                         onChange={uploadFileHandler}
                         required
                       />
-                      {loadingUpload && <div>Loading...</div>}
+                      {loadingImageUpload && <div>Uploading image...</div>}
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="mb-3">

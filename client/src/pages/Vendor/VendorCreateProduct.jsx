@@ -28,7 +28,8 @@ export default function VendorCreateProduct() {
     isError: errorCategories,
   } = useGetCategoriesQuery();
   const [createProduct, { isLoading }] = useCreateProductMutation();
-  const [uploadProductImage] = useUploadProductImageMutation();
+  const [uploadProductImage, { isLoading: loadingImageUpload }] =
+    useUploadProductImageMutation();
 
   const [formData, setFormData] = useState({
     productName: "",
@@ -164,6 +165,7 @@ export default function VendorCreateProduct() {
                     />
                   )}
                 </Form.Group>
+                {loadingImageUpload && <div>Uploading image...</div>}
               </Col>
             </Row>
             <Row className="mb-3">
