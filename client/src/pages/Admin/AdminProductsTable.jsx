@@ -163,7 +163,7 @@ export default function AdminProductsTable() {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>Products</Breadcrumb.Item>
       </Breadcrumb>
-      <div className="d-lg-flex justify-content-between align-items-center mb-3">
+      <div className="d-lg-flex justify-content-between align-items-center">
         <div>
           <h2>Product Management</h2>
           <p>

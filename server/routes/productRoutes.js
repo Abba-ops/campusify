@@ -31,8 +31,8 @@ const router = express.Router();
 
 router.get("/search", searchProducts);
 router.get("/popular", getPopularProducts);
-router.get("/best-sellers", getBestSellingProducts);
-router.get("/is-featured", getIsFeatured);
+router.get("/sellers/best", getBestSellingProducts);
+router.get("/featured", getIsFeatured);
 router.get(
   "/subcategory/:subcategory/:subcategoryId",
   getProductsBySubcategory
@@ -61,9 +61,9 @@ router
 
 router.delete("/:productId/reviews/:reviewId", isLoggedIn, deleteReview);
 router.delete("/categories/:categoryId", isLoggedIn, isAdmin, deleteCategory);
-router.post("/add-subcategory", isLoggedIn, isAdmin, addSubcategory);
+router.post("/subcategory/add", isLoggedIn, isAdmin, addSubcategory);
 router.delete(
-  "/delete-subcategory/:categoryId/:subcategoryId",
+  "/subcategory/delete/:categoryId/:subcategoryId",
   isLoggedIn,
   isAdmin,
   deleteSubcategory

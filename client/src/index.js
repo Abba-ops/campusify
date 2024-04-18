@@ -51,6 +51,8 @@ import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import "./assets/css/bootstrap.min.css";
 import "./assets/css/style.min.css";
+import VendorCustomersTable from "./pages/Vendor/VendorCustomersTable";
+import AdminCustomersTable from "./pages/Admin/AdminCustomersTable";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -103,6 +105,10 @@ const router = createBrowserRouter(
             element={<VendorOrdersTable />}
           />
           <Route
+            path="/vendor/dashboard/customers"
+            element={<VendorCustomersTable />}
+          />
+          <Route
             path="/vendor/dashboard/orders/:orderId"
             element={<VendorOrderDetails />}
           />
@@ -132,6 +138,10 @@ const router = createBrowserRouter(
           <Route
             path="/admin/dashboard/orders"
             element={<AdminOrdersTable />}
+          />
+          <Route
+            path="/admin/dashboard/customers"
+            element={<AdminCustomersTable />}
           />
           <Route
             path="/admin/dashboard/orders/:orderId"

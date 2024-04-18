@@ -7,7 +7,7 @@ const generateOrderID = () => {
   return timestamp + randomString;
 };
 
-const calculateOrderPrices = (order) => {
+export const calculateOrderPrices = (order) => {
   order.orderItems = order.orderItems.filter(
     (orderItem) => orderItem.product !== null
   );

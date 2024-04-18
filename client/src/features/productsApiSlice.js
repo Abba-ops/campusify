@@ -92,20 +92,20 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     }),
     addSubcategory: builder.mutation({
       query: (data) => ({
-        url: `${PRODUCTS_URL}/add-subcategory`,
+        url: `${PRODUCTS_URL}/subcategory/add`,
         method: "POST",
         body: data,
       }),
     }),
     deleteSubcategory: builder.mutation({
       query: ({ categoryId, subcategoryId }) => ({
-        url: `${PRODUCTS_URL}/delete-subcategory/${categoryId}/${subcategoryId}`,
+        url: `${PRODUCTS_URL}/subcategory/delete/${categoryId}/${subcategoryId}`,
         method: "DELETE",
       }),
     }),
     getIsFeatured: builder.query({
       query: () => ({
-        url: `${PRODUCTS_URL}/is-featured`,
+        url: `${PRODUCTS_URL}/featured`,
         method: "GET",
       }),
     }),
@@ -117,7 +117,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     }),
     getBestSellingProducts: builder.query({
       query: () => ({
-        url: `${PRODUCTS_URL}/best-sellers`,
+        url: `${PRODUCTS_URL}/sellers/best`,
         method: "GET",
       }),
     }),

@@ -1,5 +1,6 @@
 import cloudinary from "../config/cloudinary.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
+import Order from "../models/orderModel.js";
 import { Product } from "../models/productModel.js";
 import User from "../models/userModel.js";
 import Vendor from "../models/vendorModel.js";
@@ -197,6 +198,55 @@ const getProductsByVendor = asyncHandler(async (req, res) => {
   return res.status(200).json({ success: true, data: products });
 });
 
+/**
+ * @desc    Retrieve customers associated with a specific vendor
+ * @route   GET /api/vendors/customers
+ * @access  Private/Vendor
+ */
+const getVendorCustomers = asyncHandler(async (req, res) => {
+  const orders = await Order.find({
+    "orderItems.vendor": req.vendor._id,
+  })
+    .populate({
+      path: "orderItems.product",
+      match: {
+        vendor: req.vendor._id,
+      },
+    })
+    .populate("user");
+
+  const customersSet = new Set();
+  orders.forEach((order) => {
+    if (order.user) {
+      customersSet.add(order.user);
+    }
+  });
+
+  const customers = Array.from(customersSet);
+
+  res.status(200).json({ data: customers, success: true });
+});
+
+/**
+ * @desc    Retrieve customers associated with all vendors
+ * @route   GET /api/vendors/customers/all
+ * @access  Private/Admin
+ */
+const getAllVendorCustomers = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate("user");
+
+  const customersSet = new Set();
+  orders.forEach((order) => {
+    if (order.user) {
+      customersSet.add(order.user);
+    }
+  });
+
+  const customers = Array.from(customersSet);
+
+  res.status(200).json({ data: customers, success: true });
+});
+
 export {
   getVendors,
   getVendorById,
@@ -205,4 +255,6 @@ export {
   updateVendorStatus,
   deleteVendor,
   getProductsByVendor,
+  getVendorCustomers,
+  getAllVendorCustomers,
 };

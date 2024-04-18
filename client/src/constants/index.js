@@ -46,6 +46,11 @@ export const adminLinks = [
     icon: <BsBox />,
   },
   {
+    title: "Customers Overview",
+    link: "/admin/dashboard/customers",
+    icon: <BsPeople />,
+  },
+  {
     title: "Vendor Management",
     link: "/admin/dashboard/vendors",
     icon: <BsPersonCheck />,
@@ -54,7 +59,7 @@ export const adminLinks = [
 
 export const vendorLinks = [
   {
-    title: "Dashboard",
+    title: "Dashboard Overview",
     link: "/vendor/dashboard/",
     icon: <BsBarChart />,
   },
@@ -69,7 +74,7 @@ export const vendorLinks = [
     icon: <BsBox />,
   },
   {
-    title: "Manage Customers",
+    title: "Customers Overview",
     link: "/vendor/dashboard/customers",
     icon: <BsPeople />,
   },

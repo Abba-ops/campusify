@@ -13,17 +13,21 @@ import {
   updateVendorStatus,
   deleteVendor,
   getProductsByVendor,
+  getVendorCustomers,
+  getAllVendorCustomers,
 } from "../controllers/vendorController.js";
 
 const router = express.Router();
 
 router.route("/").get(isLoggedIn, isAdmin, getVendors);
 router.get("/products", isLoggedIn, isVendor, getVendorProducts);
+router.get("/customers", isLoggedIn, isVendor, getVendorCustomers);
+router.get("/customers/all", isLoggedIn, isAdmin, getAllVendorCustomers);
+router.route("/application").post(isLoggedIn, vendorApplication);
 router
   .route("/:vendorId")
   .get(isLoggedIn, isAdminOrVendor, getVendorById)
   .delete(isLoggedIn, isAdmin, deleteVendor);
-router.route("/application").post(isLoggedIn, vendorApplication);
 router.put("/:vendorId/:status", isLoggedIn, isAdmin, updateVendorStatus);
 router.get("/:vendorId/products", isLoggedIn, isAdmin, getProductsByVendor);
 
