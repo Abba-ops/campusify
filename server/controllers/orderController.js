@@ -167,7 +167,7 @@ const getVendorOrder = asyncHandler(async (req, res) => {
  */
 const markOrderAsDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findOne({
-    _id: req.params.orderId,
+    orderID: req.params.orderId,
     "orderItems.vendor": req.vendor._id,
   })
     .populate({
