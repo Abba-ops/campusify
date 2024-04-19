@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Button, Card } from "react-bootstrap";
+import { Badge, Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { numberWithCommas } from "../utils/cartUtils";
 import StarRating from "./StarRating";
@@ -9,8 +9,20 @@ import ProductPreviewModal from "./ProductPreviewModal";
 export default function ProductCard({ product, showPreviewIcon }) {
   const [isPreviewIconVisible, setPreviewIconVisibility] = useState(false);
   const [isPreviewModalVisible, setPreviewModalVisibility] = useState(false);
+  const [isNewProduct, setIsNewProduct] = useState(false);
 
-  const { productName, imageUrl, price, rating, _id } = product;
+  const { productName, imageUrl, price, rating, _id, createdAt } = product;
+
+  useEffect(() => {
+    const createdAtDate = new Date(createdAt);
+    const currentDate = new Date();
+    const timeDifference = currentDate.getTime() - createdAtDate.getTime();
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+    const newThresholdDays = 30;
+
+    setIsNewProduct(daysDifference <= newThresholdDays);
+  }, [createdAt]);
 
   const handleShowPreviewIcon = () => {
     setPreviewIconVisibility(true);
@@ -40,6 +52,11 @@ export default function ProductCard({ product, showPreviewIcon }) {
           </div>
         </Link>
         <Card.Body>
+          {isNewProduct && (
+            <Badge className="position-absolute top-0 start-0 m-3" bg="dark">
+              New
+            </Badge>
+          )}
           <Card.Text className="text-truncate text-capitalize">
             <Link to={`/product/${_id}`} className="text-decoration-none">
               {productName}

@@ -12,7 +12,9 @@ export default function Footer() {
         <div className="row">
           {footerLinks.map((footerLink, index) => (
             <div key={index} className="col-6 col-md-2 mb-3">
-              <h5>{footerLink.heading}</h5>
+              <h5 className="text-uppercase fw-semibold">
+                {footerLink.heading}
+              </h5>
               <ul className="nav flex-column">
                 {footerLink.links.map((link, index) => (
                   <li key={index} className="nav-item mb-2">
@@ -26,7 +28,9 @@ export default function Footer() {
           ))}
           <div className="col-md-5 offset-md-1 mb-3">
             <form>
-              <h5>Sign Up for Newsletters</h5>
+              <h5 className="text-uppercase fw-semibold">
+                Sign Up for Newsletters
+              </h5>
               <p>
                 Get e-mail updates about our latest shop and special offers.
               </p>
@@ -47,7 +51,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-          <p>
+          <p className="text-secondary">
             Made with{" "}
             <span role="img" aria-label="heart">
               ❤️

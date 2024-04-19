@@ -133,7 +133,7 @@ export const contactInfo = [
 
 export const footerLinks = [
   {
-    heading: "Campus Resources",
+    heading: "Resources",
     links: [
       { text: "Campus Map", url: "/campus-map" },
       { text: "Academic Calendar", url: "/academic-calendar" },
