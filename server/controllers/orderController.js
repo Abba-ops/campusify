@@ -58,7 +58,6 @@ const createNewOrder = asyncHandler(async (req, res) => {
     orderItems: orderItems.map((orderItem) => ({
       ...orderItem,
       product: orderItem._id,
-      _id: undefined,
     })),
     user: req.user._id,
     deliveryAddress,
