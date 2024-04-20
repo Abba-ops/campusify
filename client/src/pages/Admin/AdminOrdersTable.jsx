@@ -7,7 +7,6 @@ import {
   Table,
   Tooltip,
   Pagination,
-  ListGroup,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useGetOrdersQuery } from "../../features/ordersApiSlice";
@@ -92,13 +91,13 @@ export default function AdminOrdersTable() {
                       <td>&#8358;{numberWithCommas(order.taxPrice)}</td>
                       <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
                       <td style={{ maxWidth: "200px" }}>
-                        <ListGroup variant="flush">
-                          {order.orderItems.slice(-2).map((item) => (
-                            <ListGroup.Item className="text-truncate">
+                        <ul className="list-unstyled">
+                          {order.orderItems.slice(-2).map((item, index) => (
+                            <li key={index} className="text-truncate">
                               {item.productName}
-                            </ListGroup.Item>
+                            </li>
                           ))}
-                        </ListGroup>
+                        </ul>
                       </td>
                       <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                       <td>{order.isPaid ? "Paid" : "Unpaid"}</td>

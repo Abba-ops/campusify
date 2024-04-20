@@ -19,27 +19,38 @@ import MetaTags from "../components/MetaTags";
 export default function UserCart() {
   const { cartItems, itemsPrice, deliveryPrice, taxPrice, totalPrice } =
     useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const addToCartHandler = (product, quantity) =>
-    dispatch(addToCart({ ...product, quantity }));
-  const removeFromCartHandler = (id) => dispatch(removeFromCart(id));
   const checkoutHandler = () => navigate("/login?redirect=/checkout");
+
+  const removeFromCartHandler = (id) => dispatch(removeFromCart(id));
+
+  const addToCartHandler = (product, quantity) => {
+    dispatch(addToCart({ ...product, quantity }));
+  };
 
   const renderCartItem = (product) => (
     <ListGroup.Item key={product._id}>
       <Row className="align-items-center">
         <Col xs={6} lg={2}>
-          <Image src={product.imageUrl} fluid />
+          <div className="image-container">
+            <Image
+              fluid
+              loading="lazy"
+              className="product-image"
+              src={`${product.imageUrl}`}
+            />
+          </div>
         </Col>
-        <Col
-          xs={6}
-          lg={4}
-          as={Link}
-          to={`/product/${product._id}`}
-          className="text-decoration-none text-capitalize">
-          {product.productName}
+        <Col xs={6} lg={4}>
+          <Link className="text-decoration-none" to={`/product/${product._id}`}>
+            <div className="text-truncate">{product.productName}</div>
+          </Link>
+          <div>
+            <strong>Quantity:</strong> {product.quantity}
+          </div>
         </Col>
         <Col xs={6} lg={2} className="mt-4 mt-lg-0">
           <Form.Select
@@ -53,11 +64,11 @@ export default function UserCart() {
           </Form.Select>
         </Col>
         <Col xs={6} lg={2} className="text-primary text-lg-center">
-          &#8358;{numberWithCommas(product.price)}
+          <strong>&#8358;{numberWithCommas(product.price)}</strong>
         </Col>
         <Col lg={2} className="text-end">
           <MdDelete
-            className="fs-4"
+            size={24}
             onClick={() => removeFromCartHandler(product._id)}
           />
         </Col>
@@ -73,19 +84,21 @@ export default function UserCart() {
     <section className="py-5">
       <MetaTags
         title="Your Shopping Cart - Campusify"
-        description="View and manage items in your shopping cart on Campusify."
-        keywords="shopping cart, items, view, manage, checkout"
+        description="Explore and manage your items conveniently within your Campusify shopping cart."
+        keywords="shopping cart, items, manage, checkout, Campusify"
       />
       <Container>
         <Row>
           <Col lg={8}>
             <ListGroup>
               <ListGroup.Item>
-                <h5 className="text-uppercase my-2">Shopping Cart</h5>
+                <h5 className="text-uppercase my-2">
+                  Browse Your Shopping Cart
+                </h5>
               </ListGroup.Item>
               {cartItems.length === 0 ? (
                 <ListGroup.Item>
-                  <div>Your shopping cart is currently empty.</div>
+                  <div>Your shopping cart is empty at the moment.</div>
                 </ListGroup.Item>
               ) : (
                 cartItems.map(renderCartItem)
@@ -95,7 +108,7 @@ export default function UserCart() {
               to={"/"}
               as={Link}
               size="sm"
-              className="my-5 px-3 fw-semibold"
+              className="my-5 px-3 fw-semibold text-uppercase"
               variant="dark">
               <BsArrowLeft className="me-2" /> Continue Shopping
             </Button>
@@ -106,37 +119,37 @@ export default function UserCart() {
                 <Row className="my-3">
                   <Col xs={6}>
                     {cartItems.length === 1
-                      ? "1 item"
-                      : `${cartItems.length} items`}
+                      ? "1 item in cart"
+                      : `${cartItems.length} items in cart`}
                   </Col>
-                  <Col xs={6}>
-                    <div className="text-primary text-end">
+                  <Col xs={6} className="text-end">
+                    <div className="text-primary">
                       &#8358;{numberWithCommas(itemsPrice)}
-                    </div>
-                  </Col>
-                </Row>
-                <Row className="my-3">
-                  <Col xs={6}>Delivery Fee</Col>
-                  <Col xs={6}>
-                    <div className="text-primary text-end">
-                      &#8358;{numberWithCommas(deliveryPrice)}
                     </div>
                   </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row className="my-3">
-                  <Col xs={6}>Total Taxes</Col>
-                  <Col xs={6}>
-                    <div className="text-primary text-end">
+                  <Col xs={6}>Delivery Fee</Col>
+                  <Col xs={6} className="text-end">
+                    <div className="text-primary">
+                      &#8358;{numberWithCommas(deliveryPrice)}
+                    </div>
+                  </Col>
+                </Row>
+                <Row className="my-3">
+                  <Col xs={6}>Tax Amount</Col>
+                  <Col xs={6} className="text-end">
+                    <div className="text-primary">
                       &#8358;{numberWithCommas(taxPrice)}
                     </div>
                   </Col>
                 </Row>
                 <Row className="my-3">
-                  <Col xs={6}>Total Amount</Col>
-                  <Col xs={6}>
-                    <div className="text-primary text-end">
+                  <Col xs={6}>Total Cost</Col>
+                  <Col xs={6} className="text-end">
+                    <div className="text-primary">
                       &#8358;{numberWithCommas(totalPrice)}
                     </div>
                   </Col>
@@ -149,7 +162,7 @@ export default function UserCart() {
                     disabled={cartItems.length === 0}
                     className="text-uppercase px-4 fw-semibold"
                     variant="dark">
-                    Proceed to Checkout
+                    Checkout Now
                   </Button>
                 </div>
               </ListGroup.Item>

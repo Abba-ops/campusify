@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Card,
   Col,
   Container,
   ListGroup,
@@ -18,6 +17,7 @@ import {
 import { numberWithCommas } from "../utils/cartUtils";
 import TablePlaceholder from "../components/TablePlaceholder";
 import { toast } from "react-toastify";
+import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 
 export default function OrderScreen() {
   const { orderId } = useParams();
@@ -40,7 +40,10 @@ export default function OrderScreen() {
         toast.success(response.message);
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "");
+      toast.error(
+        (error && error.data.message) ||
+          "An error occurred while processing your request."
+      );
     }
   };
 
@@ -63,74 +66,148 @@ export default function OrderScreen() {
                 ))}
               </>
             ) : (
-              <Card className="py-3">
-                <Card.Body>
-                  <h5 className="mb-4">Delivery Address</h5>
-                  <p>{`${orderData.data.deliveryAddress.building}, ${orderData.data.deliveryAddress.locationNumber}, ${orderData.data.deliveryAddress.campus}`}</p>
-                  <h5 className="mb-4">Order Items</h5>
+              <ListGroup>
+                <ListGroup.Item>
+                  <h5 className="text-uppercase my-2">Summary of Your Order</h5>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      <div>
+                        <strong>Order ID:</strong> {orderData.data.orderID}
+                      </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <div>
+                        <strong>Delivery Address:</strong>{" "}
+                        {orderData.data.deliveryAddress.building},{" "}
+                        {orderData.data.deliveryAddress.locationNumber},{" "}
+                        {orderData.data.deliveryAddress.campus}
+                      </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <div>
+                        <strong>User Name:</strong>{" "}
+                        {orderData.data.user.otherNames}{" "}
+                        {orderData.data.user.lastName}
+                      </div>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <div>
+                        <strong>User Email:</strong> {orderData.data.user.email}
+                      </div>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h5 className="text-uppercase my-2">Items in Your Order</h5>
+                </ListGroup.Item>
+                <ListGroup.Item>
                   <ListGroup variant="flush">
                     {orderData.data.orderItems.map((product) => (
                       <ListGroup.Item key={product._id}>
                         <Row className="align-items-center">
-                          <Col xs={6} lg={2}>
-                            <Image src={product.imageUrl} fluid />
+                          <Col lg={2} className="mb-3 mb-lg-0">
+                            <div className="image-container">
+                              <Image
+                                fluid
+                                loading="lazy"
+                                className="product-image"
+                                src={product.imageUrl}
+                                alt={product.productName}
+                              />
+                            </div>
+                          </Col>
+                          <Col lg={4}>
+                            <Link
+                              className="text-decoration-none"
+                              to={`/product/${product._id}`}>
+                              <div className="text-truncate">
+                                {product.productName}
+                              </div>
+                            </Link>
+                            <div>
+                              <strong>Estimated Delivery Time:</strong>{" "}
+                              {product.vendor?.estimatedDeliveryTime ||
+                                "Not available"}
+                            </div>
+                            <div>
+                              <strong>Quantity:</strong> {product.quantity}
+                            </div>
+                            <div>
+                              <strong>Price:</strong> &#8358;
+                              {numberWithCommas(product.price)}
+                            </div>
                           </Col>
                           <Col
                             xs={6}
-                            lg={4}
-                            as={Link}
-                            to={`/product/${product._id}`}
-                            className="text-decoration-none text-capitalize">
-                            {product.productName}
-                          </Col>
-                          <Col
-                            xs={6}
-                            lg={2}
-                            className="text-primary text-lg-center">
-                            &#8358;{numberWithCommas(product.price)}
-                          </Col>
-                          <Col xs={6} lg={2} className="text-lg-center">
+                            lg={3}
+                            className="text-lg-center mt-3 mt-lg-0">
                             {product.isDelivered ? (
-                              <Badge bg="success">Delivered</Badge>
+                              <div className="d-flex align-items-center">
+                                <span className="me-1 text-success">
+                                  Delivered
+                                </span>
+                                <BsCheckCircleFill color="green" size={20} />
+                              </div>
                             ) : (
-                              <Badge bg="secondary">Not Delivered</Badge>
+                              <div className="d-flex align-items-center">
+                                <span className="me-1 text-secondary">
+                                  Not Delivered
+                                </span>
+                                <BsExclamationCircleFill
+                                  color="red"
+                                  size={20}
+                                />
+                              </div>
                             )}
                             {product.isReceived ? (
-                              <Badge bg="success">Received</Badge>
+                              <div className="d-flex align-items-center mt-1">
+                                <span className="me-1 text-success">
+                                  Received
+                                </span>
+                                <BsCheckCircleFill color="green" size={20} />
+                              </div>
                             ) : (
-                              <Badge bg="secondary">Not Received</Badge>
+                              <div className="d-flex align-items-center mt-1">
+                                <span className="me-1 text-secondary">
+                                  Not Received
+                                </span>
+                                <BsExclamationCircleFill
+                                  color="red"
+                                  size={20}
+                                />
+                              </div>
                             )}
                           </Col>
-                          <Col>
-                            {product.isReceived ? (
-                              <Badge bg="success">Received</Badge>
+                          <Col xs={6} lg={3}>
+                            {product.isDelivered && product.isReceived ? (
+                              <Badge bg="success">Completed</Badge>
                             ) : (
-                              <>
-                                {product.isDelivered && (
-                                  <Button
-                                    size="sm"
-                                    variant="dark"
-                                    onClick={() =>
-                                      handleMarkAsReceived(product._id)
-                                    }>
-                                    {isLoadingMarkReceived ? (
-                                      <Spinner size="sm" animation="border">
-                                        <span className="visually-hidden"></span>
-                                      </Spinner>
-                                    ) : (
-                                      "Mark as Received"
-                                    )}
-                                  </Button>
+                              <Button
+                                size="sm"
+                                variant="dark"
+                                className="text-uppercase fw-semibold"
+                                disabled={
+                                  !product.isDelivered && !product.isReceived
+                                }
+                                onClick={() =>
+                                  handleMarkAsReceived(product._id)
+                                }>
+                                {isLoadingMarkReceived ? (
+                                  <Spinner animation="border" size="sm" />
+                                ) : (
+                                  "Received"
                                 )}
-                              </>
+                              </Button>
                             )}
                           </Col>
                         </Row>
                       </ListGroup.Item>
                     ))}
                   </ListGroup>
-                </Card.Body>
-              </Card>
+                </ListGroup.Item>
+              </ListGroup>
             )}
           </Col>
           <Col lg={4}>
@@ -140,28 +217,34 @@ export default function OrderScreen() {
                   <Row className="my-3">
                     <Col xs={6}>
                       {orderData.data.orderItems.length === 1
-                        ? "1 item"
-                        : `${orderData.data.orderItems.length} items`}
+                        ? "1 item in cart"
+                        : `${orderData.data.orderItems.length} items in cart`}
                     </Col>
                   </Row>
                   <Row className="my-3">
-                    <Col xs={6}>Subtotal Amount</Col>
-                    <Col xs={6} className="text-end text-primary">
-                      &#8358;{numberWithCommas(orderData.data.itemsPrice)}
+                    <Col xs={6}>Total (Before Tax)</Col>
+                    <Col xs={6} className="text-end">
+                      <div className="text-primary">
+                        &#8358;{numberWithCommas(orderData.data.itemsPrice)}
+                      </div>
                     </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row className="my-3">
-                    <Col xs={6}>Total Taxes</Col>
-                    <Col xs={6} className="text-end text-primary">
-                      &#8358;{numberWithCommas(orderData.data.taxPrice)}
+                    <Col xs={6}>Tax Amount</Col>
+                    <Col xs={6} className="text-end">
+                      <div className="text-primary">
+                        &#8358;{numberWithCommas(orderData.data.taxPrice)}
+                      </div>
                     </Col>
                   </Row>
                   <Row className="my-3">
-                    <Col xs={6}>Total Amount</Col>
-                    <Col xs={6} className="text-end text-primary">
-                      &#8358;{numberWithCommas(orderData.data.totalPrice)}
+                    <Col xs={6}>Total Cost</Col>
+                    <Col xs={6} className="text-end">
+                      <div className="text-primary">
+                        &#8358;{numberWithCommas(orderData.data.totalPrice)}
+                      </div>
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -172,7 +255,7 @@ export default function OrderScreen() {
                       {orderData.isOrderDelivered ? (
                         <Badge bg="success">Delivered</Badge>
                       ) : (
-                        <Badge bg="warning">Pending</Badge>
+                        <Badge bg="dark">Pending</Badge>
                       )}
                     </Col>
                   </Row>
@@ -182,18 +265,8 @@ export default function OrderScreen() {
                       {orderData.isPaid ? (
                         <Badge bg="success">Paid</Badge>
                       ) : (
-                        <Badge bg="danger">Unpaid</Badge>
+                        <Badge bg="dark">Unpaid</Badge>
                       )}
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row className="my-3">
-                    <Col xs={6}>User</Col>
-                    <Col xs={6} className="text-end">
-                      <Link to={`/user/${orderData.data.user._id}`}>
-                        {`${orderData.data.user.otherNames} ${orderData.data.user.lastName}`}
-                      </Link>
                     </Col>
                   </Row>
                 </ListGroup.Item>

@@ -98,9 +98,12 @@ const getMyOrders = asyncHandler(async (req, res) => {
  * @access  Private
  */
 const getOrderById = asyncHandler(async (req, res) => {
-  const order = await Order.findOne({ orderID: req.params.orderId }).populate(
-    "user"
-  );
+  const order = await Order.findOne({ orderID: req.params.orderId })
+    .populate("user")
+    .populate({
+      path: "orderItems.vendor",
+      model: "Vendor",
+    });
 
   if (!order) {
     res.status(404);

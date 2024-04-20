@@ -16,7 +16,7 @@ export const extractPublicId = (url) => {
  * @access  Private/Admin
  */
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).populate("category");
+  const products = await Product.find({}).populate("vendor category");
 
   res.json({
     success: true,
@@ -31,9 +31,9 @@ const getProducts = asyncHandler(async (req, res) => {
  * @access  Public
  */
 const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.productId)
-    .populate("vendor")
-    .populate("category");
+  const product = await Product.findById(req.params.productId).populate(
+    "vendor category"
+  );
 
   if (!product) {
     res.status(404);
@@ -327,7 +327,7 @@ const searchProducts = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Add a subcategory to a category
- * @route   POST /api/products/add-subcategory
+ * @route   POST /api/products/subcategory/add
  * @access  Private/Admin
  */
 const addSubcategory = asyncHandler(async (req, res) => {
@@ -358,7 +358,7 @@ const addSubcategory = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Delete a subcategory from a category
- * @route   DELETE /api/products/delete-subcategory/:categoryId/:subcategoryId
+ * @route   DELETE /api/products/subcategory/delete/:categoryId/:subcategoryId
  * @access  Private/Admin
  */
 const deleteSubcategory = asyncHandler(async (req, res) => {
@@ -393,7 +393,7 @@ const deleteSubcategory = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Fetch featured products
- * @route   GET /api/products/is-featured
+ * @route   GET /api/products/featured
  * @access  Public
  */
 const getIsFeatured = asyncHandler(async (req, res) => {
@@ -431,7 +431,7 @@ const getPopularProducts = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Fetch best-selling products
- * @route   GET /api/products/best-sellers
+ * @route   GET /api/products/sellers/best
  * @access  Public
  */
 const getBestSellingProducts = asyncHandler(async (req, res) => {

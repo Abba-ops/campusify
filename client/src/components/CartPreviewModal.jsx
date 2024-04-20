@@ -2,7 +2,6 @@ import React from "react";
 import { Modal, Row, Col, Image, ListGroup, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { numberWithCommas } from "../utils/cartUtils";
 
 export default function CartPreviewModal({ show, handleClose, product }) {
   const { cartItems } = useSelector((state) => state.cart);
@@ -43,10 +42,7 @@ export default function CartPreviewModal({ show, handleClose, product }) {
                         alt={cartItem.productName}
                       />
                     </Col>
-                    <Col xs={8} className="text-truncate">
-                      {cartItem.productName}
-                    </Col>
-                    <Col xs={2}>&#8358;{numberWithCommas(cartItem.price)}</Col>
+                    <Col className="text-truncate">{cartItem.productName}</Col>
                   </Row>
                 </ListGroup.Item>
               ))}
