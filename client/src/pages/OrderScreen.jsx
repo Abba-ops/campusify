@@ -18,6 +18,7 @@ import { numberWithCommas } from "../utils/cartUtils";
 import TablePlaceholder from "../components/TablePlaceholder";
 import { toast } from "react-toastify";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
+import MetaTags from "../components/MetaTags";
 
 export default function OrderScreen() {
   const { orderId } = useParams();
@@ -49,6 +50,11 @@ export default function OrderScreen() {
 
   return (
     <section className="py-5">
+      <MetaTags
+        title={`Order ${orderId} - Campusify`}
+        description="View details of your order on Campusify, including order items, delivery address, and total cost."
+        keywords="order details, order summary, delivery address, total cost, Campusify"
+      />
       <Container>
         <Row>
           <Col lg={8} className="mb-5 mb-lg-0">
