@@ -1,8 +1,9 @@
 import React from "react";
-import { Card, Col, Container, Image, Row } from "react-bootstrap";
+import { Badge, Card, Col, Container, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import StarRating from "./StarRating";
 import { useGetVendorsBySaleCountQuery } from "../features/vendorApiSlice";
+import { BsArrowRight } from "react-icons/bs";
 
 export default function VendorCarousel() {
   const { data: vendors, isError, isLoading } = useGetVendorsBySaleCountQuery();
@@ -79,6 +80,13 @@ export default function VendorCarousel() {
                 ? vendors.data.map(renderVendorCard)
                 : renderLoadingPlaceholders()}
             </Row>
+            <div className="scroll-indicator text-center mt-3">
+              <BsArrowRight className="scroll-icon" />
+              <span className="scroll-text">
+                Swipe or scroll <Badge variant="secondary">right</Badge> to see
+                more
+              </span>
+            </div>
           </div>
         ) : (
           <div className="text-center mt-5">
