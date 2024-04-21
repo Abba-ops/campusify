@@ -7,6 +7,8 @@ import {
   Table,
   Tooltip,
   Pagination,
+  Stack,
+  Image,
 } from "react-bootstrap";
 import { useGetVendorOrdersQuery } from "../../features/ordersApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
@@ -83,14 +85,16 @@ export default function VendorOrdersTable() {
                   <td>{order.user.phoneNumber}</td>
                   <td>{`${order.deliveryAddress.building}, ${order.deliveryAddress.locationNumber}, ${order.deliveryAddress.campus}`}</td>
                   <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
-                  <td style={{ maxWidth: "200px" }}>
-                    <ul className="list-unstyled">
+                  <td>
+                    <Stack direction="horizontal" gap={2}>
                       {order.orderItems.slice(-2).map((item, index) => (
-                        <li key={index} className="text-truncate">
-                          {item.productName}
-                        </li>
+                        <Image
+                          key={index}
+                          src={item.imageUrl}
+                          className="profile-picture-sm"
+                        />
                       ))}
-                    </ul>
+                    </Stack>
                   </td>
                   <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                   <td>{order.isPaid ? "Paid" : "Unpaid"}</td>

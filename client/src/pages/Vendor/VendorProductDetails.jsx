@@ -162,9 +162,10 @@ export default function VendorProductDetails() {
                   ))
                 ) : (
                   <div className="text-center mt-4">
-                    <h5>No reviews available</h5>
+                    <h5>No Reviews Available</h5>
                     <p>
-                      There are currently no reviews available for this product.
+                      Sorry, there are currently no reviews available for this
+                      product.
                     </p>
                   </div>
                 )}

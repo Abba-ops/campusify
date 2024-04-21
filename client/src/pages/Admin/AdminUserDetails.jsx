@@ -82,12 +82,8 @@ export default function AdminUserDetails() {
                 </Card.Text>
                 <div className="d-flex justify-content-center">
                   <Stack direction="horizontal" gap={3}>
-                    {user.data.isAdmin && (
-                      <Badge bg="primary" text="white">
-                        Admin
-                      </Badge>
-                    )}
-                    {user.data.isVendor && <Badge bg="dark">Vendor</Badge>}
+                    {user.data.isAdmin && <Badge bg="success">Admin</Badge>}
+                    {user.data.isVendor && <Badge bg="success">Vendor</Badge>}
                   </Stack>
                 </div>
               </Card.Body>

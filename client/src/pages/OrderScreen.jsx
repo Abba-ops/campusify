@@ -261,7 +261,7 @@ export default function OrderScreen() {
                       {orderData.isOrderDelivered ? (
                         <Badge bg="success">Delivered</Badge>
                       ) : (
-                        <Badge bg="dark">Pending</Badge>
+                        <Badge bg="primary">Pending</Badge>
                       )}
                     </Col>
                   </Row>
@@ -271,7 +271,7 @@ export default function OrderScreen() {
                       {orderData.isPaid ? (
                         <Badge bg="success">Paid</Badge>
                       ) : (
-                        <Badge bg="dark">Unpaid</Badge>
+                        <Badge bg="primary">Unpaid</Badge>
                       )}
                     </Col>
                   </Row>

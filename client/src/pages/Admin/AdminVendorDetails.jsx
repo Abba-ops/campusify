@@ -21,7 +21,6 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import TablePlaceholder from "../../components/TablePlaceholder";
-import { numberWithCommas } from "../../utils/cartUtils";
 
 export default function AdminVendorDetails() {
   const { vendorId } = useParams();
@@ -142,7 +141,7 @@ export default function AdminVendorDetails() {
                 </Card.Text>
                 {vendor.data.isApproved && (
                   <Card.Text className="text-center">
-                    <Badge bg="dark">Approved</Badge>
+                    <Badge bg="success">Approved</Badge>
                   </Card.Text>
                 )}
                 {vendor.data.approvalStatus === "pending" && (
@@ -150,7 +149,7 @@ export default function AdminVendorDetails() {
                     <Stack direction="horizontal" gap={3}>
                       <Button
                         variant="primary"
-                        className="text-uppercase text-white fw-semibold"
+                        className="text-uppercase text-white fw-semibold px-4"
                         onClick={handleApprove}>
                         {isApproving ? (
                           <Spinner size="sm" animation="border" />
@@ -160,7 +159,7 @@ export default function AdminVendorDetails() {
                       </Button>
                       <Button
                         variant="dark"
-                        className="text-uppercase fw-semibold"
+                        className="text-uppercase fw-semibold px-4"
                         onClick={handleReject}>
                         {isApproving ? (
                           <Spinner size="sm" animation="border" />
@@ -186,15 +185,12 @@ export default function AdminVendorDetails() {
                                 alt={vendorProduct.productName}
                               />
                             </Col>
-                            <Col xs={7} className="text-truncate">
+                            <Col className="text-truncate">
                               <Link
                                 className="text-decoration-none"
                                 to={`/admin/dashboard/products/${vendorProduct._id}`}>
                                 {vendorProduct.productName}
                               </Link>
-                            </Col>
-                            <Col xs={3}>
-                              &#8358;{numberWithCommas(vendorProduct.price)}
                             </Col>
                           </Row>
                         </ListGroup.Item>

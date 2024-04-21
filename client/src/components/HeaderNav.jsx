@@ -83,7 +83,7 @@ export default function HeaderNav() {
                 {["/", "/contact", "/about", "/faq"].map((path) => (
                   <LinkContainer key={path} to={path}>
                     <Nav.Link
-                      className={`fw-semibold text-uppercase ${
+                      className={`fw-semibold text-capitalize ${
                         location.pathname === path && "text-primary"
                       }`}>
                       {path === "/" ? "Home" : path.replace("/", "")}

@@ -156,13 +156,14 @@ export default function VendorCreateProduct() {
                     required
                   />
                   {imageUrl && (
-                    <Image
-                      fluid
-                      rounded
-                      src={imageUrl}
-                      alt="Product"
-                      className="mb-3"
-                    />
+                    <div className="image-container">
+                      <Image
+                        fluid
+                        loading="lazy"
+                        src={imageUrl}
+                        className="product-image"
+                      />
+                    </div>
                   )}
                 </Form.Group>
                 {loadingImageUpload && <div>Uploading image...</div>}

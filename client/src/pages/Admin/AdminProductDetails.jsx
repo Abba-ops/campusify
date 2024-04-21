@@ -155,15 +155,16 @@ export default function AdminProductDetails() {
                         variant="link"
                         onClick={() => handleDeleteReview(review._id)}
                         className="position-absolute top-0 end-0">
-                        <MdDelete className="fs-4" />
+                        <MdDelete size={24} />
                       </Button>
                     </ListGroup.Item>
                   ))
                 ) : (
                   <div className="text-center mt-4">
-                    <h5>No reviews available</h5>
+                    <h5>No Reviews Available</h5>
                     <p>
-                      There are currently no reviews available for this product.
+                      Sorry, there are currently no reviews available for this
+                      product.
                     </p>
                   </div>
                 )}

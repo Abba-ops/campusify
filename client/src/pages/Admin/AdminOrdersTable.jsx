@@ -7,6 +7,8 @@ import {
   Table,
   Tooltip,
   Pagination,
+  Stack,
+  Image,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useGetOrdersQuery } from "../../features/ordersApiSlice";
@@ -90,14 +92,16 @@ export default function AdminOrdersTable() {
                       <td>&#8358;{numberWithCommas(order.itemsPrice)}</td>
                       <td>&#8358;{numberWithCommas(order.taxPrice)}</td>
                       <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
-                      <td style={{ maxWidth: "200px" }}>
-                        <ul className="list-unstyled">
+                      <td>
+                        <Stack direction="horizontal" gap={2}>
                           {order.orderItems.slice(-2).map((item, index) => (
-                            <li key={index} className="text-truncate">
-                              {item.productName}
-                            </li>
+                            <Image
+                              key={index}
+                              src={item.imageUrl}
+                              className="profile-picture-sm"
+                            />
                           ))}
-                        </ul>
+                        </Stack>
                       </td>
                       <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                       <td>{order.isPaid ? "Paid" : "Unpaid"}</td>
