@@ -43,7 +43,7 @@ export default function ProductCard({ product, showPreviewIcon }) {
   return (
     <>
       <Card
-        className="text-center rounded-0 border-0"
+        className="text-center rounded-0"
         onMouseEnter={handleShowPreviewIcon}
         onMouseLeave={handleHidePreviewIcon}>
         <Link to={`/product/${_id}`} className="text-decoration-none">

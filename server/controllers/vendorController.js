@@ -247,6 +247,17 @@ const getAllVendorCustomers = asyncHandler(async (req, res) => {
   res.status(200).json({ data: customers, success: true });
 });
 
+/**
+ * @desc    Retrieve vendors sorted by sales count
+ * @route   GET /api/vendors/sales/count
+ * @access  Public
+ */
+const getVendorsBySaleCount = asyncHandler(async (req, res) => {
+  const vendors = await Vendor.find().sort({ salesCount: -1 });
+
+  res.status(200).json({ data: vendors, success: true });
+});
+
 export {
   getVendors,
   getVendorById,
@@ -257,4 +268,5 @@ export {
   getProductsByVendor,
   getVendorCustomers,
   getAllVendorCustomers,
+  getVendorsBySaleCount,
 };

@@ -33,7 +33,7 @@ export default function ConfirmDeletionModal({
     <Modal show={showDelete} onHide={handleCloseDelete} centered>
       <Modal.Body>
         <Modal.Title className="mb-3 text-uppercase">
-          Confirm Account Deletion
+          Confirm Deletion
         </Modal.Title>
         <p>
           By confirming account deletion, you will permanently erase all your

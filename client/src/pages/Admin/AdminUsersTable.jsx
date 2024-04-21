@@ -60,12 +60,14 @@ export default function AdminUsersTable() {
   };
 
   const filteredUsers =
-    users?.data?.filter(
-      (user) =>
-        user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.otherNames.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    ) || [];
+    users?.data
+      ?.filter(
+        (user) =>
+          user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.otherNames.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) || [];
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

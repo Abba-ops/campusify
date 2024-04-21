@@ -15,11 +15,13 @@ import {
   getProductsByVendor,
   getVendorCustomers,
   getAllVendorCustomers,
+  getVendorsBySaleCount,
 } from "../controllers/vendorController.js";
 
 const router = express.Router();
 
 router.route("/").get(isLoggedIn, isAdmin, getVendors);
+router.get("/sales/count", getVendorsBySaleCount);
 router.get("/products", isLoggedIn, isVendor, getVendorProducts);
 router.get("/customers", isLoggedIn, isVendor, getVendorCustomers);
 router.get("/customers/all", isLoggedIn, isAdmin, getAllVendorCustomers);

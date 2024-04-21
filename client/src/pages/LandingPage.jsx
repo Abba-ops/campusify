@@ -9,6 +9,7 @@ import PopularProducts from "../components/PopularProducts";
 import ServiceGrid from "../components/ServiceGrid";
 import ApplyAsVendorAlert from "../components/ApplyAsVendorAlert";
 import { useSelector } from "react-redux";
+import VendorCarousel from "../components/VendorCarousel";
 
 export default function LandingPage() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -32,6 +33,7 @@ export default function LandingPage() {
         {!userInfo && <ApplyAsVendorAlert />}
         <BestSeller />
         <PopularProducts />
+        <VendorCarousel />
         <BackToTop />
       </Container>
     </div>
