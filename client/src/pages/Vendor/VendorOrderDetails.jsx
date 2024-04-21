@@ -23,7 +23,12 @@ import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 
 export default function VendorOrderDetails() {
   const { orderId } = useParams();
-  const { data: order, isLoading, isError } = useGetVendorOrderQuery(orderId);
+  const {
+    data: order,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetVendorOrderQuery(orderId);
   const [showOrderItems, setShowOrderItems] = useState(false);
 
   const [markOrderAsDelivered, { isLoading: isLoadingMarkDelivered }] =
@@ -34,6 +39,7 @@ export default function VendorOrderDetails() {
       const response = await markOrderAsDelivered(orderId).unwrap();
 
       if (response.success) {
+        refetch();
         toast.success(response.message);
       }
     } catch (error) {

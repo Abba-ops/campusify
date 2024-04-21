@@ -78,7 +78,7 @@ export default function HeaderNav() {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Nav className="me-auto">
+            <Nav className="me-auto mb-2 mb-lg-0">
               <Stack direction="horizontal" gap={4}>
                 {["/", "/contact", "/about", "/faq"].map((path) => (
                   <LinkContainer key={path} to={path}>
