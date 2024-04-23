@@ -1,7 +1,6 @@
 import express from "express";
 import {
   isAdmin,
-  isAdminOrVendor,
   isLoggedIn,
   isVendor,
 } from "../middlewares/authMiddleware.js";
@@ -28,7 +27,7 @@ router.get("/customers/all", isLoggedIn, isAdmin, getAllVendorCustomers);
 router.route("/application").post(isLoggedIn, vendorApplication);
 router
   .route("/:vendorId")
-  .get(isLoggedIn, isAdminOrVendor, getVendorById)
+  .get(isLoggedIn, getVendorById)
   .delete(isLoggedIn, isAdmin, deleteVendor);
 router.put("/:vendorId/:status", isLoggedIn, isAdmin, updateVendorStatus);
 router.get("/:vendorId/products", isLoggedIn, isAdmin, getProductsByVendor);

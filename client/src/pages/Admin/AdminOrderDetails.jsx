@@ -106,7 +106,7 @@ export default function AdminOrderDetails() {
                                 <Col xs={8} lg={6}>
                                   <Link
                                     className="text-decoration-none"
-                                    to={`/vendor/dashboard/products/${item._id}`}>
+                                    to={`/admin/dashboard/products/${item._id}`}>
                                     <div className="text-truncate">
                                       {item.productName}
                                     </div>

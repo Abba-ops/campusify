@@ -212,7 +212,9 @@ export default function ProductDetail() {
                       }`}
                     />
                   </div>
-                  <Link className="text-decoration-none">
+                  <Link
+                    className="text-decoration-none"
+                    to={`/vendor/${productData.data.vendor._id}`}>
                     <h5>
                       {productData.data.vendor.vendorName}{" "}
                       {productData.data.vendor.isApproved && (

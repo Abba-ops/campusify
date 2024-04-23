@@ -48,11 +48,12 @@ import VendorOrdersTable from "./pages/Vendor/VendorOrdersTable";
 import VendorOrderDetails from "./pages/Vendor/VendorOrderDetails";
 import AdminOrderDetails from "./pages/Admin/AdminOrderDetails";
 import About from "./pages/About";
-import FAQ from "./pages/FAQ";
-import "./assets/css/bootstrap.min.css";
-import "./assets/css/style.min.css";
 import VendorCustomersTable from "./pages/Vendor/VendorCustomersTable";
 import AdminCustomersTable from "./pages/Admin/AdminCustomersTable";
+import VendorScreen from "./pages/VendorScreen";
+import "./assets/css/bootstrap.min.css";
+import "./assets/css/style.min.css";
+import FAQ from "./pages/FAQ";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -61,8 +62,11 @@ const router = createBrowserRouter(
       <Route path="/login" element={<UserSignIn />} />
       <Route path="/cart" element={<UserCart />} />
       <Route path="/register" element={<UserRegistration />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/faq" element={<FAQ />} />
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/search/:query" element={<ProductSearch />} />
+      <Route path="/vendor/:vendorId" element={<VendorScreen />} />
       <Route
         path="/category/:category/:categoryId"
         element={<CategoryPage />}
@@ -73,8 +77,6 @@ const router = createBrowserRouter(
         element={<SubcategoryProducts />}
       />
       <Route path="/profile/:userId" element={<UserProfile />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/faq" component={<FAQ />} />
 
       <Route path="*" element={<PageNotFound />} />
 
