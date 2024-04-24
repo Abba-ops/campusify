@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="shortcut icon" href="favicon.png" type="image/png" />
-    <link rel="icon" type="image/png" href="./images/logo.png" />
     <link rel="apple-touch-icon" href="./images/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,18 +20,11 @@
     <div id="root"></div>
     <script>
       if ("serviceWorker" in navigator) {
-        window.addEventListener("load", async () => {
-          try {
-            const registration = await navigator.serviceWorker.register(
-              "./serviceworker.js"
-            );
-            console.log(
-              "Service worker registered successfully with scope:",
-              registration.scope
-            );
-          } catch (error) {
-            console.error("Failed to register service worker:", error);
-          }
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./serviceworker.js")
+            .then((reg) => console.log("Success: ", reg.scope))
+            .catch((err) => console.log("Failure: ", err));
         });
       }
     </script>
