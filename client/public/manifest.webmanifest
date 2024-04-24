@@ -1,0 +1,15 @@
+{
+  "short_name": "Campusify",
+  "name": "Campusify: Campus Marketplace",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "type": "image/png",
+      "sizes": "94x94"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
