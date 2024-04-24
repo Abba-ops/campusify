@@ -3,14 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="shortcut icon" href="favicon.png" type="image/png" />
-    <link rel="apple-touch-icon" href="./images/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <meta
-      name="description"
-      content="Campusify is an e-commerce platform for a campus marketplace." />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet" />
@@ -18,15 +13,5 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("./serviceworker.js")
-            .then((reg) => console.log("Success: ", reg.scope))
-            .catch((err) => console.log("Failure: ", err));
-        });
-      }
-    </script>
   </body>
 </html>
