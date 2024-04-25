@@ -10,10 +10,19 @@ const registrationSchema = Joi.object({
     "string.empty": "User type cannot be empty.",
     "any.only": 'Invalid user type. Must be either "student" or "staff".',
   }),
-  password: Joi.string().required().messages({
-    "any.required": "Password is required.",
-    "string.empty": "Password cannot be empty.",
-  }),
+  password: Joi.string()
+    .min(8)
+    .regex(
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+}{":;'\[\]])/
+    )
+    .required()
+    .messages({
+      "any.required": "Password is required.",
+      "string.empty": "Password cannot be empty.",
+      "string.min": "Password must be at least 8 characters long.",
+      "string.pattern.base":
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+    }),
 });
 
 const loginSchema = Joi.object({
