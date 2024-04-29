@@ -152,7 +152,6 @@ export default function VendorProductsTable() {
                     <Table size="sm" responsive striped className="mb-3">
                       <thead>
                         <tr>
-                          <th>Product ID</th>
                           <th>Product Name</th>
                           <th>Image</th>
                           <th>Category</th>
@@ -165,7 +164,6 @@ export default function VendorProductsTable() {
                       <tbody>
                         {currentProducts.map((product) => (
                           <tr key={product._id}>
-                            <td>{product._id}</td>
                             <td>
                               {product.productName.length > 30
                                 ? `${product.productName.slice(0, 30)}...`

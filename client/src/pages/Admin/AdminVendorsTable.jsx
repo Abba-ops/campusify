@@ -132,7 +132,7 @@ export default function VendorManagementPage() {
       </Nav>
       {isLoading ? (
         <>
-          {[...Array(5)].map((_, index) => (
+          {[...Array(4)].map((_, index) => (
             <TablePlaceholder key={index} />
           ))}
         </>

@@ -56,7 +56,6 @@ export default function VendorCustomersTable() {
           <Table size="sm" responsive striped>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Last Name</th>
                 <th>Other Names</th>
                 <th>Email</th>
@@ -67,7 +66,6 @@ export default function VendorCustomersTable() {
             <tbody>
               {currentCustomers.map((customer) => (
                 <tr key={customer._id}>
-                  <td>{customer._id}</td>
                   <td>{customer.lastName}</td>
                   <td>{customer.otherNames}</td>
                   <td>{customer.email}</td>
