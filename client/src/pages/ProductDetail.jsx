@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+  FacebookIcon,
+  WhatsappIcon,
+  EmailIcon,
+  XIcon,
+} from "react-share";
+import {
   Image,
   Form,
   Col,
@@ -9,6 +19,7 @@ import {
   ListGroup,
   Container,
   Alert,
+  Stack,
 } from "react-bootstrap";
 import {
   useCreateReviewMutation,
@@ -47,6 +58,8 @@ export default function ProductDetail() {
   const { userInfo } = useSelector((state) => state.auth);
 
   const { productId } = useParams();
+
+  const currentUrl = window.location.href;
 
   const {
     error: productError,
@@ -225,6 +238,32 @@ export default function ProductDetail() {
                   <p className="my-3 text-break">
                     {productData.data.productDescription}
                   </p>
+                  <Stack direction="horizontal" gap={3} className="mb-3">
+                    <FacebookShareButton
+                      url={currentUrl}
+                      title={productData.data.productName}
+                      hashtag={"CampusStyle"}>
+                      <FacebookIcon size={40} round />
+                    </FacebookShareButton>
+                    <TwitterShareButton
+                      url={currentUrl}
+                      hashtags={["StudentLife", "CampusStyle", "BackToSchool"]}
+                      title={productData.data.productName}>
+                      <XIcon size={40} round />
+                    </TwitterShareButton>
+                    <WhatsappShareButton
+                      url={currentUrl}
+                      title={`Check out this awesome product: ${productData.data.productName}!`}
+                      separator="">
+                      <WhatsappIcon size={40} round />
+                    </WhatsappShareButton>
+                    <EmailShareButton
+                      url={currentUrl}
+                      subject={`Check out this product: ${productData.data.productName}`}
+                      body={`Hi there,\n\nI thought you might be interested in this awesome product I found on our campus marketplace:\n\n${productData.data.productName}\n\nCheck it out here: ${currentUrl}`}>
+                      <EmailIcon size={40} round />
+                    </EmailShareButton>
+                  </Stack>
                   <h4 className="text-primary mb-3">
                     &#8358;{numberWithCommas(productData.data.price)}
                   </h4>

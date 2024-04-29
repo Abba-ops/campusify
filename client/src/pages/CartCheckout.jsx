@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PaystackButton } from "react-paystack";
 import { toast } from "react-toastify";
 import { useCreateNewOrderMutation } from "../features/ordersApiSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { clearCartItems } from "../features/cartSlice";
 import MetaTags from "../components/MetaTags";
 
@@ -39,8 +39,7 @@ export default function CartCheckout() {
   const dispatch = useDispatch();
 
   const publicKey = "pk_test_930251134c7b44c106b9cb5b678b626a4bd438c5";
-  const [createNewOrder, { isLoading: isLoadingPlaceOrder }] =
-    useCreateNewOrderMutation();
+  const [createNewOrder] = useCreateNewOrderMutation();
 
   const componentProps = {
     email: email,
@@ -52,6 +51,7 @@ export default function CartCheckout() {
     publicKey,
     text: "Proceed to Payment",
     onSuccess: () => {
+      placeOrder();
       setPaymentConfirmed(true);
     },
     onClose: () => {
@@ -251,7 +251,6 @@ export default function CartCheckout() {
                       </Form.Select>
                     </Col>
                   </Form.Group>
-
                   <Form.Group as={Row} className="mb-3">
                     <Form.Label
                       column
@@ -289,17 +288,12 @@ export default function CartCheckout() {
                 <div className="d-flex justify-content-end mb-4">
                   {paymentConfirmed ? (
                     <Button
-                      onClick={placeOrder}
-                      className="fw-semibold text-uppercase px-4"
                       variant="dark"
+                      className="fw-semibold text-uppercase"
                       disabled={!paymentConfirmed}>
-                      {isLoadingPlaceOrder ? (
-                        <Spinner size="sm" animation="border" className="me-2">
-                          <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                      ) : (
-                        "Complete Order"
-                      )}
+                      <Spinner size="sm" animation="border">
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
                     </Button>
                   ) : (
                     <PaystackButton
@@ -323,11 +317,11 @@ export default function CartCheckout() {
                 </Row>
                 <Row>
                   <Col>
-                    <span
-                      className="text-primary fw-bold"
+                    <Link
+                      className="text-primary fw-bold text-decoration-none"
                       onClick={toggleOrderItemsHandler}>
                       {showOrderItems ? "Hide Order Items" : "Show Order Items"}
-                    </span>
+                    </Link>
                     {showOrderItems && (
                       <ListGroup variant="flush">
                         {cartItems.map((cartItem) => (
