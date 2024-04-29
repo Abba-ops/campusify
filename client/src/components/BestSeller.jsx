@@ -5,6 +5,7 @@ import Carousel from "react-bootstrap/Carousel";
 import Image from "react-bootstrap/Image";
 import CarouselProducts from "./CarouselProducts";
 import { useGetBestSellingProductsQuery } from "../features/productsApiSlice";
+import { Placeholder } from "react-bootstrap";
 
 export default function BestSeller() {
   const {
@@ -30,21 +31,34 @@ export default function BestSeller() {
           />
         </Col>
         <Col lg={6}>
-          <Carousel indicators={false} controls={false}>
-            {bestSellingProducts &&
-              bestSellingProducts.data.slice(0, 3).map((item) => (
-                <Carousel.Item key={item._id}>
-                  <div className="image-container">
-                    <Image
-                      fluid
-                      loading="lazy"
-                      src={item.imageUrl}
-                      className="product-image"
-                    />
-                  </div>
-                </Carousel.Item>
-              ))}
-          </Carousel>
+          {isLoading ? (
+            <Placeholder
+              as="div"
+              animation="glow"
+              className="placeholder-glow image-container">
+              <img
+                alt=""
+                loading="lazy"
+                className="product-image placeholder col-12"
+              />
+            </Placeholder>
+          ) : (
+            <Carousel indicators={false} controls={false}>
+              {bestSellingProducts &&
+                bestSellingProducts.data.slice(0, 3).map((item) => (
+                  <Carousel.Item key={item._id}>
+                    <div className="image-container">
+                      <Image
+                        fluid
+                        loading="lazy"
+                        src={item.imageUrl}
+                        className="product-image"
+                      />
+                    </div>
+                  </Carousel.Item>
+                ))}
+            </Carousel>
+          )}
         </Col>
       </Row>
     </section>
