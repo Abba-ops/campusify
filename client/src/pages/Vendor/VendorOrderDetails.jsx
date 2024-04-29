@@ -111,11 +111,11 @@ export default function VendorOrderDetails() {
                   </FloatingLabel>
                   <h5 className="mb-3 text-uppercase">Items in This Order</h5>
                   <div>
-                    <div
-                      className="text-primary fw-bold"
+                    <Link
+                      className="text-primary fw-bold text-decoration-none"
                       onClick={toggleOrderItems}>
                       {showOrderItems ? "Hide Order Items" : "Show Order Items"}
-                    </div>
+                    </Link>
                     <ListGroup variant="flush">
                       {showOrderItems && (
                         <>
