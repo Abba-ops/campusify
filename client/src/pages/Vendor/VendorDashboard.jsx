@@ -120,7 +120,24 @@ export default function VendorDashboard() {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Stack direction="horizontal" gap={4} className="ms-auto">
+            <Nav className="ms-auto">
+              <div className="mb-2 d-lg-none">
+                {vendorLinks.map(({ title, link, icon }, index) => (
+                  <LinkContainer to={link} key={index} className="fw-semibold">
+                    <Nav.Link>
+                      <div className="d-flex align-items-center gap-3">
+                        {icon}
+                        {title}
+                      </div>
+                    </Nav.Link>
+                  </LinkContainer>
+                ))}
+              </div>
+            </Nav>
+            <Stack
+              gap={4}
+              direction="horizontal"
+              className="ms-auto justify-content-end">
               <Dropdown align={"end"} show={showMessagesDropdown}>
                 <Nav.Link onClick={toggleMessagesDropdown}>
                   <div className="position-relative">
@@ -153,7 +170,12 @@ export default function VendorDashboard() {
                             key={notification._id}>
                             <Link
                               to={`/vendor/dashboard/orders/${notification.orderId}`}
-                              className="text-decoration-none">
+                              className="text-decoration-none d-none d-lg-block">
+                              {notification.message}
+                            </Link>
+                            <Link
+                              to={`/vendor/dashboard/orders/${notification.orderId}`}
+                              className="text-decoration-none text-wrap d-lg-none">
                               {notification.message}
                             </Link>
                             <Stack direction="horizontal">

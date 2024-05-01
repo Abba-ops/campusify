@@ -57,7 +57,7 @@ export default function AdminDashboard() {
           <Navbar.Toggle />
           <Navbar.Collapse>
             <Nav className="ms-auto">
-              <div className="my-3 d-lg-none">
+              <div className="mb-2 d-lg-none">
                 {adminLinks.map(({ title, link, icon }, index) => (
                   <LinkContainer to={link} key={index} className="fw-semibold">
                     <Nav.Link>
