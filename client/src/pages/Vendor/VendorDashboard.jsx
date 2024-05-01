@@ -71,9 +71,10 @@ export default function VendorDashboard() {
         refetchNotifications();
         toast.success(res.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Failed to mark notification as read. Please try again.");
+    }
   };
-
   const handleDeleteMessage = async (notificationId) => {
     try {
       const res = await deleteNotification(notificationId).unwrap();
@@ -81,7 +82,9 @@ export default function VendorDashboard() {
         refetchNotifications();
         toast.success(res.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Failed to delete notification. Please try again.");
+    }
   };
 
   const toggleMessagesDropdown = () =>
