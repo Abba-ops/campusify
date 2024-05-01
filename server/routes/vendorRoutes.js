@@ -15,10 +15,21 @@ import {
   getVendorCustomers,
   getAllVendorCustomers,
   getVendorsBySaleCount,
+  getVendorNotifications,
+  markNotificationAsRead,
+  deleteNotification,
 } from "../controllers/vendorController.js";
 
 const router = express.Router();
 
+router
+  .route("/notifications/:notificationId")
+  .delete(isLoggedIn, isVendor, deleteNotification);
+router.get("/notifications", isLoggedIn, isVendor, getVendorNotifications);
+router.put(
+  "/notifications/:notificationId/mark-as-read",
+  markNotificationAsRead
+);
 router.route("/").get(isLoggedIn, isAdmin, getVendors);
 router.get("/sales/count", getVendorsBySaleCount);
 router.get("/products", isLoggedIn, isVendor, getVendorProducts);

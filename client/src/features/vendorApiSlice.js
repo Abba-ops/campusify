@@ -71,6 +71,24 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getVendorNotifications: builder.query({
+      query: () => ({
+        url: `${VENDORS_URL}/notifications`,
+        method: "GET",
+      }),
+    }),
+    markNotificationAsRead: builder.mutation({
+      query: (notificationId) => ({
+        url: `${VENDORS_URL}/notifications/${notificationId}/mark-as-read`,
+        method: "PUT",
+      }),
+    }),
+    deleteNotification: builder.mutation({
+      query: (notificationId) => ({
+        url: `${VENDORS_URL}/notifications/${notificationId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -86,4 +104,7 @@ export const {
   useGetVendorCustomersQuery,
   useGetAllVendorCustomersQuery,
   useGetVendorsBySaleCountQuery,
+  useGetVendorNotificationsQuery,
+  useMarkNotificationAsReadMutation,
+  useDeleteNotificationMutation,
 } = vendorApiSlice;

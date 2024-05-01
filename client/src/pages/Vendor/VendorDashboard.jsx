@@ -1,5 +1,16 @@
-import React from "react";
-import { Col, Container, Image, Nav, Navbar, Row } from "react-bootstrap";
+import React, { useState } from "react";
+import {
+  Badge,
+  Button,
+  Col,
+  Container,
+  Dropdown,
+  Image,
+  Nav,
+  Navbar,
+  Row,
+  Stack,
+} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import MetaTags from "../../components/MetaTags";
@@ -11,6 +22,12 @@ import { toast } from "react-toastify";
 import { useLogoutUserMutation } from "../../features/usersApiSlice";
 import { vendorLinks } from "../../constants";
 import UserProfileDropdown from "../../components/UserProfileDropdown";
+import {
+  useDeleteNotificationMutation,
+  useGetVendorNotificationsQuery,
+  useMarkNotificationAsReadMutation,
+} from "../../features/vendorApiSlice";
+import { RiNotificationLine } from "react-icons/ri";
 
 export default function VendorDashboard() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -18,6 +35,20 @@ export default function VendorDashboard() {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [showMessagesDropdown, setShowMessagesDropdown] = useState(false);
+
+  const {
+    data: notifications,
+    isLoading,
+    refetch: refetchNotifications,
+  } = useGetVendorNotificationsQuery();
+
+  const [markNotificationAsRead, { isLoading: isLoadingMarkNotification }] =
+    useMarkNotificationAsReadMutation();
+
+  const [deleteNotification, { isLoading: isLoadingDeleteNotification }] =
+    useDeleteNotificationMutation();
 
   const logoutHandler = async () => {
     try {
@@ -32,6 +63,33 @@ export default function VendorDashboard() {
       toast.error("Logout failed. Please try again.");
     }
   };
+
+  const handleMarkAsRead = async (notificationId) => {
+    try {
+      const res = await markNotificationAsRead(notificationId).unwrap();
+      if (res.success) {
+        refetchNotifications();
+        toast.success(res.message);
+      }
+    } catch (error) {}
+  };
+
+  const handleDeleteMessage = async (notificationId) => {
+    try {
+      const res = await deleteNotification(notificationId).unwrap();
+      if (res.success) {
+        refetchNotifications();
+        toast.success(res.message);
+      }
+    } catch (error) {}
+  };
+
+  const toggleMessagesDropdown = () =>
+    setShowMessagesDropdown(!showMessagesDropdown);
+
+  const unreadNotifications = notifications
+    ? notifications.data.filter((notification) => !notification.read)
+    : [];
 
   return (
     <>
@@ -62,26 +120,83 @@ export default function VendorDashboard() {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Nav className="ms-auto">
-              <div className="my-3 d-lg-none">
-                {vendorLinks.map(({ title, link, icon }, index) => (
-                  <LinkContainer to={link} key={index} className="fw-semibold">
-                    <Nav.Link>
-                      <div className="d-flex align-items-center gap-3">
-                        {icon}
-                        {title}
+            <Stack direction="horizontal" gap={4} className="ms-auto">
+              <Dropdown align={"end"} show={showMessagesDropdown}>
+                <Nav.Link onClick={toggleMessagesDropdown}>
+                  <div className="position-relative">
+                    <RiNotificationLine size={24} />
+                    {notifications && notifications.data.length > 0 && (
+                      <Badge
+                        pill
+                        bg="primary"
+                        className="position-absolute top-0 start-100 translate-middle">
+                        {unreadNotifications.length}
+                      </Badge>
+                    )}
+                  </div>
+                </Nav.Link>
+                {isLoading ? (
+                  <Dropdown.Menu>
+                    <div className="notification-dropdown">
+                      <div>Loading...</div>
+                    </div>
+                  </Dropdown.Menu>
+                ) : (
+                  <Dropdown.Menu>
+                    {notifications && notifications.data.length > 0 ? (
+                      notifications.data
+                        .filter((notification) => !notification.read)
+                        .slice(0, 3)
+                        .map((notification) => (
+                          <div
+                            className="notification-dropdown"
+                            key={notification._id}>
+                            <Link
+                              to={`/vendor/dashboard/orders/${notification.orderId}`}
+                              className="text-decoration-none">
+                              {notification.message}
+                            </Link>
+                            <Stack direction="horizontal">
+                              <Button
+                                size="sm"
+                                variant="link"
+                                disabled={
+                                  notification.read || isLoadingMarkNotification
+                                }
+                                className="text-decoration-none"
+                                onClick={() =>
+                                  handleMarkAsRead(notification._id)
+                                }>
+                                Mark as Read
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="link"
+                                className="text-decoration-none"
+                                disabled={isLoadingDeleteNotification}
+                                onClick={() =>
+                                  handleDeleteMessage(notification._id)
+                                }>
+                                Delete
+                              </Button>
+                            </Stack>
+                          </div>
+                        ))
+                    ) : (
+                      <div className="notification-dropdown">
+                        <div>No unread notifications</div>
                       </div>
-                    </Nav.Link>
-                  </LinkContainer>
-                ))}
-              </div>
-            </Nav>
-            <UserProfileDropdown
-              userInfo={userInfo}
-              isAdmin={userInfo.data.isAdmin}
-              logoutHandler={logoutHandler}
-              showDeleteOption={true}
-            />
+                    )}
+                  </Dropdown.Menu>
+                )}
+              </Dropdown>
+              <UserProfileDropdown
+                userInfo={userInfo}
+                isAdmin={userInfo.data.isAdmin}
+                logoutHandler={logoutHandler}
+                showDeleteOption={true}
+              />
+            </Stack>
           </Navbar.Collapse>
         </Container>
       </Navbar>

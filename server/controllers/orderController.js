@@ -1,4 +1,5 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
+import Notification from "../models/notificationSchema.js";
 import Order from "../models/orderModel.js";
 
 const generateOrderID = () => {
@@ -68,6 +69,21 @@ const createNewOrder = asyncHandler(async (req, res) => {
   });
 
   const createdOrder = await order.save();
+
+  const uniqueVendorIds = new Set(
+    orderItems.map((orderItem) => orderItem.vendor)
+  );
+
+  for (const vendorId of uniqueVendorIds) {
+    const notification = new Notification({
+      recipientId: vendorId,
+      orderId: orderID,
+      message: `New order (${orderID}) has been placed.`,
+      type: "new_order",
+    });
+
+    await notification.save();
+  }
 
   res.status(201).json({
     data: createdOrder,

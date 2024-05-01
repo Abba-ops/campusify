@@ -1,5 +1,6 @@
 import cloudinary from "../config/cloudinary.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
+import Notification from "../models/notificationSchema.js";
 import Order from "../models/orderModel.js";
 import { Product } from "../models/productModel.js";
 import User from "../models/userModel.js";
@@ -258,6 +259,66 @@ const getVendorsBySaleCount = asyncHandler(async (req, res) => {
   res.status(200).json({ data: vendors, success: true });
 });
 
+/**
+ * @desc    Retrieve vendor notifications
+ * @route   GET /api/vendor/notifications
+ * @access  Private (Vendor)
+ */
+const getVendorNotifications = asyncHandler(async (req, res) => {
+  const notifications = await Notification.find({
+    recipientId: req.vendor._id,
+  }).sort({ createdAt: -1 });
+
+  res.status(200).json({
+    data: notifications,
+    success: true,
+  });
+});
+
+/**
+ * @desc    Mark a notification as read
+ * @route   PUT /api/vendor/notifications/:notificationId/mark-as-read
+ * @access  Private (Vendor)
+ */
+const markNotificationAsRead = asyncHandler(async (req, res) => {
+  const { notificationId } = req.params;
+
+  const notification = await Notification.findById(notificationId);
+
+  if (!notification) {
+    res.status(404);
+    throw new Error("Notification not found");
+  }
+
+  notification.read = true;
+  await notification.save();
+
+  res.json({
+    success: true,
+    message: "Notification marked as read successfully",
+  });
+});
+
+/**
+ * @desc    Delete a notification
+ * @route   DELETE /api/vendor/notifications/:notificationId
+ * @access  Private (Vendor)
+ */
+const deleteNotification = asyncHandler(async (req, res) => {
+  const { notificationId } = req.params;
+
+  const notification = await Notification.findById(notificationId);
+
+  if (!notification) {
+    res.status(404);
+    throw new Error("Notification not found");
+  }
+
+  await notification.deleteOne();
+
+  res.json({ success: true, message: "Notification deleted successfully" });
+});
+
 export {
   getVendors,
   getVendorById,
@@ -265,8 +326,11 @@ export {
   vendorApplication,
   updateVendorStatus,
   deleteVendor,
+  deleteNotification,
   getProductsByVendor,
   getVendorCustomers,
   getAllVendorCustomers,
   getVendorsBySaleCount,
+  getVendorNotifications,
+  markNotificationAsRead,
 };

@@ -13,11 +13,13 @@ export default function UserProfileDropdown({
   showDeleteOption,
 }) {
   const [showDelete, setShowDelete] = useState(false);
+  const [showMenuDropdown, setShowMenuDropdown] = useState(false);
 
   const firstName = userInfo.data.otherNames.split(" ")[0];
 
   const handleCloseDelete = () => setShowDelete(false);
   const handleShowDelete = () => setShowDelete(true);
+  const toggleShowMenuDropdown = () => setShowMenuDropdown((prev) => !prev);
 
   const [deleteMyAccount, { isLoading: isDeletingAccount }] =
     useDeleteMyAccountMutation();
@@ -38,16 +40,17 @@ export default function UserProfileDropdown({
 
   return (
     <>
-      <Dropdown align={"end"}>
-        <Dropdown.Toggle variant="success" as={"span"}>
+      <Dropdown align={"end"} show={showMenuDropdown}>
+        <Nav.Link>
           <Image
             fluid
             roundedCircle
             loading="lazy"
             className="profile-picture-sm"
+            onClick={toggleShowMenuDropdown}
             src={userInfo.data.profilePictureURL}
           />
-        </Dropdown.Toggle>
+        </Nav.Link>
         <Dropdown.Menu>
           <Dropdown.Header>{firstName || "User"} Options</Dropdown.Header>
           <LinkContainer to="/profile">
