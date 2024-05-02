@@ -75,6 +75,7 @@ export default function VendorDashboard() {
       toast.error("Failed to mark notification as read. Please try again.");
     }
   };
+
   const handleDeleteMessage = async (notificationId) => {
     try {
       const res = await deleteNotification(notificationId).unwrap();
@@ -87,8 +88,7 @@ export default function VendorDashboard() {
     }
   };
 
-  const toggleMessagesDropdown = () =>
-    setShowMessagesDropdown(!showMessagesDropdown);
+  const toggleMessagesDropdown = () => setShowMessagesDropdown((prev) => !prev);
 
   const unreadNotifications = notifications
     ? notifications.data.filter((notification) => !notification.read)
@@ -140,7 +140,7 @@ export default function VendorDashboard() {
             <Stack
               gap={4}
               direction="horizontal"
-              className="ms-auto justify-content-end">
+              className="justify-content-end">
               <Dropdown align={"end"} show={showMessagesDropdown}>
                 <Nav.Link onClick={toggleMessagesDropdown}>
                   <div className="position-relative">
