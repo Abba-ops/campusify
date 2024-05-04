@@ -258,7 +258,7 @@ export default function OrderScreen() {
                   <Row className="my-3">
                     <Col xs={6}>Order Status</Col>
                     <Col xs={6} className="text-end">
-                      {orderData.isOrderDelivered ? (
+                      {orderData.data.isOrderDelivered ? (
                         <Badge bg="success">Delivered</Badge>
                       ) : (
                         <Badge bg="primary">Pending</Badge>
@@ -268,7 +268,7 @@ export default function OrderScreen() {
                   <Row className="my-3">
                     <Col xs={6}>Payment Status</Col>
                     <Col xs={6} className="text-end">
-                      {orderData.isPaid ? (
+                      {orderData.data.isPaid ? (
                         <Badge bg="success">Paid</Badge>
                       ) : (
                         <Badge bg="primary">Unpaid</Badge>

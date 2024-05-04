@@ -89,6 +89,18 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getVendorProfile: builder.query({
+      query: (vendorId) => ({
+        url: `${VENDORS_URL}/profile/${vendorId}`,
+        method: "GET",
+      }),
+    }),
+    getUserVendorProduct: builder.query({
+      query: (vendorId) => ({
+        url: `${VENDORS_URL}/profile/products/${vendorId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -107,4 +119,6 @@ export const {
   useGetVendorNotificationsQuery,
   useMarkNotificationAsReadMutation,
   useDeleteNotificationMutation,
+  useGetVendorProfileQuery,
+  useGetUserVendorProductQuery,
 } = vendorApiSlice;

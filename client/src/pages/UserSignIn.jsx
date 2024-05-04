@@ -109,7 +109,7 @@ export default function UserSignIn() {
                         />
                         <Button
                           variant="secondary"
-                          className="text-uppercase"
+                          className="text-uppercase fw-semibold"
                           onClick={togglePasswordVisibility}>
                           {showPassword ? "Hide" : "Show"}
                         </Button>

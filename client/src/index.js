@@ -54,6 +54,8 @@ import VendorScreen from "./pages/VendorScreen";
 import "./assets/css/bootstrap.min.css";
 import "./assets/css/style.min.css";
 import FAQ from "./pages/FAQ";
+import VendorProfileSettings from "./pages/Vendor/VendorProfileSettings";
+import VendorFinance from "./pages/Vendor/VendorFinance";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -94,6 +96,11 @@ const router = createBrowserRouter(
             path="/vendor/dashboard/products"
             element={<VendorProductsTable />}
           />
+          <Route
+            path="/vendor/dashboard/profile"
+            element={<VendorProfileSettings />}
+          />
+          <Route path="/vendor/dashboard/wallet" element={<VendorFinance />} />
           <Route
             path="/vendor/dashboard/products/create"
             element={<VendorCreateProduct />}

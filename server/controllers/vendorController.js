@@ -261,7 +261,7 @@ const getVendorsBySaleCount = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Retrieve vendor notifications
- * @route   GET /api/vendor/notifications
+ * @route   GET /api/vendors/notifications
  * @access  Private (Vendor)
  */
 const getVendorNotifications = asyncHandler(async (req, res) => {
@@ -277,7 +277,7 @@ const getVendorNotifications = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Mark a notification as read
- * @route   PUT /api/vendor/notifications/:notificationId/mark-as-read
+ * @route   PUT /api/vendors/notifications/:notificationId/mark-as-read
  * @access  Private (Vendor)
  */
 const markNotificationAsRead = asyncHandler(async (req, res) => {
@@ -301,7 +301,7 @@ const markNotificationAsRead = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Delete a notification
- * @route   DELETE /api/vendor/notifications/:notificationId
+ * @route   DELETE /api/vendors/notifications/:notificationId
  * @access  Private (Vendor)
  */
 const deleteNotification = asyncHandler(async (req, res) => {
@@ -319,6 +319,32 @@ const deleteNotification = asyncHandler(async (req, res) => {
   res.json({ success: true, message: "Notification deleted successfully" });
 });
 
+/**
+ * @desc    Get products for a specific vendor
+ * @route   GET /api/vendors/profile/products/:vendorId
+ * @access  Public
+ */
+const getUserVendorProduct = asyncHandler(async (req, res) => {
+  const { vendorId } = req.params;
+
+  const vendorProducts = await Product.find({ vendor: vendorId });
+
+  res.status(200).json({ success: true, data: vendorProducts });
+});
+
+/**
+ * @desc    Get vendor profile by ID
+ * @route   GET /api/vendors/profile/:vendorId
+ * @access  Public
+ */
+const getVendorProfile = asyncHandler(async (req, res) => {
+  const { vendorId } = req.params;
+
+  const vendor = await Vendor.findById(vendorId);
+
+  res.status(200).json({ success: true, data: vendor });
+});
+
 export {
   getVendors,
   getVendorById,
@@ -333,4 +359,6 @@ export {
   getVendorsBySaleCount,
   getVendorNotifications,
   markNotificationAsRead,
+  getUserVendorProduct,
+  getVendorProfile,
 };

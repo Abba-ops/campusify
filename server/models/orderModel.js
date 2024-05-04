@@ -48,7 +48,6 @@ const orderSchema = new Schema(
       update_time: { type: String },
       email_address: { type: String },
     },
-    deliveredAt: { type: Date },
     comment: { type: String },
     paidAt: { type: Date },
   },

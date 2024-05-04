@@ -141,6 +141,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.userId);
 
+  const vendor = await Vendor.findOne({ user: req.params.userId });
+
   if (!user) {
     res.status(404);
     throw new Error("User not found");
@@ -148,7 +150,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    data: constructUserData(user),
+    data: constructUserData(user, vendor),
     message: "User found. Welcome!",
   });
 });

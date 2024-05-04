@@ -316,7 +316,7 @@ export default function AdminProductsTable() {
         </div>
         <Row className="mb-4">
           <Col lg={4}>
-            <Card className="border-0 rounded-0 py-3">
+            <Card className="border-0 rounded-0 py-3 shadow-sm">
               <Card.Body>
                 <Form onSubmit={handleAddCategory}>
                   <InputGroup>
@@ -348,7 +348,7 @@ export default function AdminProductsTable() {
                 md={4}
                 lg={3}
                 className="mb-3">
-                <Card className="border-0 rounded-0 mb-3">
+                <Card className="border-0 rounded-0 mb-3 shadow-sm">
                   <Card.Body className="d-flex justify-content-between align-items-center">
                     <h5 className="mb-0">{category.name}</h5>
                     <Button
@@ -397,7 +397,7 @@ export default function AdminProductsTable() {
         <Row>
           <Col lg={4}>
             <div>
-              <Card className="border-0 rounded-0 py-3">
+              <Card className="border-0 rounded-0 py-3 shadow-sm">
                 <Card.Body>
                   <Form onSubmit={handleAddSubcategory}>
                     <Form.Select

@@ -1,98 +1,87 @@
 import React from "react";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import Stack from "react-bootstrap/Stack";
 import { contactInfo } from "../constants";
 
 export default function ContactUs() {
+  const renderContactInfo = () => {
+    return contactInfo.map(({ icon, info }, index) => (
+      <Stack gap={3} key={index} direction="horizontal">
+        <p>{icon}</p>
+        <p>{info}</p>
+      </Stack>
+    ));
+  };
+
   return (
-    <section className="bg-white py-5">
+    <section className="py-5">
       <Container>
         <Row>
-          <Col lg={8} className="mb-5 mb-lg-0">
-            <h5 className="text-uppercase fw-bold text-body-emphasis mb-3">
-              Contact Us
-            </h5>
+          <Col lg={8} className="mb-6 mb-lg-0">
+            <h5 className="text-uppercase mb-3">Contact Us</h5>
             <Form>
-              <Form.Group as={Row} className="my-4">
-                <Form.Label column sm={4} className="raleway">
-                  First name
+              <Form.Group as={Row} className="mb-4">
+                <Form.Label column sm={4}>
+                  First Name
+                </Form.Label>
+                <Col sm={8}>
+                  <Form.Control type="text" placeholder="John" />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-4">
+                <Form.Label column sm={4}>
+                  Last Name
+                </Form.Label>
+                <Col sm={8}>
+                  <Form.Control type="text" placeholder="Doe" />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-4">
+                <Form.Label column sm={4}>
+                  Email Address
                 </Form.Label>
                 <Col sm={8}>
                   <Form.Control
-                    type="text"
-                    className="rounded-0"
-                    placeholder="Jadesola"
+                    type="email"
+                    placeholder="johndoe@example.com"
                   />
                 </Col>
               </Form.Group>
-              <Form.Group as={Row} className="my-4">
-                <Form.Label column sm={4} className="raleway">
-                  Last name
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control
-                    type="text"
-                    className="rounded-0"
-                    placeholder="Kajeyale"
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} className="my-4">
-                <Form.Label column sm={4} className="raleway">
-                  Email address
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control
-                    type="text"
-                    className="rounded-0"
-                    placeholder="johnbabs182@gmail.com"
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} className="my-4">
-                <Form.Label column sm={4} className="raleway">
+              <Form.Group as={Row} className="mb-4">
+                <Form.Label column sm={4}>
                   Message
                 </Form.Label>
                 <Col sm={8}>
-                  <FloatingLabel label="Message">
+                  <Form.Group className="mb-3">
                     <Form.Control
+                      rows={3}
                       as="textarea"
-                      className="rounded-0"
-                      placeholder="How can we help?"
-                      style={{ height: "100px" }}
+                      placeholder="Your message here..."
                     />
-                  </FloatingLabel>
+                  </Form.Group>
                 </Col>
               </Form.Group>
               <Button
-                className="rounded-0 text-uppercase raleway"
-                variant="dark">
+                variant="dark"
+                className="text-uppercase px-4 fw-semibold">
                 Send
               </Button>
             </Form>
           </Col>
           <Col lg={4}>
-            <h5 className="text-uppercase fw-bold text-body-emphasis mb-3">
-              Information
-            </h5>
-            <p className="raleway lead">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel
-              porro, quibusdam temporibus atque architecto quis reprehenderit,
-              enim iste quae dolores deserunt recusandae beatae. Quod expedita
-              nihil est explicabo quasi distinctio.
+            <h5 className="text-uppercase mb-3">Information</h5>
+            <p>
+              For any feedback or suggestions to enhance your experience on our
+              campus marketplace, please take a moment to fill out this contact
+              form. Your input is invaluable to us as we strive to improve and
+              cater to your needs. We commit to reviewing your submissions
+              promptly and responding within 24 hours. Thank you for helping us
+              elevate your shopping journey on our platform. Your feedback fuels
+              our continuous improvement efforts, ensuring a seamless and
+              satisfying experience for all.
             </p>
             <Stack direction="vertical" gap={2}>
-              {contactInfo.map(({ icon, info }, index) => (
-                <Stack gap={3} key={index} direction="horizontal">
-                  <p>{icon}</p>
-                  <p>{info}</p>
-                </Stack>
-              ))}
+              {renderContactInfo()}
             </Stack>
           </Col>
         </Row>

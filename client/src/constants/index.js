@@ -120,11 +120,6 @@ export const contactInfo = [
     info: "0905-392-9899",
   },
   {
-    type: "phone",
-    icon: <FaPhoneAlt />,
-    info: "0905-392-9899",
-  },
-  {
     type: "email",
     icon: <FaEnvelope />,
     info: "jadesolakajeyale@gmail.com",

@@ -66,6 +66,8 @@ const createNewOrder = asyncHandler(async (req, res) => {
     totalPrice,
     taxPrice,
     comment,
+    isPaid: true,
+    paidAt: new Date(),
   });
 
   const createdOrder = await order.save();
@@ -199,6 +201,7 @@ const markOrderAsDelivered = asyncHandler(async (req, res) => {
   order.orderItems.forEach((product) => {
     if (product.vendor.toString() === req.vendor._id.toString()) {
       product.isDelivered = true;
+      product.deliveredAt = new Date();
     }
   });
 
