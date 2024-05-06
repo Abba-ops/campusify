@@ -116,13 +116,15 @@ export default function UserCart() {
               <ListGroup.Item>
                 <Row className="my-3">
                   <Col xs={6}>
-                    {cartItems.length === 1
+                    {cartItems.length === 0
+                      ? "0 items in cart"
+                      : cartItems.length === 1
                       ? "1 item in cart"
                       : `${cartItems.length} items in cart`}
                   </Col>
                   <Col xs={6} className="text-end">
                     <div className="text-primary">
-                      &#8358;{numberWithCommas(itemsPrice)}
+                      &#8358;{numberWithCommas(itemsPrice || 0)}
                     </div>
                   </Col>
                 </Row>
@@ -132,7 +134,7 @@ export default function UserCart() {
                   <Col xs={6}>Delivery Fee</Col>
                   <Col xs={6} className="text-end">
                     <div className="text-primary">
-                      &#8358;{numberWithCommas(deliveryPrice)}
+                      &#8358;{numberWithCommas(deliveryPrice || 0)}
                     </div>
                   </Col>
                 </Row>
@@ -140,7 +142,7 @@ export default function UserCart() {
                   <Col xs={6}>Tax Amount</Col>
                   <Col xs={6} className="text-end">
                     <div className="text-primary">
-                      &#8358;{numberWithCommas(taxPrice)}
+                      &#8358;{numberWithCommas(taxPrice || 0)}
                     </div>
                   </Col>
                 </Row>
@@ -148,7 +150,7 @@ export default function UserCart() {
                   <Col xs={6}>Total Cost</Col>
                   <Col xs={6} className="text-end">
                     <div className="text-primary">
-                      &#8358;{numberWithCommas(totalPrice)}
+                      &#8358;{numberWithCommas(totalPrice || 0)}
                     </div>
                   </Col>
                 </Row>
@@ -160,7 +162,7 @@ export default function UserCart() {
                     disabled={cartItems.length === 0}
                     className="text-uppercase px-4 fw-semibold"
                     variant="dark">
-                    Checkout Now
+                    Proceed to Checkout
                   </Button>
                 </div>
               </ListGroup.Item>
