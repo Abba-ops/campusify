@@ -3,8 +3,8 @@ import {
   useGetUserVendorProductQuery,
   useGetVendorProfileQuery,
 } from "../features/vendorApiSlice";
-import { useParams } from "react-router-dom";
-import { Card, Col, Container, Image, Row } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import { Card, Col, Container, Image, ListGroup, Row } from "react-bootstrap";
 import CarouselProducts from "../components/CarouselProducts";
 
 export default function VendorScreen() {
@@ -46,23 +46,71 @@ export default function VendorScreen() {
               <Card.Body>
                 {isErrorProfile ? (
                   <div className="text-center mt-5">
-                    <h4 className="text-danger">Error Loading User Profile</h4>
+                    <h4 className="text-danger">Failed to Load User Profile</h4>
                     <p className="mt-3">
-                      Failed to load user profile data. Please try again later.
+                      We're sorry, but we encountered an issue while loading the
+                      user profile. Please try again later.
                     </p>
                   </div>
                 ) : isLoadingVendorProfile ? (
                   renderLoadingState
                 ) : (
-                  <div className="text-center">
-                    <Image
-                      fluid
-                      roundedCircle
-                      loading="lazy"
-                      className="profile-picture-lg border"
-                      src={vendorProfile && vendorProfile.data.vendorLogo}
-                    />
-                  </div>
+                  <>
+                    <div className="text-center">
+                      <Image
+                        fluid
+                        roundedCircle
+                        loading="lazy"
+                        className="profile-picture-lg border"
+                        src={vendorProfile && vendorProfile.data.vendorLogo}
+                      />
+                    </div>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item>
+                        <strong>Vendor Name:</strong>{" "}
+                        {vendorProfile.data.vendorName}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <strong>Email:</strong>{" "}
+                        <Link
+                          className="text-decoration-none"
+                          to={`mailto:${vendorProfile.data.vendorEmail}`}>
+                          {vendorProfile.data.vendorEmail}
+                        </Link>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <strong>Phone:</strong> {vendorProfile.data.vendorPhone}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <strong>Sales Count:</strong>{" "}
+                        {vendorProfile.data.salesCount}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <strong>Approval Status:</strong>{" "}
+                        {vendorProfile.data.approvalStatus}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <strong>Date Joined:</strong>{" "}
+                        {vendorProfile.data.dateJoined}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <strong>Estimated Delivery Time:</strong>{" "}
+                        {vendorProfile.data.estimatedDeliveryTime}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <strong>Vendor Description:</strong>{" "}
+                        {vendorProfile.data.vendorDescription}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <strong>Products Description:</strong>{" "}
+                        {vendorProfile.data.productsDescription}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <strong>Is Approved:</strong>{" "}
+                        {vendorProfile.data.isApproved ? "Yes" : "No"}
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </>
                 )}
               </Card.Body>
             </Card>
@@ -71,13 +119,13 @@ export default function VendorScreen() {
             {vendorProducts && vendorProducts.data.length === 0 ? (
               <div className="text-center">
                 <h3>No products available</h3>
-                <p>Sorry, there are no products available from this vendor.</p>
+                <p>
+                  Apologies, but it seems there are currently no products
+                  offered by this vendor.
+                </p>
               </div>
             ) : (
               <>
-                <h3 className="text-uppercase text-center">
-                  Explore Our Products
-                </h3>
                 <CarouselProducts
                   lgColumnSize={6}
                   isError={isErrorVendorProducts}
