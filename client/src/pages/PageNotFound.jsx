@@ -32,14 +32,14 @@ export default function PageNotFound() {
                 to="/"
                 as={Link}
                 variant="primary"
-                className="text-uppercase px-4 fw-semibold text-white">
+                className="px-4 text-white">
                 Return to Home
               </Button>
               <Button
                 as={Link}
                 variant="dark"
                 to="/categories"
-                className="ml-2 text-uppercase px-4 fw-semibold">
+                className="ml-2 px-4">
                 Explore Categories
               </Button>
             </div>

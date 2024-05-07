@@ -33,7 +33,7 @@ export default function HeaderHero() {
               as={Link}
               size="lg"
               variant="primary"
-              className="text-uppercase fw-semibold text-white">
+              className="text-white">
               Shop Now
             </Button>
             <Button
@@ -44,8 +44,7 @@ export default function HeaderHero() {
                 userInfo
                   ? "/vendor-application"
                   : `/register?redirect=/vendor-application`
-              }
-              className="text-uppercase fw-semibold">
+              }>
               Start Selling
             </Button>
           </ButtonGroup>

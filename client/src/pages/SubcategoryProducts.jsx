@@ -158,7 +158,7 @@ export default function SubcategoryProducts() {
                           <Button
                             variant="dark"
                             onClick={loadMoreProducts}
-                            className="text-uppercase mt-4 px-4 fw-semibold">
+                            className="mt-4 px-4">
                             Load More
                           </Button>
                         </div>

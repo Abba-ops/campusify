@@ -60,11 +60,7 @@ export default function ProductSearch() {
                   criteria.
                 </p>
                 <p>Please try adjusting your search terms or</p>
-                <Button
-                  to="/"
-                  as={Link}
-                  variant="primary"
-                  className="text-uppercase px-4 fw-semibold text-white">
+                <Button to="/" as={Link} variant="primary" className="px-4">
                   Go to Home
                 </Button>
               </div>
@@ -92,7 +88,7 @@ export default function ProductSearch() {
                           <Button
                             variant="dark"
                             onClick={handleLoadMore}
-                            className="text-uppercase mt-4 px-4 fw-semibold">
+                            className="mt-4 px-4">
                             Load More
                           </Button>
                         </Col>

@@ -106,7 +106,7 @@ export default function UserCart() {
               to={"/"}
               as={Link}
               size="sm"
-              className="my-5 px-3 fw-semibold text-uppercase"
+              className="my-5"
               variant="dark">
               <BsArrowLeft className="me-2" /> Continue Shopping
             </Button>
@@ -160,7 +160,7 @@ export default function UserCart() {
                   <Button
                     onClick={checkoutHandler}
                     disabled={cartItems.length === 0}
-                    className="text-uppercase px-4 fw-semibold"
+                    className="px-4"
                     variant="dark">
                     Proceed to Checkout
                   </Button>

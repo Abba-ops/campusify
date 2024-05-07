@@ -109,7 +109,6 @@ export default function UserSignIn() {
                         />
                         <Button
                           variant="secondary"
-                          className="text-uppercase fw-semibold"
                           onClick={togglePasswordVisibility}>
                           {showPassword ? "Hide" : "Show"}
                         </Button>
@@ -126,7 +125,7 @@ export default function UserSignIn() {
                       type="submit"
                       variant="dark"
                       disabled={isLoading}
-                      className="text-uppercase px-4 fw-semibold">
+                      className="px-4">
                       {isLoading ? (
                         <Spinner size="sm" animation="border">
                           <span className="visually-hidden"></span>

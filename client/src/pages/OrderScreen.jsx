@@ -193,7 +193,6 @@ export default function OrderScreen() {
                               <Button
                                 size="sm"
                                 variant="dark"
-                                className="text-uppercase fw-semibold"
                                 disabled={
                                   !product.isDelivered && !product.isReceived
                                 }

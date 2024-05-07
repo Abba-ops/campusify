@@ -79,14 +79,14 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
         <Modal.Footer>
           <Button
             onClick={handleClose}
-            className="text-uppercase fw-semibold text-white px-4"
+            className="text-white px-4"
             variant="primary">
             Close
           </Button>
           <Button
             variant="dark"
             onClick={handleAddToCart}
-            className="text-uppercase fw-semibold px-4"
+            className="px-4"
             disabled={isOutOfStock}>
             {isOutOfStock ? "Out of Stock" : "Add to Cart"}
           </Button>

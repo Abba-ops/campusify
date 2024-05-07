@@ -98,7 +98,7 @@ export default function CartCheckout() {
           <Col lg={8} className="mb-5 mb-lg-0">
             <ListGroup>
               <ListGroup.Item>
-                <h5 className="text-uppercase my-2">Confirm Your Order</h5>
+                <h5 className="text-uppercase my-2">Complete Your Purchase</h5>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Form className="py-3">
@@ -287,17 +287,14 @@ export default function CartCheckout() {
                 </Form>
                 <div className="d-flex justify-content-end mb-4">
                   {paymentConfirmed ? (
-                    <Button
-                      variant="dark"
-                      className="fw-semibold text-uppercase"
-                      disabled={!paymentConfirmed}>
+                    <Button variant="dark" disabled={!paymentConfirmed}>
                       <Spinner size="sm" animation="border">
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>
                     </Button>
                   ) : (
                     <PaystackButton
-                      className="btn btn-dark text-uppercase px-4 fw-semibold"
+                      className="btn btn-dark px-4"
                       {...componentProps}
                     />
                   )}

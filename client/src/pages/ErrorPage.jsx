@@ -35,7 +35,7 @@ export default function ErrorPage() {
                   as={Link}
                   size="lg"
                   variant="primary"
-                  className="text-uppercase px-4 fw-semibold text-white">
+                  className="px-4 text-white">
                   Refresh Page
                 </Button>
               </div>

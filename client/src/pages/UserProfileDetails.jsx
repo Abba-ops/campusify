@@ -175,7 +175,7 @@ export default function UserProfileDetails() {
                   <div className="mb-3 d-flex justify-content-center">
                     <Button
                       onClick={handleUpdatePassword}
-                      className="text-uppercase px-4 fw-semibold"
+                      className="px-4"
                       variant="dark">
                       {isLoading ? (
                         <Spinner size="sm" animation="border" />

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import Stack from "react-bootstrap/Stack";
 import { contactInfo } from "../constants";
+import MetaTags from "../components/MetaTags";
 
 export default function ContactUs() {
   const renderContactInfo = () => {
@@ -13,8 +14,17 @@ export default function ContactUs() {
     ));
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <section className="py-5">
+      <MetaTags
+        title="Contact Us - Campusify"
+        description="Have questions or feedback? Contact us via this form or through our provided contact information. We're here to assist you!"
+        keywords="contact us, feedback, suggestions, campus marketplace, customer support"
+      />
       <Container>
         <Row>
           <Col lg={8} className="mb-6 mb-lg-0">
@@ -61,9 +71,7 @@ export default function ContactUs() {
                   </Form.Group>
                 </Col>
               </Form.Group>
-              <Button
-                variant="dark"
-                className="text-uppercase px-4 fw-semibold">
+              <Button variant="dark" className="px-4">
                 Send
               </Button>
             </Form>

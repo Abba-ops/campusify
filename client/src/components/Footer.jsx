@@ -40,10 +40,7 @@ export default function Footer() {
                   className="form-control"
                   placeholder="Enter your email..."
                 />
-                <Button
-                  variant="primary"
-                  className="text-uppercase fw-semibold text-white"
-                  type="button">
+                <Button variant="primary" className="text-white" type="button">
                   Subscribe
                 </Button>
               </div>
