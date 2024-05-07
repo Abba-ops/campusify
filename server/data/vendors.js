@@ -1,25 +1,25 @@
 const vendorData = [
   {
-    vendorName: "Fashion Haven",
-    vendorEmail: "fashion@example.com",
-    vendorPhone: "987-654-3210",
-    salesCount: 5,
+    vendorName: "Tech Emporium",
+    vendorEmail: "info@techemporium.com",
+    vendorPhone: "123-456-7890",
+    salesCount: 10,
     approvalStatus: "approved",
-    vendorDescription: "A trendy fashion store",
+    vendorDescription: "Your one-stop shop for all things tech!",
     productsDescription:
-      "A trendy fashion store offering a wide range of clothing items.",
+      "We offer the latest gadgets, electronics, and accessories.",
     estimatedDeliveryTime: "2 days",
     socialMediaLinks: {
-      facebook: "https://www.facebook.com/fashionhaven",
-      twitter: "https://twitter.com/fashion_haven",
-      instagram: "https://www.instagram.com/fashionhaven/",
+      facebook: "https://www.facebook.com/techemporium",
+      twitter: "https://twitter.com/techemporium",
+      instagram: "https://www.instagram.com/techemporium/",
     },
     dateJoined: new Date(),
     approvalDate: new Date(),
     isApproved: true,
-    averageRating: 4.5,
+    averageRating: 4.8,
     vendorLogo:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1713262224/campusify/logos/6537937_eoxyvi.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1713428273/campusify/logos/k6gg1kmwhmeklreccv4g.jpg",
   },
 ];
 

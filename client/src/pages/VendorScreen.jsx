@@ -1,11 +1,21 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import {
   useGetUserVendorProductQuery,
   useGetVendorProfileQuery,
 } from "../features/vendorApiSlice";
-import { Link, useParams } from "react-router-dom";
-import { Card, Col, Container, Image, ListGroup, Row } from "react-bootstrap";
+import { Card, Col, Container, Image, Row, Stack } from "react-bootstrap";
 import CarouselProducts from "../components/CarouselProducts";
+import {
+  EmailIcon,
+  EmailShareButton,
+  FacebookIcon,
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+  XIcon,
+} from "react-share";
 
 export default function VendorScreen() {
   const { vendorId } = useParams();
@@ -23,18 +33,22 @@ export default function VendorScreen() {
   } = useGetUserVendorProductQuery(vendorId);
 
   const renderLoadingState = (
-    <div className="text-center">
-      <div className="placeholder-glow">
-        <span
-          className="placeholder col-12 profile-picture-lg rounded-pill mb-3"
-          style={{ height: "400px" }}></span>
-        <div className="text-center">
-          <span className="placeholder col-8 mb-2"></span>
-          <span className="placeholder col-12 mb-2"></span>
-          <span className="placeholder col-8 mb-2"></span>
+    <Row>
+      <Col lg={6}>
+        <div className="placeholder-glow">
+          <span
+            className="placeholder col-12 profile-picture-lg rounded-pill mb-3"
+            style={{ height: "400px" }}></span>
         </div>
-      </div>
-    </div>
+      </Col>
+      <Col lg={6}>
+        <div className="placeholder-glow">
+          {[...Array(8)].map((_, index) => (
+            <span key={index} className="placeholder col-12 mb-2"></span>
+          ))}
+        </div>
+      </Col>
+    </Row>
   );
 
   return (
@@ -56,60 +70,45 @@ export default function VendorScreen() {
                   renderLoadingState
                 ) : (
                   <>
-                    <div className="text-center">
-                      <Image
-                        fluid
-                        roundedCircle
-                        loading="lazy"
-                        className="profile-picture-lg border"
-                        src={vendorProfile && vendorProfile.data.vendorLogo}
-                      />
-                    </div>
-                    <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        <strong>Vendor Name:</strong>{" "}
-                        {vendorProfile.data.vendorName}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Email:</strong>{" "}
-                        <Link
-                          className="text-decoration-none"
-                          to={`mailto:${vendorProfile.data.vendorEmail}`}>
-                          {vendorProfile.data.vendorEmail}
-                        </Link>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Phone:</strong> {vendorProfile.data.vendorPhone}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Sales Count:</strong>{" "}
-                        {vendorProfile.data.salesCount}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Approval Status:</strong>{" "}
-                        {vendorProfile.data.approvalStatus}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Date Joined:</strong>{" "}
-                        {vendorProfile.data.dateJoined}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Estimated Delivery Time:</strong>{" "}
-                        {vendorProfile.data.estimatedDeliveryTime}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Vendor Description:</strong>{" "}
-                        {vendorProfile.data.vendorDescription}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Products Description:</strong>{" "}
-                        {vendorProfile.data.productsDescription}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Is Approved:</strong>{" "}
-                        {vendorProfile.data.isApproved ? "Yes" : "No"}
-                      </ListGroup.Item>
-                    </ListGroup>
+                    <Row>
+                      <Col lg={6}>
+                        <Image
+                          fluid
+                          roundedCircle
+                          loading="lazy"
+                          alt={vendorProfile.data.vendorName}
+                          className="profile-picture-lg border mb-3"
+                          src={vendorProfile && vendorProfile.data.vendorLogo}
+                        />
+                      </Col>
+                      <Col lg={6}>
+                        <Card.Title>{vendorProfile.data.vendorName}</Card.Title>
+                        <Card.Text>{vendorProfile.data.vendorEmail}</Card.Text>
+                        <Card.Text>{vendorProfile.data.vendorPhone}</Card.Text>
+                        <Card.Text>
+                          {vendorProfile.data.vendorDescription}
+                        </Card.Text>
+                        <Card.Text>
+                          {vendorProfile.data.productsDescription}
+                        </Card.Text>
+                        <Stack direction="horizontal" gap={3} className="mb-3">
+                          <FacebookShareButton hashtag={""}>
+                            <FacebookIcon size={40} round />
+                          </FacebookShareButton>
+                          <TwitterShareButton
+                            hashtags={[]}
+                            title={vendorProfile.data.productName}>
+                            <XIcon size={40} round />
+                          </TwitterShareButton>
+                          <WhatsappShareButton separator="">
+                            <WhatsappIcon size={40} round />
+                          </WhatsappShareButton>
+                          <EmailShareButton>
+                            <EmailIcon size={40} round />
+                          </EmailShareButton>
+                        </Stack>
+                      </Col>
+                    </Row>
                   </>
                 )}
               </Card.Body>
