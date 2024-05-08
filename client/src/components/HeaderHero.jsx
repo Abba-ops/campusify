@@ -16,8 +16,8 @@ export default function HeaderHero() {
                 <div className="image-container">
                   <Image
                     fluid
-                    src={`/images/hero_image_${index}.jpg`}
                     className="product-image"
+                    src={`/images/hero_image_${index}.jpg`}
                   />
                 </div>
               </Carousel.Item>
