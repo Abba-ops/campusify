@@ -8,12 +8,18 @@ export default function HeaderHero() {
 
   return (
     <header className="px-lg-4 border-bottom">
-      <div className="row flex-lg-row align-items-center py-5">
-        <div className="col-lg-6 order-lg-2 mb-4 mb-lg-0">
+      <div className="row flex-lg-row align-items-center">
+        <div className="col-lg-6 order-lg-2">
           <Carousel indicators={false} controls={false}>
             {[1, 2, 3].map((index) => (
               <Carousel.Item key={index}>
-                <Image src={`/images/hero_image_${index}.jpg`} fluid />
+                <div className="image-container">
+                  <Image
+                    fluid
+                    className="product-image"
+                    src={`/images/hero_image_${index}.jpg`}
+                  />
+                </div>
               </Carousel.Item>
             ))}
           </Carousel>
