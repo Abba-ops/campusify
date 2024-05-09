@@ -1,9 +1,15 @@
 import React from "react";
 import { Col, Container, Image, Row } from "react-bootstrap";
+import MetaTags from "../components/MetaTags";
 
 export default function About() {
   return (
     <section className="py-5">
+      <MetaTags
+        title="Explore Our Campus Marketplace - Campusify"
+        description="Learn about Campusify, the platform revolutionizing the way university students engage in commerce within their campus communities."
+        keywords="Campusify, campus marketplace, student entrepreneurs, university life, e-commerce"
+      />
       <Container>
         <Row>
           <Col lg={6} className="mb-4 mb-lg-0">
