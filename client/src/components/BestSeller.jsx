@@ -23,7 +23,7 @@ export default function BestSeller() {
             <h2 className="text-uppercase mb-4">Best Sellers</h2>
           </div>
           <CarouselProducts
-            lgColumnSize={6}
+            lgColumnSize={2}
             isError={isError}
             isLoading={isLoading}
             showPreviewIcon={true}

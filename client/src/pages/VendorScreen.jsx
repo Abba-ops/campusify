@@ -126,7 +126,7 @@ export default function VendorScreen() {
             ) : (
               <>
                 <CarouselProducts
-                  lgColumnSize={6}
+                  lgColumnSize={2}
                   isError={isErrorVendorProducts}
                   isLoading={isLoadingVendorProducts}
                   showPreviewIcon={false}

@@ -51,11 +51,14 @@ import About from "./pages/About";
 import VendorCustomersTable from "./pages/Vendor/VendorCustomersTable";
 import AdminCustomersTable from "./pages/Admin/AdminCustomersTable";
 import VendorScreen from "./pages/VendorScreen";
-import "./assets/css/bootstrap.min.css";
-import "./assets/css/style.min.css";
-import FAQ from "./pages/FAQ";
 import VendorProfileSettings from "./pages/Vendor/VendorProfileSettings";
 import VendorFinance from "./pages/Vendor/VendorFinance";
+import FAQ from "./pages/FAQ";
+
+import "./assets/css/bootstrap.min.css";
+import "./assets/css/style.min.css";
+import "swiper/css/pagination";
+import "swiper/css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

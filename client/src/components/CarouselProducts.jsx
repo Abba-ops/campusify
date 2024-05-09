@@ -1,11 +1,12 @@
 import React from "react";
-import { Container, Col, Row, Badge } from "react-bootstrap";
+import { Container, Badge } from "react-bootstrap";
 import { BsArrowRight } from "react-icons/bs";
 import ProductCard from "./ProductCard";
 import SingleProductPlaceholder from "./SingleProductPlaceholder";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function CarouselProducts({
-  lgColumnSize = 12,
+  lgColumnSize = 4,
   showPreviewIcon,
   productsData,
   isLoading,
@@ -15,22 +16,29 @@ export default function CarouselProducts({
     <Container className="pt-4">
       {!isError ? (
         <div>
-          <Row className="overflow-x-scroll overflow-y-hidden flex-nowrap products-slider">
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={30}
+            breakpoints={{
+              992: {
+                slidesPerView: lgColumnSize,
+              },
+            }}>
             {!isLoading
               ? productsData?.map((product) => (
-                  <Col lg={lgColumnSize} key={product._id} md={6}>
+                  <SwiperSlide>
                     <ProductCard
                       product={product}
                       showPreviewIcon={showPreviewIcon}
                     />
-                  </Col>
+                  </SwiperSlide>
                 ))
               : Array.from({ length: 4 }, (_, index) => (
-                  <Col lg={lgColumnSize} md={6} key={index}>
+                  <SwiperSlide>
                     <SingleProductPlaceholder />
-                  </Col>
+                  </SwiperSlide>
                 ))}
-          </Row>
+          </Swiper>
           <div className="scroll-indicator text-center mt-3">
             <BsArrowRight className="scroll-icon" />
             <span className="scroll-text">

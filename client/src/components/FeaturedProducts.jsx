@@ -17,7 +17,7 @@ export default function FeaturedProducts() {
       </div>
 
       <CarouselProducts
-        lgColumnSize={3}
+        lgColumnSize={4}
         showPreviewIcon={true}
         isError={isError}
         isLoading={isLoading}

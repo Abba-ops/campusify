@@ -301,7 +301,7 @@ export default function ProductDetail() {
                 <h4 className="text-uppercase text-center">Other Products</h4>
               )}
               <CarouselProducts
-                lg={12}
+                lgColumnSize={1}
                 showPreviewIcon={false}
                 isError={errorBestSellingProducts}
                 isLoading={loadingBestSellingProducts}

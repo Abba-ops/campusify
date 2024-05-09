@@ -16,7 +16,7 @@ export default function PopularProducts() {
         <h2 className="text-uppercase mb-4">Popular Products</h2>
       </div>
       <CarouselProducts
-        lgColumnSize={3}
+        lgColumnSize={4}
         showPreviewIcon={true}
         isError={isError}
         isLoading={isLoading}

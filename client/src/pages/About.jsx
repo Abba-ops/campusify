@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Image, Row } from "react-bootstrap";
 import MetaTags from "../components/MetaTags";
 
 export default function About() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <section className="py-5">
       <MetaTags
