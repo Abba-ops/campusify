@@ -166,7 +166,7 @@ export default function ProductDetail() {
                     fluid
                     loading="lazy"
                     className="product-image"
-                    src={`${productData.data.imageUrl}`}
+                    src={`${productData?.data?.imageUrl}`}
                   />
                 </div>
               )}
@@ -208,18 +208,18 @@ export default function ProductDetail() {
               ) : (
                 <>
                   <MetaTags
-                    title={`${productData.data.productName} - ${productData.data.vendor.vendorName} - Campusify`}
-                    description={productData.data.productDescription}
-                    keywords={`${productData.data.productName}, ${productData.data.vendor.vendorName}, ${productData.data.category.name}, product, ecommerce, online shopping`}
+                    title={`${productData?.data?.productName} - ${productData?.data?.vendor.vendorName} - Campusify`}
+                    description={productData?.data?.productDescription}
+                    keywords={`${productData?.data?.productName}, ${productData?.data?.vendor?.vendorName}, ${productData?.data?.category?.name}, product, ecommerce, online shopping`}
                   />
                   <h3 className="text-uppercase mb-3">
-                    {productData.data.productName}
+                    {productData?.data?.productName}
                   </h3>
                   <div className="mb-3">
                     <StarRating
-                      value={productData.data.rating}
-                      text={`${productData.data.reviewCount} ${
-                        productData.data.reviewCount === 1
+                      value={productData?.data?.rating}
+                      text={`${productData?.data?.reviewCount} ${
+                        productData?.data?.reviewCount === 1
                           ? "Review"
                           : "Reviews"
                       }`}
@@ -227,52 +227,52 @@ export default function ProductDetail() {
                   </div>
                   <Link
                     className="text-decoration-none"
-                    to={`/vendor/${productData.data.vendor._id}`}>
+                    to={`/vendor/${productData?.data?.vendor?._id}`}>
                     <h5>
-                      {productData.data.vendor.vendorName}{" "}
-                      {productData.data.vendor.isApproved && (
+                      {productData?.data?.vendor?.vendorName}{" "}
+                      {productData?.data?.vendor?.isApproved && (
                         <FaCheckCircle color="green" title="Verified" />
                       )}
                     </h5>
                   </Link>
                   <p className="my-3 text-break">
-                    {productData.data.productDescription}
+                    {productData?.data?.productDescription}
                   </p>
                   <Stack direction="horizontal" gap={3} className="mb-3">
                     <FacebookShareButton
                       url={currentUrl}
-                      title={productData.data.productName}
+                      title={productData?.data?.productName}
                       hashtag={"CampusStyle"}>
                       <FacebookIcon size={40} round />
                     </FacebookShareButton>
                     <TwitterShareButton
                       url={currentUrl}
                       hashtags={["StudentLife", "CampusStyle", "BackToSchool"]}
-                      title={productData.data.productName}>
+                      title={productData?.data?.productName}>
                       <XIcon size={40} round />
                     </TwitterShareButton>
                     <WhatsappShareButton
                       url={currentUrl}
-                      title={`Check out this awesome product: ${productData.data.productName}!`}
+                      title={`Check out this awesome product: ${productData?.data?.productName}!`}
                       separator="">
                       <WhatsappIcon size={40} round />
                     </WhatsappShareButton>
                     <EmailShareButton
                       url={currentUrl}
-                      subject={`Check out this product: ${productData.data.productName}`}
+                      subject={`Check out this product: ${productData?.data?.productName}`}
                       body={`Hi there,\n\nI thought you might be interested in this awesome product I found on our campus marketplace:\n\n${productData.data.productName}\n\nCheck it out here: ${currentUrl}`}>
                       <EmailIcon size={40} round />
                     </EmailShareButton>
                   </Stack>
                   <h4 className="text-primary mb-3">
-                    &#8358;{numberWithCommas(productData.data.price)}
+                    &#8358;{numberWithCommas(productData?.data?.price)}
                   </h4>
                   <Form.Group className="mb-3">
                     <Form.Select
                       size="lg"
-                      disabled={!productData.data.countInStock > 0}
+                      disabled={!productData?.data?.countInStock > 0}
                       onChange={(e) => setCartQuantity(Number(e.target.value))}>
-                      {[...Array(productData.data.countInStock).keys()].map(
+                      {[...Array(productData?.data?.countInStock).keys()].map(
                         (x) => (
                           <option value={x + 1} key={x + 1}>
                             {x + 1}
@@ -286,7 +286,7 @@ export default function ProductDetail() {
                       size="lg"
                       variant="dark"
                       onClick={addToCartHandler}
-                      disabled={productData.data.countInStock === 0}>
+                      disabled={productData?.data?.countInStock === 0}>
                       <MdAddShoppingCart className="me-2" />{" "}
                       {productData.data.countInStock > 0
                         ? "Add to Cart"
@@ -305,7 +305,7 @@ export default function ProductDetail() {
                 showPreviewIcon={false}
                 isError={errorBestSellingProducts}
                 isLoading={loadingBestSellingProducts}
-                productsData={bestSellingProducts && bestSellingProducts.data}
+                productsData={bestSellingProducts && bestSellingProducts?.data}
               />
             </Col>
           </Row>
@@ -349,12 +349,12 @@ export default function ProductDetail() {
                   <h5 className="text-uppercase mb-3">
                     What Our Customers Say
                   </h5>
-                  {productData && productData.data.reviews.length === 0 && (
+                  {productData && productData?.data?.reviews.length === 0 && (
                     <>
                       <Alert variant="warning" className="rounded-0 border-0">
                         <p className="mb-0">
                           There are no reviews yet for{" "}
-                          <strong>{productData.data.productName}</strong>.
+                          <strong>{productData?.data?.productName}</strong>.
                         </p>
                         <p className="mb-0">
                           Be the first to share your experience and assist
@@ -406,7 +406,7 @@ export default function ProductDetail() {
                             <StarRating value={review.rating} size={18} />
                           </div>
                           <p className="mb-2 text-break">{review.comment}</p>
-                          {userInfo && userInfo.data.id === review.user && (
+                          {userInfo && userInfo?.data?.id === review.user && (
                             <Button
                               variant="link"
                               onClick={() => handleDeleteReview(review._id)}
@@ -473,7 +473,7 @@ export default function ProductDetail() {
                             className="rounded-0 border-0">
                             <p className="mb-0">
                               Are you ready to share your thoughts on{" "}
-                              <strong>{productData.data.productName}</strong>?
+                              <strong>{productData?.data?.productName}</strong>?
                               Your feedback can assist others in making informed
                               decisions.
                             </p>
@@ -501,9 +501,9 @@ export default function ProductDetail() {
       )}
       <BackToTop />
       <div className="text-center my-3">
-        <Link to="/" className="btn btn-outline-dark px-4 fw-semibold">
+        <Link to="/" className="btn btn-outline-dark px-4">
           <BsArrowLeft className="me-2" />
-          Discover More
+          <span className="text-capitalize">Discover More</span>
         </Link>
       </div>
       <CartPreviewModal
