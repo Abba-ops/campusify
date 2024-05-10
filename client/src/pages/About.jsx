@@ -27,7 +27,7 @@ export default function About() {
           </Col>
           <Col lg={6}>
             <div>
-              <h4 className="text-uppercase">Explore Our Campus Marketplace</h4>
+              <h5 className="text-uppercase">Explore Our Campus Marketplace</h5>
               <p>
                 At Campusify, we're dedicated to revolutionizing the way
                 university students engage in commerce within their campus
@@ -36,7 +36,7 @@ export default function About() {
                 specifically to the unique needs and dynamics of university
                 life.
               </p>
-              <h4 className="text-uppercase">Our Mission</h4>
+              <h5 className="text-uppercase">Our Mission</h5>
               <p>
                 Our mission is simple yet powerful: to empower student
                 entrepreneurs by providing them with the tools and opportunities
@@ -45,7 +45,7 @@ export default function About() {
                 businesses, and we're here to support them every step of the
                 way.
               </p>
-              <h4 className="text-uppercase">Why Campusify?</h4>
+              <h5 className="text-uppercase">Why Campusify?</h5>
               <p>
                 Traditional marketplaces often fall short when it comes to
                 catering to the specific needs of campus communities. That's
@@ -53,7 +53,7 @@ export default function About() {
                 students face in showcasing and monetizing their products and
                 services within their campus, and we're here to bridge that gap.
               </p>
-              <h4 className="text-uppercase">Bridging the Gap</h4>
+              <h5 className="text-uppercase">Bridging the Gap</h5>
               <p>
                 With Campusify, students no longer have to rely on generic
                 e-commerce platforms that may not understand the dynamics of
@@ -62,7 +62,7 @@ export default function About() {
                 user-friendly interface to register, showcase, and sell their
                 products or services within their campus community.
               </p>
-              <h4 className="text-uppercase">Fostering Entrepreneurship</h4>
+              <h5 className="text-uppercase">Fostering Entrepreneurship</h5>
               <p>
                 But Campusify is more than just a marketplace—it's a catalyst
                 for entrepreneurship. By providing students with a platform to
@@ -73,7 +73,7 @@ export default function About() {
                 contributing to the development of vibrant entrepreneurial
                 ecosystems within universities.
               </p>
-              <h4 className="text-uppercase">Join Us</h4>
+              <h5 className="text-uppercase">Join Us</h5>
               <p>
                 Whether you're a student looking to turn your passion into
                 profit or a campus community member eager to support local

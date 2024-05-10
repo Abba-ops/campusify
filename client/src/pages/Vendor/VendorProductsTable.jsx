@@ -101,7 +101,7 @@ export default function VendorProductsTable() {
           </Breadcrumb>
           <div className="d-lg-flex justify-content-between align-items-center">
             <div>
-              <h2>Manage Your Products</h2>
+              <h2>Product Management</h2>
               <p>
                 Efficiently oversee your product listings. Keep your product
                 information accurate and up-to-date with ease.

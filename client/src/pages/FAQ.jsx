@@ -27,9 +27,9 @@ export default function FAQ() {
             </div>
           </Col>
           <Col lg={6}>
-            <h2 className="pb-3 text-uppercase text-center">
+            <h5 className="pb-3 text-uppercase text-center">
               Frequently Asked Questions
-            </h2>
+            </h5>
             <Accordion defaultActiveKey="0">
               {faqItems.map((item, index) => (
                 <Accordion.Item key={index} eventKey={index.toString()}>

@@ -27,7 +27,7 @@ import {
   useGetVendorNotificationsQuery,
   useMarkNotificationAsReadMutation,
 } from "../../features/vendorApiSlice";
-import { RiNotificationLine } from "react-icons/ri";
+import { RiNotification3Line } from "react-icons/ri";
 
 export default function VendorDashboard() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -144,7 +144,7 @@ export default function VendorDashboard() {
               <Dropdown align={"end"} show={showMessagesDropdown}>
                 <Nav.Link onClick={toggleMessagesDropdown}>
                   <div className="position-relative">
-                    <RiNotificationLine size={24} />
+                    <RiNotification3Line size={24} />
                     {notifications && notifications.data.length > 0 && (
                       <Badge
                         pill
