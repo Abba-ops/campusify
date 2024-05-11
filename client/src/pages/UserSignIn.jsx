@@ -15,6 +15,7 @@ import {
   Card,
 } from "react-bootstrap";
 import MetaTags from "../components/MetaTags";
+import BackToTop from "../components/BackToTop";
 
 export default function UserSignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -153,6 +154,7 @@ export default function UserSignIn() {
           </Col>
         </Row>
       </Container>
+      <BackToTop />
     </section>
   );
 }

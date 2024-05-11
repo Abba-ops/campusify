@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { Accordion, Col, Container, Image, Row } from "react-bootstrap";
+import { Accordion, Col, Container, Row } from "react-bootstrap";
 import MetaTags from "../components/MetaTags";
+import BackToTop from "../components/BackToTop";
 import { faqItems } from "../constants";
 
 export default function FAQ() {
@@ -16,17 +17,8 @@ export default function FAQ() {
         keywords="FAQ, frequently asked questions, campus marketplace, buying, selling, registration, payment"
       />
       <Container>
-        <Row>
-          <Col lg={6} className="mb-4 mb-lg-0">
-            <div className="image-container">
-              <Image
-                fluid
-                className="product-image"
-                src="/images/faqs-image.png"
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
+        <Row className="justify-content-center">
+          <Col lg={8}>
             <h5 className="pb-3 text-uppercase text-center">
               Frequently Asked Questions
             </h5>
@@ -41,6 +33,7 @@ export default function FAQ() {
           </Col>
         </Row>
       </Container>
+      <BackToTop />
     </section>
   );
 }

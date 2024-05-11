@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { Col, Container, Image, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import MetaTags from "../components/MetaTags";
+import BackToTop from "../components/BackToTop";
 
 export default function About() {
   useEffect(() => {
@@ -17,15 +18,6 @@ export default function About() {
       <Container>
         <Row>
           <Col lg={6} className="mb-4 mb-lg-0">
-            <div className="image-container">
-              <Image
-                fluid
-                className="product-image"
-                src="/images/about-us-image.png"
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
             <div>
               <h5 className="text-uppercase">Explore Our Campus Marketplace</h5>
               <p>
@@ -36,15 +28,6 @@ export default function About() {
                 specifically to the unique needs and dynamics of university
                 life.
               </p>
-              <h5 className="text-uppercase">Our Mission</h5>
-              <p>
-                Our mission is simple yet powerful: to empower student
-                entrepreneurs by providing them with the tools and opportunities
-                they need to succeed. We believe that every student has the
-                potential to turn their ideas and talents into thriving
-                businesses, and we're here to support them every step of the
-                way.
-              </p>
               <h5 className="text-uppercase">Why Campusify?</h5>
               <p>
                 Traditional marketplaces often fall short when it comes to
@@ -52,15 +35,6 @@ export default function About() {
                 where Campusify comes in. We understand the challenges that
                 students face in showcasing and monetizing their products and
                 services within their campus, and we're here to bridge that gap.
-              </p>
-              <h5 className="text-uppercase">Bridging the Gap</h5>
-              <p>
-                With Campusify, students no longer have to rely on generic
-                e-commerce platforms that may not understand the dynamics of
-                university life. Our platform is designed from the ground up to
-                meet the needs of campus entrepreneurs, providing them with a
-                user-friendly interface to register, showcase, and sell their
-                products or services within their campus community.
               </p>
               <h5 className="text-uppercase">Fostering Entrepreneurship</h5>
               <p>
@@ -72,6 +46,28 @@ export default function About() {
                 we're not only helping them succeed individually but also
                 contributing to the development of vibrant entrepreneurial
                 ecosystems within universities.
+              </p>
+            </div>
+          </Col>
+          <Col lg={6}>
+            <div>
+              <h5 className="text-uppercase">Our Mission</h5>
+              <p>
+                Our mission is simple yet powerful: to empower student
+                entrepreneurs by providing them with the tools and opportunities
+                they need to succeed. We believe that every student has the
+                potential to turn their ideas and talents into thriving
+                businesses, and we're here to support them every step of the
+                way.
+              </p>
+              <h5 className="text-uppercase">Bridging the Gap</h5>
+              <p>
+                With Campusify, students no longer have to rely on generic
+                e-commerce platforms that may not understand the dynamics of
+                university life. Our platform is designed from the ground up to
+                meet the needs of campus entrepreneurs, providing them with a
+                user-friendly interface to register, showcase, and sell their
+                products or services within their campus community.
               </p>
               <h5 className="text-uppercase">Join Us</h5>
               <p>
@@ -85,6 +81,7 @@ export default function About() {
           </Col>
         </Row>
       </Container>
+      <BackToTop />
     </section>
   );
 }

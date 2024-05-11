@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { Container, Form, Row, Col, Button, Image } from "react-bootstrap";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import Stack from "react-bootstrap/Stack";
 import { contactInfo } from "../constants";
 import MetaTags from "../components/MetaTags";
+import BackToTop from "../components/BackToTop";
 
 export default function ContactUs() {
   const renderContactInfo = () => {
@@ -27,15 +28,6 @@ export default function ContactUs() {
       />
       <Container>
         <Row>
-          <Col className="d-lg-none mb-4 mb-lg-0">
-            <div className="image-container">
-              <Image
-                fluid
-                className="product-image"
-                src="/images/contact-us-image.png"
-              />
-            </div>
-          </Col>
           <Col lg={8} className="mb-6 mb-lg-0">
             <h5 className="text-uppercase mb-3">Contact Us</h5>
             <Form>
@@ -103,6 +95,7 @@ export default function ContactUs() {
           </Col>
         </Row>
       </Container>
+      <BackToTop />
     </section>
   );
 }

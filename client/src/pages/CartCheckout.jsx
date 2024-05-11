@@ -18,6 +18,7 @@ import { useCreateNewOrderMutation } from "../features/ordersApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { clearCartItems } from "../features/cartSlice";
 import MetaTags from "../components/MetaTags";
+import BackToTop from "../components/BackToTop";
 
 export default function CartCheckout() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -372,6 +373,7 @@ export default function CartCheckout() {
           </Col>
         </Row>
       </Container>
+      <BackToTop />
     </section>
   );
 }

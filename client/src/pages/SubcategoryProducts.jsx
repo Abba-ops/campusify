@@ -8,6 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { Col, Container, Row, Button, ListGroup } from "react-bootstrap";
 import SingleProductPlaceholder from "../components/SingleProductPlaceholder";
+import BackToTop from "../components/BackToTop";
 
 export default function SubcategoryProducts() {
   const { category: categoryName, subcategory, subcategoryId } = useParams();
@@ -170,6 +171,7 @@ export default function SubcategoryProducts() {
           )}
         </Col>
       </Row>
+      <BackToTop />
     </Container>
   );
 }

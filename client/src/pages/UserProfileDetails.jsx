@@ -24,6 +24,7 @@ import { BsEye, BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { numberWithCommas } from "../utils/cartUtils";
 import TablePlaceholder from "../components/TablePlaceholder";
+import BackToTop from "../components/BackToTop";
 
 export default function UserProfileDetails() {
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -267,6 +268,7 @@ export default function UserProfileDetails() {
           </Col>
         </Row>
       </Container>
+      <BackToTop />
     </section>
   );
 }

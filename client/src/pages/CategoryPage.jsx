@@ -8,6 +8,7 @@ import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
 import ProductCard from "../components/ProductCard";
 import MetaTags from "../components/MetaTags";
 import SingleProductPlaceholder from "../components/SingleProductPlaceholder";
+import BackToTop from "../components/BackToTop";
 
 export default function CategoryPage() {
   const { category, categoryId } = useParams();
@@ -160,6 +161,7 @@ export default function CategoryPage() {
           )}
         </Col>
       </Row>
+      <BackToTop />
     </Container>
   );
 }

@@ -19,6 +19,7 @@ import TablePlaceholder from "../components/TablePlaceholder";
 import { toast } from "react-toastify";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 import MetaTags from "../components/MetaTags";
+import BackToTop from "../components/BackToTop";
 
 export default function OrderScreen() {
   const { orderId } = useParams();
@@ -286,6 +287,7 @@ export default function OrderScreen() {
           </Col>
         </Row>
       </Container>
+      <BackToTop />
     </section>
   );
 }

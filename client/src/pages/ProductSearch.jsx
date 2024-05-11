@@ -5,6 +5,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import ProductCard from "../components/ProductCard";
 import SingleProductPlaceholder from "../components/SingleProductPlaceholder";
 import MetaTags from "../components/MetaTags";
+import BackToTop from "../components/BackToTop";
 
 export default function ProductSearch() {
   const { query } = useParams();
@@ -100,6 +101,7 @@ export default function ProductSearch() {
           </>
         )}
       </Container>
+      <BackToTop />
     </>
   );
 }

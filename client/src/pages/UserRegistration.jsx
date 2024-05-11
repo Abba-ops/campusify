@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRegisterUserMutation } from "../features/usersApiSlice";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import MetaTags from "../components/MetaTags";
+import BackToTop from "../components/BackToTop";
 
 export default function UserRegistration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -189,6 +190,7 @@ export default function UserRegistration() {
           </Col>
         </Row>
       </Container>
+      <BackToTop />
     </section>
   );
 }
