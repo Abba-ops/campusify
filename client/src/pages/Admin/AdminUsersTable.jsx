@@ -45,13 +45,13 @@ export default function AdminUsersTable() {
   const handleDeleteUser = async () => {
     try {
       const response = await deleteUser(userIdToDelete).unwrap();
-      if (response.success) {
+      if (response?.success) {
         refetch();
-        toast.success(response.message);
+        toast.success(response?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) ||
+        (error && error?.data?.message) ||
           "An error occurred while deleting the user."
       );
     } finally {
@@ -63,9 +63,9 @@ export default function AdminUsersTable() {
     users?.data
       ?.filter(
         (user) =>
-          user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.otherNames.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.email.toLowerCase().includes(searchTerm.toLowerCase())
+          user?.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user?.otherNames.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user?.email.toLowerCase().includes(searchTerm.toLowerCase())
       )
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) || [];
 
@@ -75,7 +75,7 @@ export default function AdminUsersTable() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
 
   return (
     <>
@@ -144,18 +144,18 @@ export default function AdminUsersTable() {
                 </thead>
                 <tbody>
                   {currentUsers.map((user) => (
-                    <tr key={user._id}>
-                      <td>{user.lastName}</td>
-                      <td>{user.otherNames}</td>
-                      <td>{user.email}</td>
+                    <tr key={user?._id}>
+                      <td>{user?.lastName}</td>
+                      <td>{user?.otherNames}</td>
+                      <td>{user?.email}</td>
                       <td>
                         <Image
                           fluid
                           roundedCircle
                           loading="lazy"
-                          src={user.profilePictureURL}
+                          src={user?.profilePictureURL}
                           className="profile-picture-sm"
-                          alt={`${user.lastName} ${user.otherNames}`}
+                          alt={`${user?.lastName} ${user?.otherNames}`}
                         />
                       </td>
                       <td>{user.phoneNumber}</td>

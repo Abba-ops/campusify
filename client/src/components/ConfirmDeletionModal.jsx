@@ -25,7 +25,7 @@ export default function ConfirmDeletionModal({
       dispatch(clearCredentials());
       navigate("/");
     } catch (error) {
-      toast.error((error && error.data.message) || "An error occurred.");
+      toast.error((error && error?.data?.message) || "An error occurred.");
     }
   };
 

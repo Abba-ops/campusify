@@ -21,7 +21,7 @@ export default function FeaturedProducts() {
         showPreviewIcon={true}
         isError={isError}
         isLoading={isLoading}
-        productsData={featuredProducts && featuredProducts.data}
+        productsData={featuredProducts && featuredProducts?.data}
       />
     </section>
   );

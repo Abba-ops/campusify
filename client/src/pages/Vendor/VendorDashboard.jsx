@@ -53,10 +53,10 @@ export default function VendorDashboard() {
   const logoutHandler = async () => {
     try {
       const response = await logoutUser().unwrap();
-      if (response.success) {
+      if (response?.success) {
         dispatch(clearCredentials());
         dispatch(clearCartItems());
-        toast.success(response.message);
+        toast.success(response?.message);
         navigate("/");
       }
     } catch (error) {
@@ -67,9 +67,9 @@ export default function VendorDashboard() {
   const handleMarkAsRead = async (notificationId) => {
     try {
       const res = await markNotificationAsRead(notificationId).unwrap();
-      if (res.success) {
+      if (res?.success) {
         refetchNotifications();
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
       toast.error("Failed to mark notification as read. Please try again.");
@@ -79,9 +79,9 @@ export default function VendorDashboard() {
   const handleDeleteMessage = async (notificationId) => {
     try {
       const res = await deleteNotification(notificationId).unwrap();
-      if (res.success) {
+      if (res?.success) {
         refetchNotifications();
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
       toast.error("Failed to delete notification. Please try again.");
@@ -91,20 +91,20 @@ export default function VendorDashboard() {
   const toggleMessagesDropdown = () => setShowMessagesDropdown((prev) => !prev);
 
   const unreadNotifications = notifications
-    ? notifications.data.filter((notification) => !notification.read)
+    ? notifications?.data.filter((notification) => !notification.read)
     : [];
 
   return (
     <>
       <MetaTags
         title={`${
-          userInfo?.data?.vendor.vendorName || "Vendor Dashboard"
+          userInfo?.data?.vendor?.vendorName || "Vendor Dashboard"
         } - Campusify`}
         description={`Manage your products, orders, and settings with ease on the ${
-          userInfo?.data?.vendor.vendorName || "Vendor Dashboard"
+          userInfo?.data?.vendor?.vendorName || "Vendor Dashboard"
         } by Campusify.`}
         keywords={`vendor dashboard, ${
-          userInfo?.data?.vendor.vendorName || "Vendor"
+          userInfo?.data?.vendor?.vendorName || "Vendor"
         }, products, orders, settings, Campusify`}
       />
       <Navbar
@@ -145,7 +145,7 @@ export default function VendorDashboard() {
                 <Nav.Link onClick={toggleMessagesDropdown}>
                   <div className="position-relative">
                     <RiNotification3Line size={24} />
-                    {notifications && notifications.data.length > 0 && (
+                    {notifications && notifications?.data?.length > 0 && (
                       <Badge
                         pill
                         bg="primary"
@@ -163,8 +163,8 @@ export default function VendorDashboard() {
                   </Dropdown.Menu>
                 ) : (
                   <Dropdown.Menu>
-                    {notifications && notifications.data.length > 0 ? (
-                      notifications.data
+                    {notifications && notifications?.data?.length > 0 ? (
+                      notifications?.data
                         .filter((notification) => !notification.read)
                         .slice(0, 3)
                         .map((notification) => (
@@ -217,7 +217,7 @@ export default function VendorDashboard() {
               </Dropdown>
               <UserProfileDropdown
                 userInfo={userInfo}
-                isAdmin={userInfo.data.isAdmin}
+                isAdmin={userInfo?.data?.isAdmin}
                 logoutHandler={logoutHandler}
                 showDeleteOption={true}
               />

@@ -45,13 +45,13 @@ export default function AdminVendorDetails() {
         status: "approved",
       }).unwrap();
 
-      if (res.success) {
+      if (res?.success) {
         refetch();
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) ||
+        (error && error?.data?.message) ||
           "An error occurred while approving the vendor."
       );
     }
@@ -64,14 +64,14 @@ export default function AdminVendorDetails() {
         status: "rejected",
       }).unwrap();
 
-      if (res.success) {
+      if (res?.success) {
         refetch();
         navigate("/admin/dashboard/vendors");
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) ||
+        (error && error?.data?.message) ||
           "An error occurred while rejecting the vendor."
       );
     }
@@ -92,12 +92,12 @@ export default function AdminVendorDetails() {
           ) : (
             <>
               <span className="d-inline d-lg-none">
-                {vendor.data.vendorName.slice(0, 10)}
-                {vendor.data.vendorName.length > 10 && "..."}
+                {vendor?.data?.vendorName.slice(0, 10)}
+                {vendor?.data?.vendorName.length > 10 && "..."}
               </span>
               <span className="d-none d-lg-inline">
-                {vendor.data.vendorName.slice(0, 20)}
-                {vendor.data.vendorName.length > 20 && "..."}
+                {vendor?.data?.vendorName.slice(0, 20)}
+                {vendor?.data?.vendorName.length > 20 && "..."}
               </span>
             </>
           )}
@@ -127,24 +127,24 @@ export default function AdminVendorDetails() {
                     roundedCircle
                     loading="lazy"
                     className="profile-picture-lg border"
-                    src={vendor && vendor.data.vendorLogo}
+                    src={vendor && vendor?.data?.vendorLogo}
                   />
                 </div>
                 <Card.Title className="text-center">
-                  {vendor.data.vendorName}
+                  {vendor?.data?.vendorName}
                 </Card.Title>
                 <Card.Text className="text-center">
-                  {vendor.data.vendorEmail}
+                  {vendor?.data?.vendorEmail}
                 </Card.Text>
                 <Card.Text className="text-center">
-                  {vendor.data.vendorPhone}
+                  {vendor?.data?.vendorPhone}
                 </Card.Text>
-                {vendor.data.isApproved && (
+                {vendor?.data?.isApproved && (
                   <Card.Text className="text-center">
                     <Badge bg="success">Approved</Badge>
                   </Card.Text>
                 )}
-                {vendor.data.approvalStatus === "pending" && (
+                {vendor?.data?.approvalStatus === "pending" && (
                   <div className="d-flex justify-content-center mt-3">
                     <Stack direction="horizontal" gap={3}>
                       <Button
@@ -180,9 +180,9 @@ export default function AdminVendorDetails() {
                           <Row className="align-items-center">
                             <Col xs={2}>
                               <Image
-                                src={vendorProduct.imageUrl}
+                                src={vendorProduct?.imageUrl}
                                 className="profile-picture-sm"
-                                alt={vendorProduct.productName}
+                                alt={vendorProduct?.productName}
                               />
                             </Col>
                             <Col className="text-truncate">
@@ -210,7 +210,7 @@ export default function AdminVendorDetails() {
                       plaintext
                       readOnly
                       as="textarea"
-                      value={vendor.data.vendorDescription}
+                      value={vendor?.data?.vendorDescription}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Products Description">
@@ -218,7 +218,7 @@ export default function AdminVendorDetails() {
                       plaintext
                       readOnly
                       as="textarea"
-                      value={vendor.data.productsDescription}
+                      value={vendor?.data?.productsDescription}
                     />
                   </FloatingLabel>
 
@@ -227,7 +227,7 @@ export default function AdminVendorDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={vendor.data.salesCount}
+                      value={vendor?.data?.salesCount}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Estimated Delivery Time">
@@ -235,7 +235,7 @@ export default function AdminVendorDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={vendor.data.estimatedDeliveryTime}
+                      value={vendor?.data?.estimatedDeliveryTime}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Creator Full Name">
@@ -243,7 +243,7 @@ export default function AdminVendorDetails() {
                       readOnly
                       type="text"
                       className="border-0"
-                      value={`${vendor.data.user.lastName} ${vendor.data.user.otherNames}`}
+                      value={`${vendor?.data?.user?.lastName} ${vendor?.data?.user?.otherNames}`}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Creator Email">
@@ -251,7 +251,7 @@ export default function AdminVendorDetails() {
                       plaintext
                       readOnly
                       type="email"
-                      value={vendor.data.user.email}
+                      value={vendor?.data?.user?.email}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Creator Phone Number">
@@ -259,7 +259,7 @@ export default function AdminVendorDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={vendor.data.user.phoneNumber}
+                      value={vendor?.data?.user?.phoneNumber}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="User Type">
@@ -267,7 +267,7 @@ export default function AdminVendorDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={vendor.data.user.userType}
+                      value={vendor?.data?.user?.userType}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Approval Status">
@@ -275,7 +275,7 @@ export default function AdminVendorDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={vendor.data.approvalStatus}
+                      value={vendor?.data?.approvalStatus}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Approval Date">
@@ -284,9 +284,9 @@ export default function AdminVendorDetails() {
                       readOnly
                       type="text"
                       value={
-                        vendor.data.approvalDate
+                        vendor?.data?.approvalDate
                           ? new Date(
-                              vendor.data.approvalDate
+                              vendor?.data?.approvalDate
                             ).toLocaleDateString()
                           : "Not Approved"
                       }

@@ -50,7 +50,6 @@ import AdminOrderDetails from "./pages/Admin/AdminOrderDetails";
 import About from "./pages/About";
 import VendorCustomersTable from "./pages/Vendor/VendorCustomersTable";
 import AdminCustomersTable from "./pages/Admin/AdminCustomersTable";
-import VendorScreen from "./pages/VendorScreen";
 import VendorProfileSettings from "./pages/Vendor/VendorProfileSettings";
 import VendorFinance from "./pages/Vendor/VendorFinance";
 import FAQ from "./pages/FAQ";
@@ -71,7 +70,6 @@ const router = createBrowserRouter(
       <Route path="/faq" element={<FAQ />} />
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/search/:query" element={<ProductSearch />} />
-      <Route path="/vendor/:vendorId" element={<VendorScreen />} />
       <Route
         path="/category/:category/:categoryId"
         element={<CategoryPage />}

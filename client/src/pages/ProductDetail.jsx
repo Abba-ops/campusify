@@ -91,12 +91,12 @@ export default function ProductDetail() {
   const handleDeleteReview = async (reviewId) => {
     try {
       const response = await deleteReview({ productId, reviewId }).unwrap();
-      if (response.success) {
+      if (response?.success) {
         refetchProduct();
-        toast.success(response.message);
+        toast.success(response?.message);
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Error deleting review.");
+      toast.error((error && error?.data?.message) || "Error deleting review.");
     }
   };
 
@@ -120,17 +120,19 @@ export default function ProductDetail() {
         rating: userRating,
         comment: userComment,
         userId: userInfo.id,
-        name: `${userInfo.data.lastName} ${userInfo.data.otherNames}`,
+        name: `${userInfo?.data?.lastName} ${userInfo?.data?.otherNames}`,
       }).unwrap();
 
-      if (response.success) {
+      if (response?.success) {
         refetchProduct();
-        toast.success(response.message);
+        toast.success(response?.message);
         setUserRating(0);
         setUserComment("");
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Error submitting review.");
+      toast.error(
+        (error && error?.data?.message) || "Error submitting review."
+      );
     }
   };
 
@@ -208,7 +210,7 @@ export default function ProductDetail() {
               ) : (
                 <>
                   <MetaTags
-                    title={`${productData?.data?.productName} - ${productData?.data?.vendor.vendorName} - Campusify`}
+                    title={`${productData?.data?.productName} - ${productData?.data?.vendor?.vendorName} - Campusify`}
                     description={productData?.data?.productDescription}
                     keywords={`${productData?.data?.productName}, ${productData?.data?.vendor?.vendorName}, ${productData?.data?.category?.name}, product, ecommerce, online shopping`}
                   />
@@ -509,7 +511,7 @@ export default function ProductDetail() {
       <CartPreviewModal
         handleClose={closeModal}
         show={isModalOpen}
-        product={!productLoading && productData.data}
+        product={!productLoading && productData?.data}
       />
     </section>
   );

@@ -117,14 +117,14 @@ export default function CartCheckout() {
                           type="radio"
                           label="Student"
                           name="userType"
-                          checked={userInfo.data.userType === "student"}
+                          checked={userInfo?.data?.userType === "student"}
                         />
                         <Form.Check
                           readOnly
                           type="radio"
                           label="Staff"
                           name="userType"
-                          checked={userInfo.data.userType === "staff"}
+                          checked={userInfo?.data?.userType === "staff"}
                         />
                       </Stack>
                     </Col>
@@ -140,7 +140,7 @@ export default function CartCheckout() {
                       <Form.Control
                         readOnly
                         type="text"
-                        value={`${userInfo.data.lastName} ${userInfo.data.otherNames}`}
+                        value={`${userInfo?.data?.lastName} ${userInfo?.data?.otherNames}`}
                       />
                     </Col>
                   </Form.Group>

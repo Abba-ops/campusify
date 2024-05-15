@@ -33,14 +33,20 @@ export default function AdminUserDetails() {
           ) : (
             <>
               <span className="d-inline d-lg-none">
-                {`${user.data.lastName} ${user.data.otherNames}`.slice(0, 10)}
-                {user.data.lastName.length + user.data.otherNames.length > 10 &&
-                  "..."}
+                {`${user?.data?.lastName} ${user?.data?.otherNames}`.slice(
+                  0,
+                  10
+                )}
+                {user?.data?.lastName.length + user?.data?.otherNames.length >
+                  10 && "..."}
               </span>
               <span className="d-none d-lg-inline">
-                {`${user.data.lastName} ${user.data.otherNames}`.slice(0, 20)}
-                {user.data.lastName.length + user.data.otherNames.length > 20 &&
-                  "..."}
+                {`${user?.data?.lastName} ${user?.data?.otherNames}`.slice(
+                  0,
+                  20
+                )}
+                {user?.data?.lastName.length + user?.data?.otherNames.length >
+                  20 && "..."}
               </span>
             </>
           )}
@@ -69,21 +75,21 @@ export default function AdminUserDetails() {
                     fluid
                     roundedCircle
                     loading="lazy"
-                    src={user.data.profilePictureURL}
+                    src={user?.data?.profilePictureURL}
                     className="profile-picture-lg border"
                   />
                 </div>
-                <Card.Title className="text-center text-break">{`${user.data.lastName}, ${user.data.otherNames}`}</Card.Title>
+                <Card.Title className="text-center text-break">{`${user?.data?.lastName}, ${user?.data?.otherNames}`}</Card.Title>
                 <Card.Text className="text-muted text-center text-break">
-                  {user.data.email}
+                  {user?.data?.email}
                 </Card.Text>
                 <Card.Text className="text-muted text-center text-break">
-                  {user.data.phoneNumber}
+                  {user?.data?.phoneNumber}
                 </Card.Text>
                 <div className="d-flex justify-content-center">
                   <Stack direction="horizontal" gap={3}>
-                    {user.data.isAdmin && <Badge bg="success">Admin</Badge>}
-                    {user.data.isVendor && <Badge bg="success">Vendor</Badge>}
+                    {user?.data?.isAdmin && <Badge bg="success">Admin</Badge>}
+                    {user?.data?.isVendor && <Badge bg="success">Vendor</Badge>}
                   </Stack>
                 </div>
               </Card.Body>
@@ -98,7 +104,7 @@ export default function AdminUserDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={user.data._id}
+                      value={user?.data?._id}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Email">
@@ -106,7 +112,7 @@ export default function AdminUserDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={user.data.email}
+                      value={user?.data?.email}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Phone Number">
@@ -114,7 +120,7 @@ export default function AdminUserDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={user.data.phoneNumber}
+                      value={user?.data?.phoneNumber}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Last Name">
@@ -122,7 +128,7 @@ export default function AdminUserDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={user.data.lastName}
+                      value={user?.data?.lastName}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Other Names">
@@ -130,7 +136,7 @@ export default function AdminUserDetails() {
                       plaintext
                       readOnly
                       as="textarea"
-                      value={user.data.otherNames}
+                      value={user?.data?.otherNames}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="User Type">
@@ -138,7 +144,7 @@ export default function AdminUserDetails() {
                       plaintext
                       readOnly
                       type="text"
-                      value={user.data.userType}
+                      value={user?.data?.userType}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Account Creation Date">
@@ -147,7 +153,7 @@ export default function AdminUserDetails() {
                       readOnly
                       type="text"
                       value={new Date(
-                        user.data.accountCreationDate
+                        user?.data?.accountCreationDate
                       ).toLocaleDateString()}
                     />
                   </FloatingLabel>

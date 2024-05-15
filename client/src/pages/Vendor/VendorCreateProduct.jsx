@@ -48,12 +48,14 @@ export default function VendorCreateProduct() {
     e.preventDefault();
     try {
       const result = await createProduct({ ...formData, imageUrl }).unwrap();
-      if (result.success) {
-        toast.success(result.message);
+      if (result?.success) {
+        toast.success(result?.message);
         navigate("/vendor/dashboard/products");
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to create product");
+      toast.error(
+        (error && error?.data?.message) || "Failed to create product"
+      );
     }
   };
 
@@ -62,25 +64,25 @@ export default function VendorCreateProduct() {
     formData.append("productImage", e.target.files[0]);
     try {
       const res = await uploadProductImage(formData).unwrap();
-      setImageUrl(res.image);
-      toast.success(res.message || "Image uploaded successfully");
+      setImageUrl(res?.image);
+      toast.success(res?.message || "Image uploaded successfully");
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to upload image");
+      toast.error((error && error?.data?.message) || "Failed to upload image");
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "category") {
-      const category = categories.data.find((c) => c._id === value);
-      setSubcategories(category ? category.subcategories : []);
-      const subcategory = category.subcategories[0];
+      const category = categories?.data.find((c) => c._id === value);
+      setSubcategories(category ? category?.subcategories : []);
+      const subcategory = category?.subcategories[0];
       setFormData((prev) => ({
         ...prev,
-        category: category._id,
+        category: category?._id,
         subcategory: {
-          _id: subcategory._id,
-          name: subcategory.name,
+          _id: subcategory?._id,
+          name: subcategory?.name,
         },
       }));
     } else if (name === "subcategory") {
@@ -102,17 +104,17 @@ export default function VendorCreateProduct() {
 
   useEffect(() => {
     if (!loadingCategories) {
-      const category = categories.data.find(
-        (c) => c._id === categories.data[0]._id
+      const category = categories?.data.find(
+        (c) => c._id === categories?.data[0]._id
       );
-      setSubcategories(category ? category.subcategories : []);
-      const subcategory = category.subcategories[0];
+      setSubcategories(category ? category?.subcategories : []);
+      const subcategory = category?.subcategories[0];
       setFormData((prev) => ({
         ...prev,
-        category: category._id,
+        category: category?._id,
         subcategory: {
-          _id: subcategory._id,
-          name: subcategory.name,
+          _id: subcategory?._id,
+          name: subcategory?.name,
         },
       }));
     }
@@ -150,10 +152,10 @@ export default function VendorCreateProduct() {
                 <Form.Group controlId="formFile">
                   <Form.Label>Upload Image</Form.Label>
                   <Form.Control
+                    required
                     type="file"
                     onChange={uploadFileHandler}
                     className="mb-3"
-                    required
                   />
                   {imageUrl && (
                     <div className="image-container">
@@ -174,13 +176,13 @@ export default function VendorCreateProduct() {
                 <Form.Group controlId="productDescription">
                   <Form.Label>Product Description</Form.Label>
                   <Form.Control
-                    as="textarea"
                     rows={3}
+                    required
+                    as="textarea"
+                    onChange={handleChange}
                     name="productDescription"
                     value={formData.productDescription}
-                    onChange={handleChange}
                     placeholder="Enter product description"
-                    required
                   />
                 </Form.Group>
               </Col>
@@ -196,7 +198,7 @@ export default function VendorCreateProduct() {
                       <option value="">Loading...</option>
                     ) : (
                       categories &&
-                      categories.data.map((category) => (
+                      categories?.data.map((category) => (
                         <option value={category._id} key={category._id}>
                           {category.name}
                         </option>
@@ -232,12 +234,12 @@ export default function VendorCreateProduct() {
                 <Form.Group controlId="brand" className="mb-3 mb-lg-0">
                   <Form.Label>Brand</Form.Label>
                   <Form.Control
+                    required
                     type="text"
                     name="brand"
                     value={formData.brand}
                     onChange={handleChange}
                     placeholder="Enter brand name"
-                    required
                   />
                 </Form.Group>
               </Col>

@@ -50,7 +50,7 @@ export default function AdminCustomersTable() {
             <TablePlaceholder key={index} />
           ))}
         </>
-      ) : customers && customers.data.length === 0 ? (
+      ) : customers && customers?.data.length === 0 ? (
         <div className="text-center mt-5">
           <h4>No Customers Found</h4>
           <p>There are currently no customers to display.</p>
@@ -70,24 +70,24 @@ export default function AdminCustomersTable() {
             </thead>
             <tbody>
               {currentCustomers.map((customer) => (
-                <tr key={customer._id}>
-                  <td>{customer.lastName}</td>
-                  <td>{customer.otherNames}</td>
-                  <td>{customer.email}</td>
-                  <td>{customer.phoneNumber}</td>
+                <tr key={customer?._id}>
+                  <td>{customer?.lastName}</td>
+                  <td>{customer?.otherNames}</td>
+                  <td>{customer?.email}</td>
+                  <td>{customer?.phoneNumber}</td>
                   <td>
                     <Image
                       fluid
                       roundedCircle
                       loading="lazy"
                       className="profile-picture-sm"
-                      src={customer.profilePictureURL}
-                      alt={`${customer.lastName} ${customer.otherNames}`}
+                      src={customer?.profilePictureURL}
+                      alt={`${customer?.lastName} ${customer?.otherNames}`}
                     />
                   </td>
                   <td>
                     {new Date(
-                      customer.accountCreationDate
+                      customer?.accountCreationDate
                     ).toLocaleDateString()}
                   </td>
                 </tr>
@@ -95,8 +95,8 @@ export default function AdminCustomersTable() {
             </tbody>
           </Table>
           {customers &&
-            customers.data &&
-            customers.data.length > customersPerPage && (
+            customers?.data &&
+            customers?.data.length > customersPerPage && (
               <div className="d-flex justify-content-center">
                 <Pagination>
                   {[

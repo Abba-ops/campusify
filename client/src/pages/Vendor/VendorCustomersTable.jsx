@@ -46,7 +46,7 @@ export default function VendorCustomersTable() {
             <TablePlaceholder key={index} />
           ))}
         </>
-      ) : customers && customers.data.length === 0 ? (
+      ) : customers && customers?.data.length === 0 ? (
         <div className="text-center mt-5">
           <h4>No Customers Found</h4>
           <p>There are currently no customers to display.</p>
@@ -85,8 +85,8 @@ export default function VendorCustomersTable() {
             </tbody>
           </Table>
           {customers &&
-            customers.data &&
-            customers.data.length > customersPerPage && (
+            customers?.data &&
+            customers?.data.length > customersPerPage && (
               <div className="d-flex justify-content-center">
                 <Pagination>
                   {[

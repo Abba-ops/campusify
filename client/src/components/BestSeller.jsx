@@ -27,7 +27,7 @@ export default function BestSeller() {
             isError={isError}
             isLoading={isLoading}
             showPreviewIcon={true}
-            productsData={bestSellingProducts && bestSellingProducts.data}
+            productsData={bestSellingProducts && bestSellingProducts?.data}
           />
         </Col>
         <Col lg={6}>
@@ -45,13 +45,13 @@ export default function BestSeller() {
           ) : (
             <Carousel indicators={false} controls={false}>
               {bestSellingProducts &&
-                bestSellingProducts.data.slice(0, 3).map((item) => (
-                  <Carousel.Item key={item._id}>
+                bestSellingProducts?.data.slice(0, 3).map((item) => (
+                  <Carousel.Item key={item?._id}>
                     <div className="image-container">
                       <Image
                         fluid
                         loading="lazy"
-                        src={item.imageUrl}
+                        src={item?.imageUrl}
                         className="product-image"
                       />
                     </div>

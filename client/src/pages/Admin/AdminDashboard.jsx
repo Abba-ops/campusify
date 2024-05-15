@@ -22,10 +22,10 @@ export default function AdminDashboard() {
   const logoutHandler = async () => {
     try {
       const response = await logoutUser().unwrap();
-      if (response.success) {
+      if (response?.success) {
         dispatch(clearCredentials());
         dispatch(clearCartItems());
-        toast.success(response.message);
+        toast.success(response?.message);
         navigate("/");
       }
     } catch (error) {
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
             </Nav>
             <UserProfileDropdown
               userInfo={userInfo}
-              isVendor={userInfo.data.isVendor}
+              isVendor={userInfo?.data?.isVendor}
               logoutHandler={logoutHandler}
               showDeleteOption={true}
             />

@@ -26,7 +26,7 @@ export default function VendorApplication() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userInfo && userInfo.success && userInfo.data.vendor) {
+    if (userInfo && userInfo?.success && userInfo?.data?.vendor) {
       navigate("/profile");
     }
   }, [userInfo, navigate]);
@@ -38,8 +38,8 @@ export default function VendorApplication() {
 
   const [formState, setFormState] = useState({
     vendorName: "",
-    vendorPhone: userInfo.data.phoneNumber,
-    vendorEmail: userInfo.data.email,
+    vendorPhone: userInfo?.data?.phoneNumber,
+    vendorEmail: userInfo?.data?.email,
     vendorDescription: "",
     productsDescription: "",
     estimatedDeliveryTime: "",
@@ -55,14 +55,14 @@ export default function VendorApplication() {
         ...formState,
         vendorLogo: imageUrl,
       }).unwrap();
-      if (res.success) {
+      if (res?.success) {
         dispatch(setCredentials({ ...res }));
         toast.success("Application submitted successfully!");
         navigate("/profile");
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) ||
+        (error && error?.data?.message) ||
           "An error occurred while submitting the form."
       );
     }
@@ -116,7 +116,7 @@ export default function VendorApplication() {
                       <Form.Control
                         readOnly
                         type="text"
-                        value={`${userInfo.data.lastName} ${userInfo.data.otherNames}`}
+                        value={`${userInfo?.data?.lastName} ${userInfo?.data?.otherNames}`}
                       />
                     </Col>
                   </Form.Group>

@@ -48,13 +48,13 @@ export default function VendorManagementPage() {
       case "pending":
         return (
           vendors?.data?.filter(
-            (vendor) => vendor.approvalStatus === "pending"
+            (vendor) => vendor?.approvalStatus === "pending"
           ) || []
         );
       case "approved":
         return (
           vendors?.data?.filter(
-            (vendor) => vendor.approvalStatus === "approved"
+            (vendor) => vendor?.approvalStatus === "approved"
           ) || []
         );
       default:
@@ -81,13 +81,13 @@ export default function VendorManagementPage() {
   const handleDeleteVendor = async () => {
     try {
       const response = await deleteVendor(vendorIdToDelete).unwrap();
-      if (response.success) {
+      if (response?.success) {
         refetch();
-        toast.success(response.message);
+        toast.success(response?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) ||
+        (error && error?.data?.message) ||
           "An error occurred while deleting the vendor."
       );
     } finally {
@@ -172,14 +172,18 @@ export default function VendorManagementPage() {
               </thead>
               <tbody>
                 {currentVendors.map((vendor) => (
-                  <tr key={vendor._id}>
-                    <td>{vendor.vendorName}</td>
-                    <td>{vendor.vendorEmail}</td>
-                    <td>{vendor.salesCount}</td>
-                    <td>{vendor.vendorPhone}</td>
-                    <td>{`${vendor.user.lastName} ${vendor.user.otherNames}`}</td>
-                    <td className="text-capitalize">{vendor.approvalStatus}</td>
-                    <td>{format(new Date(vendor.dateJoined), "dd/MM/yyyy")}</td>
+                  <tr key={vendor?._id}>
+                    <td>{vendor?.vendorName}</td>
+                    <td>{vendor?.vendorEmail}</td>
+                    <td>{vendor?.salesCount}</td>
+                    <td>{vendor?.vendorPhone}</td>
+                    <td>{`${vendor?.user?.lastName} ${vendor?.user?.otherNames}`}</td>
+                    <td className="text-capitalize">
+                      {vendor?.approvalStatus}
+                    </td>
+                    <td>
+                      {format(new Date(vendor?.dateJoined), "dd/MM/yyyy")}
+                    </td>
                     <td>
                       <Image
                         fluid
@@ -219,7 +223,7 @@ export default function VendorManagementPage() {
               </tbody>
             </Table>
           )}
-          {filteredVendors.length > itemsPerPage && (
+          {filteredVendors?.length > itemsPerPage && (
             <div className="d-flex justify-content-center">
               <Pagination>
                 {[

@@ -51,14 +51,14 @@ export default function UserProfileDetails() {
     } else {
       try {
         const response = await updateUserPassword({ password }).unwrap();
-        if (response.success) {
-          toast.success(response.message);
+        if (response?.success) {
+          toast.success(response?.message);
           setConfirmPassword("");
           setPassword("");
         }
       } catch (error) {
         toast.error(
-          (error && error.data.message) ||
+          (error && error?.data?.message) ||
             "An error occurred while updating password."
         );
       }
@@ -80,8 +80,8 @@ export default function UserProfileDetails() {
         <Row>
           <Col lg={4} className="mb-6 mb-lg-0">
             {userInfo &&
-              userInfo.data.vendor &&
-              userInfo.data.vendor.approvalStatus === "pending" &&
+              userInfo?.data?.vendor &&
+              userInfo?.data?.vendor?.approvalStatus === "pending" &&
               show && (
                 <Alert
                   dismissible
@@ -97,9 +97,9 @@ export default function UserProfileDetails() {
                 </Alert>
               )}
             {userInfo &&
-              userInfo.data.vendor &&
-              userInfo.data.vendor.approvalDate &&
-              (new Date() - new Date(userInfo.data.vendor.approvalDate)) /
+              userInfo?.data?.vendor &&
+              userInfo?.data?.vendor?.approvalDate &&
+              (new Date() - new Date(userInfo?.data?.vendor?.approvalDate)) /
                 (1000 * 60 * 60 * 24) <
                 7 && (
                 <Alert
@@ -132,8 +132,8 @@ export default function UserProfileDetails() {
                 <h4 className="mb-2">{`${userInfo.data.otherNames} ${userInfo.data.lastName}`}</h4>
                 <p className="mb-1">{userInfo.data.email}</p>
                 <div className="mb-2">
-                  {userInfo.data.vendor ? (
-                    userInfo.data.vendor.isApproved ? (
+                  {userInfo?.data?.vendor ? (
+                    userInfo?.data?.vendor?.isApproved ? (
                       <Badge bg="success">Approved</Badge>
                     ) : (
                       <Badge bg="primary">Not Approved</Badge>
@@ -206,7 +206,7 @@ export default function UserProfileDetails() {
                   Failed to load order history. Please try again later.
                 </p>
               </div>
-            ) : orders.data.length === 0 ? (
+            ) : orders?.data.length === 0 ? (
               <div className="text-center mt-5">
                 <h4>Oops! No orders found.</h4>
                 <p>It seems we couldn't find any orders at the moment.</p>
@@ -226,7 +226,7 @@ export default function UserProfileDetails() {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.data.map((order) => (
+                  {orders?.data.map((order) => (
                     <tr key={order.orderID}>
                       <td>{order.orderID}</td>
                       <td>&#8358;{numberWithCommas(order.itemsPrice)}</td>

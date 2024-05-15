@@ -25,8 +25,8 @@ export default function CategoryPage() {
 
   let sortedProducts = [];
 
-  if (products && products.data) {
-    sortedProducts = [...products.data].sort(
+  if (products && products?.data) {
+    sortedProducts = [...products?.data].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
   }
@@ -47,7 +47,7 @@ export default function CategoryPage() {
     if (!loadingCategories) {
       const foundCategory = categories.data.find(
         (category) =>
-          category.name.toLowerCase() === formattedCategoryName.toLowerCase()
+          category?.name.toLowerCase() === formattedCategoryName.toLowerCase()
       );
       setSelectedCategory(foundCategory);
     }
@@ -94,7 +94,7 @@ export default function CategoryPage() {
               <h5 className="text-uppercase">{selectedCategory?.name}</h5>
             </ListGroup.Item>
             {selectedCategory &&
-              selectedCategory.subcategories.map((subcategory) => (
+              selectedCategory?.subcategories.map((subcategory) => (
                 <ListGroup.Item key={subcategory._id} className="py-3">
                   <Link
                     to={`/${selectedCategory.name

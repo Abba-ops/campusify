@@ -13,8 +13,8 @@ export default function ProductSearch() {
   const { data: products, isLoading, isError } = useSearchProductsQuery(query);
 
   let sortedProducts = [];
-  if (products && products.data) {
-    sortedProducts = [...products.data].sort(
+  if (products && products?.data) {
+    sortedProducts = [...products?.data].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
   }

@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCredentials, setCredentials } from "./features/authSlice";
 import Footer from "./components/Footer";
 import HeaderNav from "./components/HeaderNav";
 import { USERS_URL } from "./constants";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const currentLocation = useLocation();
@@ -19,7 +19,7 @@ export default function App() {
       try {
         const response = await fetch(`${USERS_URL}/current`);
         const userData = await response.json();
-        if (!userData.success) {
+        if (!userData?.success) {
           await fetch(`${USERS_URL}/logout`);
           dispatch(clearCredentials());
           toast.error("User not found. Please try to log in again.");

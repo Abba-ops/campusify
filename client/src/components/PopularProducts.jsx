@@ -20,7 +20,7 @@ export default function PopularProducts() {
         showPreviewIcon={true}
         isError={isError}
         isLoading={isLoading}
-        productsData={popularProducts && popularProducts.data}
+        productsData={popularProducts && popularProducts?.data}
       />
     </section>
   );

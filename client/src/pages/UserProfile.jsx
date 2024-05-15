@@ -35,20 +35,20 @@ export default function UserProfile() {
         roundedCircle
         loading="lazy"
         className="profile-picture-lg border"
-        src={userProfile?.data.profilePictureURL}
-        alt={`${userProfile?.data.lastName}'s Profile`}
+        src={userProfile?.data?.profilePictureURL}
+        alt={`${userProfile?.data?.lastName}'s Profile`}
       />
       <h4 className="mt-3">
-        {`${userProfile?.data.otherNames} ${userProfile?.data.lastName}`}
+        {`${userProfile?.data?.otherNames} ${userProfile?.data?.lastName}`}
       </h4>
       <p>
         <Link
-          to={`mailto:${userProfile?.data.email}`}
+          to={`mailto:${userProfile?.data?.email}`}
           className="text-decoration-none">
-          {userProfile?.data.email}
+          {userProfile?.data?.email}
         </Link>
       </p>
-      {userProfile?.data.isVendor && (
+      {userProfile?.data?.isVendor && (
         <Badge className="ml-2" variant="primary">
           Vendor
         </Badge>
@@ -62,10 +62,10 @@ export default function UserProfile() {
 
   return (
     <section className="py-5">
-      {userProfile && userProfile.data && (
+      {userProfile && userProfile?.data && (
         <MetaTags
-          title={`${userProfile.data.otherNames || ""} ${
-            userProfile.data.lastName || ""
+          title={`${userProfile?.data?.otherNames || ""} ${
+            userProfile?.data?.lastName || ""
           } - Profile`}
           description="View user profile on Campusify"
           keywords="Campusify, user profile"

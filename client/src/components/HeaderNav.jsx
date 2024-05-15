@@ -45,10 +45,10 @@ export default function HeaderNav() {
   const logoutHandler = async () => {
     try {
       const response = await logoutUser().unwrap();
-      if (response.success) {
+      if (response?.success) {
         dispatch(clearCredentials());
         dispatch(clearCartItems());
-        toast.success(response.message);
+        toast.success(response?.message);
         navigate("/");
       }
     } catch (error) {

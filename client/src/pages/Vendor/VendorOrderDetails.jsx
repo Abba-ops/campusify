@@ -38,13 +38,13 @@ export default function VendorOrderDetails() {
     try {
       const response = await markOrderAsDelivered(orderId).unwrap();
 
-      if (response.success) {
+      if (response?.success) {
         refetch();
-        toast.success(response.message);
+        toast.success(response?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data && error.data.message) ||
+        (error && error?.data && error?.data?.message) ||
           "An error occurred while marking the order as delivered."
       );
     }
@@ -90,7 +90,7 @@ export default function VendorOrderDetails() {
                       readOnly
                       plaintext
                       type="text"
-                      value={order.data.deliveryAddress.building}
+                      value={order?.data?.deliveryAddress?.building}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Location Number">
@@ -98,7 +98,7 @@ export default function VendorOrderDetails() {
                       readOnly
                       plaintext
                       type="text"
-                      value={order.data.deliveryAddress.locationNumber}
+                      value={order?.data?.deliveryAddress?.locationNumber}
                     />
                   </FloatingLabel>
                   <FloatingLabel label="Campus">
@@ -106,7 +106,7 @@ export default function VendorOrderDetails() {
                       readOnly
                       plaintext
                       type="text"
-                      value={order.data.deliveryAddress.campus}
+                      value={order?.data?.deliveryAddress?.campus}
                     />
                   </FloatingLabel>
                   <h5 className="mb-3 text-uppercase">Items in This Order</h5>
@@ -119,7 +119,7 @@ export default function VendorOrderDetails() {
                     <ListGroup variant="flush">
                       {showOrderItems && (
                         <>
-                          {order.data.orderItems.map((item, index) => (
+                          {order?.data?.orderItems.map((item, index) => (
                             <ListGroup.Item key={item._id}>
                               <Row className="align-items-center">
                                 <Col xs={4} lg={2}>
@@ -228,7 +228,7 @@ export default function VendorOrderDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={order.data.orderID}
+                        value={order?.data?.orderID}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Total Price">
@@ -236,7 +236,7 @@ export default function VendorOrderDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={`₦${order.data.totalPrice}`}
+                        value={`₦${order?.data?.totalPrice}`}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Tax Price">
@@ -244,7 +244,7 @@ export default function VendorOrderDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={`₦${order.data.taxPrice}`}
+                        value={`₦${order?.data?.taxPrice}`}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Items Price">
@@ -252,7 +252,7 @@ export default function VendorOrderDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={`₦${order.data.itemsPrice}`}
+                        value={`₦${order?.data?.itemsPrice}`}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Payment Status">
@@ -260,7 +260,7 @@ export default function VendorOrderDetails() {
                         readOnly
                         plaintext
                         type="text"
-                        value={order.data.isPaid ? "Paid" : "Unpaid"}
+                        value={order?.data?.isPaid ? "Paid" : "Unpaid"}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Comment">
@@ -269,7 +269,7 @@ export default function VendorOrderDetails() {
                         readOnly
                         plaintext
                         as="textarea"
-                        value={order.data.comment}
+                        value={order?.data?.comment}
                       />
                     </FloatingLabel>
                   </Form>

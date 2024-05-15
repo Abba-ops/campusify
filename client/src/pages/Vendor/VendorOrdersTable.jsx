@@ -54,7 +54,7 @@ export default function VendorOrdersTable() {
             <TablePlaceholder key={index} />
           ))}
         </>
-      ) : orders && orders.data.length === 0 ? (
+      ) : orders && orders?.data.length === 0 ? (
         <div className="text-center mt-5">
           <h4>No Orders Found</h4>
           <p>There are currently no orders to display.</p>
@@ -77,27 +77,27 @@ export default function VendorOrdersTable() {
             </thead>
             <tbody>
               {currentOrders.map((order) => (
-                <tr key={order.orderID}>
-                  <td>{order.orderID}</td>
+                <tr key={order?.orderID}>
+                  <td>{order?.orderID}</td>
                   <td>
-                    {order.user.otherNames} {order.user.lastName}
+                    {order?.user?.otherNames} {order?.user?.lastName}
                   </td>
-                  <td>{order.user.phoneNumber}</td>
-                  <td>{`${order.deliveryAddress.building}, ${order.deliveryAddress.locationNumber}, ${order.deliveryAddress.campus}`}</td>
-                  <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
+                  <td>{order?.user?.phoneNumber}</td>
+                  <td>{`${order?.deliveryAddress?.building}, ${order?.deliveryAddress?.locationNumber}, ${order.deliveryAddress.campus}`}</td>
+                  <td>&#8358;{numberWithCommas(order?.totalPrice)}</td>
                   <td>
                     <Stack direction="horizontal" gap={2}>
-                      {order.orderItems.slice(-2).map((item, index) => (
+                      {order?.orderItems.slice(-2).map((item, index) => (
                         <Image
                           key={index}
-                          src={item.imageUrl}
+                          src={item?.imageUrl}
                           className="profile-picture-sm"
                         />
                       ))}
                     </Stack>
                   </td>
-                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                  <td>{order.isPaid ? "Paid" : "Unpaid"}</td>
+                  <td>{new Date(order?.createdAt).toLocaleDateString()}</td>
+                  <td>{order?.isPaid ? "Paid" : "Unpaid"}</td>
                   <td>
                     <ButtonGroup size="sm">
                       <OverlayTrigger
@@ -123,7 +123,7 @@ export default function VendorOrdersTable() {
               ))}
             </tbody>
           </Table>
-          {orders && orders.data && orders.data.length > itemsPerPage && (
+          {orders && orders?.data && orders?.data.length > itemsPerPage && (
             <div className="d-flex justify-content-center">
               <Pagination>
                 {[...Array(Math.ceil(orders?.data.length / itemsPerPage))].map(

@@ -33,8 +33,8 @@ export default function SubcategoryProducts() {
 
   let sortedProducts = [];
 
-  if (productsData && productsData.data) {
-    sortedProducts = [...productsData.data].sort(
+  if (productsData && productsData?.data) {
+    sortedProducts = [...productsData?.data].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
   }
@@ -45,7 +45,7 @@ export default function SubcategoryProducts() {
 
   useEffect(() => {
     if (!loadingCategories) {
-      const foundCategory = categories.data.find(
+      const foundCategory = categories?.data.find(
         (category) =>
           category.name.toLowerCase() === categoryName.replace(/-/g, " ")
       );
@@ -101,15 +101,15 @@ export default function SubcategoryProducts() {
         <Col lg={3} className="d-none d-lg-block">
           <ListGroup className="rounded-0">
             <ListGroup.Item as={"h5"} className="text-bg-dark text-uppercase">
-              {selectedCategory && selectedCategory.name}
+              {selectedCategory && selectedCategory?.name}
             </ListGroup.Item>
             {selectedCategory &&
-              selectedCategory.subcategories.map((subcategory) => (
+              selectedCategory?.subcategories.map((subcategory) => (
                 <ListGroup.Item key={subcategory._id} className="py-3">
                   <Link
-                    to={`/${selectedCategory.name
+                    to={`/${selectedCategory?.name
                       .toLowerCase()
-                      .replace(/\s+/g, "-")}/${subcategory.name
+                      .replace(/\s+/g, "-")}/${subcategory?.name
                       .toLowerCase()
                       .replace(/\s+/g, "-")}/${subcategory._id}`}
                     className="text-decoration-none text-uppercase fw-semibold">

@@ -67,8 +67,8 @@ export default function AdminProductsTable() {
 
   const filteredProducts =
     products &&
-    products.data.filter((product) =>
-      product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+    products?.data.filter((product) =>
+      product?.productName.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -83,25 +83,27 @@ export default function AdminProductsTable() {
     e.preventDefault();
     try {
       const res = await addCategory({ name: newCategory }).unwrap();
-      if (res.success) {
+      if (res?.success) {
         refetch();
         setNewCategory("");
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to add category");
+      toast.error((error && error?.data?.message) || "Failed to add category");
     }
   };
 
   const handleRemoveCategory = async (categoryId) => {
     try {
       const res = await deleteCategory(categoryId).unwrap();
-      if (res.success) {
+      if (res?.success) {
         refetch();
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to remove category");
+      toast.error(
+        (error && error?.data?.message) || "Failed to remove category"
+      );
     }
   };
 
@@ -114,13 +116,15 @@ export default function AdminProductsTable() {
         parentCategory: selectedCategory,
       }).unwrap();
 
-      if (res.success) {
+      if (res?.success) {
         refetch();
         setNewSubcategory("");
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to add subcategory");
+      toast.error(
+        (error && error?.data?.message) || "Failed to add subcategory"
+      );
     }
   };
 
@@ -130,13 +134,13 @@ export default function AdminProductsTable() {
         subcategoryId,
         categoryId,
       }).unwrap();
-      if (res.success) {
+      if (res?.success) {
         refetch();
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) || "Failed to remove subcategory"
+        (error && error?.data?.message) || "Failed to remove subcategory"
       );
     }
   };
@@ -144,12 +148,14 @@ export default function AdminProductsTable() {
   const handleDeleteProduct = async () => {
     try {
       const response = await deleteProduct(productIdToDelete).unwrap();
-      if (response.success) {
+      if (response?.success) {
         refetchProducts();
-        toast.success(response.message);
+        toast.success(response?.message);
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to delete product");
+      toast.error(
+        (error && error?.data?.message) || "Failed to delete product"
+      );
     } finally {
       handleCloseDeleteModal();
     }
@@ -223,7 +229,7 @@ export default function AdminProductsTable() {
                 </thead>
                 <tbody>
                   {currentProducts.map((product) => (
-                    <tr key={product._id}>
+                    <tr key={product?._id}>
                       <td>
                         {product.productName.length > 30
                           ? `${product.productName.slice(0, 30)}...`
@@ -281,7 +287,7 @@ export default function AdminProductsTable() {
                   ))}
                 </tbody>
               </Table>
-              {filteredProducts.length > itemsPerPage && (
+              {filteredProducts?.length > itemsPerPage && (
                 <div className="d-flex justify-content-center">
                   <Pagination>
                     {Array.from(
@@ -340,7 +346,7 @@ export default function AdminProductsTable() {
         </Row>
         <Row className="mb-4">
           {categories &&
-            categories.data.map((category) => (
+            categories?.data.map((category) => (
               <Col
                 key={category._id}
                 xs={12}
@@ -350,7 +356,7 @@ export default function AdminProductsTable() {
                 className="mb-3">
                 <Card className="border-0 rounded-0 mb-3 shadow-sm">
                   <Card.Body className="d-flex justify-content-between align-items-center">
-                    <h5 className="mb-0">{category.name}</h5>
+                    <h5 className="mb-0">{category?.name}</h5>
                     <Button
                       size="sm"
                       variant="light"
@@ -358,11 +364,11 @@ export default function AdminProductsTable() {
                       <BsTrash />
                     </Button>
                   </Card.Body>
-                  {category.subcategories &&
-                    category.subcategories.length > 0 && (
+                  {category?.subcategories &&
+                    category?.subcategories.length > 0 && (
                       <Card.Body>
                         <ul className="list-unstyled">
-                          {category.subcategories.map((subcat) => (
+                          {category?.subcategories.map((subcat) => (
                             <li
                               key={subcat._id}
                               className="d-flex justify-content-between align-items-center">
@@ -404,7 +410,7 @@ export default function AdminProductsTable() {
                       className="mb-3"
                       onChange={(e) => setSelectedCategory(e.target.value)}>
                       {categories &&
-                        categories.data.map((category) => (
+                        categories?.data.map((category) => (
                           <option key={category._id} value={category._id}>
                             {category.name}
                           </option>
@@ -430,7 +436,7 @@ export default function AdminProductsTable() {
             </div>
           </Col>
         </Row>
-        {categories && categories.data.length === 0 && (
+        {categories && categories?.data?.length === 0 && (
           <div className="text-center mt-5">
             <h4>No categories found</h4>
             <p>There are currently no categories available.</p>

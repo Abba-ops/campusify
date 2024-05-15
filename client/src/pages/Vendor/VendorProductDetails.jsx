@@ -38,13 +38,13 @@ export default function VendorProductDetails() {
     try {
       const res = await deleteReview({ productId, reviewId }).unwrap();
 
-      if (res.success) {
+      if (res?.success) {
         refetch();
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) ||
+        (error && error?.data?.message) ||
           "An error occurred while deleting the review."
       );
     }
@@ -75,12 +75,12 @@ export default function VendorProductDetails() {
           ) : (
             <>
               <span className="d-inline d-lg-none">
-                {product.data.productName.slice(0, 10)}
-                {product.data.productName.length > 10 && "..."}
+                {product?.data?.productName.slice(0, 10)}
+                {product?.data?.productName.length > 10 && "..."}
               </span>
               <span className="d-none d-lg-inline">
-                {product.data.productName.slice(0, 20)}
-                {product.data.productName.length > 20 && "..."}
+                {product?.data?.productName.slice(0, 20)}
+                {product?.data?.productName.length > 20 && "..."}
               </span>
             </>
           )}
@@ -111,7 +111,7 @@ export default function VendorProductDetails() {
                       fluid
                       loading="lazy"
                       className="product-image"
-                      src={`${product.data.imageUrl}`}
+                      src={`${product?.data?.imageUrl}`}
                     />
                   </div>
                 </Card.Body>
@@ -191,7 +191,7 @@ export default function VendorProductDetails() {
                         readOnly
                         type="text"
                         className="border-0"
-                        value={product.data._id}
+                        value={product?.data?._id}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Product Name">
@@ -199,7 +199,7 @@ export default function VendorProductDetails() {
                         readOnly
                         type="text"
                         className="border-0"
-                        value={product.data.productName}
+                        value={product?.data?.productName}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Product Description">
@@ -208,7 +208,7 @@ export default function VendorProductDetails() {
                         readOnly
                         as="textarea"
                         className="border-0"
-                        value={product.data.productDescription}
+                        value={product?.data?.productDescription}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Product Rating">
@@ -216,7 +216,7 @@ export default function VendorProductDetails() {
                         readOnly
                         type="text"
                         className="border-0"
-                        value={product.data.rating}
+                        value={product?.data?.rating}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Category">
@@ -224,7 +224,7 @@ export default function VendorProductDetails() {
                         readOnly
                         type="text"
                         className="border-0"
-                        value={product.data.category.name}
+                        value={product?.data?.category?.name}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Subcategory">
@@ -232,7 +232,7 @@ export default function VendorProductDetails() {
                         readOnly
                         type="text"
                         className="border-0"
-                        value={product.data.subcategory.name}
+                        value={product?.data?.subcategory?.name}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Price">
@@ -240,7 +240,7 @@ export default function VendorProductDetails() {
                         readOnly
                         type="text"
                         className="border-0"
-                        value={`₦${numberWithCommas(product.data.price)}`}
+                        value={`₦${numberWithCommas(product?.data?.price)}`}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Featured">
@@ -248,7 +248,7 @@ export default function VendorProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.isFeatured}
+                        value={product?.data?.isFeatured}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Sales Count">
@@ -256,7 +256,7 @@ export default function VendorProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.salesCount}
+                        value={product?.data?.salesCount}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Count In Stock">
@@ -264,7 +264,7 @@ export default function VendorProductDetails() {
                         readOnly
                         type="text"
                         className="border-0"
-                        value={product.data.countInStock}
+                        value={product?.data?.countInStock}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Created At">
@@ -274,7 +274,9 @@ export default function VendorProductDetails() {
                         className="border-0"
                         value={
                           product &&
-                          new Date(product.data.createdAt).toLocaleDateString()
+                          new Date(
+                            product?.data?.createdAt
+                          ).toLocaleDateString()
                         }
                       />
                     </FloatingLabel>

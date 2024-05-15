@@ -37,13 +37,13 @@ export default function OrderScreen() {
   const handleMarkAsReceived = async (itemId) => {
     try {
       const response = await markOrderAsReceived({ orderId, itemId }).unwrap();
-      if (response.success) {
+      if (response?.success) {
         refetch();
-        toast.success(response.message);
+        toast.success(response?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) ||
+        (error && error?.data?.message) ||
           "An error occurred while processing your request."
       );
     }
@@ -81,27 +81,28 @@ export default function OrderScreen() {
                   <ListGroup variant="flush">
                     <ListGroup.Item>
                       <div>
-                        <strong>Order ID:</strong> {orderData.data.orderID}
+                        <strong>Order ID:</strong> {orderData?.data?.orderID}
                       </div>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <div>
                         <strong>Delivery Address:</strong>{" "}
-                        {orderData.data.deliveryAddress.building},{" "}
-                        {orderData.data.deliveryAddress.locationNumber},{" "}
-                        {orderData.data.deliveryAddress.campus}
+                        {orderData?.data?.deliveryAddress.building},{" "}
+                        {orderData?.data?.deliveryAddress.locationNumber},{" "}
+                        {orderData?.data?.deliveryAddress.campus}
                       </div>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <div>
                         <strong>User Name:</strong>{" "}
-                        {orderData.data.user.otherNames}{" "}
-                        {orderData.data.user.lastName}
+                        {orderData?.data?.user.otherNames}{" "}
+                        {orderData?.data?.user.lastName}
                       </div>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <div>
-                        <strong>User Email:</strong> {orderData.data.user.email}
+                        <strong>User Email:</strong>{" "}
+                        {orderData?.data?.user.email}
                       </div>
                     </ListGroup.Item>
                   </ListGroup>
@@ -111,7 +112,7 @@ export default function OrderScreen() {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <ListGroup variant="flush">
-                    {orderData.data.orderItems.map((product) => (
+                    {orderData?.data?.orderItems.map((product) => (
                       <ListGroup.Item key={product._id}>
                         <Row className="align-items-center">
                           <Col lg={2} className="mb-3 mb-lg-0">
@@ -222,16 +223,16 @@ export default function OrderScreen() {
                 <ListGroup.Item>
                   <Row className="my-3">
                     <Col xs={6}>
-                      {orderData.data.orderItems.length === 1
+                      {orderData?.data?.orderItems.length === 1
                         ? "1 item in cart"
-                        : `${orderData.data.orderItems.length} items in cart`}
+                        : `${orderData?.data?.orderItems.length} items in cart`}
                     </Col>
                   </Row>
                   <Row className="my-3">
                     <Col xs={6}>Total (Before Tax)</Col>
                     <Col xs={6} className="text-end">
                       <div className="text-primary">
-                        &#8358;{numberWithCommas(orderData.data.itemsPrice)}
+                        &#8358;{numberWithCommas(orderData?.data?.itemsPrice)}
                       </div>
                     </Col>
                   </Row>
@@ -241,7 +242,7 @@ export default function OrderScreen() {
                     <Col xs={6}>Tax Amount</Col>
                     <Col xs={6} className="text-end">
                       <div className="text-primary">
-                        &#8358;{numberWithCommas(orderData.data.taxPrice)}
+                        &#8358;{numberWithCommas(orderData?.data?.taxPrice)}
                       </div>
                     </Col>
                   </Row>
@@ -249,7 +250,7 @@ export default function OrderScreen() {
                     <Col xs={6}>Total Cost</Col>
                     <Col xs={6} className="text-end">
                       <div className="text-primary">
-                        &#8358;{numberWithCommas(orderData.data.totalPrice)}
+                        &#8358;{numberWithCommas(orderData?.data?.totalPrice)}
                       </div>
                     </Col>
                   </Row>
@@ -258,7 +259,7 @@ export default function OrderScreen() {
                   <Row className="my-3">
                     <Col xs={6}>Order Status</Col>
                     <Col xs={6} className="text-end">
-                      {orderData.data.isOrderDelivered ? (
+                      {orderData?.data?.isOrderDelivered ? (
                         <Badge bg="success">Delivered</Badge>
                       ) : (
                         <Badge bg="primary">Pending</Badge>
@@ -268,7 +269,7 @@ export default function OrderScreen() {
                   <Row className="my-3">
                     <Col xs={6}>Payment Status</Col>
                     <Col xs={6} className="text-end">
-                      {orderData.data.isPaid ? (
+                      {orderData?.data?.isPaid ? (
                         <Badge bg="success">Paid</Badge>
                       ) : (
                         <Badge bg="primary">Unpaid</Badge>

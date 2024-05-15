@@ -52,15 +52,15 @@ export default function AdminEditProduct() {
   useEffect(() => {
     if (product) {
       setFormData({
-        productName: product.data.productName,
-        productDescription: product.data.productDescription,
-        category: product.data.category,
-        brand: product.data.brand,
-        price: product.data.price,
-        countInStock: product.data.countInStock,
-        subcategory: product.data.subcategory,
+        productName: product?.data?.productName,
+        productDescription: product?.data?.productDescription,
+        category: product?.data?.category,
+        brand: product?.data?.brand,
+        price: product?.data?.price,
+        countInStock: product?.data?.countInStock,
+        subcategory: product?.data?.subcategory,
       });
-      setImageUrl(product.data.imageUrl);
+      setImageUrl(product?.data?.imageUrl);
     }
   }, [product]);
 
@@ -70,10 +70,10 @@ export default function AdminEditProduct() {
 
     try {
       const res = await uploadProductImage(formData).unwrap();
-      setImageUrl(res.image);
-      toast.success(res.message || "Image uploaded successfully");
+      setImageUrl(res?.image);
+      toast.success(res?.message || "Image uploaded successfully");
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to upload image");
+      toast.error((error && error?.data?.message) || "Failed to upload image");
     }
   };
 
@@ -83,14 +83,14 @@ export default function AdminEditProduct() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "category") {
-      const category = categories.data.find((c) => c._id === value);
-      setSubcategories(category ? category.subcategories : []);
-      const subcategory = category.subcategories[0];
+      const category = categories?.data.find((c) => c._id === value);
+      setSubcategories(category ? category?.subcategories : []);
+      const subcategory = category?.subcategories[0];
       setFormData((prev) => ({
         ...prev,
-        category: category._id,
+        category: category?._id,
         subcategory: {
-          _id: subcategory._id,
+          _id: subcategory?._id,
           name: subcategory.name,
         },
       }));
@@ -119,21 +119,23 @@ export default function AdminEditProduct() {
       const updatedProduct = { ...formData, productId, imageUrl };
       const result = await updateProduct(updatedProduct).unwrap();
 
-      if (result.success) {
-        toast.success(result.message);
+      if (result?.success) {
+        toast.success(result?.message);
         navigate("/admin/dashboard/products");
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to update product");
+      toast.error(
+        (error && error?.data?.message) || "Failed to update product"
+      );
     }
   };
 
   useEffect(() => {
     if (!loadingCategories && product) {
-      const category = categories.data.find(
-        (c) => c._id === product.data.category._id
+      const category = categories?.data.find(
+        (c) => c._id === product?.data?.category?._id
       );
-      setSubcategories(category ? category.subcategories : []);
+      setSubcategories(category ? category?.subcategories : []);
     }
   }, [loadingCategories, product, setSubcategories, categories]);
 
@@ -166,12 +168,12 @@ export default function AdminEditProduct() {
                   <Form.Group controlId="productName" className="mb-3 mb-lg-0">
                     <Form.Label>Product Name</Form.Label>
                     <Form.Control
+                      required
                       type="text"
                       name="productName"
                       value={formData.productName}
                       onChange={handleChange}
                       placeholder="Enter product name"
-                      required
                     />
                   </Form.Group>
                 </Col>
@@ -180,8 +182,8 @@ export default function AdminEditProduct() {
                     <Form.Label>Upload Image</Form.Label>
                     <Form.Control
                       type="file"
-                      onChange={uploadFileHandler}
                       className="mb-3"
+                      onChange={uploadFileHandler}
                     />
                     {imageUrl && (
                       <div className="image-container">
@@ -201,13 +203,13 @@ export default function AdminEditProduct() {
                   <Form.Group controlId="productDescription">
                     <Form.Label>Product Description</Form.Label>
                     <Form.Control
-                      as="textarea"
                       rows={3}
+                      required
+                      as="textarea"
                       name="productDescription"
                       value={formData.productDescription}
                       onChange={handleChange}
                       placeholder="Enter product description"
-                      required
                     />
                   </Form.Group>
                 </Col>
@@ -227,7 +229,7 @@ export default function AdminEditProduct() {
                         <option value="">Loading...</option>
                       ) : (
                         categories &&
-                        categories.data.map((category) => (
+                        categories?.data.map((category) => (
                           <option value={category._id} key={category._id}>
                             {category.name}
                           </option>
@@ -265,12 +267,12 @@ export default function AdminEditProduct() {
                   <Form.Group controlId="brand" className="mb-3 mb-lg-0">
                     <Form.Label>Brand</Form.Label>
                     <Form.Control
+                      required
                       type="text"
                       name="brand"
                       value={formData.brand}
                       onChange={handleChange}
                       placeholder="Enter brand name"
-                      required
                     />
                   </Form.Group>
                 </Col>
@@ -278,12 +280,12 @@ export default function AdminEditProduct() {
                   <Form.Group controlId="price">
                     <Form.Label>Price (&#8358;)</Form.Label>
                     <Form.Control
+                      required
                       type="number"
                       name="price"
                       value={formData.price}
                       onChange={handleChange}
                       placeholder="Enter price"
-                      required
                     />
                   </Form.Group>
                 </Col>
@@ -293,12 +295,12 @@ export default function AdminEditProduct() {
                   <Form.Group controlId="countInStock">
                     <Form.Label>Count In Stock</Form.Label>
                     <Form.Control
+                      required
                       type="number"
                       name="countInStock"
                       value={formData.countInStock}
                       onChange={handleChange}
                       placeholder="Enter stock count"
-                      required
                     />
                   </Form.Group>
                 </Col>

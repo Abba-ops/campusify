@@ -38,10 +38,10 @@ export default function CategoryOffcanvas({
                     {category.name}
                   </Link>
                 </h5>
-                {category.subcategories &&
-                  category.subcategories.length > 0 && (
+                {category?.subcategories &&
+                  category?.subcategories.length > 0 && (
                     <ul className="list-unstyled ms-4">
-                      {category.subcategories.map((subcat) => (
+                      {category?.subcategories.map((subcat) => (
                         <li key={subcat._id} className="mb-2">
                           <Link
                             onClick={() => handleClose()}

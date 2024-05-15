@@ -28,7 +28,7 @@ export default function LandingPage() {
         <HeaderHero />
         <ServiceGrid />
         <FeaturedProducts />
-        {userInfo && !userInfo.data.isVendor && <ApplyAsVendorAlert />}
+        {userInfo && !userInfo?.data?.isVendor && <ApplyAsVendorAlert />}
         {!userInfo && <ApplyAsVendorAlert />}
         <BestSeller />
         <PopularProducts />

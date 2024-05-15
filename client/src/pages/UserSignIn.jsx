@@ -39,14 +39,14 @@ export default function UserSignIn() {
     try {
       const response = await authenticateUser({ email, password }).unwrap();
 
-      if (response.success) {
+      if (response?.success) {
         dispatch(setCredentials({ ...response }));
-        toast.success(response.message);
+        toast.success(response?.message);
         navigate(redirectPath);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) || "Sign in failed. Please try again."
+        (error && error?.data?.message) || "Sign in failed. Please try again."
       );
     }
   };

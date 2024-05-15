@@ -82,19 +82,19 @@ export default function AdminOrdersTable() {
                 </thead>
                 <tbody>
                   {currentOrders.map((order) => (
-                    <tr key={order.orderID}>
-                      <td>{order.orderID}</td>
+                    <tr key={order?.orderID}>
+                      <td>{order?.orderID}</td>
                       <td>
-                        {order.user.otherNames} {order.user.lastName}
+                        {order?.user.otherNames} {order?.user?.lastName}
                       </td>
-                      <td>{order.user.email}</td>
-                      <td>{order.user.phoneNumber}</td>
-                      <td>&#8358;{numberWithCommas(order.itemsPrice)}</td>
-                      <td>&#8358;{numberWithCommas(order.taxPrice)}</td>
-                      <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
+                      <td>{order?.user?.email}</td>
+                      <td>{order?.user?.phoneNumber}</td>
+                      <td>&#8358;{numberWithCommas(order?.itemsPrice)}</td>
+                      <td>&#8358;{numberWithCommas(order?.taxPrice)}</td>
+                      <td>&#8358;{numberWithCommas(order?.totalPrice)}</td>
                       <td>
                         <Stack direction="horizontal" gap={2}>
-                          {order.orderItems.slice(-2).map((item, index) => (
+                          {order?.orderItems.slice(-2).map((item, index) => (
                             <Image
                               key={index}
                               src={item.imageUrl}
@@ -135,7 +135,7 @@ export default function AdminOrdersTable() {
                   ))}
                 </tbody>
               </Table>
-              {orders && orders.data && orders.data.length > itemsPerPage && (
+              {orders && orders?.data && orders?.data.length > itemsPerPage && (
                 <div className="d-flex justify-content-center">
                   <Pagination>
                     {[

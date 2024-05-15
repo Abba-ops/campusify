@@ -45,13 +45,13 @@ export default function UserRegistration() {
         userType,
       }).unwrap();
 
-      if (response.success) {
+      if (response?.success) {
         dispatch(setCredentials({ ...response }));
-        toast.success(response.message);
+        toast.success(response?.message);
         navigate(redirectPath);
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Registration failed.");
+      toast.error((error && error?.data?.message) || "Registration failed.");
     }
   };
 

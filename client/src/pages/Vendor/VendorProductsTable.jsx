@@ -51,8 +51,8 @@ export default function VendorProductsTable() {
   };
 
   const filteredProducts = vendorProducts
-    ? vendorProducts.data.filter((product) =>
-        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+    ? vendorProducts?.data.filter((product) =>
+        product?.productName.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
 
@@ -70,12 +70,14 @@ export default function VendorProductsTable() {
   const handleDeleteProduct = async () => {
     try {
       const response = await deleteProduct(productIdToDelete).unwrap();
-      if (response.success) {
+      if (response?.success) {
         refetch();
-        toast.success(response.message);
+        toast.success(response?.message);
       }
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to delete product");
+      toast.error(
+        (error && error?.data?.message) || "Failed to delete product"
+      );
     } finally {
       handleCloseDeleteModal();
     }
@@ -134,7 +136,7 @@ export default function VendorProductsTable() {
                   />
                 </InputGroup>
               </div>
-              {vendorProducts && vendorProducts.data.length === 0 ? (
+              {vendorProducts && vendorProducts?.data.length === 0 ? (
                 <div className="text-center mt-5">
                   <h4>No products found</h4>
                   <p>This vendor doesn't have any products yet.</p>

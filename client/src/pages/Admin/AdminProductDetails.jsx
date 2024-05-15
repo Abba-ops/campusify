@@ -38,13 +38,13 @@ export default function AdminProductDetails() {
     try {
       const res = await deleteReview({ productId, reviewId }).unwrap();
 
-      if (res.success) {
+      if (res?.success) {
         refetch();
-        toast.success(res.message);
+        toast.success(res?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) ||
+        (error && error?.data?.message) ||
           "An error occurred while deleting the review."
       );
     }
@@ -75,12 +75,12 @@ export default function AdminProductDetails() {
           ) : (
             <>
               <span className="d-inline d-lg-none">
-                {product.data.productName.slice(0, 10)}
-                {product.data.productName.length > 10 && "..."}
+                {product?.data?.productName.slice(0, 10)}
+                {product?.data?.productName.length > 10 && "..."}
               </span>
               <span className="d-none d-lg-inline">
-                {product.data.productName.slice(0, 20)}
-                {product.data.productName.length > 20 && "..."}
+                {product?.data?.productName.slice(0, 20)}
+                {product?.data?.productName.length > 20 && "..."}
               </span>
             </>
           )}
@@ -110,7 +110,7 @@ export default function AdminProductDetails() {
                       fluid
                       loading="lazy"
                       className="product-image"
-                      src={`${product.data.imageUrl}`}
+                      src={`${product?.data?.imageUrl}`}
                     />
                   </div>
                 </Card.Body>
@@ -190,7 +190,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data._id}
+                        value={product?.data?._id}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Product Name">
@@ -198,7 +198,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.productName}
+                        value={product?.data?.productName}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Product Description">
@@ -207,7 +207,7 @@ export default function AdminProductDetails() {
                         readOnly
                         rows={3}
                         as="textarea"
-                        value={product.data.productDescription}
+                        value={product?.data?.productDescription}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Product Rating">
@@ -215,7 +215,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.rating}
+                        value={product?.data?.rating}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Category">
@@ -223,7 +223,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.category.name}
+                        value={product?.data?.category?.name}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Subcategory">
@@ -231,7 +231,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.subcategory.name}
+                        value={product?.data?.subcategory?.name}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Price">
@@ -239,7 +239,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={`₦${numberWithCommas(product.data.price)}`}
+                        value={`₦${numberWithCommas(product?.data?.price)}`}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Brand">
@@ -247,7 +247,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.brand}
+                        value={product?.data?.brand}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Vendor Name">
@@ -255,7 +255,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.vendor.vendorName}
+                        value={product?.data?.vendor?.vendorName}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Vendor Email">
@@ -263,7 +263,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.vendor.vendorEmail}
+                        value={product?.data?.vendor?.vendorEmail}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Vendor Phone">
@@ -271,7 +271,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.vendor.vendorPhone}
+                        value={product?.data?.vendor?.vendorPhone}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Count In Stock">
@@ -279,7 +279,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.countInStock}
+                        value={product?.data?.countInStock}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Featured">
@@ -287,7 +287,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.isFeatured}
+                        value={product?.data?.isFeatured}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Sales Count">
@@ -295,7 +295,7 @@ export default function AdminProductDetails() {
                         plaintext
                         readOnly
                         type="text"
-                        value={product.data.salesCount}
+                        value={product?.data?.salesCount}
                       />
                     </FloatingLabel>
                     <FloatingLabel label="Created At">
@@ -305,7 +305,9 @@ export default function AdminProductDetails() {
                         type="text"
                         value={
                           product &&
-                          new Date(product.data.createdAt).toLocaleDateString()
+                          new Date(
+                            product?.data?.createdAt
+                          ).toLocaleDateString()
                         }
                       />
                     </FloatingLabel>
