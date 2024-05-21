@@ -14,7 +14,7 @@ export default function ProductSearch() {
 
   let sortedProducts = [];
   if (products && products?.data) {
-    sortedProducts = [...products?.data].sort(
+    sortedProducts = [...products?.data]?.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
   }
@@ -53,7 +53,7 @@ export default function ProductSearch() {
           </div>
         ) : (
           <>
-            {sortedProducts.length === 0 && !isLoading && !isError ? (
+            {sortedProducts?.length === 0 && !isLoading && !isError ? (
               <div className="text-center mt-5">
                 <h4>Oops! No products found.</h4>
                 <p>
@@ -76,15 +76,15 @@ export default function ProductSearch() {
                 ) : (
                   <>
                     {sortedProducts
-                      .slice(0, visibleProducts)
-                      .map((product, index) => (
+                      ?.slice(0, visibleProducts)
+                      ?.map((product, index) => (
                         <Col key={index} md={4} lg={3} className="mb-4">
                           <ProductCard product={product} />
                         </Col>
                       ))}
                     {!isLoading &&
                       visibleProducts <
-                        (sortedProducts ? sortedProducts.length : 0) && (
+                        (sortedProducts ? sortedProducts?.length : 0) && (
                         <Col className="d-flex justify-content-center">
                           <Button
                             variant="dark"

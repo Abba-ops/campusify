@@ -90,8 +90,8 @@ export default function AdminOrderDetails() {
                     <ListGroup variant="flush">
                       {showOrderItems && (
                         <>
-                          {order?.data?.orderItems.map((item, index) => (
-                            <ListGroup.Item key={item._id}>
+                          {order?.data?.orderItems?.map((item) => (
+                            <ListGroup.Item key={item?._id}>
                               <Row className="align-items-center">
                                 <Col xs={4} lg={2}>
                                   <div className="image-container">
@@ -99,30 +99,30 @@ export default function AdminOrderDetails() {
                                       fluid
                                       loading="lazy"
                                       className="product-image"
-                                      src={`${item.imageUrl}`}
+                                      src={`${item?.imageUrl}`}
                                     />
                                   </div>
                                 </Col>
                                 <Col xs={8} lg={6}>
                                   <Link
                                     className="text-decoration-none"
-                                    to={`/admin/dashboard/products/${item._id}`}>
+                                    to={`/admin/dashboard/products/${item?._id}`}>
                                     <div className="text-truncate">
-                                      {item.productName}
+                                      {item?.productName}
                                     </div>
                                   </Link>
                                   <div>
                                     <strong>Price:</strong> &#8358;
-                                    {numberWithCommas(item.price)}
+                                    {numberWithCommas(item?.price)}
                                   </div>
                                   <div>
-                                    <strong>Quantity:</strong> {item.quantity}
+                                    <strong>Quantity:</strong> {item?.quantity}
                                   </div>
                                 </Col>
                                 <Col
                                   lg={4}
                                   className="text-lg-center mt-3 mt-lg-0">
-                                  {item.isDelivered ? (
+                                  {item?.isDelivered ? (
                                     <div className="d-flex align-items-center">
                                       <span className="me-1 text-success">
                                         Delivered
@@ -143,7 +143,7 @@ export default function AdminOrderDetails() {
                                       />
                                     </div>
                                   )}
-                                  {item.isReceived ? (
+                                  {item?.isReceived ? (
                                     <div className="d-flex align-items-center mt-1">
                                       <span className="me-1 text-success">
                                         Received

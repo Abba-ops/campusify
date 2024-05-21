@@ -51,7 +51,7 @@ export default function VendorProductsTable() {
   };
 
   const filteredProducts = vendorProducts
-    ? vendorProducts?.data.filter((product) =>
+    ? vendorProducts?.data?.filter((product) =>
         product?.productName.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
@@ -136,14 +136,14 @@ export default function VendorProductsTable() {
                   />
                 </InputGroup>
               </div>
-              {vendorProducts && vendorProducts?.data.length === 0 ? (
+              {vendorProducts && vendorProducts?.data?.length === 0 ? (
                 <div className="text-center mt-5">
                   <h4>No products found</h4>
                   <p>This vendor doesn't have any products yet.</p>
                 </div>
               ) : (
                 <>
-                  {filteredProducts.length === 0 ? (
+                  {filteredProducts?.length === 0 ? (
                     <div className="text-center mt-5">
                       <h4>No products found</h4>
                       <p>
@@ -164,23 +164,23 @@ export default function VendorProductsTable() {
                         </tr>
                       </thead>
                       <tbody>
-                        {currentProducts.map((product) => (
-                          <tr key={product._id}>
+                        {currentProducts?.map((product) => (
+                          <tr key={product?._id}>
                             <td>
-                              {product.productName.length > 30
-                                ? `${product.productName.slice(0, 30)}...`
-                                : product.productName}
+                              {product?.productName?.length > 30
+                                ? `${product?.productName?.slice(0, 30)}...`
+                                : product?.productName}
                             </td>
                             <td>
                               <Image
-                                src={product.imageUrl}
+                                src={product?.imageUrl}
                                 className="profile-picture-sm"
                               />
                             </td>
-                            <td>{product.category.name}</td>
-                            <td>{product.subcategory.name}</td>
-                            <td>{product.brand}</td>
-                            <td>&#8358;{numberWithCommas(product.price)}</td>
+                            <td>{product?.category?.name}</td>
+                            <td>{product?.subcategory?.name}</td>
+                            <td>{product?.brand}</td>
+                            <td>&#8358;{numberWithCommas(product?.price)}</td>
                             <td>
                               <ButtonGroup size="sm">
                                 <OverlayTrigger
@@ -190,7 +190,7 @@ export default function VendorProductsTable() {
                                   }>
                                   <Button
                                     as={Link}
-                                    to={`/vendor/dashboard/products/${product._id}`}
+                                    to={`/vendor/dashboard/products/${product?._id}`}
                                     variant="light">
                                     <BsEye />
                                   </Button>
@@ -202,7 +202,7 @@ export default function VendorProductsTable() {
                                   }>
                                   <Button
                                     as={Link}
-                                    to={`/vendor/dashboard/products/${product._id}/edit`}
+                                    to={`/vendor/dashboard/products/${product?._id}/edit`}
                                     variant="light">
                                     <BsPencil />
                                   </Button>
@@ -217,7 +217,7 @@ export default function VendorProductsTable() {
                                   <Button
                                     variant="light"
                                     onClick={() =>
-                                      handleShowDeleteModal(product._id)
+                                      handleShowDeleteModal(product?._id)
                                     }>
                                     <BsTrash />
                                   </Button>
@@ -229,12 +229,12 @@ export default function VendorProductsTable() {
                       </tbody>
                     </Table>
                   )}
-                  {filteredProducts.length > itemsPerPage && (
+                  {filteredProducts?.length > itemsPerPage && (
                     <div className="d-flex justify-content-center">
                       <Pagination>
                         {[
                           ...Array(
-                            Math.ceil(filteredProducts.length / itemsPerPage)
+                            Math.ceil(filteredProducts?.length / itemsPerPage)
                           ),
                         ].map((_, index) => (
                           <Pagination.Item

@@ -74,7 +74,7 @@ export default function VendorCreateProduct() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "category") {
-      const category = categories?.data.find((c) => c._id === value);
+      const category = categories?.data?.find((c) => c._id === value);
       setSubcategories(category ? category?.subcategories : []);
       const subcategory = category?.subcategories[0];
       setFormData((prev) => ({
@@ -86,12 +86,12 @@ export default function VendorCreateProduct() {
         },
       }));
     } else if (name === "subcategory") {
-      const subcategory = subcategories.find((c) => c._id === value);
+      const subcategory = subcategories?.find((c) => c._id === value);
       setFormData({
         ...formData,
         [name]: {
-          name: subcategory.name,
-          _id: subcategory._id,
+          name: subcategory?.name,
+          _id: subcategory?._id,
         },
       });
     } else {
@@ -104,7 +104,7 @@ export default function VendorCreateProduct() {
 
   useEffect(() => {
     if (!loadingCategories) {
-      const category = categories?.data.find(
+      const category = categories?.data?.find(
         (c) => c._id === categories?.data[0]._id
       );
       setSubcategories(category ? category?.subcategories : []);
@@ -141,7 +141,7 @@ export default function VendorCreateProduct() {
                   <Form.Control
                     type="text"
                     name="productName"
-                    value={formData.productName}
+                    value={formData?.productName}
                     onChange={handleChange}
                     placeholder="Enter product name"
                     required
@@ -181,7 +181,7 @@ export default function VendorCreateProduct() {
                     as="textarea"
                     onChange={handleChange}
                     name="productDescription"
-                    value={formData.productDescription}
+                    value={formData?.productDescription}
                     placeholder="Enter product description"
                   />
                 </Form.Group>
@@ -199,8 +199,8 @@ export default function VendorCreateProduct() {
                     ) : (
                       categories &&
                       categories?.data.map((category) => (
-                        <option value={category._id} key={category._id}>
-                          {category.name}
+                        <option value={category?._id} key={category?._id}>
+                          {category?.name}
                         </option>
                       ))
                     )}
@@ -220,8 +220,8 @@ export default function VendorCreateProduct() {
                       <option value="">Error: Retry</option>
                     ) : (
                       subcategories?.map((subcategory) => (
-                        <option value={subcategory._id} key={subcategory._id}>
-                          {subcategory.name}
+                        <option value={subcategory?._id} key={subcategory?._id}>
+                          {subcategory?.name}
                         </option>
                       ))
                     )}
@@ -237,7 +237,7 @@ export default function VendorCreateProduct() {
                     required
                     type="text"
                     name="brand"
-                    value={formData.brand}
+                    value={formData?.brand}
                     onChange={handleChange}
                     placeholder="Enter brand name"
                   />
@@ -249,7 +249,7 @@ export default function VendorCreateProduct() {
                   <Form.Control
                     type="number"
                     name="price"
-                    value={formData.price}
+                    value={formData?.price}
                     onChange={handleChange}
                     placeholder="Enter price"
                     required
@@ -264,7 +264,7 @@ export default function VendorCreateProduct() {
                   <Form.Control
                     type="number"
                     name="countInStock"
-                    value={formData.countInStock}
+                    value={formData?.countInStock}
                     onChange={handleChange}
                     placeholder="Enter stock count"
                     required

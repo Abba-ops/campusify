@@ -12,7 +12,7 @@ export default function CartPreviewModal({ show, handleClose, product }) {
     <Modal show={show} onHide={handleClose} centered size="lg">
       <Modal.Header closeButton>
         <Modal.Title className="text-uppercase text-truncate">
-          {product.productName}
+          {product?.productName}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -23,7 +23,7 @@ export default function CartPreviewModal({ show, handleClose, product }) {
                 fluid
                 loading="lazy"
                 className="product-image"
-                src={`${product.imageUrl}`}
+                src={`${product?.imageUrl}`}
               />
             </div>
           </Col>
@@ -32,17 +32,17 @@ export default function CartPreviewModal({ show, handleClose, product }) {
               {totalItems} items in your cart
             </Modal.Title>
             <ListGroup variant="flush">
-              {cartItems.slice(-5).map((cartItem) => (
-                <ListGroup.Item key={cartItem.id}>
+              {cartItems?.slice(-5)?.map((cartItem) => (
+                <ListGroup.Item key={cartItem?._id}>
                   <Row className="align-items-center">
                     <Col xs={2}>
                       <Image
-                        src={cartItem.imageUrl}
+                        src={cartItem?.imageUrl}
                         className="profile-picture-sm"
-                        alt={cartItem.productName}
+                        alt={cartItem?.productName}
                       />
                     </Col>
-                    <Col className="text-truncate">{cartItem.productName}</Col>
+                    <Col className="text-truncate">{cartItem?.productName}</Col>
                   </Row>
                 </ListGroup.Item>
               ))}

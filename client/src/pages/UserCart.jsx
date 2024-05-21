@@ -32,7 +32,7 @@ export default function UserCart() {
   };
 
   const renderCartItem = (product) => (
-    <ListGroup.Item key={product._id}>
+    <ListGroup.Item key={product?._id}>
       <Row className="align-items-center">
         <Col xs={6} lg={2}>
           <div className="image-container">
@@ -40,23 +40,25 @@ export default function UserCart() {
               fluid
               loading="lazy"
               className="product-image"
-              src={`${product.imageUrl}`}
+              src={`${product?.imageUrl}`}
             />
           </div>
         </Col>
         <Col xs={6} lg={4}>
-          <Link className="text-decoration-none" to={`/product/${product._id}`}>
-            <div className="text-truncate">{product.productName}</div>
+          <Link
+            className="text-decoration-none"
+            to={`/product/${product?._id}`}>
+            <div className="text-truncate">{product?.productName}</div>
           </Link>
           <div>
-            <strong>Quantity:</strong> {product.quantity}
+            <strong>Quantity:</strong> {product?.quantity}
           </div>
         </Col>
         <Col xs={6} lg={2} className="mt-4 mt-lg-0">
           <Form.Select
-            value={product.quantity}
+            value={product?.quantity}
             onChange={(e) => addToCartHandler(product, Number(e.target.value))}>
-            {[...Array(product.countInStock).keys()].map((x) => (
+            {[...Array(product?.countInStock).keys()].map((x) => (
               <option value={x + 1} key={x + 1}>
                 {x + 1}
               </option>
@@ -64,7 +66,7 @@ export default function UserCart() {
           </Form.Select>
         </Col>
         <Col xs={6} lg={2} className="text-primary text-lg-center">
-          <strong>&#8358;{numberWithCommas(product.price)}</strong>
+          <strong>&#8358;{numberWithCommas(product?.price)}</strong>
         </Col>
         <Col lg={2} className="text-end">
           <MdDelete
@@ -94,7 +96,7 @@ export default function UserCart() {
               <ListGroup.Item>
                 <h5 className="text-uppercase my-2">Your Shopping Cart</h5>
               </ListGroup.Item>
-              {cartItems.length === 0 ? (
+              {cartItems?.length === 0 ? (
                 <ListGroup.Item>
                   <div>Your shopping cart is empty at the moment.</div>
                 </ListGroup.Item>
@@ -116,11 +118,11 @@ export default function UserCart() {
               <ListGroup.Item>
                 <Row className="my-3">
                   <Col xs={6}>
-                    {cartItems.length === 0
+                    {cartItems?.length === 0
                       ? "0 items in cart"
-                      : cartItems.length === 1
+                      : cartItems?.length === 1
                       ? "1 item in cart"
-                      : `${cartItems.length} items in cart`}
+                      : `${cartItems?.length} items in cart`}
                   </Col>
                   <Col xs={6} className="text-end">
                     <div className="text-primary">
@@ -159,7 +161,7 @@ export default function UserCart() {
                 <div className="d-flex justify-content-center my-3">
                   <Button
                     onClick={checkoutHandler}
-                    disabled={cartItems.length === 0}
+                    disabled={cartItems?.length === 0}
                     className="px-4"
                     variant="dark">
                     Proceed to Checkout

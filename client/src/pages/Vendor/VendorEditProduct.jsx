@@ -83,25 +83,25 @@ export default function VendorEditProduct() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "category") {
-      const category = categories?.data.find((c) => c._id === value);
+      const category = categories?.data?.find((c) => c._id === value);
       setSubcategories(category ? category?.subcategories : []);
       const subcategory = category?.subcategories[0];
       setFormData((prev) => ({
         ...prev,
         category: category?._id,
         subcategory: {
-          _id: subcategory._id,
-          name: subcategory.name,
+          _id: subcategory?._id,
+          name: subcategory?.name,
         },
       }));
       return;
     } else if (name === "subcategory") {
-      const subcategory = subcategories.find((c) => c._id === value);
+      const subcategory = subcategories?.find((c) => c._id === value);
       setFormData({
         ...formData,
         [name]: {
-          name: subcategory.name,
-          _id: subcategory._id,
+          name: subcategory?.name,
+          _id: subcategory?._id,
         },
       });
       return;
@@ -171,7 +171,7 @@ export default function VendorEditProduct() {
                       required
                       type="text"
                       name="productName"
-                      value={formData.productName}
+                      value={formData?.productName}
                       onChange={handleChange}
                       placeholder="Enter product name"
                     />
@@ -208,7 +208,7 @@ export default function VendorEditProduct() {
                       as="textarea"
                       onChange={handleChange}
                       name="productDescription"
-                      value={formData.productDescription}
+                      value={formData?.productDescription}
                       placeholder="Enter product description"
                     />
                   </Form.Group>
@@ -222,16 +222,16 @@ export default function VendorEditProduct() {
                       required
                       name="category"
                       onChange={handleChange}
-                      value={formData.category._id}>
+                      value={formData?.category?._id}>
                       {errorCategories ? (
                         <option value="">Error: Retry</option>
                       ) : loadingCategories ? (
                         <option value="">Loading...</option>
                       ) : (
                         categories &&
-                        categories?.data.map((category) => (
-                          <option value={category._id} key={category._id}>
-                            {category.name}
+                        categories?.data?.map((category) => (
+                          <option value={category?._id} key={category?._id}>
+                            {category?.name}
                           </option>
                         ))
                       )}
@@ -245,16 +245,18 @@ export default function VendorEditProduct() {
                       required
                       name="subcategory"
                       onChange={handleChange}
-                      value={formData.subcategory._id}>
+                      value={formData?.subcategory?._id}>
                       {errorCategories ? (
                         <option value="">Error: Retry</option>
                       ) : loadingCategories ? (
                         <option value="">Loading...</option>
                       ) : (
                         subcategories &&
-                        subcategories.map((subcategory) => (
-                          <option value={subcategory._id} key={subcategory._id}>
-                            {subcategory.name}
+                        subcategories?.map((subcategory) => (
+                          <option
+                            value={subcategory?._id}
+                            key={subcategory?._id}>
+                            {subcategory?.name}
                           </option>
                         ))
                       )}
@@ -270,7 +272,7 @@ export default function VendorEditProduct() {
                       required
                       type="text"
                       name="brand"
-                      value={formData.brand}
+                      value={formData?.brand}
                       onChange={handleChange}
                       placeholder="Enter brand name"
                     />
@@ -283,7 +285,7 @@ export default function VendorEditProduct() {
                       required
                       name="price"
                       type="number"
-                      value={formData.price}
+                      value={formData?.price}
                       onChange={handleChange}
                       placeholder="Enter price"
                     />
@@ -299,7 +301,7 @@ export default function VendorEditProduct() {
                       type="number"
                       name="countInStock"
                       onChange={handleChange}
-                      value={formData.countInStock}
+                      value={formData?.countInStock}
                       placeholder="Enter stock count"
                     />
                   </Form.Group>

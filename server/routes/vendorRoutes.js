@@ -34,17 +34,26 @@ router.put(
   "/notifications/:notificationId/mark-as-read",
   markNotificationAsRead
 );
-router.route("/").get(isLoggedIn, isAdmin, getVendors);
-router.get("/sales/count", getVendorsBySaleCount);
+
+router
+  .route("/")
+  .get(isLoggedIn, isAdmin, getVendors)
+  .post(isLoggedIn, vendorApplication);
+
+router.get("/sales-count", getVendorsBySaleCount);
 router.get("/products", isLoggedIn, isVendor, getVendorProducts);
 router.get("/customers", isLoggedIn, isVendor, getVendorCustomers);
-router.get("/customers/all", isLoggedIn, isAdmin, getAllVendorCustomers);
-router.route("/application").post(isLoggedIn, vendorApplication);
+router.get("/all-customers", isLoggedIn, isAdmin, getAllVendorCustomers);
 router
   .route("/:vendorId")
   .get(isLoggedIn, getVendorById)
   .delete(isLoggedIn, isAdmin, deleteVendor);
-router.put("/:vendorId/:status", isLoggedIn, isAdmin, updateVendorStatus);
+router.put(
+  "/:vendorId/status/:status",
+  isLoggedIn,
+  isAdmin,
+  updateVendorStatus
+);
 router.get("/:vendorId/products", isLoggedIn, isAdmin, getProductsByVendor);
 
 export default router;

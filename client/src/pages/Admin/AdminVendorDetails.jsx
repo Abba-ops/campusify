@@ -92,12 +92,12 @@ export default function AdminVendorDetails() {
           ) : (
             <>
               <span className="d-inline d-lg-none">
-                {vendor?.data?.vendorName.slice(0, 10)}
-                {vendor?.data?.vendorName.length > 10 && "..."}
+                {vendor?.data?.vendorName?.slice(0, 10)}
+                {vendor?.data?.vendorName?.length > 10 && "..."}
               </span>
               <span className="d-none d-lg-inline">
-                {vendor?.data?.vendorName.slice(0, 20)}
-                {vendor?.data?.vendorName.length > 20 && "..."}
+                {vendor?.data?.vendorName?.slice(0, 20)}
+                {vendor?.data?.vendorName?.length > 20 && "..."}
               </span>
             </>
           )}
@@ -172,11 +172,11 @@ export default function AdminVendorDetails() {
                 )}
                 {!loadingVendorProducts && (
                   <ListGroup variant="flush">
-                    {vendorProducts?.data.length === 0 ? (
+                    {vendorProducts?.data?.length === 0 ? (
                       <p>No products available for this vendor.</p>
                     ) : (
-                      vendorProducts?.data.slice(-5).map((vendorProduct) => (
-                        <ListGroup.Item key={vendorProduct.id}>
+                      vendorProducts?.data?.slice(-5)?.map((vendorProduct) => (
+                        <ListGroup.Item key={vendorProduct?._id}>
                           <Row className="align-items-center">
                             <Col xs={2}>
                               <Image
@@ -188,8 +188,8 @@ export default function AdminVendorDetails() {
                             <Col className="text-truncate">
                               <Link
                                 className="text-decoration-none"
-                                to={`/admin/dashboard/products/${vendorProduct._id}`}>
-                                {vendorProduct.productName}
+                                to={`/admin/dashboard/products/${vendorProduct?._id}`}>
+                                {vendorProduct?.productName}
                               </Link>
                             </Col>
                           </Row>

@@ -126,11 +126,11 @@ export default function UserProfileDetails() {
                     roundedCircle
                     loading="lazy"
                     className="profile-picture-lg border"
-                    src={userInfo.data.profilePictureURL}
+                    src={userInfo?.data?.profilePictureURL}
                   />
                 </div>
-                <h4 className="mb-2">{`${userInfo.data.otherNames} ${userInfo.data.lastName}`}</h4>
-                <p className="mb-1">{userInfo.data.email}</p>
+                <h4 className="mb-2">{`${userInfo?.data?.otherNames} ${userInfo?.data?.lastName}`}</h4>
+                <p className="mb-1">{userInfo?.data?.email}</p>
                 <div className="mb-2">
                   {userInfo?.data?.vendor ? (
                     userInfo?.data?.vendor?.isApproved ? (
@@ -206,7 +206,7 @@ export default function UserProfileDetails() {
                   Failed to load order history. Please try again later.
                 </p>
               </div>
-            ) : orders?.data.length === 0 ? (
+            ) : orders?.data?.length === 0 ? (
               <div className="text-center mt-5">
                 <h4>Oops! No orders found.</h4>
                 <p>It seems we couldn't find any orders at the moment.</p>
@@ -226,17 +226,17 @@ export default function UserProfileDetails() {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders?.data.map((order) => (
-                    <tr key={order.orderID}>
-                      <td>{order.orderID}</td>
-                      <td>&#8358;{numberWithCommas(order.itemsPrice)}</td>
-                      <td>&#8358;{numberWithCommas(order.taxPrice)}</td>
-                      <td>&#8358;{numberWithCommas(order.totalPrice)}</td>
-                      <td>{order.isPaid ? "Paid" : "Unpaid"}</td>
+                  {orders?.data?.map((order) => (
+                    <tr key={order?.orderID}>
+                      <td>{order?.orderID}</td>
+                      <td>&#8358;{numberWithCommas(order?.itemsPrice)}</td>
+                      <td>&#8358;{numberWithCommas(order?.taxPrice)}</td>
+                      <td>&#8358;{numberWithCommas(order?.totalPrice)}</td>
+                      <td>{order?.isPaid ? "Paid" : "Unpaid"}</td>
                       <td>
-                        {order.isOrderDelivered ? "Completed" : "Pending"}
+                        {order?.isOrderDelivered ? "Completed" : "Pending"}
                       </td>
-                      <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                      <td>{new Date(order?.createdAt).toLocaleDateString()}</td>
                       <td>
                         <ButtonGroup size="sm">
                           <OverlayTrigger
@@ -244,7 +244,7 @@ export default function UserProfileDetails() {
                             overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
                             <Button
                               as={Link}
-                              to={`/order/${order.orderID}`}
+                              to={`/order/${order?.orderID}`}
                               variant="light">
                               <BsEye />
                             </Button>

@@ -67,7 +67,7 @@ export default function AdminProductsTable() {
 
   const filteredProducts =
     products &&
-    products?.data.filter((product) =>
+    products?.data?.filter((product) =>
       product?.productName.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -228,24 +228,24 @@ export default function AdminProductsTable() {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentProducts.map((product) => (
+                  {currentProducts?.map((product) => (
                     <tr key={product?._id}>
                       <td>
                         {product.productName.length > 30
-                          ? `${product.productName.slice(0, 30)}...`
-                          : product.productName}
+                          ? `${product?.productName.slice(0, 30)}...`
+                          : product?.productName}
                       </td>
                       <td>
                         <Image
-                          src={product.imageUrl}
+                          src={product?.imageUrl}
                           className="profile-picture-sm"
                         />
                       </td>
-                      <td>{product.category.name}</td>
-                      <td>{product.subcategory.name}</td>
-                      <td>{product.brand}</td>
-                      <td>&#8358;{numberWithCommas(product.price)}</td>
-                      <td>{product.countInStock}</td>
+                      <td>{product?.category?.name}</td>
+                      <td>{product?.subcategory?.name}</td>
+                      <td>{product?.brand}</td>
+                      <td>&#8358;{numberWithCommas(product?.price)}</td>
+                      <td>{product?.countInStock}</td>
                       <td>
                         <ButtonGroup size="sm">
                           <OverlayTrigger
@@ -253,7 +253,7 @@ export default function AdminProductsTable() {
                             overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
                             <Button
                               as={Link}
-                              to={`/admin/dashboard/products/${product._id}`}
+                              to={`/admin/dashboard/products/${product?._id}`}
                               variant="light">
                               <BsEye />
                             </Button>
@@ -263,7 +263,7 @@ export default function AdminProductsTable() {
                             overlay={<Tooltip id="tooltip-edit">Edit</Tooltip>}>
                             <Button
                               as={Link}
-                              to={`/admin/dashboard/products/${product._id}/edit`}
+                              to={`/admin/dashboard/products/${product?._id}/edit`}
                               variant="light">
                               <BsPencil />
                             </Button>
@@ -276,7 +276,7 @@ export default function AdminProductsTable() {
                             <Button
                               variant="light"
                               onClick={() =>
-                                handleShowDeleteModal(product._id)
+                                handleShowDeleteModal(product?._id)
                               }>
                               <BsTrash />
                             </Button>
@@ -293,7 +293,7 @@ export default function AdminProductsTable() {
                     {Array.from(
                       {
                         length: Math.ceil(
-                          filteredProducts.length / itemsPerPage
+                          filteredProducts?.length / itemsPerPage
                         ),
                       },
                       (_, i) => (
@@ -346,13 +346,13 @@ export default function AdminProductsTable() {
         </Row>
         <Row className="mb-4">
           {categories &&
-            categories?.data.map((category) => (
+            categories?.data?.map((category) => (
               <Col
-                key={category._id}
                 xs={12}
                 sm={6}
                 md={4}
                 lg={3}
+                key={category?._id}
                 className="mb-3">
                 <Card className="border-0 rounded-0 mb-3 shadow-sm">
                   <Card.Body className="d-flex justify-content-between align-items-center">
@@ -360,26 +360,26 @@ export default function AdminProductsTable() {
                     <Button
                       size="sm"
                       variant="light"
-                      onClick={() => handleRemoveCategory(category._id)}>
+                      onClick={() => handleRemoveCategory(category?._id)}>
                       <BsTrash />
                     </Button>
                   </Card.Body>
                   {category?.subcategories &&
-                    category?.subcategories.length > 0 && (
+                    category?.subcategories?.length > 0 && (
                       <Card.Body>
                         <ul className="list-unstyled">
                           {category?.subcategories.map((subcat) => (
                             <li
-                              key={subcat._id}
+                              key={subcat?._id}
                               className="d-flex justify-content-between align-items-center">
-                              <span>{subcat.name}</span>
+                              <span>{subcat?.name}</span>
                               <Button
                                 size="sm"
                                 variant="light"
                                 onClick={() =>
                                   handleRemoveSubcategory(
-                                    category._id,
-                                    subcat._id
+                                    category?._id,
+                                    subcat?._id
                                   )
                                 }>
                                 <BsTrash />
@@ -410,9 +410,9 @@ export default function AdminProductsTable() {
                       className="mb-3"
                       onChange={(e) => setSelectedCategory(e.target.value)}>
                       {categories &&
-                        categories?.data.map((category) => (
-                          <option key={category._id} value={category._id}>
-                            {category.name}
+                        categories?.data?.map((category) => (
+                          <option key={category?._id} value={category?._id}>
+                            {category?.name}
                           </option>
                         ))}
                     </Form.Select>

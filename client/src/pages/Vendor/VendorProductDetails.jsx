@@ -56,7 +56,7 @@ export default function VendorProductDetails() {
 
   const sortedReviews =
     product &&
-    product?.data?.reviews.slice().sort((a, b) => {
+    product?.data?.reviews?.slice()?.sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
@@ -75,12 +75,12 @@ export default function VendorProductDetails() {
           ) : (
             <>
               <span className="d-inline d-lg-none">
-                {product?.data?.productName.slice(0, 10)}
-                {product?.data?.productName.length > 10 && "..."}
+                {product?.data?.productName?.slice(0, 10)}
+                {product?.data?.productName?.length > 10 && "..."}
               </span>
               <span className="d-none d-lg-inline">
-                {product?.data?.productName.slice(0, 20)}
-                {product?.data?.productName.length > 20 && "..."}
+                {product?.data?.productName?.slice(0, 20)}
+                {product?.data?.productName?.length > 20 && "..."}
               </span>
             </>
           )}
@@ -117,44 +117,44 @@ export default function VendorProductDetails() {
                 </Card.Body>
               </Card>
               <ListGroup variant="flush" className="mt-4">
-                {sortedReviews && sortedReviews.length > 0 ? (
-                  sortedReviews.slice(0, visibleComments).map((review) => (
+                {sortedReviews && sortedReviews?.length > 0 ? (
+                  sortedReviews?.slice(0, visibleComments)?.map((review) => (
                     <ListGroup.Item
-                      key={review._id}
+                      key={review?._id}
                       className="mb-3 p-3 shadow-sm">
                       <div className="d-flex align-items-center mb-3">
-                        <Link to={`/profile/${review.user}`}>
+                        <Link to={`/profile/${review?.user}`}>
                           <div className="flex-shrink-0 me-3">
                             <Image
                               fluid
                               loading="lazy"
                               roundedCircle
-                              src={review.profilePictureURL}
+                              src={review?.profilePictureURL}
                               className="profile-picture-sm text-break"
-                              alt={`${review.name}'s Profile`}
+                              alt={`${review?.name}'s Profile`}
                             />
                           </div>
                         </Link>
                         <div>
                           <Link
-                            to={`/profile/${review.user}`}
+                            to={`/profile/${review?.user}`}
                             className="text-decoration-none">
-                            <h6 className="mb-1 text-break">{review.name}</h6>
+                            <h6 className="mb-1 text-break">{review?.name}</h6>
                           </Link>
                           <small className="text-muted">
-                            {formatDistanceToNow(new Date(review.createdAt), {
+                            {formatDistanceToNow(new Date(review?.createdAt), {
                               addSuffix: true,
                             })}
                           </small>
                         </div>
                       </div>
                       <div className="mb-3">
-                        <StarRating value={review.rating} size={18} />
+                        <StarRating value={review?.rating} size={18} />
                       </div>
-                      <p className="mb-2 text-break">{review.comment}</p>
+                      <p className="mb-2 text-break">{review?.comment}</p>
                       <Button
                         variant="link"
-                        onClick={() => handleDeleteReview(review._id)}
+                        onClick={() => handleDeleteReview(review?._id)}
                         className="position-absolute top-0 end-0">
                         <MdDelete className="fs-4" />
                       </Button>
@@ -171,7 +171,7 @@ export default function VendorProductDetails() {
                 )}
                 <div className="d-flex justify-content-center">
                   {visibleComments <
-                    (sortedReviews ? sortedReviews.length : 0) && (
+                    (sortedReviews ? sortedReviews?.length : 0) && (
                     <Button
                       variant="dark"
                       onClick={handleLoadMore}

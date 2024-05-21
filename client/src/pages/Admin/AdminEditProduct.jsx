@@ -83,7 +83,7 @@ export default function AdminEditProduct() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "category") {
-      const category = categories?.data.find((c) => c._id === value);
+      const category = categories?.data?.find((c) => c._id === value);
       setSubcategories(category ? category?.subcategories : []);
       const subcategory = category?.subcategories[0];
       setFormData((prev) => ({
@@ -91,17 +91,17 @@ export default function AdminEditProduct() {
         category: category?._id,
         subcategory: {
           _id: subcategory?._id,
-          name: subcategory.name,
+          name: subcategory?.name,
         },
       }));
       return;
     } else if (name === "subcategory") {
-      const subcategory = subcategories.find((c) => c._id === value);
+      const subcategory = subcategories?.find((c) => c._id === value);
       setFormData({
         ...formData,
         [name]: {
-          name: subcategory.name,
-          _id: subcategory._id,
+          name: subcategory?.name,
+          _id: subcategory?._id,
         },
       });
       return;
@@ -132,7 +132,7 @@ export default function AdminEditProduct() {
 
   useEffect(() => {
     if (!loadingCategories && product) {
-      const category = categories?.data.find(
+      const category = categories?.data?.find(
         (c) => c._id === product?.data?.category?._id
       );
       setSubcategories(category ? category?.subcategories : []);
@@ -171,7 +171,7 @@ export default function AdminEditProduct() {
                       required
                       type="text"
                       name="productName"
-                      value={formData.productName}
+                      value={formData?.productName}
                       onChange={handleChange}
                       placeholder="Enter product name"
                     />
@@ -207,7 +207,7 @@ export default function AdminEditProduct() {
                       required
                       as="textarea"
                       name="productDescription"
-                      value={formData.productDescription}
+                      value={formData?.productDescription}
                       onChange={handleChange}
                       placeholder="Enter product description"
                     />
@@ -222,15 +222,15 @@ export default function AdminEditProduct() {
                       required
                       name="category"
                       onChange={handleChange}
-                      value={formData.category._id}>
+                      value={formData?.category?._id}>
                       {errorCategories ? (
                         <option value="">Error: Retry</option>
                       ) : loadingCategories ? (
                         <option value="">Loading...</option>
                       ) : (
                         categories &&
-                        categories?.data.map((category) => (
-                          <option value={category._id} key={category._id}>
+                        categories?.data?.map((category) => (
+                          <option value={category?._id} key={category?._id}>
                             {category.name}
                           </option>
                         ))
@@ -245,15 +245,17 @@ export default function AdminEditProduct() {
                       required
                       name="subcategory"
                       onChange={handleChange}
-                      value={formData.subcategory._id}>
+                      value={formData.subcategory?._id}>
                       {errorCategories ? (
                         <option value="">Error: Retry</option>
                       ) : loadingCategories ? (
                         <option value="">Loading...</option>
                       ) : (
                         subcategories &&
-                        subcategories.map((subcategory) => (
-                          <option value={subcategory._id} key={subcategory._id}>
+                        subcategories?.map((subcategory) => (
+                          <option
+                            value={subcategory?._id}
+                            key={subcategory?._id}>
                             {subcategory.name}
                           </option>
                         ))
@@ -270,7 +272,7 @@ export default function AdminEditProduct() {
                       required
                       type="text"
                       name="brand"
-                      value={formData.brand}
+                      value={formData?.brand}
                       onChange={handleChange}
                       placeholder="Enter brand name"
                     />
@@ -283,7 +285,7 @@ export default function AdminEditProduct() {
                       required
                       type="number"
                       name="price"
-                      value={formData.price}
+                      value={formData?.price}
                       onChange={handleChange}
                       placeholder="Enter price"
                     />
@@ -298,7 +300,7 @@ export default function AdminEditProduct() {
                       required
                       type="number"
                       name="countInStock"
-                      value={formData.countInStock}
+                      value={formData?.countInStock}
                       onChange={handleChange}
                       placeholder="Enter stock count"
                     />

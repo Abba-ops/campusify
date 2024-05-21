@@ -26,32 +26,32 @@ export default function CategoryOffcanvas({
           <div>Error fetching categories.</div>
         ) : (
           <ul className="list-unstyled">
-            {categories?.data.map((category) => (
-              <li key={category._id} className="mb-4">
+            {categories?.data?.map((category) => (
+              <li key={category?._id} className="mb-4">
                 <h5 className="mb-3">
                   <Link
                     onClick={() => handleClose()}
-                    to={`/category/${category.name
+                    to={`/category/${category?.name
                       .toLowerCase()
-                      .replace(/\s+/g, "-")}/${category._id}`}
+                      .replace(/\s+/g, "-")}/${category?._id}`}
                     className="text-decoration-none text-capitalize text-dark">
-                    {category.name}
+                    {category?.name}
                   </Link>
                 </h5>
                 {category?.subcategories &&
-                  category?.subcategories.length > 0 && (
+                  category?.subcategories?.length > 0 && (
                     <ul className="list-unstyled ms-4">
-                      {category?.subcategories.map((subcat) => (
-                        <li key={subcat._id} className="mb-2">
+                      {category?.subcategories?.map((subcat) => (
+                        <li key={subcat?._id} className="mb-2">
                           <Link
                             onClick={() => handleClose()}
-                            to={`/${category.name
+                            to={`/${category?.name
                               .toLowerCase()
-                              .replace(/\s+/g, "-")}/${subcat.name
+                              .replace(/\s+/g, "-")}/${subcat?.name
                               .toLowerCase()
-                              .replace(/\s+/g, "-")}/${subcat._id}`}
+                              .replace(/\s+/g, "-")}/${subcat?._id}`}
                             className="text-decoration-none text-capitalize text-muted">
-                            {subcat.name}
+                            {subcat?.name}
                           </Link>
                         </li>
                       ))}

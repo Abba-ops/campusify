@@ -34,7 +34,7 @@ export default function SubcategoryProducts() {
   let sortedProducts = [];
 
   if (productsData && productsData?.data) {
-    sortedProducts = [...productsData?.data].sort(
+    sortedProducts = [...productsData?.data]?.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
   }
@@ -45,9 +45,9 @@ export default function SubcategoryProducts() {
 
   useEffect(() => {
     if (!loadingCategories) {
-      const foundCategory = categories?.data.find(
+      const foundCategory = categories?.data?.find(
         (category) =>
-          category.name.toLowerCase() === categoryName.replace(/-/g, " ")
+          category?.name.toLowerCase() === categoryName.replace(/-/g, " ")
       );
       setSelectedCategory(foundCategory);
     }
@@ -84,8 +84,8 @@ export default function SubcategoryProducts() {
                 {formattedSubcategoryName && (
                   <>
                     <span className="d-inline d-lg-none">
-                      {formattedSubcategoryName.slice(0, 10)}
-                      {formattedSubcategoryName.length > 10 && "..."}
+                      {formattedSubcategoryName?.slice(0, 10)}
+                      {formattedSubcategoryName?.length > 10 && "..."}
                     </span>
                     <span className="d-none d-lg-inline">
                       {formattedSubcategoryName}
@@ -104,16 +104,16 @@ export default function SubcategoryProducts() {
               {selectedCategory && selectedCategory?.name}
             </ListGroup.Item>
             {selectedCategory &&
-              selectedCategory?.subcategories.map((subcategory) => (
-                <ListGroup.Item key={subcategory._id} className="py-3">
+              selectedCategory?.subcategories?.map((subcategory) => (
+                <ListGroup.Item key={subcategory?._id} className="py-3">
                   <Link
                     to={`/${selectedCategory?.name
                       .toLowerCase()
                       .replace(/\s+/g, "-")}/${subcategory?.name
                       .toLowerCase()
-                      .replace(/\s+/g, "-")}/${subcategory._id}`}
+                      .replace(/\s+/g, "-")}/${subcategory?._id}`}
                     className="text-decoration-none text-uppercase fw-semibold">
-                    {subcategory.name}
+                    {subcategory?.name}
                   </Link>
                 </ListGroup.Item>
               ))}
@@ -130,7 +130,7 @@ export default function SubcategoryProducts() {
             </div>
           ) : (
             <>
-              {sortedProducts.length === 0 && !productsLoading && (
+              {sortedProducts?.length === 0 && !productsLoading && (
                 <div className="text-center mt-5">
                   <h4>No products found in this category</h4>
                   <p>Please check back later or explore other categories.</p>
@@ -146,15 +146,15 @@ export default function SubcategoryProducts() {
                 ) : (
                   <>
                     {sortedProducts
-                      .slice(0, visibleProducts)
-                      .map((product, index) => (
+                      ?.slice(0, visibleProducts)
+                      ?.map((product, index) => (
                         <Col key={index} md={4} lg={4} className="mb-4">
                           <ProductCard product={product} />
                         </Col>
                       ))}
                     {!productsLoading &&
                       visibleProducts <
-                        (sortedProducts ? sortedProducts.length : 0) && (
+                        (sortedProducts ? sortedProducts?.length : 0) && (
                         <div className="d-flex justify-content-center">
                           <Button
                             variant="dark"

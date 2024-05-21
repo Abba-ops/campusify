@@ -27,10 +27,10 @@ export default function CartCheckout() {
 
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [showOrderItems, setShowOrderItems] = useState(false);
-  const [email, setEmail] = useState(userInfo.data.email);
-  const [phone, setPhone] = useState(userInfo.data.phoneNumber);
+  const [email, setEmail] = useState(userInfo?.data?.email);
+  const [phone, setPhone] = useState(userInfo?.data?.phoneNumber);
   const [name] = useState(
-    `${userInfo.data.lastName} ${userInfo.data.otherNames}`
+    `${userInfo?.data?.lastName} ${userInfo?.data?.otherNames}`
   );
   const [campus, setCampus] = useState("");
   const [building, setBuilding] = useState("");
@@ -67,16 +67,16 @@ export default function CartCheckout() {
       const result = await createNewOrder({
         comment,
         deliveryAddress: { campus, building, locationNumber },
-        itemsPrice: cart.itemsPrice,
-        totalPrice: cart.totalPrice,
-        taxPrice: cart.taxPrice,
-        orderItems: cart.cartItems,
+        itemsPrice: cart?.itemsPrice,
+        totalPrice: cart?.totalPrice,
+        taxPrice: cart?.taxPrice,
+        orderItems: cart?.cartItems,
       }).unwrap();
 
       if (result.success) {
         toast.success("Your order has been placed successfully!");
         dispatch(clearCartItems());
-        navigate(`/order/${result.data.orderID}`);
+        navigate(`/order/${result?.data?.orderID}`);
       }
     } catch (error) {
       console.error(error);
@@ -201,12 +201,12 @@ export default function CartCheckout() {
                     </Form.Label>
                     <Col sm={7}>
                       <Form.Select
-                        disabled={campus.length === 0}
+                        disabled={campus?.length === 0}
                         required
                         onChange={(e) => setBuilding(e.target.value)}
                         value={building}>
                         <option value="">Select Building/Residence</option>
-                        {userInfo.data.userType === "student" && (
+                        {userInfo?.data?.userType === "student" && (
                           <>
                             {campus === "east" && (
                               <>
@@ -238,7 +238,7 @@ export default function CartCheckout() {
                             )}
                           </>
                         )}
-                        {userInfo.data.userType === "staff" && (
+                        {userInfo?.data?.userType === "staff" && (
                           <>
                             {campus === "west" && (
                               <option value="Faculty">Faculty</option>
@@ -308,9 +308,9 @@ export default function CartCheckout() {
               <ListGroup.Item>
                 <Row className="my-3">
                   <Col xs={6}>
-                    {cartItems.length === 1
+                    {cartItems?.length === 1
                       ? "1 item in cart"
-                      : `${cartItems.length} items in cart`}
+                      : `${cartItems?.length} items in cart`}
                   </Col>
                 </Row>
                 <Row>
@@ -322,18 +322,18 @@ export default function CartCheckout() {
                     </Link>
                     {showOrderItems && (
                       <ListGroup variant="flush">
-                        {cartItems.map((cartItem) => (
-                          <ListGroup.Item key={cartItem.id}>
+                        {cartItems?.map((cartItem) => (
+                          <ListGroup.Item key={cartItem?._id}>
                             <Row className="align-items-center">
                               <Col xs={2}>
                                 <Image
-                                  src={cartItem.imageUrl}
-                                  alt={cartItem.productName}
+                                  src={cartItem?.imageUrl}
+                                  alt={cartItem?.productName}
                                   className="profile-picture-sm"
                                 />
                               </Col>
                               <Col className="text-truncate">
-                                {cartItem.productName}
+                                {cartItem?.productName}
                               </Col>
                             </Row>
                           </ListGroup.Item>
@@ -345,13 +345,13 @@ export default function CartCheckout() {
                 <Row className="my-3">
                   <Col xs={6}>Total (Before Tax)</Col>
                   <Col xs={6} className="text-end text-primary">
-                    &#8358;{numberWithCommas(cart.itemsPrice)}
+                    &#8358;{numberWithCommas(cart?.itemsPrice)}
                   </Col>
                 </Row>
                 <Row className="my-3">
                   <Col xs={6}>Delivery Fee</Col>
                   <Col xs={6} className="text-end text-primary">
-                    &#8358;{numberWithCommas(cart.deliveryPrice)}
+                    &#8358;{numberWithCommas(cart?.deliveryPrice)}
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -359,13 +359,13 @@ export default function CartCheckout() {
                 <Row className="my-3">
                   <Col xs={6}>Tax Total</Col>
                   <Col xs={6} className="text-end text-primary">
-                    &#8358;{numberWithCommas(cart.taxPrice)}
+                    &#8358;{numberWithCommas(cart?.taxPrice)}
                   </Col>
                 </Row>
                 <Row className="my-3">
                   <Col xs={6}>Grand Total</Col>
                   <Col xs={6} className="text-end text-primary">
-                    &#8358;{numberWithCommas(cart.totalPrice)}
+                    &#8358;{numberWithCommas(cart?.totalPrice)}
                   </Col>
                 </Row>
               </ListGroup.Item>

@@ -91,7 +91,7 @@ export default function VendorDashboard() {
   const toggleMessagesDropdown = () => setShowMessagesDropdown((prev) => !prev);
 
   const unreadNotifications = notifications
-    ? notifications?.data.filter((notification) => !notification.read)
+    ? notifications?.data?.filter((notification) => !notification.read)
     : [];
 
   return (
@@ -125,7 +125,7 @@ export default function VendorDashboard() {
           <Navbar.Collapse>
             <Nav className="ms-auto">
               <div className="mb-2 d-lg-none">
-                {vendorLinks.map(({ title, link, icon }, index) => (
+                {vendorLinks?.map(({ title, link, icon }, index) => (
                   <LinkContainer to={link} key={index} className="fw-semibold">
                     <Nav.Link>
                       <div className="d-flex align-items-center gap-3">
@@ -150,7 +150,7 @@ export default function VendorDashboard() {
                         pill
                         bg="primary"
                         className="position-absolute top-0 start-100 translate-middle">
-                        {unreadNotifications.length}
+                        {unreadNotifications?.length}
                       </Badge>
                     )}
                   </div>
@@ -165,32 +165,33 @@ export default function VendorDashboard() {
                   <Dropdown.Menu>
                     {notifications && notifications?.data?.length > 0 ? (
                       notifications?.data
-                        .filter((notification) => !notification.read)
-                        .slice(0, 3)
-                        .map((notification) => (
+                        ?.filter((notification) => !notification?.read)
+                        ?.slice(0, 3)
+                        ?.map((notification) => (
                           <div
                             className="notification-dropdown"
-                            key={notification._id}>
+                            key={notification?._id}>
                             <Link
-                              to={`/vendor/dashboard/orders/${notification.orderId}`}
+                              to={`/vendor/dashboard/orders/${notification?.orderId}`}
                               className="text-decoration-none d-none d-lg-block">
-                              {notification.message}
+                              {notification?.message}
                             </Link>
                             <Link
-                              to={`/vendor/dashboard/orders/${notification.orderId}`}
+                              to={`/vendor/dashboard/orders/${notification?.orderId}`}
                               className="text-decoration-none text-wrap d-lg-none">
-                              {notification.message}
+                              {notification?.message}
                             </Link>
                             <Stack direction="horizontal">
                               <Button
                                 size="sm"
                                 variant="link"
                                 disabled={
-                                  notification.read || isLoadingMarkNotification
+                                  notification?.read ||
+                                  isLoadingMarkNotification
                                 }
                                 className="text-decoration-none"
                                 onClick={() =>
-                                  handleMarkAsRead(notification._id)
+                                  handleMarkAsRead(notification?._id)
                                 }>
                                 Mark as Read
                               </Button>
@@ -200,7 +201,7 @@ export default function VendorDashboard() {
                                 className="text-decoration-none"
                                 disabled={isLoadingDeleteNotification}
                                 onClick={() =>
-                                  handleDeleteMessage(notification._id)
+                                  handleDeleteMessage(notification?._id)
                                 }>
                                 Delete
                               </Button>
@@ -229,7 +230,7 @@ export default function VendorDashboard() {
         <Row>
           <Col md={2} className="vh-100 d-none d-lg-block">
             <ul className="nav nav-pills flex-column mb-auto">
-              {vendorLinks.map(({ title, link, icon }, index) => (
+              {vendorLinks?.map(({ title, link, icon }, index) => (
                 <li className="nav-item my-3" key={index}>
                   <Link
                     to={link}

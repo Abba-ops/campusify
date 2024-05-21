@@ -75,7 +75,7 @@ export default function ProductDetail() {
 
   const addToCartHandler = () => {
     if (!productLoading) {
-      dispatch(addToCart({ ...productData.data, quantity: cartQuantity }));
+      dispatch(addToCart({ ...productData?.data, quantity: cartQuantity }));
       openModal();
     }
   };
@@ -119,7 +119,7 @@ export default function ProductDetail() {
         productId,
         rating: userRating,
         comment: userComment,
-        userId: userInfo.id,
+        userId: userInfo?.id,
         name: `${userInfo?.data?.lastName} ${userInfo?.data?.otherNames}`,
       }).unwrap();
 
@@ -351,7 +351,7 @@ export default function ProductDetail() {
                   <h5 className="text-uppercase mb-3">
                     What Our Customers Say
                   </h5>
-                  {productData && productData?.data?.reviews.length === 0 && (
+                  {productData && productData?.data?.reviews?.length === 0 && (
                     <>
                       <Alert variant="warning" className="rounded-0 border-0">
                         <p className="mb-0">
@@ -369,34 +369,34 @@ export default function ProductDetail() {
                   <ListGroup variant="flush">
                     {productData &&
                       sortedReviews &&
-                      sortedReviews.slice(0, visibleComments).map((review) => (
+                      sortedReviews?.slice(0, visibleComments).map((review) => (
                         <ListGroup.Item
-                          key={review._id}
+                          key={review?._id}
                           className="mb-3 p-3 border">
                           <div className="d-flex align-items-center mb-3">
-                            <Link to={`/profile/${review.user}`}>
+                            <Link to={`/profile/${review?.user}`}>
                               <div className="flex-shrink-0 me-3">
                                 <Image
                                   fluid
                                   roundedCircle
                                   loading="lazy"
-                                  src={review.profilePictureURL}
+                                  src={review?.profilePictureURL}
                                   className="profile-picture-sm"
-                                  alt={`${review.name}'s Profile`}
+                                  alt={`${review?.name}'s Profile`}
                                 />
                               </div>
                             </Link>
                             <div>
                               <Link
-                                to={`/profile/${review.user}`}
+                                to={`/profile/${review?.user}`}
                                 className="text-decoration-none">
                                 <h6 className="mb-1 text-break">
-                                  {review.name}
+                                  {review?.name}
                                 </h6>
                               </Link>
                               <small className="text-muted">
                                 {formatDistanceToNow(
-                                  new Date(review.createdAt),
+                                  new Date(review?.createdAt),
                                   {
                                     addSuffix: true,
                                   }
@@ -405,13 +405,13 @@ export default function ProductDetail() {
                             </div>
                           </div>
                           <div className="mb-3">
-                            <StarRating value={review.rating} size={18} />
+                            <StarRating value={review?.rating} size={18} />
                           </div>
-                          <p className="mb-2 text-break">{review.comment}</p>
-                          {userInfo && userInfo?.data?.id === review.user && (
+                          <p className="mb-2 text-break">{review?.comment}</p>
+                          {userInfo && userInfo?.data?.id === review?.user && (
                             <Button
                               variant="link"
-                              onClick={() => handleDeleteReview(review._id)}
+                              onClick={() => handleDeleteReview(review?._id)}
                               className="position-absolute top-0 end-0">
                               <MdDelete className="fs-4" />
                             </Button>
@@ -419,7 +419,7 @@ export default function ProductDetail() {
                         </ListGroup.Item>
                       ))}
                     {visibleComments <
-                      (sortedReviews ? sortedReviews.length : 0) && (
+                      (sortedReviews ? sortedReviews?.length : 0) && (
                       <div className="d-flex justify-content-center mt-3 mb-5">
                         <Button
                           variant="dark"

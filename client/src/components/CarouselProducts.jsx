@@ -25,8 +25,8 @@ export default function CarouselProducts({
               },
             }}>
             {!isLoading
-              ? productsData?.map((product) => (
-                  <SwiperSlide>
+              ? productsData?.map((product, index) => (
+                  <SwiperSlide key={index}>
                     <ProductCard
                       product={product}
                       showPreviewIcon={showPreviewIcon}
@@ -34,7 +34,7 @@ export default function CarouselProducts({
                   </SwiperSlide>
                 ))
               : Array.from({ length: 4 }, (_, index) => (
-                  <SwiperSlide>
+                  <SwiperSlide key={index}>
                     <SingleProductPlaceholder />
                   </SwiperSlide>
                 ))}

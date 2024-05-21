@@ -31,14 +31,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     updateUserPassword: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/password/update`,
+        url: `${USERS_URL}/me/password`,
         method: "PUT",
         body: data,
       }),
     }),
     deleteMyAccount: builder.mutation({
       query: () => ({
-        url: `${USERS_URL}/account/delete`,
+        url: `${USERS_URL}/me`,
         method: "DELETE",
       }),
     }),

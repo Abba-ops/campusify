@@ -19,19 +19,23 @@ import {
 
 const router = express.Router();
 
-router.get("/current", isLoggedIn, getCurrentUser);
 router.post("/auth", validateLogin, authUser);
 router.post("/logout", isLoggedIn, logoutUser);
+
+router.get("/me", isLoggedIn, getCurrentUser);
+router.put("/me/password", isLoggedIn, updateUserPassword);
+router.delete("/me", isLoggedIn, deleteMyAccount);
+
 router.get("/profile/:userId", getUserProfile);
-router.put("/password/update", isLoggedIn, updateUserPassword);
-router.delete("/account/delete", isLoggedIn, deleteMyAccount);
+
 router
   .route("/")
   .get(isLoggedIn, isAdmin, getUsers)
   .post(validateRegister, registerUser);
+
 router
   .route("/:userId")
-  .delete(isLoggedIn, isAdmin, deleteUser)
-  .get(isLoggedIn, isAdmin, getUserById);
+  .get(isLoggedIn, isAdmin, getUserById)
+  .delete(isLoggedIn, isAdmin, deleteUser);
 
 export default router;

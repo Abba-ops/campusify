@@ -82,10 +82,10 @@ export default function VendorApplication() {
     formData.append("logoImage", e.target.files[0]);
     try {
       const res = await uploadVendorLogo(formData).unwrap();
-      setImageUrl(res.image);
-      toast.success(res.message || "Image uploaded successfully");
+      setImageUrl(res?.image);
+      toast.success(res?.message || "Image uploaded successfully");
     } catch (error) {
-      toast.error((error && error.data.message) || "Failed to upload image");
+      toast.error((error && error?.data?.message) || "Failed to upload image");
     }
   };
 
@@ -132,7 +132,7 @@ export default function VendorApplication() {
                         required
                         type="email"
                         name="vendorEmail"
-                        value={formState.vendorEmail}
+                        value={formState?.vendorEmail}
                         onChange={handleInputChange}
                       />
                     </Col>
@@ -149,7 +149,7 @@ export default function VendorApplication() {
                         required
                         type="text"
                         name="vendorName"
-                        value={formState.vendorName}
+                        value={formState?.vendorName}
                         onChange={handleInputChange}
                       />
                     </Col>
@@ -185,7 +185,7 @@ export default function VendorApplication() {
                         type="tel"
                         name="vendorPhone"
                         onChange={handleInputChange}
-                        value={formState.vendorPhone}
+                        value={formState?.vendorPhone}
                       />
                     </Col>
                   </Form.Group>
@@ -200,7 +200,7 @@ export default function VendorApplication() {
                       <Form.Select
                         required
                         name="estimatedDeliveryTime"
-                        value={formState.estimatedDeliveryTime}
+                        value={formState?.estimatedDeliveryTime}
                         onChange={handleInputChange}>
                         <option value="">Select Estimated Delivery Time</option>
                         <option value="15 minutes">Within 15 Minutes</option>
@@ -227,7 +227,7 @@ export default function VendorApplication() {
                         as="textarea"
                         name="vendorDescription"
                         onChange={handleInputChange}
-                        value={formState.vendorDescription}
+                        value={formState?.vendorDescription}
                       />
                     </Col>
                   </Form.Group>
@@ -244,7 +244,7 @@ export default function VendorApplication() {
                         as="textarea"
                         name="productsDescription"
                         onChange={handleInputChange}
-                        value={formState.productsDescription}
+                        value={formState?.productsDescription}
                       />
                     </Col>
                   </Form.Group>

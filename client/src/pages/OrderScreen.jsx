@@ -87,22 +87,22 @@ export default function OrderScreen() {
                     <ListGroup.Item>
                       <div>
                         <strong>Delivery Address:</strong>{" "}
-                        {orderData?.data?.deliveryAddress.building},{" "}
-                        {orderData?.data?.deliveryAddress.locationNumber},{" "}
-                        {orderData?.data?.deliveryAddress.campus}
+                        {orderData?.data?.deliveryAddress?.building},{" "}
+                        {orderData?.data?.deliveryAddress?.locationNumber},{" "}
+                        {orderData?.data?.deliveryAddress?.campus}
                       </div>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <div>
                         <strong>User Name:</strong>{" "}
-                        {orderData?.data?.user.otherNames}{" "}
-                        {orderData?.data?.user.lastName}
+                        {orderData?.data?.user?.otherNames}{" "}
+                        {orderData?.data?.user?.lastName}
                       </div>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <div>
                         <strong>User Email:</strong>{" "}
-                        {orderData?.data?.user.email}
+                        {orderData?.data?.user?.email}
                       </div>
                     </ListGroup.Item>
                   </ListGroup>
@@ -112,8 +112,8 @@ export default function OrderScreen() {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <ListGroup variant="flush">
-                    {orderData?.data?.orderItems.map((product) => (
-                      <ListGroup.Item key={product._id}>
+                    {orderData?.data?.orderItems?.map((product) => (
+                      <ListGroup.Item key={product?._id}>
                         <Row className="align-items-center">
                           <Col lg={2} className="mb-3 mb-lg-0">
                             <div className="image-container">
@@ -121,37 +121,37 @@ export default function OrderScreen() {
                                 fluid
                                 loading="lazy"
                                 className="product-image"
-                                src={product.imageUrl}
-                                alt={product.productName}
+                                src={product?.imageUrl}
+                                alt={product?.productName}
                               />
                             </div>
                           </Col>
                           <Col lg={4}>
                             <Link
                               className="text-decoration-none"
-                              to={`/product/${product._id}`}>
+                              to={`/product/${product?._id}`}>
                               <div className="text-truncate">
-                                {product.productName}
+                                {product?.productName}
                               </div>
                             </Link>
                             <div>
                               <strong>Estimated Delivery Time:</strong>{" "}
-                              {product.vendor?.estimatedDeliveryTime ||
+                              {product?.vendor?.estimatedDeliveryTime ||
                                 "Not available"}
                             </div>
                             <div>
-                              <strong>Quantity:</strong> {product.quantity}
+                              <strong>Quantity:</strong> {product?.quantity}
                             </div>
                             <div>
                               <strong>Price:</strong> &#8358;
-                              {numberWithCommas(product.price)}
+                              {numberWithCommas(product?.price)}
                             </div>
                           </Col>
                           <Col
                             xs={6}
                             lg={3}
                             className="text-lg-center mt-3 mt-lg-0">
-                            {product.isDelivered ? (
+                            {product?.isDelivered ? (
                               <div className="d-flex align-items-center">
                                 <span className="me-1 text-success">
                                   Delivered
@@ -169,7 +169,7 @@ export default function OrderScreen() {
                                 />
                               </div>
                             )}
-                            {product.isReceived ? (
+                            {product?.isReceived ? (
                               <div className="d-flex align-items-center mt-1">
                                 <span className="me-1 text-success">
                                   Received
@@ -189,17 +189,17 @@ export default function OrderScreen() {
                             )}
                           </Col>
                           <Col xs={6} lg={3}>
-                            {product.isDelivered && product.isReceived ? (
+                            {product?.isDelivered && product?.isReceived ? (
                               <Badge bg="success">Completed</Badge>
                             ) : (
                               <Button
                                 size="sm"
                                 variant="dark"
                                 disabled={
-                                  !product.isDelivered && !product.isReceived
+                                  !product?.isDelivered && !product?.isReceived
                                 }
                                 onClick={() =>
-                                  handleMarkAsReceived(product._id)
+                                  handleMarkAsReceived(product?._id)
                                 }>
                                 {isLoadingMarkReceived ? (
                                   <Spinner animation="border" size="sm" />
@@ -223,9 +223,9 @@ export default function OrderScreen() {
                 <ListGroup.Item>
                   <Row className="my-3">
                     <Col xs={6}>
-                      {orderData?.data?.orderItems.length === 1
+                      {orderData?.data?.orderItems?.length === 1
                         ? "1 item in cart"
-                        : `${orderData?.data?.orderItems.length} items in cart`}
+                        : `${orderData?.data?.orderItems?.length} items in cart`}
                     </Col>
                   </Row>
                   <Row className="my-3">

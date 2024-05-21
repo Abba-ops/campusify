@@ -83,7 +83,7 @@ export default function AdminDashboard() {
         <Row>
           <Col lg={2} className="vh-100 d-none d-lg-block">
             <ul className="nav nav-pills flex-column mb-auto">
-              {adminLinks.map(({ title, link, icon }, index) => (
+              {adminLinks?.map(({ title, link, icon }, index) => (
                 <li className="nav-item my-3" key={index}>
                   <Link
                     to={link}

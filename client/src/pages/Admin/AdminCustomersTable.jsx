@@ -16,7 +16,7 @@ export default function AdminCustomersTable() {
   const indexOfLastCustomer = currentPage * customersPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
   const currentCustomers =
-    customers?.data.slice(indexOfFirstCustomer, indexOfLastCustomer) || [];
+    customers?.data?.slice(indexOfFirstCustomer, indexOfLastCustomer) || [];
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -50,7 +50,7 @@ export default function AdminCustomersTable() {
             <TablePlaceholder key={index} />
           ))}
         </>
-      ) : customers && customers?.data.length === 0 ? (
+      ) : customers && customers?.data?.length === 0 ? (
         <div className="text-center mt-5">
           <h4>No Customers Found</h4>
           <p>There are currently no customers to display.</p>
@@ -69,7 +69,7 @@ export default function AdminCustomersTable() {
               </tr>
             </thead>
             <tbody>
-              {currentCustomers.map((customer) => (
+              {currentCustomers?.map((customer) => (
                 <tr key={customer?._id}>
                   <td>{customer?.lastName}</td>
                   <td>{customer?.otherNames}</td>
@@ -96,12 +96,12 @@ export default function AdminCustomersTable() {
           </Table>
           {customers &&
             customers?.data &&
-            customers?.data.length > customersPerPage && (
+            customers?.data?.length > customersPerPage && (
               <div className="d-flex justify-content-center">
                 <Pagination>
                   {[
                     ...Array(
-                      Math.ceil(customers?.data.length / customersPerPage)
+                      Math.ceil(customers?.data?.length / customersPerPage)
                     ),
                   ].map((_, index) => (
                     <Pagination.Item

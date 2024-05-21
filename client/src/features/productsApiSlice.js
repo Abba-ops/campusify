@@ -92,14 +92,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     }),
     addSubcategory: builder.mutation({
       query: (data) => ({
-        url: `${PRODUCTS_URL}/subcategory/add`,
+        url: `${PRODUCTS_URL}/subcategory`,
         method: "POST",
         body: data,
       }),
     }),
     deleteSubcategory: builder.mutation({
       query: ({ categoryId, subcategoryId }) => ({
-        url: `${PRODUCTS_URL}/subcategory/delete/${categoryId}/${subcategoryId}`,
+        url: `${PRODUCTS_URL}/subcategory/${categoryId}/${subcategoryId}`,
         method: "DELETE",
       }),
     }),
@@ -117,7 +117,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     }),
     getBestSellingProducts: builder.query({
       query: () => ({
-        url: `${PRODUCTS_URL}/sellers/best`,
+        url: `${PRODUCTS_URL}/best-sellers`,
         method: "GET",
       }),
     }),

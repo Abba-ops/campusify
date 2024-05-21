@@ -17,7 +17,7 @@ export default function App() {
     const fetchCurrentUser = async () => {
       if (!userInfo) return;
       try {
-        const response = await fetch(`${USERS_URL}/current`);
+        const response = await fetch(`${USERS_URL}/me`);
         const userData = await response.json();
         if (!userData?.success) {
           await fetch(`${USERS_URL}/logout`);

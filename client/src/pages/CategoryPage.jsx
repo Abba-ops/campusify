@@ -26,7 +26,7 @@ export default function CategoryPage() {
   let sortedProducts = [];
 
   if (products && products?.data) {
-    sortedProducts = [...products?.data].sort(
+    sortedProducts = [...products?.data]?.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
   }
@@ -45,7 +45,7 @@ export default function CategoryPage() {
 
   useEffect(() => {
     if (!loadingCategories) {
-      const foundCategory = categories.data.find(
+      const foundCategory = categories?.data?.find(
         (category) =>
           category?.name.toLowerCase() === formattedCategoryName.toLowerCase()
       );
@@ -94,16 +94,16 @@ export default function CategoryPage() {
               <h5 className="text-uppercase">{selectedCategory?.name}</h5>
             </ListGroup.Item>
             {selectedCategory &&
-              selectedCategory?.subcategories.map((subcategory) => (
-                <ListGroup.Item key={subcategory._id} className="py-3">
+              selectedCategory?.subcategories?.map((subcategory) => (
+                <ListGroup.Item key={subcategory?._id} className="py-3">
                   <Link
-                    to={`/${selectedCategory.name
+                    to={`/${selectedCategory?.name
                       .toLowerCase()
-                      .replace(/\s+/g, "-")}/${subcategory.name
+                      .replace(/\s+/g, "-")}/${subcategory?.name
                       .toLowerCase()
-                      .replace(/\s+/g, "-")}/${subcategory._id}`}
+                      .replace(/\s+/g, "-")}/${subcategory?._id}`}
                     className="text-decoration-none text-uppercase fw-semibold">
-                    {subcategory.name}
+                    {subcategory?.name}
                   </Link>
                 </ListGroup.Item>
               ))}
@@ -120,7 +120,7 @@ export default function CategoryPage() {
             </div>
           ) : (
             <>
-              {sortedProducts.length === 0 && !isLoading && (
+              {sortedProducts?.length === 0 && !isLoading && (
                 <div className="text-center mt-5">
                   <h4>No products found in this category</h4>
                   <p>Please check back later or explore other categories.</p>
@@ -136,15 +136,15 @@ export default function CategoryPage() {
                 ) : (
                   <>
                     {sortedProducts
-                      .slice(0, visibleProducts)
-                      .map((product, index) => (
+                      ?.slice(0, visibleProducts)
+                      ?.map((product, index) => (
                         <Col key={index} md={4} lg={4} className="mb-4">
                           <ProductCard product={product} />
                         </Col>
                       ))}
                     {!isLoading &&
                       visibleProducts <
-                        (sortedProducts ? sortedProducts.length : 0) && (
+                        (sortedProducts ? sortedProducts?.length : 0) && (
                         <div className="d-flex justify-content-center">
                           <Button
                             variant="dark"

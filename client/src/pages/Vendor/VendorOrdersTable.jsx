@@ -24,7 +24,7 @@ export default function VendorOrdersTable() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentOrders =
-    orders?.data.slice(indexOfFirstItem, indexOfLastItem) || [];
+    orders?.data?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -54,7 +54,7 @@ export default function VendorOrdersTable() {
             <TablePlaceholder key={index} />
           ))}
         </>
-      ) : orders && orders?.data.length === 0 ? (
+      ) : orders && orders?.data?.length === 0 ? (
         <div className="text-center mt-5">
           <h4>No Orders Found</h4>
           <p>There are currently no orders to display.</p>
@@ -76,18 +76,18 @@ export default function VendorOrdersTable() {
               </tr>
             </thead>
             <tbody>
-              {currentOrders.map((order) => (
+              {currentOrders?.map((order) => (
                 <tr key={order?.orderID}>
                   <td>{order?.orderID}</td>
                   <td>
                     {order?.user?.otherNames} {order?.user?.lastName}
                   </td>
                   <td>{order?.user?.phoneNumber}</td>
-                  <td>{`${order?.deliveryAddress?.building}, ${order?.deliveryAddress?.locationNumber}, ${order.deliveryAddress.campus}`}</td>
+                  <td>{`${order?.deliveryAddress?.building}, ${order?.deliveryAddress?.locationNumber}, ${order?.deliveryAddress?.campus}`}</td>
                   <td>&#8358;{numberWithCommas(order?.totalPrice)}</td>
                   <td>
                     <Stack direction="horizontal" gap={2}>
-                      {order?.orderItems.slice(-2).map((item, index) => (
+                      {order?.orderItems?.slice(-2)?.map((item, index) => (
                         <Image
                           key={index}
                           src={item?.imageUrl}
@@ -105,7 +105,7 @@ export default function VendorOrdersTable() {
                         overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
                         <Button
                           as={Link}
-                          to={`/vendor/dashboard/orders/${order.orderID}`}
+                          to={`/vendor/dashboard/orders/${order?.orderID}`}
                           variant="light">
                           <BsEye />
                         </Button>
@@ -123,10 +123,10 @@ export default function VendorOrdersTable() {
               ))}
             </tbody>
           </Table>
-          {orders && orders?.data && orders?.data.length > itemsPerPage && (
+          {orders && orders?.data && orders?.data?.length > itemsPerPage && (
             <div className="d-flex justify-content-center">
               <Pagination>
-                {[...Array(Math.ceil(orders?.data.length / itemsPerPage))].map(
+                {[...Array(Math.ceil(orders?.data?.length / itemsPerPage))].map(
                   (_, index) => (
                     <Pagination.Item
                       key={index + 1}

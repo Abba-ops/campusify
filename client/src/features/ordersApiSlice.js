@@ -31,25 +31,25 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     }),
     getVendorOrders: builder.query({
       query: () => ({
-        url: `${ORDERS_URL}/vendor`,
+        url: `${ORDERS_URL}/orders/vendor`,
         method: "GET",
       }),
     }),
     getVendorOrder: builder.query({
       query: (orderId) => ({
-        url: `${ORDERS_URL}/vendor/${orderId}`,
+        url: `${ORDERS_URL}/${orderId}/vendor`,
         method: "GET",
       }),
     }),
     markOrderAsDelivered: builder.mutation({
       query: (orderId) => ({
-        url: `${ORDERS_URL}/vendor/${orderId}`,
+        url: `${ORDERS_URL}/${orderId}/vendor`,
         method: "PUT",
       }),
     }),
     markOrderAsReceived: builder.mutation({
       query: ({ orderId, itemId }) => ({
-        url: `${ORDERS_URL}/${orderId}/${itemId}`,
+        url: `${ORDERS_URL}/${orderId}/items/${itemId}`,
         method: "PUT",
       }),
     }),

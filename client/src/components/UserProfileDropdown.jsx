@@ -15,7 +15,7 @@ export default function UserProfileDropdown({
   const [showDelete, setShowDelete] = useState(false);
   const [showMenuDropdown, setShowMenuDropdown] = useState(false);
 
-  const firstName = userInfo.data.otherNames.split(" ")[0];
+  const firstName = userInfo?.data?.otherNames?.split(" ")[0];
 
   const handleCloseDelete = () => setShowDelete(false);
   const handleShowDelete = () => setShowDelete(true);
@@ -27,12 +27,12 @@ export default function UserProfileDropdown({
   const handleDeleteAccount = async () => {
     try {
       const response = await deleteMyAccount().unwrap();
-      if (response.success) {
-        toast.success(response.message);
+      if (response?.success) {
+        toast.success(response?.message);
       }
     } catch (error) {
       toast.error(
-        (error && error.data.message) ||
+        (error && error?.data?.message) ||
           "An error occurred while deleting account."
       );
     }
@@ -48,35 +48,47 @@ export default function UserProfileDropdown({
             loading="lazy"
             className="profile-picture-sm"
             onClick={toggleShowMenuDropdown}
-            src={userInfo.data.profilePictureURL}
+            src={userInfo?.data?.profilePictureURL}
           />
         </Nav.Link>
         <Dropdown.Menu>
           <Dropdown.Header>{firstName || "User"} Options</Dropdown.Header>
-          <LinkContainer to="/profile">
+          <LinkContainer
+            to="/profile"
+            onClick={() => setShowMenuDropdown(false)}>
             <Dropdown.Item>View Profile</Dropdown.Item>
           </LinkContainer>
           {isAdmin && (
-            <Nav.Link>
+            <Nav.Link onClick={() => setShowMenuDropdown(false)}>
               <LinkContainer to="/admin/dashboard/">
                 <Dropdown.Item>Admin Dashboard</Dropdown.Item>
               </LinkContainer>
             </Nav.Link>
           )}
           {isVendor && (
-            <Nav.Link>
+            <Nav.Link onClick={() => setShowMenuDropdown(false)}>
               <LinkContainer to="/vendor/dashboard/">
                 <Dropdown.Item>Vendor Dashboard</Dropdown.Item>
               </LinkContainer>
             </Nav.Link>
           )}
           {showDeleteOption && (
-            <Dropdown.Item onClick={handleShowDelete}>
+            <Dropdown.Item
+              onClick={() => {
+                setShowMenuDropdown(false);
+                handleShowDelete();
+              }}>
               Delete Account
             </Dropdown.Item>
           )}
           <Dropdown.Divider />
-          <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => {
+              setShowMenuDropdown(false);
+              logoutHandler();
+            }}>
+            Logout
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
       <DeleteAccountModal

@@ -22,13 +22,14 @@ router
   .get(isLoggedIn, isAdmin, getOrders)
   .post(isLoggedIn, createNewOrder);
 
-router.get("/vendor", isLoggedIn, isVendor, getVendorOrders);
+router.get("/orders/vendor", isLoggedIn, isVendor, getVendorOrders);
 router
-  .route("/vendor/:orderId")
+  .route("/:orderId/vendor")
   .get(isLoggedIn, isVendor, getVendorOrder)
   .put(isLoggedIn, isVendor, markOrderAsDelivered);
+
 router.get("/mine", isLoggedIn, getMyOrders);
-router.put("/:orderId/:itemId", isLoggedIn, markOrderAsReceived);
+router.put("/:orderId/items/:itemId", isLoggedIn, markOrderAsReceived);
 router.route("/:orderId").get(isLoggedIn, getOrderById);
 
 export default router;

@@ -23,14 +23,14 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
     }),
     vendorApplication: builder.mutation({
       query: (data) => ({
-        url: `${VENDORS_URL}/application`,
+        url: VENDORS_URL,
         method: "POST",
         body: data,
       }),
     }),
     updateVendorStatus: builder.mutation({
       query: ({ vendorId, status }) => ({
-        url: `${VENDORS_URL}/${vendorId}/${status}`,
+        url: `${VENDORS_URL}/${vendorId}/status/${status}`,
         method: "PUT",
       }),
     }),
@@ -61,13 +61,13 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
     }),
     getAllVendorCustomers: builder.query({
       query: () => ({
-        url: `${VENDORS_URL}/customers/all`,
+        url: `${VENDORS_URL}/all-customers`,
         method: "GET",
       }),
     }),
     getVendorsBySaleCount: builder.query({
       query: () => ({
-        url: `${VENDORS_URL}/sales/count`,
+        url: `${VENDORS_URL}/sales-count`,
         method: "GET",
       }),
     }),

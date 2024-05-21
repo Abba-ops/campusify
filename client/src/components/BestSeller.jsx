@@ -37,15 +37,15 @@ export default function BestSeller() {
               animation="glow"
               className="placeholder-glow image-container">
               <img
-                alt=""
                 loading="lazy"
+                alt="placeholder"
                 className="product-image placeholder col-12"
               />
             </Placeholder>
           ) : (
             <Carousel indicators={false} controls={false}>
               {bestSellingProducts &&
-                bestSellingProducts?.data.slice(0, 3).map((item) => (
+                bestSellingProducts?.data?.slice(0, 3).map((item) => (
                   <Carousel.Item key={item?._id}>
                     <div className="image-container">
                       <Image

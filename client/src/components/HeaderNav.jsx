@@ -104,12 +104,12 @@ export default function HeaderNav() {
                 <Nav.Link>
                   <div className="position-relative">
                     <RiShoppingBag2Line size={24} />
-                    {cartItems.length > 0 && (
+                    {cartItems?.length > 0 && (
                       <Badge
                         pill
                         bg="primary"
                         className="position-absolute top-0 start-100 translate-middle">
-                        {cartItems.reduce(
+                        {cartItems?.reduce(
                           (acc, item) => acc + item.quantity,
                           0
                         )}
@@ -121,8 +121,8 @@ export default function HeaderNav() {
               {userInfo ? (
                 <UserProfileDropdown
                   userInfo={userInfo}
-                  isAdmin={userInfo.data.isAdmin}
-                  isVendor={userInfo.data.isVendor}
+                  isAdmin={userInfo?.data?.isAdmin}
+                  isVendor={userInfo?.data?.isVendor}
                   logoutHandler={logoutHandler}
                   showDeleteOption={true}
                 />

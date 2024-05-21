@@ -147,7 +147,7 @@ export default function VendorManagementPage() {
         </div>
       ) : (
         <>
-          {currentVendors.length === 0 ? (
+          {currentVendors?.length === 0 ? (
             <div className="text-center mt-5">
               <h4>No Vendors Found</h4>
               <p>
@@ -171,7 +171,7 @@ export default function VendorManagementPage() {
                 </tr>
               </thead>
               <tbody>
-                {currentVendors.map((vendor) => (
+                {currentVendors?.map((vendor) => (
                   <tr key={vendor?._id}>
                     <td>{vendor?.vendorName}</td>
                     <td>{vendor?.vendorEmail}</td>
@@ -189,7 +189,7 @@ export default function VendorManagementPage() {
                         fluid
                         roundedCircle
                         loading="lazy"
-                        src={vendor.vendorLogo}
+                        src={vendor?.vendorLogo}
                         className="profile-picture-sm"
                       />
                     </td>
@@ -200,7 +200,7 @@ export default function VendorManagementPage() {
                           overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
                           <Button
                             as={Link}
-                            to={`/admin/dashboard/vendors/${vendor._id}`}
+                            to={`/admin/dashboard/vendors/${vendor?._id}`}
                             variant="light">
                             <BsEye />
                           </Button>
@@ -212,7 +212,7 @@ export default function VendorManagementPage() {
                           }>
                           <Button
                             variant="light"
-                            onClick={() => handleShowDeleteModal(vendor._id)}>
+                            onClick={() => handleShowDeleteModal(vendor?._id)}>
                             <BsTrash />
                           </Button>
                         </OverlayTrigger>

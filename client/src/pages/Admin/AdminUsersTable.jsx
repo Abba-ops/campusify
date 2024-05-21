@@ -67,7 +67,7 @@ export default function AdminUsersTable() {
           user?.otherNames.toLowerCase().includes(searchTerm.toLowerCase()) ||
           user?.email.toLowerCase().includes(searchTerm.toLowerCase())
       )
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) || [];
+      ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) || [];
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -119,7 +119,7 @@ export default function AdminUsersTable() {
         </div>
       ) : (
         <>
-          {currentUsers.length === 0 ? (
+          {currentUsers?.length === 0 ? (
             <div className="text-center mt-5">
               <h4>No Users Found</h4>
               <p>
@@ -158,9 +158,9 @@ export default function AdminUsersTable() {
                           alt={`${user?.lastName} ${user?.otherNames}`}
                         />
                       </td>
-                      <td>{user.phoneNumber}</td>
-                      <td>{user.isVendor ? "Yes" : "No"}</td>
-                      <td className="text-capitalize">{user.userType}</td>
+                      <td>{user?.phoneNumber}</td>
+                      <td>{user?.isVendor ? "Yes" : "No"}</td>
+                      <td className="text-capitalize">{user?.userType}</td>
                       <td>
                         <ButtonGroup size="sm">
                           <OverlayTrigger
@@ -168,7 +168,7 @@ export default function AdminUsersTable() {
                             overlay={<Tooltip id="tooltip-view">View</Tooltip>}>
                             <Button
                               as={Link}
-                              to={`/admin/dashboard/users/${user._id}`}
+                              to={`/admin/dashboard/users/${user?._id}`}
                               variant="light">
                               <BsEye />
                             </Button>
@@ -180,7 +180,7 @@ export default function AdminUsersTable() {
                             }>
                             <Button
                               variant="light"
-                              onClick={() => handleShowDeleteModal(user._id)}
+                              onClick={() => handleShowDeleteModal(user?._id)}
                               disabled={isDeleting}>
                               <BsTrash />
                             </Button>

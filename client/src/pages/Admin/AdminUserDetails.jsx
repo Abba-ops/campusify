@@ -45,7 +45,7 @@ export default function AdminUserDetails() {
                   0,
                   20
                 )}
-                {user?.data?.lastName.length + user?.data?.otherNames.length >
+                {user?.data?.lastName?.length + user?.data?.otherNames?.length >
                   20 && "..."}
               </span>
             </>
