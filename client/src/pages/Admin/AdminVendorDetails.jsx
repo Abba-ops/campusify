@@ -11,11 +11,8 @@ import {
   Card,
   Button,
   Image,
-  Badge,
   Spinner,
   Breadcrumb,
-  FloatingLabel,
-  Form,
   Stack,
   ListGroup,
 } from "react-bootstrap";
@@ -130,20 +127,7 @@ export default function AdminVendorDetails() {
                     src={vendor && vendor?.data?.vendorLogo}
                   />
                 </div>
-                <Card.Title className="text-center">
-                  {vendor?.data?.vendorName}
-                </Card.Title>
-                <Card.Text className="text-center">
-                  {vendor?.data?.vendorEmail}
-                </Card.Text>
-                <Card.Text className="text-center">
-                  {vendor?.data?.vendorPhone}
-                </Card.Text>
-                {vendor?.data?.isApproved && (
-                  <Card.Text className="text-center">
-                    <Badge bg="success">Approved</Badge>
-                  </Card.Text>
-                )}
+
                 {vendor?.data?.approvalStatus === "pending" && (
                   <div className="d-flex justify-content-center mt-3">
                     <Stack direction="horizontal" gap={3}>
@@ -204,95 +188,58 @@ export default function AdminVendorDetails() {
           <Col md={8}>
             <Card className="border-0 rounded-0 shadow-sm">
               <Card.Body>
-                <Form>
-                  <FloatingLabel label="Vendor Description">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      as="textarea"
-                      value={vendor?.data?.vendorDescription}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Products Description">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      as="textarea"
-                      value={vendor?.data?.productsDescription}
-                    />
-                  </FloatingLabel>
-
-                  <FloatingLabel label="Sales Count">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      type="text"
-                      value={vendor?.data?.salesCount}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Estimated Delivery Time">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      type="text"
-                      value={vendor?.data?.estimatedDeliveryTime}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Creator Full Name">
-                    <Form.Control
-                      readOnly
-                      type="text"
-                      className="border-0"
-                      value={`${vendor?.data?.user?.lastName} ${vendor?.data?.user?.otherNames}`}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Creator Email">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      type="email"
-                      value={vendor?.data?.user?.email}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Creator Phone Number">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      type="text"
-                      value={vendor?.data?.user?.phoneNumber}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="User Type">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      type="text"
-                      value={vendor?.data?.user?.userType}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Approval Status">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      type="text"
-                      value={vendor?.data?.approvalStatus}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Approval Date">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      type="text"
-                      value={
-                        vendor?.data?.approvalDate
-                          ? new Date(
-                              vendor?.data?.approvalDate
-                            ).toLocaleDateString()
-                          : "Not Approved"
-                      }
-                    />
-                  </FloatingLabel>
-                </Form>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    <h5>{vendor?.data?.vendorName}</h5>
+                    <p>{vendor?.data?.vendorDescription}</p>
+                    <p>{vendor?.data?.productsDescription}</p>
+                    <p>
+                      <strong>Estimated Delivery Time: </strong>
+                      {vendor?.data?.estimatedDeliveryTime}
+                    </p>
+                    <p>
+                      <strong>Approval Date: </strong>
+                      {vendor?.data?.approvalDate}
+                    </p>
+                    <p>
+                      <strong>Date Joined: </strong>
+                      {vendor?.data?.dateJoined}
+                    </p>
+                    <p>
+                      <strong>Approval Status: </strong>
+                      {vendor?.data?.approvalStatus}
+                    </p>
+                    <p>
+                      <strong>Created By: </strong>
+                      {vendor?.data?.user?.otherNames}{" "}
+                      {vendor?.data?.user?.lastName}
+                    </p>
+                    <p>
+                      <strong>Creator's Email: </strong>
+                      {vendor?.data?.user?.email}
+                    </p>
+                    <p>
+                      <strong>Creator's Phone: </strong>
+                      {vendor?.data?.user?.phoneNumber}
+                    </p>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Email: </strong>
+                    {vendor?.data?.vendorEmail}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Phone: </strong>
+                    {vendor?.data?.vendorPhone}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Average Rating: </strong>
+                    {vendor?.data?.averageRating}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Sales Count: </strong>
+                    {vendor?.data?.salesCount}
+                  </ListGroup.Item>
+                </ListGroup>
               </Card.Body>
             </Card>
           </Col>

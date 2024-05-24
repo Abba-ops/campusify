@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Breadcrumb,
   Card,
   Col,
   Row,
-  FloatingLabel,
-  Form,
   ListGroup,
   Image,
   Button,
@@ -29,15 +27,12 @@ export default function VendorOrderDetails() {
     isError,
     refetch,
   } = useGetVendorOrderQuery(orderId);
-  const [showOrderItems, setShowOrderItems] = useState(false);
-
   const [markOrderAsDelivered, { isLoading: isLoadingMarkDelivered }] =
     useMarkOrderAsDeliveredMutation();
 
   const handleMarkOrderDelivered = async () => {
     try {
       const response = await markOrderAsDelivered(orderId).unwrap();
-
       if (response?.success) {
         refetch();
         toast.success(response?.message);
@@ -48,10 +43,6 @@ export default function VendorOrderDetails() {
           "An error occurred while marking the order as delivered."
       );
     }
-  };
-
-  const toggleOrderItems = () => {
-    setShowOrderItems(!showOrderItems);
   };
 
   return (
@@ -65,6 +56,7 @@ export default function VendorOrderDetails() {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{orderId}</Breadcrumb.Item>
       </Breadcrumb>
+
       {isError ? (
         <div className="text-center mt-5">
           <h4 className="text-danger">Error Loading Order Details</h4>
@@ -84,123 +76,136 @@ export default function VendorOrderDetails() {
             <Col md={6}>
               <Card className="border-0 rounded-0 shadow-sm mb-4">
                 <Card.Body>
-                  <h5 className="mb-3 text-uppercase">Delivery Address</h5>
-                  <FloatingLabel label="Building">
-                    <Form.Control
-                      readOnly
-                      plaintext
-                      type="text"
-                      value={order?.data?.deliveryAddress?.building}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Location Number">
-                    <Form.Control
-                      readOnly
-                      plaintext
-                      type="text"
-                      value={order?.data?.deliveryAddress?.locationNumber}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel label="Campus">
-                    <Form.Control
-                      readOnly
-                      plaintext
-                      type="text"
-                      value={order?.data?.deliveryAddress?.campus}
-                    />
-                  </FloatingLabel>
-                  <h5 className="mb-3 text-uppercase">Items in This Order</h5>
-                  <div>
-                    <Link
-                      className="text-primary fw-bold text-decoration-none"
-                      onClick={toggleOrderItems}>
-                      {showOrderItems ? "Hide Order Items" : "Show Order Items"}
-                    </Link>
-                    <ListGroup variant="flush">
-                      {showOrderItems && (
-                        <>
-                          {order?.data?.orderItems?.map((item) => (
-                            <ListGroup.Item key={item?._id}>
-                              <Row className="align-items-center">
-                                <Col xs={4} lg={2}>
-                                  <div className="image-container">
-                                    <Image
-                                      fluid
-                                      loading="lazy"
-                                      className="product-image"
-                                      src={`${item?.imageUrl}`}
-                                    />
-                                  </div>
-                                </Col>
-                                <Col xs={8} lg={6}>
-                                  <Link
-                                    className="text-decoration-none"
-                                    to={`/vendor/dashboard/products/${item?._id}`}>
-                                    <div className="text-truncate">
-                                      {item?.productName}
-                                    </div>
-                                  </Link>
-                                  <div>
-                                    <strong>Price:</strong> &#8358;
-                                    {numberWithCommas(item?.price)}
-                                  </div>
-                                  <div>
-                                    <strong>Quantity:</strong> {item?.quantity}
-                                  </div>
-                                </Col>
-                                <Col
-                                  lg={4}
-                                  className="text-lg-center mt-3 mt-lg-0">
-                                  {item?.isDelivered ? (
-                                    <div className="d-flex align-items-center">
-                                      <span className="me-1 text-success">
-                                        Delivered
-                                      </span>
-                                      <BsCheckCircleFill
-                                        color="green"
-                                        size={20}
-                                      />
-                                    </div>
-                                  ) : (
-                                    <div className="d-flex align-items-center">
-                                      <span className="me-1 text-secondary">
-                                        Not Delivered
-                                      </span>
-                                      <BsExclamationCircleFill
-                                        color="red"
-                                        size={20}
-                                      />
-                                    </div>
-                                  )}
-                                  {item?.isReceived ? (
-                                    <div className="d-flex align-items-center mt-1">
-                                      <span className="me-1 text-success">
-                                        Received
-                                      </span>
-                                      <BsCheckCircleFill
-                                        color="green"
-                                        size={20}
-                                      />
-                                    </div>
-                                  ) : (
-                                    <div className="d-flex align-items-center mt-1">
-                                      <span className="me-1 text-secondary">
-                                        Not Received
-                                      </span>
-                                      <BsExclamationCircleFill
-                                        color="red"
-                                        size={20}
-                                      />
-                                    </div>
-                                  )}
-                                </Col>
-                              </Row>
-                            </ListGroup.Item>
-                          ))}
-                        </>
-                      )}
-                    </ListGroup>
-                  </div>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      <strong>Order ID:</strong>{" "}
+                      {numberWithCommas(order?.data?.orderID)}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Items Price:</strong> &#8358;
+                      {numberWithCommas(order?.data?.itemsPrice)}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Tax Price:</strong> &#8358;
+                      {numberWithCommas(order?.data?.taxPrice)}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Total Price:</strong> &#8358;
+                      {numberWithCommas(order?.data?.totalPrice)}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Payment Status:</strong>{" "}
+                      {order?.data?.isPaid ? "Paid" : "Not Paid"}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Order Delivered:</strong>{" "}
+                      {order?.data?.isOrderDelivered ? "Yes" : "No"}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Name:</strong> {order?.data?.user?.lastName}{" "}
+                      {order?.data?.user?.otherNames}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Email:</strong> {order?.data?.user?.email}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Phone Number:</strong>{" "}
+                      {order?.data?.user?.phoneNumber}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Building:</strong>{" "}
+                      {order?.data?.deliveryAddress?.building}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Location Number:</strong>{" "}
+                      {order?.data?.deliveryAddress?.locationNumber}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Campus:</strong>{" "}
+                      {order?.data?.deliveryAddress?.campus}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Comment:</strong> {order?.data?.comment}
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={6}>
+              <Card className="border-0 rounded-0 shadow-sm mb-4">
+                <Card.Body>
+                  <ListGroup variant="flush">
+                    {order?.data?.orderItems?.map((item) => (
+                      <ListGroup.Item key={item?._id}>
+                        <Row className="align-items-center">
+                          <Col xs={4} lg={2}>
+                            <div className="image-container">
+                              <Image
+                                fluid
+                                loading="lazy"
+                                className="product-image"
+                                src={item?.imageUrl}
+                              />
+                            </div>
+                          </Col>
+                          <Col xs={8} lg={6}>
+                            <Link
+                              className="text-decoration-none"
+                              to={`/admin/dashboard/products/${item?._id}`}>
+                              <div className="text-truncate">
+                                {item?.productName}
+                              </div>
+                            </Link>
+                            <div>
+                              <strong>Price:</strong> &#8358;
+                              {numberWithCommas(item?.price)}
+                            </div>
+                            <div>
+                              <strong>Quantity:</strong> {item?.quantity}
+                            </div>
+                          </Col>
+                          <Col lg={4} className="text-lg-center mt-3 mt-lg-0">
+                            {item?.isDelivered ? (
+                              <div className="d-flex align-items-center">
+                                <span className="me-1 text-success">
+                                  Delivered
+                                </span>
+                                <BsCheckCircleFill color="green" size={20} />
+                              </div>
+                            ) : (
+                              <div className="d-flex align-items-center">
+                                <span className="me-1 text-secondary">
+                                  Not Delivered
+                                </span>
+                                <BsExclamationCircleFill
+                                  color="red"
+                                  size={20}
+                                />
+                              </div>
+                            )}
+                            {item?.isReceived ? (
+                              <div className="d-flex align-items-center mt-1">
+                                <span className="me-1 text-success">
+                                  Received
+                                </span>
+                                <BsCheckCircleFill color="green" size={20} />
+                              </div>
+                            ) : (
+                              <div className="d-flex align-items-center mt-1">
+                                <span className="me-1 text-secondary">
+                                  Not Received
+                                </span>
+                                <BsExclamationCircleFill
+                                  color="red"
+                                  size={20}
+                                />
+                              </div>
+                            )}
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
                   {!order?.data?.orderItems[0]?.isDelivered && (
                     <Button
                       variant="dark"
@@ -215,64 +220,6 @@ export default function VendorOrderDetails() {
                       )}
                     </Button>
                   )}
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={6}>
-              <Card className="border-0 rounded-0 shadow-sm mb-4">
-                <Card.Body>
-                  <h5 className="mb-3 text-uppercase">Details of This Order</h5>
-                  <Form>
-                    <FloatingLabel label="Order ID">
-                      <Form.Control
-                        plaintext
-                        readOnly
-                        type="text"
-                        value={order?.data?.orderID}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Total Price">
-                      <Form.Control
-                        plaintext
-                        readOnly
-                        type="text"
-                        value={`₦${order?.data?.totalPrice}`}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Tax Price">
-                      <Form.Control
-                        plaintext
-                        readOnly
-                        type="text"
-                        value={`₦${order?.data?.taxPrice}`}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Items Price">
-                      <Form.Control
-                        plaintext
-                        readOnly
-                        type="text"
-                        value={`₦${order?.data?.itemsPrice}`}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Payment Status">
-                      <Form.Control
-                        readOnly
-                        plaintext
-                        type="text"
-                        value={order?.data?.isPaid ? "Paid" : "Unpaid"}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Comment">
-                      <Form.Control
-                        rows={3}
-                        readOnly
-                        plaintext
-                        as="textarea"
-                        value={order?.data?.comment}
-                      />
-                    </FloatingLabel>
-                  </Form>
                 </Card.Body>
               </Card>
             </Col>

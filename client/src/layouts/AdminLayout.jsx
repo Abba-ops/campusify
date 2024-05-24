@@ -1,18 +1,17 @@
-import React from "react";
-import { Col, Container, Image, Nav, Navbar, Row } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import MetaTags from "../../components/MetaTags";
-import logo from "../../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCredentials } from "../../features/authSlice";
-import { clearCartItems } from "../../features/cartSlice";
+import { useLogoutUserMutation } from "../features/usersApiSlice";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { clearCredentials } from "../features/authSlice";
+import { clearCartItems } from "../features/cartSlice";
+import { Col, Container, Image, Nav, Navbar, Row } from "react-bootstrap";
+import UserProfileDropdown from "../components/UserProfileDropdown";
+import { LinkContainer } from "react-router-bootstrap";
+import MetaTags from "../components/MetaTags";
+import { adminLinks } from "../constants";
 import { toast } from "react-toastify";
-import { useLogoutUserMutation } from "../../features/usersApiSlice";
-import { adminLinks } from "../../constants";
-import UserProfileDropdown from "../../components/UserProfileDropdown";
+import logo from "../assets/logo.png";
 
-export default function AdminDashboard() {
+export default function AdminLayout() {
   const { userInfo } = useSelector((state) => state.auth);
   const [logoutUser] = useLogoutUserMutation();
   const location = useLocation();
@@ -48,7 +47,7 @@ export default function AdminDashboard() {
         className="navbar-shadow">
         <Container fluid>
           <Navbar.Brand>
-            <LinkContainer to={"/"}>
+            <LinkContainer to="/">
               <Nav.Link>
                 <Image src={logo} alt="logo" width={200} />
               </Nav.Link>
@@ -83,7 +82,7 @@ export default function AdminDashboard() {
         <Row>
           <Col lg={2} className="vh-100 d-none d-lg-block">
             <ul className="nav nav-pills flex-column mb-auto">
-              {adminLinks?.map(({ title, link, icon }, index) => (
+              {adminLinks.map(({ title, link, icon }, index) => (
                 <li className="nav-item my-3" key={index}>
                   <Link
                     to={link}

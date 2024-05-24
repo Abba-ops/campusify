@@ -4,8 +4,6 @@ import {
   Button,
   Card,
   Col,
-  FloatingLabel,
-  Form,
   Image,
   ListGroup,
   Row,
@@ -185,102 +183,38 @@ export default function VendorProductDetails() {
             <Col md={8}>
               <Card className="border-0 rounded-0 shadow-sm">
                 <Card.Body>
-                  <Form>
-                    <FloatingLabel label="Product ID">
-                      <Form.Control
-                        readOnly
-                        type="text"
-                        className="border-0"
-                        value={product?.data?._id}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Product Name">
-                      <Form.Control
-                        readOnly
-                        type="text"
-                        className="border-0"
-                        value={product?.data?.productName}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Product Description">
-                      <Form.Control
-                        rows={3}
-                        readOnly
-                        as="textarea"
-                        className="border-0"
-                        value={product?.data?.productDescription}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Product Rating">
-                      <Form.Control
-                        readOnly
-                        type="text"
-                        className="border-0"
-                        value={product?.data?.rating}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Category">
-                      <Form.Control
-                        readOnly
-                        type="text"
-                        className="border-0"
-                        value={product?.data?.category?.name}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Subcategory">
-                      <Form.Control
-                        readOnly
-                        type="text"
-                        className="border-0"
-                        value={product?.data?.subcategory?.name}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Price">
-                      <Form.Control
-                        readOnly
-                        type="text"
-                        className="border-0"
-                        value={`₦${numberWithCommas(product?.data?.price)}`}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Featured">
-                      <Form.Control
-                        plaintext
-                        readOnly
-                        type="text"
-                        value={product?.data?.isFeatured}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Sales Count">
-                      <Form.Control
-                        plaintext
-                        readOnly
-                        type="text"
-                        value={product?.data?.salesCount}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Count In Stock">
-                      <Form.Control
-                        readOnly
-                        type="text"
-                        className="border-0"
-                        value={product?.data?.countInStock}
-                      />
-                    </FloatingLabel>
-                    <FloatingLabel label="Created At">
-                      <Form.Control
-                        readOnly
-                        type="text"
-                        className="border-0"
-                        value={
-                          product &&
-                          new Date(
-                            product?.data?.createdAt
-                          ).toLocaleDateString()
-                        }
-                      />
-                    </FloatingLabel>
-                  </Form>
+                  <h5>{product?.data?.productName}</h5>
+                  <p>{product?.data?.productDescription}</p>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      <strong>Category: </strong>
+                      {product?.data?.category?.name}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Subcategory: </strong>
+                      {product?.data?.subcategory?.name}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Brand: </strong>
+                      {product?.data?.brand}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Price: </strong>$
+                      {numberWithCommas(product?.data?.price)}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>In Stock: </strong>
+                      {product?.data?.countInStock}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Rating: </strong>
+                      {product?.data?.rating} / 5
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Review Count: </strong>
+                      {product?.data?.reviewCount}
+                    </ListGroup.Item>
+                  </ListGroup>
                 </Card.Body>
               </Card>
             </Col>
