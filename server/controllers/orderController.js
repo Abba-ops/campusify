@@ -214,7 +214,7 @@ const markOrderAsDelivered = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Mark order item as received
- * @route   PUT /api/orders/:orderId/:itemId
+ * @route   PUT /api/orders/:orderId/items/:itemId
  * @access  Private
  */
 const markOrderAsReceived = asyncHandler(async (req, res) => {

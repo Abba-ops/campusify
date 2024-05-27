@@ -14,7 +14,6 @@ import {
   getProductsByVendor,
   getVendorCustomers,
   getAllVendorCustomers,
-  getVendorsBySaleCount,
   getVendorNotifications,
   markNotificationAsRead,
   deleteNotification,
@@ -25,7 +24,6 @@ import {
 const router = express.Router();
 
 router.get("/profile/:vendorId", getVendorProfile);
-router.get("/profile/products/:vendorId", getUserVendorProduct);
 router
   .route("/notifications/:notificationId")
   .delete(isLoggedIn, isVendor, deleteNotification);
@@ -40,7 +38,6 @@ router
   .get(isLoggedIn, isAdmin, getVendors)
   .post(isLoggedIn, vendorApplication);
 
-router.get("/sales-count", getVendorsBySaleCount);
 router.get("/products", isLoggedIn, isVendor, getVendorProducts);
 router.get("/customers", isLoggedIn, isVendor, getVendorCustomers);
 router.get("/all-customers", isLoggedIn, isAdmin, getAllVendorCustomers);

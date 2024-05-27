@@ -60,7 +60,7 @@ const getVendorProducts = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Apply as a vendor
- * @route   POST /api/vendors/application
+ * @route   POST /api/vendors
  * @access  Private
  */
 const vendorApplication = asyncHandler(async (req, res) => {
@@ -108,7 +108,7 @@ const vendorApplication = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Update vendor status
- * @route   PUT /api/vendors/:vendorId/:status
+ * @route   PUT /api/vendors/:vendorId/status/:status
  * @access  Private/Admin
  */
 const updateVendorStatus = asyncHandler(async (req, res) => {
@@ -230,7 +230,7 @@ const getVendorCustomers = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Retrieve customers associated with all vendors
- * @route   GET /api/vendors/customers/all
+ * @route   GET /api/vendors/all-customers
  * @access  Private/Admin
  */
 const getAllVendorCustomers = asyncHandler(async (req, res) => {
@@ -246,17 +246,6 @@ const getAllVendorCustomers = asyncHandler(async (req, res) => {
   const customers = Array.from(customersSet);
 
   res.status(200).json({ data: customers, success: true });
-});
-
-/**
- * @desc    Retrieve vendors sorted by sales count
- * @route   GET /api/vendors/sales/count
- * @access  Public
- */
-const getVendorsBySaleCount = asyncHandler(async (req, res) => {
-  const vendors = await Vendor.find().sort({ salesCount: -1 });
-
-  res.status(200).json({ data: vendors, success: true });
 });
 
 /**
@@ -356,7 +345,6 @@ export {
   getProductsByVendor,
   getVendorCustomers,
   getAllVendorCustomers,
-  getVendorsBySaleCount,
   getVendorNotifications,
   markNotificationAsRead,
   getUserVendorProduct,

@@ -327,7 +327,7 @@ const searchProducts = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Add a subcategory to a category
- * @route   POST /api/products/subcategory/add
+ * @route   POST /api/products/subcategory
  * @access  Private/Admin
  */
 const addSubcategory = asyncHandler(async (req, res) => {
@@ -358,7 +358,7 @@ const addSubcategory = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Delete a subcategory from a category
- * @route   DELETE /api/products/subcategory/delete/:categoryId/:subcategoryId
+ * @route   DELETE /api/products/subcategory/:categoryId/:subcategoryId
  * @access  Private/Admin
  */
 const deleteSubcategory = asyncHandler(async (req, res) => {
@@ -431,7 +431,7 @@ const getPopularProducts = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Fetch best-selling products
- * @route   GET /api/products/sellers/best
+ * @route   GET /api/products/best-sellers
  * @access  Public
  */
 const getBestSellingProducts = asyncHandler(async (req, res) => {

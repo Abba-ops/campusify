@@ -65,12 +65,7 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
-    getVendorsBySaleCount: builder.query({
-      query: () => ({
-        url: `${VENDORS_URL}/sales-count`,
-        method: "GET",
-      }),
-    }),
+
     getVendorNotifications: builder.query({
       query: () => ({
         url: `${VENDORS_URL}/notifications`,
@@ -115,7 +110,6 @@ export const {
   useGetProductsByVendorQuery,
   useGetVendorCustomersQuery,
   useGetAllVendorCustomersQuery,
-  useGetVendorsBySaleCountQuery,
   useGetVendorNotificationsQuery,
   useMarkNotificationAsReadMutation,
   useDeleteNotificationMutation,

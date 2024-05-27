@@ -157,7 +157,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Update user password
- * @route   PUT /api/users/update-password
+ * @route   PUT /api/users/me/password
  * @access  Private
  */
 const updateUserPassword = asyncHandler(async (req, res) => {
@@ -186,7 +186,7 @@ const updateUserPassword = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Delete user account
- * @route   DELETE /api/users/delete-account
+ * @route   DELETE /api/users/me
  * @access  Private
  */
 const deleteMyAccount = asyncHandler(async (req, res) => {
@@ -266,7 +266,7 @@ const getUserById = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Get current user
- * @route   GET /api/users/current
+ * @route   GET /api/users/me
  * @access  Private
  */
 const getCurrentUser = asyncHandler(async (req, res) => {
