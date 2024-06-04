@@ -1,5 +1,11 @@
-export const numberWithCommas = (number) => {
-  return number?.toLocaleString("en-US", { style: "decimal" });
+const CURRENCY_FORMATTER = new Intl.NumberFormat(undefined, {
+  style: "decimal",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+});
+
+export const formatCurrency = (number) => {
+  return CURRENCY_FORMATTER.format(number);
 };
 
 export const updateCart = (state) => {

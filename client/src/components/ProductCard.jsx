@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Badge, Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { numberWithCommas } from "../utils/cartUtils";
 import StarRating from "./StarRating";
 import ProductPreviewModal from "./ProductPreviewModal";
+import { formatCurrency } from "../utilities";
 
 export default function ProductCard({ product, showPreviewIcon }) {
   const [isPreviewIconVisible, setPreviewIconVisibility] = useState(false);
@@ -65,7 +65,7 @@ export default function ProductCard({ product, showPreviewIcon }) {
           <div className="d-flex justify-content-center mb-3">
             <StarRating value={rating} size={16} />
           </div>
-          <Card.Title>&#8358;{numberWithCommas(price)}</Card.Title>
+          <Card.Title>&#8358;{formatCurrency(price)}</Card.Title>
           {showPreviewIcon && (
             <>
               <Button

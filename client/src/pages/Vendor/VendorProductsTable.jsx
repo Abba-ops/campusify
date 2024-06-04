@@ -15,10 +15,10 @@ import {
 import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 import { useGetVendorProductsQuery } from "../../features/vendorApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
-import { numberWithCommas } from "../../utils/cartUtils";
 import { useDeleteProductMutation } from "../../features/productsApiSlice";
 import { toast } from "react-toastify";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
+import { formatCurrency } from "../../utilities";
 
 export default function VendorProductsTable() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -180,7 +180,7 @@ export default function VendorProductsTable() {
                             <td>{product?.category?.name}</td>
                             <td>{product?.subcategory?.name}</td>
                             <td>{product?.brand}</td>
-                            <td>&#8358;{numberWithCommas(product?.price)}</td>
+                            <td>&#8358;{formatCurrency(product?.price)}</td>
                             <td>
                               <ButtonGroup size="sm">
                                 <OverlayTrigger

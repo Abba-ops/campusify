@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button, Image, Col, Modal, Row, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cartSlice";
-import { numberWithCommas } from "../utils/cartUtils";
-import StarRating from "./StarRating";
 import CartPreviewModal from "./CartPreviewModal";
+import { formatCurrency } from "../utilities";
+import { useDispatch } from "react-redux";
+import StarRating from "./StarRating";
 
 export default function ProductPreviewModal({ product, show, handleClose }) {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -52,7 +52,7 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
               </div>
               <p className="my-3 text-break">{product?.productDescription}</p>
               <Modal.Title className="text-primary mb-4">
-                &#8358;{numberWithCommas(product?.price)}
+                &#8358;{formatCurrency(product?.price)}
               </Modal.Title>
               <Row className="mb-3">
                 <Col>

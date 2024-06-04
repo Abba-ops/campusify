@@ -1,49 +1,19 @@
-import asyncHandler from "../middlewares/asyncHandler.js";
-import genToken from "../utils/genToken.js";
-import User from "../models/userModel.js";
-import axios from "axios";
 import Vendor from "../models/vendorModel.js";
-import { Product } from "../models/productModel.js";
-import { extractPublicId } from "./productController.js";
-import cloudinary from "../config/cloudinary.js";
-
-const deleteProductsAndVendor = async (userId) => {
-  const vendor = await Vendor.findOne({ user: userId });
-
-  if (vendor) {
-    const products = await Product.find({ vendor: vendor._id });
-
-    for (const product of products) {
-      const publicId = extractPublicId(product.imageUrl);
-      await cloudinary.uploader.destroy(`campusify/${publicId}`);
-      await product.deleteOne();
-    }
-
-    await vendor.deleteOne();
-  }
-};
-
-const constructUserData = (user, vendor = null) => {
-  return {
-    id: user._id,
-    email: user.email,
-    isAdmin: user.isAdmin,
-    isVendor: user.isVendor,
-    userType: user.userType,
-    lastName: user.lastName,
-    otherNames: user.otherNames,
-    phoneNumber: user.phoneNumber,
-    profilePictureURL: user.profilePictureURL,
-    vendor,
-  };
-};
+import User from "../models/userModel.js";
+import {
+  asyncHandler,
+  constructUserData,
+  deleteProductsAndVendor,
+  genToken,
+} from "../utilities/index.js";
+import axios from "axios";
 
 /**
  * @desc    Authenticate user
  * @route   POST /api/users/auth
  * @access  Public
  */
-const authUser = asyncHandler(async (req, res) => {
+export const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -72,7 +42,7 @@ const authUser = asyncHandler(async (req, res) => {
  * @route   POST /api/users
  * @access  Public
  */
-const registerUser = asyncHandler(async (req, res) => {
+export const registerUser = asyncHandler(async (req, res) => {
   const { uniqueId, userType, password } = req.body;
 
   try {
@@ -128,7 +98,7 @@ const registerUser = asyncHandler(async (req, res) => {
  * @route   POST /api/users/logout
  * @access  Public
  */
-const logoutUser = asyncHandler(async (req, res) => {
+export const logoutUser = asyncHandler(async (req, res) => {
   res.clearCookie("jwt_token");
   res.status(200).json({ success: true, message: "Logged out. Goodbye!" });
 });
@@ -138,7 +108,7 @@ const logoutUser = asyncHandler(async (req, res) => {
  * @route   GET /api/users/profile/:userId
  * @access  Public
  */
-const getUserProfile = asyncHandler(async (req, res) => {
+export const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.userId);
 
   const vendor = await Vendor.findOne({ user: req.params.userId });
@@ -160,7 +130,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
  * @route   PUT /api/users/me/password
  * @access  Private
  */
-const updateUserPassword = asyncHandler(async (req, res) => {
+export const updateUserPassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (!user) {
@@ -189,7 +159,7 @@ const updateUserPassword = asyncHandler(async (req, res) => {
  * @route   DELETE /api/users/me
  * @access  Private
  */
-const deleteMyAccount = asyncHandler(async (req, res) => {
+export const deleteMyAccount = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (!user) {
@@ -212,7 +182,7 @@ const deleteMyAccount = asyncHandler(async (req, res) => {
  * @route   GET /api/users
  * @access  Private/Admin
  */
-const getUsers = asyncHandler(async (req, res) => {
+export const getUsers = asyncHandler(async (req, res) => {
   try {
     const users = await User.find({});
 
@@ -232,7 +202,7 @@ const getUsers = asyncHandler(async (req, res) => {
  * @route   DELETE /api/users/:userId
  * @access  Private/Admin
  */
-const deleteUser = asyncHandler(async (req, res) => {
+export const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.userId);
 
   if (!user) {
@@ -253,7 +223,7 @@ const deleteUser = asyncHandler(async (req, res) => {
  * @route   GET /api/users/:userId
  * @access  Private/Admin
  */
-const getUserById = asyncHandler(async (req, res) => {
+export const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.userId);
 
   if (!user) {
@@ -269,7 +239,7 @@ const getUserById = asyncHandler(async (req, res) => {
  * @route   GET /api/users/me
  * @access  Private
  */
-const getCurrentUser = asyncHandler(async (req, res) => {
+export const getCurrentUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (!user) {
@@ -285,16 +255,3 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     message: "User retrieved successfully.",
   });
 });
-
-export {
-  authUser,
-  registerUser,
-  logoutUser,
-  getUserProfile,
-  updateUserPassword,
-  deleteMyAccount,
-  getUsers,
-  deleteUser,
-  getUserById,
-  getCurrentUser,
-};

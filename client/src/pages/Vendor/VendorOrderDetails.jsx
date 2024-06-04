@@ -14,10 +14,10 @@ import {
   useGetVendorOrderQuery,
   useMarkOrderAsDeliveredMutation,
 } from "../../features/ordersApiSlice";
-import TablePlaceholder from "../../components/TablePlaceholder";
-import { toast } from "react-toastify";
-import { numberWithCommas } from "../../utils/cartUtils";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
+import TablePlaceholder from "../../components/TablePlaceholder";
+import { formatCurrency } from "../../utilities";
+import { toast } from "react-toastify";
 
 export default function VendorOrderDetails() {
   const { orderId } = useParams();
@@ -79,19 +79,19 @@ export default function VendorOrderDetails() {
                   <ListGroup variant="flush">
                     <ListGroup.Item>
                       <strong>Order ID:</strong>{" "}
-                      {numberWithCommas(order?.data?.orderID)}
+                      {formatCurrency(order?.data?.orderID)}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <strong>Items Price:</strong> &#8358;
-                      {numberWithCommas(order?.data?.itemsPrice)}
+                      {formatCurrency(order?.data?.itemsPrice)}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <strong>Tax Price:</strong> &#8358;
-                      {numberWithCommas(order?.data?.taxPrice)}
+                      {formatCurrency(order?.data?.taxPrice)}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <strong>Total Price:</strong> &#8358;
-                      {numberWithCommas(order?.data?.totalPrice)}
+                      {formatCurrency(order?.data?.totalPrice)}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <strong>Payment Status:</strong>{" "}
@@ -158,7 +158,7 @@ export default function VendorOrderDetails() {
                             </Link>
                             <div>
                               <strong>Price:</strong> &#8358;
-                              {numberWithCommas(item?.price)}
+                              {formatCurrency(item?.price)}
                             </div>
                             <div>
                               <strong>Quantity:</strong> {item?.quantity}

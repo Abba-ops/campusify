@@ -1,32 +1,17 @@
-import asyncHandler from "../middlewares/asyncHandler.js";
+import {
+  asyncHandler,
+  calculateOrderPrices,
+  generateOrderID,
+} from "../utilities/index.js";
 import Notification from "../models/notificationSchema.js";
 import Order from "../models/orderModel.js";
-
-const generateOrderID = () => {
-  const timestamp = Date.now().toString(36);
-  const randomString = Math.random().toString(36).substr(2, 5);
-  return timestamp + randomString;
-};
-
-export const calculateOrderPrices = (order) => {
-  order.orderItems = order.orderItems.filter(
-    (orderItem) => orderItem.product !== null
-  );
-  const itemPrice = order.orderItems.reduce(
-    (a, b) => a + b.price * b.quantity,
-    0
-  );
-  order.itemsPrice = itemPrice;
-  order.totalPrice = itemPrice + order.taxPrice;
-  return order;
-};
 
 /**
  * @desc    Get all orders
  * @route   GET /api/orders
  * @access  Private/Admin
  */
-const getOrders = asyncHandler(async (req, res) => {
+export const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate("user");
 
   res.status(200).json({ data: orders, success: true });
@@ -37,7 +22,7 @@ const getOrders = asyncHandler(async (req, res) => {
  * @route   POST /api/orders
  * @access  Private
  */
-const createNewOrder = asyncHandler(async (req, res) => {
+export const createNewOrder = asyncHandler(async (req, res) => {
   const {
     orderItems,
     deliveryAddress,
@@ -99,7 +84,7 @@ const createNewOrder = asyncHandler(async (req, res) => {
  * @route   GET /api/orders/mine
  * @access  Private
  */
-const getMyOrders = asyncHandler(async (req, res) => {
+export const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id })
     .sort({
       createdAt: -1,
@@ -114,7 +99,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
  * @route   GET /api/orders/:orderId
  * @access  Private
  */
-const getOrderById = asyncHandler(async (req, res) => {
+export const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findOne({ orderID: req.params.orderId })
     .populate("user")
     .populate({
@@ -135,7 +120,7 @@ const getOrderById = asyncHandler(async (req, res) => {
  * @route   GET /api/orders/vendor
  * @access  Private/Vendor
  */
-const getVendorOrders = asyncHandler(async (req, res) => {
+export const getVendorOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({
     "orderItems.vendor": req.vendor._id,
   })
@@ -157,7 +142,7 @@ const getVendorOrders = asyncHandler(async (req, res) => {
  * @route   GET /api/orders/vendor/:orderId
  * @access  Private/Vendor
  */
-const getVendorOrder = asyncHandler(async (req, res) => {
+export const getVendorOrder = asyncHandler(async (req, res) => {
   const order = await Order.findOne({
     orderID: req.params.orderId,
     "orderItems.vendor": req.vendor._id,
@@ -185,7 +170,7 @@ const getVendorOrder = asyncHandler(async (req, res) => {
  * @route   PUT /api/orders/vendor/:orderId
  * @access  Private/Vendor
  */
-const markOrderAsDelivered = asyncHandler(async (req, res) => {
+export const markOrderAsDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findOne({
     orderID: req.params.orderId,
     "orderItems.vendor": req.vendor._id,
@@ -217,7 +202,7 @@ const markOrderAsDelivered = asyncHandler(async (req, res) => {
  * @route   PUT /api/orders/:orderId/items/:itemId
  * @access  Private
  */
-const markOrderAsReceived = asyncHandler(async (req, res) => {
+export const markOrderAsReceived = asyncHandler(async (req, res) => {
   const orderId = req.params.orderId;
   const itemId = req.params.itemId;
 
@@ -251,14 +236,3 @@ const markOrderAsReceived = asyncHandler(async (req, res) => {
     .status(200)
     .json({ message: "Order item marked as received", success: true });
 });
-
-export {
-  createNewOrder,
-  getOrders,
-  getMyOrders,
-  getOrderById,
-  getVendorOrders,
-  getVendorOrder,
-  markOrderAsDelivered,
-  markOrderAsReceived,
-};

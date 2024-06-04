@@ -18,7 +18,7 @@ import StarRating from "../../components/StarRating";
 import { MdDelete } from "react-icons/md";
 import { formatDistanceToNow } from "date-fns";
 import TablePlaceholder from "../../components/TablePlaceholder";
-import { numberWithCommas } from "../../utils/cartUtils";
+import { formatCurrency } from "../../utilities";
 
 export default function VendorProductDetails() {
   const [visibleComments, setVisibleComments] = useState(3);
@@ -200,7 +200,7 @@ export default function VendorProductDetails() {
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <strong>Price: </strong>$
-                      {numberWithCommas(product?.data?.price)}
+                      {formatCurrency(product?.data?.price)}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <strong>In Stock: </strong>

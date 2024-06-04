@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function VendorFinance() {
-  return <div></div>;
+  return <div>VendorFinance</div>;
 }

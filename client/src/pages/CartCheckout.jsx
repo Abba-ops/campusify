@@ -10,7 +10,6 @@ import {
   Spinner,
   Stack,
 } from "react-bootstrap";
-import { numberWithCommas } from "../utils/cartUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { PaystackButton } from "react-paystack";
 import { toast } from "react-toastify";
@@ -19,6 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { clearCartItems } from "../features/cartSlice";
 import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";
+import { formatCurrency } from "../utilities";
 
 export default function CartCheckout() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -345,13 +345,13 @@ export default function CartCheckout() {
                 <Row className="my-3">
                   <Col xs={6}>Total (Before Tax)</Col>
                   <Col xs={6} className="text-end text-primary">
-                    &#8358;{numberWithCommas(cart?.itemsPrice)}
+                    &#8358;{formatCurrency(cart?.itemsPrice)}
                   </Col>
                 </Row>
                 <Row className="my-3">
                   <Col xs={6}>Delivery Fee</Col>
                   <Col xs={6} className="text-end text-primary">
-                    &#8358;{numberWithCommas(cart?.deliveryPrice)}
+                    &#8358;{formatCurrency(cart?.deliveryPrice)}
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -359,13 +359,13 @@ export default function CartCheckout() {
                 <Row className="my-3">
                   <Col xs={6}>Tax Total</Col>
                   <Col xs={6} className="text-end text-primary">
-                    &#8358;{numberWithCommas(cart?.taxPrice)}
+                    &#8358;{formatCurrency(cart?.taxPrice)}
                   </Col>
                 </Row>
                 <Row className="my-3">
                   <Col xs={6}>Grand Total</Col>
                   <Col xs={6} className="text-end text-primary">
-                    &#8358;{numberWithCommas(cart?.totalPrice)}
+                    &#8358;{formatCurrency(cart?.totalPrice)}
                   </Col>
                 </Row>
               </ListGroup.Item>

@@ -4,7 +4,7 @@ import { Breadcrumb, Card, Col, Row, ListGroup, Image } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import TablePlaceholder from "../../components/TablePlaceholder";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
-import { numberWithCommas } from "../../utils/cartUtils";
+import { formatCurrency } from "../../utilities";
 
 export default function AdminOrderDetails() {
   const { orderId } = useParams();
@@ -46,15 +46,15 @@ export default function AdminOrderDetails() {
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <strong>Items Price:</strong> &#8358;
-                    {numberWithCommas(order?.data?.itemsPrice)}
+                    {formatCurrency(order?.data?.itemsPrice)}
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <strong>Tax Price:</strong> &#8358;
-                    {numberWithCommas(order?.data?.taxPrice)}
+                    {formatCurrency(order?.data?.taxPrice)}
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <strong>Total Price:</strong> &#8358;
-                    {numberWithCommas(order?.data?.totalPrice)}
+                    {formatCurrency(order?.data?.totalPrice)}
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <strong>Payment Status:</strong>{" "}
@@ -118,7 +118,7 @@ export default function AdminOrderDetails() {
                           </Link>
                           <div>
                             <strong>Price:</strong> &#8358;
-                            {numberWithCommas(item?.price)}
+                            {formatCurrency(item?.price)}
                           </div>
                           <div>
                             <strong>Quantity:</strong> {item?.quantity}

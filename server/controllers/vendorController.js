@@ -1,18 +1,17 @@
+import { asyncHandler, extractPublicId } from "../utilities/index.js";
 import cloudinary from "../config/cloudinary.js";
-import asyncHandler from "../middlewares/asyncHandler.js";
 import Notification from "../models/notificationSchema.js";
 import Order from "../models/orderModel.js";
 import { Product } from "../models/productModel.js";
 import User from "../models/userModel.js";
 import Vendor from "../models/vendorModel.js";
-import { extractPublicId } from "./productController.js";
 
 /**
  * @desc    Get all vendors
  * @route   GET /api/vendors
  * @access  Private/Admin
  */
-const getVendors = asyncHandler(async (req, res) => {
+export const getVendors = asyncHandler(async (req, res) => {
   const vendors = await Vendor.find({}).populate("user");
 
   res.status(200).json({
@@ -27,7 +26,7 @@ const getVendors = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/:vendorId
  * @access  Private/Vendor|Admin
  */
-const getVendorById = asyncHandler(async (req, res) => {
+export const getVendorById = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findById(req.params.vendorId).populate("user");
 
   if (!vendor) {
@@ -46,7 +45,7 @@ const getVendorById = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/products
  * @access  Private/Vendor
  */
-const getVendorProducts = asyncHandler(async (req, res) => {
+export const getVendorProducts = asyncHandler(async (req, res) => {
   const vendorProducts = await Product.find({
     vendor: req.vendor._id,
   }).populate("category");
@@ -63,7 +62,7 @@ const getVendorProducts = asyncHandler(async (req, res) => {
  * @route   POST /api/vendors
  * @access  Private
  */
-const vendorApplication = asyncHandler(async (req, res) => {
+export const vendorApplication = asyncHandler(async (req, res) => {
   const {
     vendorEmail,
     vendorName,
@@ -111,7 +110,7 @@ const vendorApplication = asyncHandler(async (req, res) => {
  * @route   PUT /api/vendors/:vendorId/status/:status
  * @access  Private/Admin
  */
-const updateVendorStatus = asyncHandler(async (req, res) => {
+export const updateVendorStatus = asyncHandler(async (req, res) => {
   const { vendorId } = req.params;
   const { status } = req.params;
 
@@ -151,7 +150,7 @@ const updateVendorStatus = asyncHandler(async (req, res) => {
  * @route   DELETE /api/vendors/:vendorId
  * @access  Private/Admin
  */
-const deleteVendor = asyncHandler(async (req, res) => {
+export const deleteVendor = asyncHandler(async (req, res) => {
   const vendorId = req.params.vendorId;
 
   const vendor = await Vendor.findById(vendorId);
@@ -186,7 +185,7 @@ const deleteVendor = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/:vendorId/products
  * @access  Private/Admin
  */
-const getProductsByVendor = asyncHandler(async (req, res) => {
+export const getProductsByVendor = asyncHandler(async (req, res) => {
   const { vendorId } = req.params;
 
   const products = await Product.find({ vendor: vendorId });
@@ -204,7 +203,7 @@ const getProductsByVendor = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/customers
  * @access  Private/Vendor
  */
-const getVendorCustomers = asyncHandler(async (req, res) => {
+export const getVendorCustomers = asyncHandler(async (req, res) => {
   const orders = await Order.find({
     "orderItems.vendor": req.vendor._id,
   })
@@ -233,7 +232,7 @@ const getVendorCustomers = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/all-customers
  * @access  Private/Admin
  */
-const getAllVendorCustomers = asyncHandler(async (req, res) => {
+export const getAllVendorCustomers = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate("user");
 
   const customersSet = new Set();
@@ -253,7 +252,7 @@ const getAllVendorCustomers = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/notifications
  * @access  Private (Vendor)
  */
-const getVendorNotifications = asyncHandler(async (req, res) => {
+export const getVendorNotifications = asyncHandler(async (req, res) => {
   const notifications = await Notification.find({
     recipientId: req.vendor._id,
   }).sort({ createdAt: -1 });
@@ -269,7 +268,7 @@ const getVendorNotifications = asyncHandler(async (req, res) => {
  * @route   PUT /api/vendors/notifications/:notificationId/mark-as-read
  * @access  Private (Vendor)
  */
-const markNotificationAsRead = asyncHandler(async (req, res) => {
+export const markNotificationAsRead = asyncHandler(async (req, res) => {
   const { notificationId } = req.params;
 
   const notification = await Notification.findById(notificationId);
@@ -293,7 +292,7 @@ const markNotificationAsRead = asyncHandler(async (req, res) => {
  * @route   DELETE /api/vendors/notifications/:notificationId
  * @access  Private (Vendor)
  */
-const deleteNotification = asyncHandler(async (req, res) => {
+export const deleteNotification = asyncHandler(async (req, res) => {
   const { notificationId } = req.params;
 
   const notification = await Notification.findById(notificationId);
@@ -313,7 +312,7 @@ const deleteNotification = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/profile/products/:vendorId
  * @access  Public
  */
-const getUserVendorProduct = asyncHandler(async (req, res) => {
+export const getUserVendorProduct = asyncHandler(async (req, res) => {
   const { vendorId } = req.params;
 
   const vendorProducts = await Product.find({ vendor: vendorId });
@@ -326,27 +325,10 @@ const getUserVendorProduct = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/profile/:vendorId
  * @access  Public
  */
-const getVendorProfile = asyncHandler(async (req, res) => {
+export const getVendorProfile = asyncHandler(async (req, res) => {
   const { vendorId } = req.params;
 
   const vendor = await Vendor.findById(vendorId);
 
   res.status(200).json({ success: true, data: vendor });
 });
-
-export {
-  getVendors,
-  getVendorById,
-  getVendorProducts,
-  vendorApplication,
-  updateVendorStatus,
-  deleteVendor,
-  deleteNotification,
-  getProductsByVendor,
-  getVendorCustomers,
-  getAllVendorCustomers,
-  getVendorNotifications,
-  markNotificationAsRead,
-  getUserVendorProduct,
-  getVendorProfile,
-};

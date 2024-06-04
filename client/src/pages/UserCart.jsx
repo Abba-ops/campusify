@@ -12,9 +12,9 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../features/cartSlice";
-import { numberWithCommas } from "../utils/cartUtils";
 import { BsArrowLeft } from "react-icons/bs";
 import MetaTags from "../components/MetaTags";
+import { formatCurrency } from "../utilities";
 
 export default function UserCart() {
   const { cartItems, itemsPrice, deliveryPrice, taxPrice, totalPrice } =
@@ -66,7 +66,7 @@ export default function UserCart() {
           </Form.Select>
         </Col>
         <Col xs={6} lg={2} className="text-primary text-lg-center">
-          <strong>&#8358;{numberWithCommas(product?.price)}</strong>
+          <strong>&#8358;{formatCurrency(product?.price)}</strong>
         </Col>
         <Col lg={2} className="text-end">
           <MdDelete
@@ -126,7 +126,7 @@ export default function UserCart() {
                   </Col>
                   <Col xs={6} className="text-end">
                     <div className="text-primary">
-                      &#8358;{numberWithCommas(itemsPrice || 0)}
+                      &#8358;{formatCurrency(itemsPrice || 0)}
                     </div>
                   </Col>
                 </Row>
@@ -136,7 +136,7 @@ export default function UserCart() {
                   <Col xs={6}>Delivery Fee</Col>
                   <Col xs={6} className="text-end">
                     <div className="text-primary">
-                      &#8358;{numberWithCommas(deliveryPrice || 0)}
+                      &#8358;{formatCurrency(deliveryPrice || 0)}
                     </div>
                   </Col>
                 </Row>
@@ -144,7 +144,7 @@ export default function UserCart() {
                   <Col xs={6}>Tax Amount</Col>
                   <Col xs={6} className="text-end">
                     <div className="text-primary">
-                      &#8358;{numberWithCommas(taxPrice || 0)}
+                      &#8358;{formatCurrency(taxPrice || 0)}
                     </div>
                   </Col>
                 </Row>
@@ -152,7 +152,7 @@ export default function UserCart() {
                   <Col xs={6}>Total Cost</Col>
                   <Col xs={6} className="text-end">
                     <div className="text-primary">
-                      &#8358;{numberWithCommas(totalPrice || 0)}
+                      &#8358;{formatCurrency(totalPrice || 0)}
                     </div>
                   </Col>
                 </Row>

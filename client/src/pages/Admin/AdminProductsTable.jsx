@@ -26,10 +26,10 @@ import {
   useGetProductsQuery,
 } from "../../features/productsApiSlice";
 import { Link } from "react-router-dom";
-import { numberWithCommas } from "../../utils/cartUtils";
 import TablePlaceholder from "../../components/TablePlaceholder";
 import { toast } from "react-toastify";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
+import { formatCurrency } from "../../utilities";
 
 export default function AdminProductsTable() {
   const {
@@ -244,7 +244,7 @@ export default function AdminProductsTable() {
                       <td>{product?.category?.name}</td>
                       <td>{product?.subcategory?.name}</td>
                       <td>{product?.brand}</td>
-                      <td>&#8358;{numberWithCommas(product?.price)}</td>
+                      <td>&#8358;{formatCurrency(product?.price)}</td>
                       <td>{product?.countInStock}</td>
                       <td>
                         <ButtonGroup size="sm">

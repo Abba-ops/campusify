@@ -1,21 +1,14 @@
-import asyncHandler from "../middlewares/asyncHandler.js";
+import { asyncHandler, extractPublicId } from "../utilities/index.js";
 import { Category, Product } from "../models/productModel.js";
 import cloudinary from "../config/cloudinary.js";
 import Vendor from "../models/vendorModel.js";
-
-export const extractPublicId = (url) => {
-  const parts = url.split("/");
-  const fileName = parts.pop().split(".")[0];
-  const publicId = parts.pop() + "/" + fileName;
-  return publicId;
-};
 
 /**
  * @desc    Fetch all products
  * @route   GET /api/products
  * @access  Private/Admin
  */
-const getProducts = asyncHandler(async (req, res) => {
+export const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).populate("vendor category");
 
   res.json({
@@ -30,7 +23,7 @@ const getProducts = asyncHandler(async (req, res) => {
  * @route   GET /api/products/:productId
  * @access  Public
  */
-const getProductById = asyncHandler(async (req, res) => {
+export const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.productId).populate(
     "vendor category"
   );
@@ -51,7 +44,7 @@ const getProductById = asyncHandler(async (req, res) => {
  * @route   POST /api/products/:productId/reviews
  * @access  Private
  */
-const createProductReview = asyncHandler(async (req, res) => {
+export const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment, name } = req.body;
   const productId = req.params.productId;
   const userId = req.user._id;
@@ -101,7 +94,7 @@ const createProductReview = asyncHandler(async (req, res) => {
  * @route   DELETE /api/products/:productId/reviews/:reviewId
  * @access  Private
  */
-const deleteReview = asyncHandler(async (req, res) => {
+export const deleteReview = asyncHandler(async (req, res) => {
   const { productId, reviewId } = req.params;
   const product = await Product.findById(productId);
 
@@ -135,7 +128,7 @@ const deleteReview = asyncHandler(async (req, res) => {
  * @route   POST /api/products
  * @access  Private/Vendor
  */
-const createProduct = asyncHandler(async (req, res) => {
+export const createProduct = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findOne({ user: req.user._id });
 
   const {
@@ -178,7 +171,7 @@ const createProduct = asyncHandler(async (req, res) => {
  * @route   PUT /api/products/:productId
  * @access  Private/Vendor|Admin
  */
-const updateProduct = asyncHandler(async (req, res) => {
+export const updateProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.productId);
 
   if (!product) {
@@ -225,7 +218,7 @@ const updateProduct = asyncHandler(async (req, res) => {
  * @route   POST /api/products/categories
  * @access  Private/Admin
  */
-const addCategory = asyncHandler(async (req, res) => {
+export const addCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
   const newCategory = await Category.create({ name });
@@ -247,7 +240,7 @@ const addCategory = asyncHandler(async (req, res) => {
  * @route   GET /api/products/categories
  * @access  Public
  */
-const getCategories = asyncHandler(async (req, res) => {
+export const getCategories = asyncHandler(async (req, res) => {
   const categories = await Category.find({});
 
   res.status(200).json({
@@ -261,7 +254,7 @@ const getCategories = asyncHandler(async (req, res) => {
  * @route   DELETE /api/products/categories/:categoryId
  * @access  Private
  */
-const deleteCategory = asyncHandler(async (req, res) => {
+export const deleteCategory = asyncHandler(async (req, res) => {
   const products = await Product.find({ category: req.params.categoryId });
 
   if (products.length > 0) {
@@ -284,7 +277,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
  * @route   GET /api/products/categories/:category/:categoryId
  * @access  Public
  */
-const getProductsByCategory = asyncHandler(async (req, res) => {
+export const getProductsByCategory = asyncHandler(async (req, res) => {
   const { categoryId } = req.params;
 
   const products = await Product.find({ category: categoryId });
@@ -297,7 +290,7 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
  * @route   GET /api/products/subcategory/:subcategory/:subcategoryId
  * @access  Public
  */
-const getProductsBySubcategory = asyncHandler(async (req, res) => {
+export const getProductsBySubcategory = asyncHandler(async (req, res) => {
   const { subcategoryId } = req.params;
 
   const products = await Product.find({
@@ -312,7 +305,7 @@ const getProductsBySubcategory = asyncHandler(async (req, res) => {
  * @route   GET /api/products/search
  * @access  Public
  */
-const searchProducts = asyncHandler(async (req, res) => {
+export const searchProducts = asyncHandler(async (req, res) => {
   const { query } = req.query;
 
   const products = await Product.find({
@@ -330,7 +323,7 @@ const searchProducts = asyncHandler(async (req, res) => {
  * @route   POST /api/products/subcategory
  * @access  Private/Admin
  */
-const addSubcategory = asyncHandler(async (req, res) => {
+export const addSubcategory = asyncHandler(async (req, res) => {
   const { name, parentCategory } = req.body;
 
   if (!name || !parentCategory) {
@@ -361,7 +354,7 @@ const addSubcategory = asyncHandler(async (req, res) => {
  * @route   DELETE /api/products/subcategory/:categoryId/:subcategoryId
  * @access  Private/Admin
  */
-const deleteSubcategory = asyncHandler(async (req, res) => {
+export const deleteSubcategory = asyncHandler(async (req, res) => {
   const { categoryId, subcategoryId } = req.params;
 
   const products = await Product.find({ "subcategory._id": subcategoryId });
@@ -396,7 +389,7 @@ const deleteSubcategory = asyncHandler(async (req, res) => {
  * @route   GET /api/products/featured
  * @access  Public
  */
-const getIsFeatured = asyncHandler(async (req, res) => {
+export const getIsFeatured = asyncHandler(async (req, res) => {
   const featuredProducts = await Product.aggregate([
     { $match: { isFeatured: true } },
     { $sample: { size: 10 } },
@@ -415,7 +408,7 @@ const getIsFeatured = asyncHandler(async (req, res) => {
  * @route   GET /api/products/popular
  * @access  Public
  */
-const getPopularProducts = asyncHandler(async (req, res) => {
+export const getPopularProducts = asyncHandler(async (req, res) => {
   const popularProductsByRatings = await Product.aggregate([
     { $match: { rating: { $gt: 4 } } },
     { $sample: { size: 10 } },
@@ -434,7 +427,7 @@ const getPopularProducts = asyncHandler(async (req, res) => {
  * @route   GET /api/products/best-sellers
  * @access  Public
  */
-const getBestSellingProducts = asyncHandler(async (req, res) => {
+export const getBestSellingProducts = asyncHandler(async (req, res) => {
   const bestSellingProducts = await Product.aggregate([
     { $sort: { salesCount: -1 } },
     { $sample: { size: 10 } },
@@ -453,7 +446,7 @@ const getBestSellingProducts = asyncHandler(async (req, res) => {
  * @route   DELETE /api/products/:productId
  * @access  Private/Vendor|Admin
  */
-const deleteProduct = asyncHandler(async (req, res) => {
+export const deleteProduct = asyncHandler(async (req, res) => {
   const productId = req.params.productId;
 
   try {
@@ -477,24 +470,3 @@ const deleteProduct = asyncHandler(async (req, res) => {
     throw new Error("Internal Server Error");
   }
 });
-
-export {
-  getProducts,
-  getProductById,
-  createProductReview,
-  deleteReview,
-  createProduct,
-  updateProduct,
-  addCategory,
-  getCategories,
-  deleteCategory,
-  getProductsByCategory,
-  getProductsBySubcategory,
-  searchProducts,
-  addSubcategory,
-  deleteSubcategory,
-  getIsFeatured,
-  getPopularProducts,
-  getBestSellingProducts,
-  deleteProduct,
-};

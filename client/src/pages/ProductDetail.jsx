@@ -31,7 +31,6 @@ import MetaTags from "../components/MetaTags";
 import { BsArrowLeft } from "react-icons/bs";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { numberWithCommas } from "../utils/cartUtils";
 import { toast } from "react-toastify";
 import { addToCart } from "../features/cartSlice";
 import { formatDistanceToNow } from "date-fns";
@@ -43,6 +42,7 @@ import ReactStars from "react-rating-stars-component";
 import StarRating from "../components/StarRating";
 import BackToTop from "../components/BackToTop";
 import CartPreviewModal from "../components/CartPreviewModal";
+import { formatCurrency } from "../utilities";
 
 export default function ProductDetail() {
   const [visibleComments, setVisibleComments] = useState(3);
@@ -267,7 +267,7 @@ export default function ProductDetail() {
                     </EmailShareButton>
                   </Stack>
                   <h4 className="text-primary mb-3">
-                    &#8358;{numberWithCommas(productData?.data?.price)}
+                    &#8358;{formatCurrency(productData?.data?.price)}
                   </h4>
                   <Form.Group className="mb-3">
                     <Form.Select

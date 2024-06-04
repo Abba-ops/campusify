@@ -22,9 +22,9 @@ import MetaTags from "../components/MetaTags";
 import { useGetMyOrdersQuery } from "../features/ordersApiSlice";
 import { BsEye, BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { numberWithCommas } from "../utils/cartUtils";
 import TablePlaceholder from "../components/TablePlaceholder";
 import BackToTop from "../components/BackToTop";
+import { formatCurrency } from "../utilities";
 
 export default function UserProfileDetails() {
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -229,9 +229,9 @@ export default function UserProfileDetails() {
                   {orders?.data?.map((order) => (
                     <tr key={order?.orderID}>
                       <td>{order?.orderID}</td>
-                      <td>&#8358;{numberWithCommas(order?.itemsPrice)}</td>
-                      <td>&#8358;{numberWithCommas(order?.taxPrice)}</td>
-                      <td>&#8358;{numberWithCommas(order?.totalPrice)}</td>
+                      <td>&#8358;{formatCurrency(order?.itemsPrice)}</td>
+                      <td>&#8358;{formatCurrency(order?.taxPrice)}</td>
+                      <td>&#8358;{formatCurrency(order?.totalPrice)}</td>
                       <td>{order?.isPaid ? "Paid" : "Unpaid"}</td>
                       <td>
                         {order?.isOrderDelivered ? "Completed" : "Pending"}

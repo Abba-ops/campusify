@@ -12,9 +12,9 @@ import {
 } from "react-bootstrap";
 import { useGetVendorOrdersQuery } from "../../features/ordersApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
-import { numberWithCommas } from "../../utils/cartUtils";
 import { BsEye, BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { formatCurrency } from "../../utilities";
 
 export default function VendorOrdersTable() {
   const { data: orders, isLoading, isError } = useGetVendorOrdersQuery();
@@ -84,7 +84,7 @@ export default function VendorOrdersTable() {
                   </td>
                   <td>{order?.user?.phoneNumber}</td>
                   <td>{`${order?.deliveryAddress?.building}, ${order?.deliveryAddress?.locationNumber}, ${order?.deliveryAddress?.campus}`}</td>
-                  <td>&#8358;{numberWithCommas(order?.totalPrice)}</td>
+                  <td>&#8358;{formatCurrency(order?.totalPrice)}</td>
                   <td>
                     <Stack direction="horizontal" gap={2}>
                       {order?.orderItems?.slice(-2)?.map((item, index) => (

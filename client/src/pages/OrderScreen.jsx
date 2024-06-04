@@ -14,12 +14,12 @@ import {
   useGetOrderByIdQuery,
   useMarkOrderAsReceivedMutation,
 } from "../features/ordersApiSlice";
-import { numberWithCommas } from "../utils/cartUtils";
 import TablePlaceholder from "../components/TablePlaceholder";
 import { toast } from "react-toastify";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";
+import { formatCurrency } from "../utilities";
 
 export default function OrderScreen() {
   const { orderId } = useParams();
@@ -144,7 +144,7 @@ export default function OrderScreen() {
                             </div>
                             <div>
                               <strong>Price:</strong> &#8358;
-                              {numberWithCommas(product?.price)}
+                              {formatCurrency(product?.price)}
                             </div>
                           </Col>
                           <Col
@@ -232,7 +232,7 @@ export default function OrderScreen() {
                     <Col xs={6}>Total (Before Tax)</Col>
                     <Col xs={6} className="text-end">
                       <div className="text-primary">
-                        &#8358;{numberWithCommas(orderData?.data?.itemsPrice)}
+                        &#8358;{formatCurrency(orderData?.data?.itemsPrice)}
                       </div>
                     </Col>
                   </Row>
@@ -242,7 +242,7 @@ export default function OrderScreen() {
                     <Col xs={6}>Tax Amount</Col>
                     <Col xs={6} className="text-end">
                       <div className="text-primary">
-                        &#8358;{numberWithCommas(orderData?.data?.taxPrice)}
+                        &#8358;{formatCurrency(orderData?.data?.taxPrice)}
                       </div>
                     </Col>
                   </Row>
@@ -250,7 +250,7 @@ export default function OrderScreen() {
                     <Col xs={6}>Total Cost</Col>
                     <Col xs={6} className="text-end">
                       <div className="text-primary">
-                        &#8358;{numberWithCommas(orderData?.data?.totalPrice)}
+                        &#8358;{formatCurrency(orderData?.data?.totalPrice)}
                       </div>
                     </Col>
                   </Row>

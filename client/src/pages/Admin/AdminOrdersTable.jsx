@@ -13,8 +13,8 @@ import {
 import { Link } from "react-router-dom";
 import { useGetOrdersQuery } from "../../features/ordersApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
-import { numberWithCommas } from "../../utils/cartUtils";
 import { BsEye, BsTrash } from "react-icons/bs";
+import { formatCurrency } from "../../utilities";
 
 export default function AdminOrdersTable() {
   const { data: orders, isLoading, isError } = useGetOrdersQuery();
@@ -89,9 +89,9 @@ export default function AdminOrdersTable() {
                       </td>
                       <td>{order?.user?.email}</td>
                       <td>{order?.user?.phoneNumber}</td>
-                      <td>&#8358;{numberWithCommas(order?.itemsPrice)}</td>
-                      <td>&#8358;{numberWithCommas(order?.taxPrice)}</td>
-                      <td>&#8358;{numberWithCommas(order?.totalPrice)}</td>
+                      <td>&#8358;{formatCurrency(order?.itemsPrice)}</td>
+                      <td>&#8358;{formatCurrency(order?.taxPrice)}</td>
+                      <td>&#8358;{formatCurrency(order?.totalPrice)}</td>
                       <td>
                         <Stack direction="horizontal" gap={2}>
                           {order?.orderItems?.slice(-2).map((item, index) => (
