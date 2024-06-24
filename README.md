@@ -192,6 +192,7 @@ CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 JWT_SECRET=your_jwt_secret
 NODE_ENV=development
 PORT=8000
+```
 
 ## Contributing
 We welcome contributions to improve the platform. To contribute, please follow these steps:
