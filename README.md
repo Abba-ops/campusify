@@ -20,9 +20,7 @@
     - [Categories](#categories)
 6. [Deployment](#deployment)
 7. [Environment Variables](#environment-variables)
-8. [User Training](#user-training)
-9. [Support](#support)
-10. [Contributing](#contributing)
+8. [Contributing](#contributing)
 
 ## Introduction
 The Campus E-Commerce Platform is designed to facilitate buying and selling among students and staff within the university campus. It provides a secure and efficient marketplace where users can register, browse products, add items to their cart, proceed to checkout, and make payments. Vendors can apply to sell their products, and administrators manage the overall platform.
@@ -194,3 +192,11 @@ CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 JWT_SECRET=your_jwt_secret
 NODE_ENV=development
 PORT=8000
+
+## Contributing
+We welcome contributions to improve the platform. To contribute, please follow these steps:
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes and commit them.
+4. Push your changes to your fork.
+5. Open a pull request.
