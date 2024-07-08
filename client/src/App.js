@@ -54,6 +54,9 @@ import { USERS_URL } from "./constants";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import "react-toastify/dist/ReactToastify.css";
+import FeaturedProductsPage from "./pages/FeaturedProductsPage";
+import BestSellerPage from "./pages/BestSellerPage";
+import PopularProductsPage from "./pages/PopularProductsPage";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -86,6 +89,9 @@ export default function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index path="/" element={<LandingPage />} />
           <Route path="/login" element={<UserSignIn />} />
+          <Route path="/featured" element={<FeaturedProductsPage />} />
+          <Route path="/best-sellers" element={<BestSellerPage />} />
+          <Route path="/popular" element={<PopularProductsPage />} />
           <Route path="/cart" element={<UserCart />} />
           <Route path="/register" element={<UserRegistration />} />
           <Route path="/about" element={<About />} />
@@ -102,7 +108,6 @@ export default function App() {
             element={<SubcategoryProducts />}
           />
           <Route path="/profile/:userId" element={<UserProfile />} />
-          <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<PrivateRoute />}>
             <Route path="/checkout" element={<CartCheckout />} />
             <Route path="/profile" element={<UserProfileDetails />} />
@@ -198,6 +203,7 @@ export default function App() {
             />
           </Route>
         </Route>
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     )
   );
