@@ -1,11 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { FaChevronRight } from "react-icons/fa";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Carousel from "react-bootstrap/Carousel";
 import Image from "react-bootstrap/Image";
 import CarouselProducts from "./CarouselProducts";
 import { useGetBestSellingProductsQuery } from "../features/productsApiSlice";
-import { Placeholder } from "react-bootstrap";
+import { Button, Placeholder } from "react-bootstrap";
 
 export default function BestSeller() {
   const {
@@ -29,6 +31,15 @@ export default function BestSeller() {
             showPreviewIcon={true}
             productsData={bestSellingProducts && bestSellingProducts?.data}
           />
+          <div className="text-center mt-4">
+            <Button
+              as={Link}
+              size="sm"
+              to="/best-sellers"
+              className="text-white">
+              Explore More <FaChevronRight className="ml-2" />
+            </Button>
+          </div>
         </Col>
         <Col lg={6}>
           {isLoading ? (
