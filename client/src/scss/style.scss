@@ -81,3 +81,23 @@ table tr {
   border: 0;
   border-radius: var(--bs-dropdown-item-border-radius, 0);
 }
+
+.timer-segment .card {
+  border: none;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.timer-segment .card-body {
+  padding: 10px;
+}
+
+.timer-segment .card-title {
+  font-size: 2.5rem;
+  color: #343a40;
+}
+
+.timer-segment .card-text {
+  font-size: 1rem;
+  color: #6c757d;
+}

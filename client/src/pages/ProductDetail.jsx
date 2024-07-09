@@ -454,19 +454,17 @@ export default function ProductDetail() {
                             />
                           </Form.Group>
                           <p className="text-muted text-end">{`${userComment.length} / ${maxChars}`}</p>
-                          <div className="d-flex justify-content-center">
-                            <Button
-                              type="submit"
-                              className="px-4"
-                              disabled={loadingCreateReview}
-                              variant="dark">
-                              {loadingCreateReview ? (
-                                <Spinner animation="border" size="sm" />
-                              ) : (
-                                "Submit"
-                              )}
-                            </Button>
-                          </div>
+                          <Button
+                            type="submit"
+                            className="px-4"
+                            disabled={loadingCreateReview}
+                            variant="dark">
+                            {loadingCreateReview ? (
+                              <Spinner animation="border" size="sm" />
+                            ) : (
+                              "Submit"
+                            )}
+                          </Button>
                         </Form>
                       ) : (
                         <>

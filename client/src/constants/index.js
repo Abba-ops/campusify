@@ -137,7 +137,7 @@ export const footerLinks = [
     ],
   },
   {
-    heading: "Shop Categories",
+    heading: "Categories",
     links: [
       { text: "Textbooks", url: "/shop/textbooks" },
       { text: "Electronics", url: "/shop/electronics" },
