@@ -29,10 +29,9 @@ export default function HeaderHero() {
             Empowering Campus Entrepreneurs
           </h1>
           <p className="lead fw-normal d-none d-lg-block text-muted">
-            Welcome to Campus Market, where campus entrepreneurs thrive. Join
-            our marketplace to buy, sell, and connect with your campus
-            community. Explore and start your journey today. Welcome to Campus
-            Market!
+            Join Campus Market, your university's premier e-commerce platform.
+            Connect with fellow students and staff, buy and sell easily, and
+            make the most of campus life. Get started now!
           </p>
           <ButtonGroup className="d-grid gap-3 d-md-flex justify-content-md-start">
             <Button

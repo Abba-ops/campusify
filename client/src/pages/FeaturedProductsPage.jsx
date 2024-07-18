@@ -41,7 +41,7 @@ export default function FeaturedProductsPage() {
         <Row className="mb-4">
           <Col>
             <h5 className="mb-3 text-center text-uppercase">
-              Explore Our Featured Collection
+              Featured Collection
             </h5>
           </Col>
         </Row>

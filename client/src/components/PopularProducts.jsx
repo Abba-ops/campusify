@@ -27,8 +27,8 @@ export default function PopularProducts() {
           }}>
           <Link
             to="/popular"
-            className="d-flex align-items-center text-decoration-none">
-            Explore More <FaChevronRight className="ml-2" />
+            className="d-flex align-items-center text-decoration-none fw-medium">
+            Explore More <FaChevronRight className="mx-2" />
           </Link>
         </div>
       </div>
