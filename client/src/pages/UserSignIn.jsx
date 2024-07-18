@@ -67,9 +67,9 @@ export default function UserSignIn() {
         keywords="Campusify, log in, sign in, campus marketplace"
       />
       <Container>
-        <h5 className="border-bottom pb-3 text-uppercase text-center">
+        <h4 className="border-bottom pb-3 text-center">
           Log In to Your Account
-        </h5>
+        </h4>
         <Row className="justify-content-center">
           <Col lg={8}>
             <Card className="my-3 py-3">

@@ -78,7 +78,11 @@ const ComingSoon = ({ launchDate }) => {
                 <h2>Launching Soon!</h2>
               </div>
             )}
-            <Button to="/" as={Link} variant="primary" className="px-4 text-white">
+            <Button
+              to="/"
+              as={Link}
+              variant="primary"
+              className="px-4 text-white">
               Go to Home
             </Button>
           </Col>

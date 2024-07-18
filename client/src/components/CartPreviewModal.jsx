@@ -11,7 +11,7 @@ export default function CartPreviewModal({ show, handleClose, product }) {
   return (
     <Modal show={show} onHide={handleClose} centered size="lg">
       <Modal.Header closeButton>
-        <Modal.Title className="text-uppercase text-truncate">
+        <Modal.Title className="text-truncate">
           {product?.productName}
         </Modal.Title>
       </Modal.Header>
@@ -28,7 +28,7 @@ export default function CartPreviewModal({ show, handleClose, product }) {
             </div>
           </Col>
           <Col md={6}>
-            <Modal.Title className="text-uppercase mb-3">
+            <Modal.Title className="mb-3">
               {totalItems} items in your cart
             </Modal.Title>
             <ListGroup variant="flush">

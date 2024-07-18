@@ -38,9 +38,9 @@ export default function UserProfile() {
         src={userProfile?.data?.profilePictureURL}
         alt={`${userProfile?.data?.lastName}'s Profile`}
       />
-      <h4 className="mt-3">
+      <h5 className="mt-3">
         {`${userProfile?.data?.otherNames} ${userProfile?.data?.lastName}`}
-      </h4>
+      </h5>
       <p>
         <Link
           to={`mailto:${userProfile?.data?.email}`}

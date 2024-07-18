@@ -29,7 +29,7 @@ export default function ContactUs() {
       <Container>
         <Row>
           <Col lg={8} className="mb-6 mb-lg-0">
-            <h5 className="text-uppercase mb-3">Contact Us</h5>
+            <h4 className="mb-3">Contact Us</h4>
             <Form>
               <Form.Group as={Row} className="mb-4">
                 <Form.Label column sm={4}>
@@ -78,7 +78,7 @@ export default function ContactUs() {
             </Form>
           </Col>
           <Col lg={4}>
-            <h5 className="text-uppercase mb-3">Information</h5>
+            <h4 className="mb-3">Information</h4>
             <p>
               For any feedback or suggestions to enhance your experience on our
               campus marketplace, please take a moment to fill out this contact

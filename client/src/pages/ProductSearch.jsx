@@ -37,15 +37,14 @@ export default function ProductSearch() {
       <Container className="py-5">
         <Row className="mb-4">
           <Col>
-            <h5 className="mb-3 text-center">
-              <span className="text-uppercase">Search Results for</span> "
-              {query}"
-            </h5>
+            <h4 className="mb-3 text-center">
+              <span>Search Results for</span> "{query}"
+            </h4>
           </Col>
         </Row>
         {isError ? (
           <div className="text-center mt-5">
-            <h4 className="text-danger">Error Fetching Products</h4>
+            <h5 className="text-danger">Error Fetching Products</h5>
             <p className="mt-3">
               We apologize, but we couldn't fetch the products at the moment.
               Please try again later.
@@ -55,7 +54,7 @@ export default function ProductSearch() {
           <>
             {sortedProducts?.length === 0 && !isLoading && !isError ? (
               <div className="text-center mt-5">
-                <h4>Oops! No products found.</h4>
+                <h5>Oops! No products found.</h5>
                 <p>
                   It seems we couldn't find any products matching your search
                   criteria.

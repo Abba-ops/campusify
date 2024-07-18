@@ -24,21 +24,13 @@ export default function ProductCard({ product, showPreviewIcon }) {
     setIsNewProduct(daysDifference <= newThresholdDays);
   }, [createdAt]);
 
-  const handleShowPreviewIcon = () => {
-    setPreviewIconVisibility(true);
-  };
+  const handleShowPreviewIcon = () => setPreviewIconVisibility(true);
 
-  const handleHidePreviewIcon = () => {
-    setPreviewIconVisibility(false);
-  };
+  const handleHidePreviewIcon = () => setPreviewIconVisibility(false);
 
-  const handleShowPreviewModal = () => {
-    setPreviewModalVisibility(true);
-  };
+  const handleShowPreviewModal = () => setPreviewModalVisibility(true);
 
-  const handleHidePreviewModal = () => {
-    setPreviewModalVisibility(false);
-  };
+  const handleHidePreviewModal = () => setPreviewModalVisibility(false);
 
   return (
     <>

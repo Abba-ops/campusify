@@ -19,9 +19,7 @@ export default function FAQ() {
       <Container>
         <Row className="justify-content-center">
           <Col lg={8}>
-            <h5 className="pb-3 text-uppercase text-center">
-              Frequently Asked Questions
-            </h5>
+            <h4 className="pb-3 text-center">Frequently Asked Questions</h4>
             <Accordion defaultActiveKey="0">
               {faqItems.map((item, index) => (
                 <Accordion.Item key={index} eventKey={index.toString()}>

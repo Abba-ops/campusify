@@ -21,7 +21,7 @@ export default function PageNotFound() {
       <Container>
         <Row className="justify-content-center align-items-center text-center">
           <Col lg={8}>
-            <h1 className="display-4 mb-3">Oops! Page not found.</h1>
+            <h2 className="display-4 mb-3">Oops! Page not found.</h2>
             <p className="lead mb-4">
               It seems you've taken a detour to an undiscovered part of our
               store. Let's get you back on track to where all the excitement

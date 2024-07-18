@@ -15,7 +15,7 @@ export default function ServiceGrid() {
             <div className="text-white px-4 p-3 mb-4 fs-3 bg-primary rounded">
               {icon}
             </div>
-            <h6 className="text-uppercase">{service}</h6>
+            <h6>{service}</h6>
             <p className="text-muted">{text}</p>
           </Col>
         ))}

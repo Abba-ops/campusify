@@ -115,9 +115,7 @@ export default function UserProfileDetails() {
                   </p>
                 </Alert>
               )}
-            <h5 className="text-uppercase text-center mb-3">
-              Personal Information
-            </h5>
+            <h4 className="text-center mb-3">Personal Information</h4>
             <ListGroup>
               <ListGroup.Item className="text-center">
                 <div className="d-flex justify-content-center my-3">
@@ -129,7 +127,7 @@ export default function UserProfileDetails() {
                     src={userInfo?.data?.profilePictureURL}
                   />
                 </div>
-                <h4 className="mb-2">{`${userInfo?.data?.otherNames} ${userInfo?.data?.lastName}`}</h4>
+                <h5 className="mb-2">{`${userInfo?.data?.otherNames} ${userInfo?.data?.lastName}`}</h5>
                 <p className="mb-1">{userInfo?.data?.email}</p>
                 <div className="mb-2">
                   {userInfo?.data?.vendor ? (
@@ -190,9 +188,7 @@ export default function UserProfileDetails() {
             </ListGroup>
           </Col>
           <Col lg={8}>
-            <h5 className="text-uppercase text-center mb-3">
-              Purchase History
-            </h5>
+            <h4 className="text-center mb-3">Purchase History</h4>
             {loadingOrders ? (
               <>
                 {[...Array(5)].map((_, index) => (
@@ -208,7 +204,7 @@ export default function UserProfileDetails() {
               </div>
             ) : orders?.data?.length === 0 ? (
               <div className="text-center mt-5">
-                <h4>Oops! No orders found.</h4>
+                <h5>Oops! No orders found.</h5>
                 <p>It seems we couldn't find any orders at the moment.</p>
               </div>
             ) : (

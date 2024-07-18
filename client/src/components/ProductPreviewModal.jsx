@@ -39,9 +39,7 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
               </div>
             </Col>
             <Col lg={6}>
-              <Modal.Title className="text-uppercase mb-3">
-                {product?.productName}
-              </Modal.Title>
+              <Modal.Title className="mb-3">{product?.productName}</Modal.Title>
               <div className="mb-3">
                 <StarRating
                   value={product?.rating}

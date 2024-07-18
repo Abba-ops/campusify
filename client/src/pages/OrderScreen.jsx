@@ -61,7 +61,7 @@ export default function OrderScreen() {
           <Col lg={8} className="mb-5 mb-lg-0">
             {isError ? (
               <div className="text-center mt-5">
-                <h4 className="text-danger">Error Loading Order</h4>
+                <h5 className="text-danger">Error Loading Order</h5>
                 <p className="mt-3">
                   Failed to load order details. Please try again later.
                 </p>
@@ -75,7 +75,7 @@ export default function OrderScreen() {
             ) : (
               <ListGroup>
                 <ListGroup.Item>
-                  <h5 className="text-uppercase my-2">Summary of Your Order</h5>
+                  <h5 className="my-2">Summary of Your Order</h5>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <ListGroup variant="flush">
@@ -108,7 +108,7 @@ export default function OrderScreen() {
                   </ListGroup>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <h5 className="text-uppercase my-2">Items in Your Order</h5>
+                  <h5 className="my-2">Items in Your Order</h5>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <ListGroup variant="flush">

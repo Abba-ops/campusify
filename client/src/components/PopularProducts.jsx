@@ -16,7 +16,7 @@ export default function PopularProducts() {
     <section className="py-5">
       <div className="text-center mb-4 position-relative">
         <p className="text-muted mb-3">Top Rated Selection</p>
-        <h2 className="text-uppercase">Popular Products</h2>
+        <h2>Popular Products</h2>
         <div
           className="d-none d-md-flex position-absolute"
           style={{
@@ -27,7 +27,7 @@ export default function PopularProducts() {
           }}>
           <Link
             to="/popular"
-            className="d-flex align-items-center text-decoration-none fw-medium">
+            className="d-flex align-items-center text-decoration-none">
             Explore More <FaChevronRight className="mx-2" />
           </Link>
         </div>

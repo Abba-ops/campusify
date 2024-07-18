@@ -22,7 +22,7 @@ export default function ErrorPage() {
         <Container>
           <Row className="justify-content-center align-items-center text-center">
             <Col lg={8}>
-              <h1 className="display-4 mb-3">Oops! Something Went Wrong</h1>
+              <h2 className="display-4 mb-3">Oops! Something Went Wrong</h2>
               <p className="lead mb-4">
                 We encountered an issue. It seems there's a problem with your
                 internet connection. Please check and try again. If the problem

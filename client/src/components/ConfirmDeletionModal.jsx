@@ -32,9 +32,7 @@ export default function ConfirmDeletionModal({
   return (
     <Modal show={showDelete} onHide={handleCloseDelete} centered>
       <Modal.Body>
-        <Modal.Title className="mb-3 text-uppercase">
-          Confirm Deletion
-        </Modal.Title>
+        <Modal.Title className="mb-3">Confirm Deletion</Modal.Title>
         <p>
           By confirming account deletion, you will permanently erase all your
           data, including profile information, order history, and preferences.

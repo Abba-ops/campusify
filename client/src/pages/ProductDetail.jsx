@@ -214,9 +214,7 @@ export default function ProductDetail() {
                     description={productData?.data?.productDescription}
                     keywords={`${productData?.data?.productName}, ${productData?.data?.vendor?.vendorName}, ${productData?.data?.category?.name}, product, ecommerce, online shopping`}
                   />
-                  <h3 className="text-uppercase mb-3">
-                    {productData?.data?.productName}
-                  </h3>
+                  <h3 className="mb-3">{productData?.data?.productName}</h3>
                   <div className="mb-3">
                     <StarRating
                       value={productData?.data?.rating}
@@ -300,7 +298,7 @@ export default function ProductDetail() {
             </Col>
             <Col lg={3} className="mb-6">
               {!loadingBestSellingProducts && (
-                <h4 className="text-uppercase text-center">Other Products</h4>
+                <h4 className="text-center">Other Products</h4>
               )}
               <CarouselProducts
                 lgColumnSize={1}
@@ -348,9 +346,7 @@ export default function ProductDetail() {
                 </div>
               ) : (
                 <>
-                  <h5 className="text-uppercase mb-3">
-                    What Our Customers Say
-                  </h5>
+                  <h5 className="mb-3">What Our Customers Say</h5>
                   {productData && productData?.data?.reviews?.length === 0 && (
                     <>
                       <Alert variant="warning" className="rounded-0 border-0">
@@ -430,9 +426,7 @@ export default function ProductDetail() {
                       </div>
                     )}
                     <div className="mb-5">
-                      <h5 className="text-uppercase mb-3">
-                        Share Your Experience
-                      </h5>
+                      <h5 className="mb-3">Share Your Experience</h5>
                       {userInfo ? (
                         <Form onSubmit={handleReviewSubmit}>
                           <div className="mb-3">

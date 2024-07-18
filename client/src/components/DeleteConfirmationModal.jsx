@@ -19,7 +19,7 @@ export default function DeleteConfirmationModal({
     <>
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title className="text-uppercase">{headingText}</Modal.Title>
+          <Modal.Title>{headingText}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{bodyText}</Modal.Body>
         <Modal.Footer>

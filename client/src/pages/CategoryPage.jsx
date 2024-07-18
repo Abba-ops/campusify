@@ -102,7 +102,7 @@ export default function CategoryPage() {
                       .replace(/\s+/g, "-")}/${subcategory?.name
                       .toLowerCase()
                       .replace(/\s+/g, "-")}/${subcategory?._id}`}
-                    className="text-decoration-none text-uppercase fw-semibold">
+                    className="text-decoration-none fw-semibold">
                     {subcategory?.name}
                   </Link>
                 </ListGroup.Item>
@@ -112,7 +112,7 @@ export default function CategoryPage() {
         <Col lg={9}>
           {isError ? (
             <div className="text-center mt-5">
-              <h4 className="text-danger">Error Fetching Products</h4>
+              <h5 className="text-danger">Error Fetching Products</h5>
               <p className="mt-3">
                 Sorry, we couldn't retrieve the products at the moment. Please
                 try again later or contact support.
@@ -122,7 +122,7 @@ export default function CategoryPage() {
             <>
               {sortedProducts?.length === 0 && !isLoading && (
                 <div className="text-center mt-5">
-                  <h4>No products found in this category</h4>
+                  <h5>No products found in this category</h5>
                   <p>Please check back later or explore other categories.</p>
                 </div>
               )}

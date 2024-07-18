@@ -71,9 +71,7 @@ export default function UserRegistration() {
         keywords="Campusify, sign up, register, campus marketplace"
       />
       <Container>
-        <h5 className="border-bottom pb-3 text-uppercase text-center">
-          Create a New Account
-        </h5>
+        <h4 className="border-bottom pb-3 text-center">Create a New Account</h4>
         <Row className="justify-content-center">
           <Col lg={8}>
             <Card className="my-3 py-3">

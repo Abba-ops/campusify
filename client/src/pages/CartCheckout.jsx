@@ -99,7 +99,7 @@ export default function CartCheckout() {
           <Col lg={8} className="mb-5 mb-lg-0">
             <ListGroup>
               <ListGroup.Item>
-                <h5 className="text-uppercase my-2">Complete Your Purchase</h5>
+                <h5 className="my-2">Complete Your Purchase</h5>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Form className="py-3">

@@ -49,7 +49,7 @@ export default function CarouselProducts({
         </div>
       ) : (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Fetching Products</h4>
+          <h5 className="text-danger">Error Fetching Products</h5>
           <p className="mt-3">
             Sorry, we couldn't retrieve the products at the moment. Please try
             again later or contact support.

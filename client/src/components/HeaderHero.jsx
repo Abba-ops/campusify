@@ -25,7 +25,7 @@ export default function HeaderHero() {
           </Carousel>
         </div>
         <div className="col-lg-6 order-lg-1 text-center text-lg-start">
-          <h1 className="display-5 fw-bold lh-sm mb-3 d-none d-lg-block">
+          <h1 className="display-5 fw-medium lh-sm mb-3 d-none d-lg-block">
             Empowering Campus Entrepreneurs
           </h1>
           <p className="lead fw-normal d-none d-lg-block text-muted">

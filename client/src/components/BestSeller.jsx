@@ -22,7 +22,7 @@ export default function BestSeller() {
         <Col lg={6} className="mb-5 mb-lg-0">
           <div className="text-center">
             <p className="text-muted mb-3">Best Selling Collection</p>
-            <h2 className="text-uppercase mb-4">Best Sellers</h2>
+            <h2 className="mb-4">Best Sellers</h2>
           </div>
           <CarouselProducts
             lgColumnSize={2}
