@@ -1,4 +1,3 @@
-import React from "react";
 import { useGetOrderByIdQuery } from "../../features/ordersApiSlice";
 import { Breadcrumb, Card, Col, Row, ListGroup, Image } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
@@ -24,7 +23,7 @@ export default function AdminOrderDetails() {
 
       {isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Loading Order Details</h4>
+          <h5 className="text-danger">Error Loading Order Details</h5>
           <p className="mt-3">
             Failed to load order details. Please try again later.
           </p>

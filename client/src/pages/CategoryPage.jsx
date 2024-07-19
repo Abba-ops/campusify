@@ -79,9 +79,7 @@ export default function CategoryPage() {
                 <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                <Link to={`/category/${category}/${category?._id}`}>
-                  {formattedCategoryName}
-                </Link>
+                {formattedCategoryName}
               </li>
             </ol>
           </nav>
@@ -90,8 +88,8 @@ export default function CategoryPage() {
       <Row>
         <Col lg={3} className="d-none d-lg-block">
           <ListGroup className="rounded-0">
-            <ListGroup.Item className="text-bg-dark">
-              <h5 className="text-uppercase">{selectedCategory?.name}</h5>
+            <ListGroup.Item as={"h5"} className="text-bg-dark text-uppercase">
+              {selectedCategory?.name}
             </ListGroup.Item>
             {selectedCategory &&
               selectedCategory?.subcategories?.map((subcategory) => (

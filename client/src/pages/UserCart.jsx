@@ -94,7 +94,7 @@ export default function UserCart() {
           <Col lg={8}>
             <ListGroup>
               <ListGroup.Item>
-                <h4 className="my-2">Your Shopping Cart</h4>
+                <h5 className="my-2">Your Shopping Cart</h5>
               </ListGroup.Item>
               {cartItems?.length === 0 ? (
                 <ListGroup.Item>

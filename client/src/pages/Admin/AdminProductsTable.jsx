@@ -190,7 +190,7 @@ export default function AdminProductsTable() {
       </div>
       {isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Fetching Products</h4>
+          <h5 className="text-danger">Error Fetching Products</h5>
           <p className="mt-3">
             Sorry, we couldn't retrieve the products at the moment. Please try
             again later or contact support.
@@ -206,7 +206,7 @@ export default function AdminProductsTable() {
         <>
           {filteredProducts?.length === 0 ? (
             <div className="text-center mt-5">
-              <h4>No Products Found</h4>
+              <h5>No Products Found</h5>
               <p>
                 Apologies, but we couldn't find any products matching your
                 search criteria at the moment.
@@ -334,8 +334,7 @@ export default function AdminProductsTable() {
                     <Button
                       type="submit"
                       variant="dark"
-                      disabled={newCategory.length === 0}
-                      className="text-uppercase fw-semibold">
+                      disabled={newCategory.length === 0}>
                       Add
                     </Button>
                   </InputGroup>
@@ -425,8 +424,7 @@ export default function AdminProductsTable() {
                       <Button
                         type="submit"
                         variant="dark"
-                        disabled={newSubcategory.length === 0}
-                        className="text-uppercase fw-semibold">
+                        disabled={newSubcategory.length === 0}>
                         Add
                       </Button>
                     </InputGroup>
@@ -438,7 +436,7 @@ export default function AdminProductsTable() {
         </Row>
         {categories && categories?.data?.length === 0 && (
           <div className="text-center mt-5">
-            <h4>No categories found</h4>
+            <h5>No categories found</h5>
             <p>There are currently no categories available.</p>
           </div>
         )}

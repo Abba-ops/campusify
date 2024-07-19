@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import {
-  Badge,
-  Button,
   Col,
   Container,
-  Dropdown,
   Image,
   Nav,
   Navbar,
@@ -19,7 +16,6 @@ import {
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RiNotification3Line } from "react-icons/ri";
 import UserProfileDropdown from "../components/UserProfileDropdown";
 import { useLogoutUserMutation } from "../features/usersApiSlice";
 import { clearCredentials } from "../features/authSlice";
@@ -140,80 +136,6 @@ export default function VendorLayout() {
               gap={4}
               direction="horizontal"
               className="justify-content-end">
-              <Dropdown align="end" show={showMessagesDropdown}>
-                <Nav.Link onClick={toggleMessagesDropdown}>
-                  <div className="position-relative">
-                    <RiNotification3Line size={24} />
-                    {notifications && notifications.data.length > 0 && (
-                      <Badge
-                        pill
-                        bg="primary"
-                        className="position-absolute top-0 start-100 translate-middle">
-                        {unreadNotifications.length}
-                      </Badge>
-                    )}
-                  </div>
-                </Nav.Link>
-                {isLoading ? (
-                  <Dropdown.Menu>
-                    <div className="notification-dropdown">
-                      <div>Loading...</div>
-                    </div>
-                  </Dropdown.Menu>
-                ) : (
-                  <Dropdown.Menu>
-                    {notifications && notifications.data.length > 0 ? (
-                      notifications.data
-                        .filter((notification) => !notification.read)
-                        .slice(0, 3)
-                        .map((notification) => (
-                          <div
-                            className="notification-dropdown"
-                            key={notification._id}>
-                            <Link
-                              to={`/vendor/dashboard/orders/${notification.orderId}`}
-                              className="text-decoration-none d-none d-lg-block">
-                              {notification.message}
-                            </Link>
-                            <Link
-                              to={`/vendor/dashboard/orders/${notification.orderId}`}
-                              className="text-decoration-none text-wrap d-lg-none">
-                              {notification.message}
-                            </Link>
-                            <Stack direction="horizontal">
-                              <Button
-                                size="sm"
-                                variant="link"
-                                disabled={
-                                  notification.read || isLoadingMarkNotification
-                                }
-                                className="text-decoration-none"
-                                onClick={() =>
-                                  handleMarkAsRead(notification._id)
-                                }>
-                                Mark as Read
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="link"
-                                className="text-decoration-none"
-                                disabled={isLoadingDeleteNotification}
-                                onClick={() =>
-                                  handleDeleteMessage(notification._id)
-                                }>
-                                Delete
-                              </Button>
-                            </Stack>
-                          </div>
-                        ))
-                    ) : (
-                      <div className="notification-dropdown">
-                        <div>No unread notifications</div>
-                      </div>
-                    )}
-                  </Dropdown.Menu>
-                )}
-              </Dropdown>
               <UserProfileDropdown
                 userInfo={userInfo}
                 isAdmin={userInfo?.data?.isAdmin}

@@ -50,7 +50,7 @@ export default function AdminUserDetails() {
         </>
       ) : isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Loading User Data</h4>
+          <h5 className="text-danger">Error Loading User Data</h5>
           <p className="mt-3">
             Failed to load user data. Please try again later.
           </p>
@@ -77,7 +77,7 @@ export default function AdminUserDetails() {
           <Col md={6}>
             <Card className="border-0 rounded-0 shadow-sm">
               <Card.Body>
-                <h6>User Details</h6>
+                <h5>User Profile Information</h5>
                 <p>
                   <strong>ID: </strong>
                   {user?.data?._id}

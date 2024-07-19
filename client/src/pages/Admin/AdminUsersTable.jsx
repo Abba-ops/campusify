@@ -112,7 +112,7 @@ export default function AdminUsersTable() {
         </>
       ) : isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Loading User Data</h4>
+          <h5 className="text-danger">Error Loading User Data</h5>
           <p className="mt-3">
             An error occurred while fetching user data. Please try again later.
           </p>
@@ -121,7 +121,7 @@ export default function AdminUsersTable() {
         <>
           {currentUsers?.length === 0 ? (
             <div className="text-center mt-5">
-              <h4>No Users Found</h4>
+              <h5>No Users Found</h5>
               <p>
                 Apologies, but we couldn't find any users matching your search
                 criteria at the moment.

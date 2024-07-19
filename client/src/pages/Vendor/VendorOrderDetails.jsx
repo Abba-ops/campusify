@@ -59,7 +59,7 @@ export default function VendorOrderDetails() {
 
       {isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Loading Order Details</h4>
+          <h5 className="text-danger">Error Loading Order Details</h5>
           <p className="mt-3">
             Failed to load order details. Please try again later.
           </p>
@@ -210,7 +210,7 @@ export default function VendorOrderDetails() {
                     <Button
                       variant="dark"
                       onClick={handleMarkOrderDelivered}
-                      className="mt-3 text-uppercase px-4 fw-semibold">
+                      className="mt-3 px-4">
                       {isLoadingMarkDelivered ? (
                         <Spinner size="sm" animation="border">
                           <span className="visually-hidden"></span>

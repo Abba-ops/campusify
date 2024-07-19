@@ -35,7 +35,7 @@ export default function VendorCustomersTable() {
 
       {isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Loading Customers Data</h4>
+          <h5 className="text-danger">Error Loading Customers Data</h5>
           <p className="mt-3">
             Failed to load customers data. Please try again later.
           </p>
@@ -48,7 +48,7 @@ export default function VendorCustomersTable() {
         </>
       ) : customers && customers?.data?.length === 0 ? (
         <div className="text-center mt-5">
-          <h4>No Customers Found</h4>
+          <h5>No Customers Found</h5>
           <p>There are currently no customers to display.</p>
         </div>
       ) : (

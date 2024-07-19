@@ -102,7 +102,7 @@ export default function AdminVendorDetails() {
       </Breadcrumb>
       {isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Loading Vendor Details</h4>
+          <h5 className="text-danger">Error Loading Vendor Details</h5>
           <p className="mt-3">
             Failed to load vendor details. Please try again later.
           </p>
@@ -133,7 +133,7 @@ export default function AdminVendorDetails() {
                     <Stack direction="horizontal" gap={3}>
                       <Button
                         variant="primary"
-                        className="text-uppercase text-white fw-semibold px-4"
+                        className="text-white px-4"
                         onClick={handleApprove}>
                         {isApproving ? (
                           <Spinner size="sm" animation="border" />
@@ -143,7 +143,7 @@ export default function AdminVendorDetails() {
                       </Button>
                       <Button
                         variant="dark"
-                        className="text-uppercase fw-semibold px-4"
+                        className="px-4"
                         onClick={handleReject}>
                         {isApproving ? (
                           <Spinner size="sm" animation="border" />
@@ -190,7 +190,7 @@ export default function AdminVendorDetails() {
               <Card.Body>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
-                    <h5>{vendor?.data?.vendorName}</h5>
+                    <h4>{vendor?.data?.vendorName}</h4>
                     <p>{vendor?.data?.vendorDescription}</p>
                     <p>{vendor?.data?.productsDescription}</p>
                     <p>

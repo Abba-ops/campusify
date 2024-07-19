@@ -87,7 +87,7 @@ export default function VendorProductsTable() {
     <>
       {isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Fetching Products</h4>
+          <h5 className="text-danger">Error Fetching Products</h5>
           <p className="mt-3">
             Sorry, we couldn't retrieve the products at the moment. Please try
             again later or contact support.
@@ -114,7 +114,7 @@ export default function VendorProductsTable() {
                 as={Link}
                 variant="dark"
                 to="/vendor/dashboard/products/create"
-                className="d-flex align-items-center mb-3 mb-lg-0 px-4 text-uppercase fw-semibold">
+                className="d-flex align-items-center mb-3 mb-lg-0 px-4">
                 Create New Product
               </Button>
             </div>
@@ -138,14 +138,14 @@ export default function VendorProductsTable() {
               </div>
               {vendorProducts && vendorProducts?.data?.length === 0 ? (
                 <div className="text-center mt-5">
-                  <h4>No products found</h4>
+                  <h5>No products found</h5>
                   <p>This vendor doesn't have any products yet.</p>
                 </div>
               ) : (
                 <>
                   {filteredProducts?.length === 0 ? (
                     <div className="text-center mt-5">
-                      <h4>No products found</h4>
+                      <h5>No products found</h5>
                       <p>
                         There are no products matching your search criteria.
                       </p>

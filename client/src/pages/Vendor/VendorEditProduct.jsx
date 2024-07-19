@@ -307,10 +307,7 @@ export default function VendorEditProduct() {
                   </Form.Group>
                 </Col>
               </Row>
-              <Button
-                variant="dark"
-                type="submit"
-                className="text-uppercase px-4 fw-semibold">
+              <Button variant="dark" type="submit" className="px-4">
                 {updatingProduct ? (
                   <Spinner size="sm" animation="border">
                     <span className="visually-hidden"></span>

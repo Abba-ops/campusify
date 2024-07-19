@@ -97,9 +97,9 @@ export default function VendorApplication() {
         keywords="vendor application, apply to become a vendor, Campusify"
       />
       <Container>
-        <h5 className="border-bottom pb-3 text-uppercase text-center">
+        <h4 className="border-bottom pb-3 text-center">
           Apply Now to Become a Vendor!
-        </h5>
+        </h4>
         <Row className="justify-content-center">
           <Col lg={8}>
             <Card className="my-3 py-3">
@@ -258,10 +258,7 @@ export default function VendorApplication() {
                     />
                   </Form.Group>
                   <div className="d-flex justify-content-end my-3">
-                    <Button
-                      type="submit"
-                      variant="dark"
-                      className="text-uppercase px-4 fw-semibold">
+                    <Button type="submit" variant="dark" className="px-4">
                       {isLoading ? (
                         <Spinner size="sm" animation="border">
                           <span className="visually-hidden"></span>

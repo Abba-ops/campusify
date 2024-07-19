@@ -132,7 +132,7 @@ export default function UserProfileDetails() {
                 <div className="mb-2">
                   {userInfo?.data?.vendor ? (
                     userInfo?.data?.vendor?.isApproved ? (
-                      <Badge bg="success">Approved</Badge>
+                      <Badge bg="dark">Approved</Badge>
                     ) : (
                       <Badge bg="primary">Not Approved</Badge>
                     )

@@ -138,7 +138,7 @@ export default function VendorManagementPage() {
         </>
       ) : isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Oops! Failed to retrieve vendor data</h4>
+          <h5 className="text-danger">Oops! Failed to retrieve vendor data</h5>
           <p className="mt-3">
             We're sorry, but we encountered an issue while fetching the vendor
             data. Please ensure you're connected to the internet and try again
@@ -149,7 +149,7 @@ export default function VendorManagementPage() {
         <>
           {currentVendors?.length === 0 ? (
             <div className="text-center mt-5">
-              <h4>No Vendors Found</h4>
+              <h5>No Vendors Found</h5>
               <p>
                 Sorry, but we couldn't find any vendors that match your search
                 criteria right now.

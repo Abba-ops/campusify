@@ -86,7 +86,7 @@ export default function AdminProductDetails() {
       </Breadcrumb>
       {isError ? (
         <div className="text-center mt-5">
-          <h4 className="text-danger">Error Loading Product Details</h4>
+          <h5 className="text-danger">Error Loading Product Details</h5>
           <p className="mt-3">
             Failed to load product details. Please try again later.
           </p>
@@ -172,7 +172,7 @@ export default function AdminProductDetails() {
                     <Button
                       variant="dark"
                       onClick={handleLoadMore}
-                      className="text-uppercase my-4 px-4 fw-semibold">
+                      className="my-4 px-4">
                       Load More
                     </Button>
                   )}

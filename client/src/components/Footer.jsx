@@ -1,7 +1,6 @@
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { footerLinks } from "../constants";
-import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -53,17 +52,6 @@ export default function Footer() {
             <span className="text-primary">Campusify</span>. All rights
             reserved.
           </p>
-          <ul className="list-unstyled d-flex">
-            <li className="ms-3">
-              <FaFacebookF size={24} />
-            </li>
-            <li className="ms-3">
-              <FaTwitter size={24} />
-            </li>
-            <li className="ms-3">
-              <FaInstagram size={24} />
-            </li>
-          </ul>
         </div>
       </div>
     </footer>
