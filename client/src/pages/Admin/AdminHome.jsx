@@ -28,10 +28,14 @@ export default function AdminHome() {
     },
   ];
 
-  const systemAlerts = [
-    { id: 1, message: "Server load high." },
-    { id: 2, message: "New security update available." },
-    { id: 3, message: "Backup completed successfully." },
+  const recentMessages = [
+    { id: 1, sender: "User123", message: "Having issues with order #456." },
+    { id: 2, sender: "Vendor456", message: "Product out of stock update." },
+    {
+      id: 3,
+      sender: "User789",
+      message: "Requesting a refund for order #789.",
+    },
   ];
 
   const tasks = [
@@ -127,11 +131,11 @@ export default function AdminHome() {
         <Col lg={4} className="mb-4">
           <Card>
             <Card.Body>
-              <Card.Title>System Alerts</Card.Title>
+              <Card.Title>Recent Messages</Card.Title>
               <ListGroup variant="flush">
-                {systemAlerts.map((alert) => (
-                  <ListGroup.Item key={alert.id}>
-                    {alert.message}
+                {recentMessages.map((message) => (
+                  <ListGroup.Item key={message.id}>
+                    <strong>{message.sender}:</strong> {message.message}
                   </ListGroup.Item>
                 ))}
               </ListGroup>
