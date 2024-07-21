@@ -40,7 +40,7 @@ export default function FeaturedProductsPage() {
       <Container className="py-5">
         <Row className="mb-4">
           <Col>
-            <h4 className="mb-3 text-center">Featured Collection</h4>
+            <h4 className="mb-3 text-center">Highlighted Products</h4>
           </Col>
         </Row>
         {isError ? (

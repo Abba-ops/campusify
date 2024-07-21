@@ -8,7 +8,6 @@ const notificationSchema = new mongoose.Schema(
     },
     orderId: {
       type: String,
-      required: true,
     },
     message: {
       type: String,
@@ -16,7 +15,7 @@ const notificationSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["new_order", "order_delivered"],
+      enum: ["new_order", "order_delivered", "new_product", "order_received"],
       required: true,
     },
     read: {

@@ -7,6 +7,9 @@ import {
   genToken,
 } from "../utilities/index.js";
 import axios from "axios";
+import Order from "../models/orderModel.js";
+import Task from "../models/taskModel.js";
+import Notification from "../models/notificationSchema.js";
 
 /**
  * @desc    Authenticate user
@@ -253,5 +256,40 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
     success: true,
     data: constructUserData(user, vendor),
     message: "User retrieved successfully.",
+  });
+});
+
+/**
+ * @desc    Get admin dashboard data
+ * @route   GET /api/admin/dashboard
+ * @access  Private/Admin
+ */
+export const getAdminDashboard = asyncHandler(async (req, res) => {
+  const totalUsers = await User.countDocuments({});
+  const totalOrders = await Order.countDocuments({});
+  const totalRevenue = 15000;
+  const activeUsers = totalUsers;
+
+  const recentMessages = [];
+
+  const recentActivities = await Notification.find({})
+    .sort({ createdAt: -1 })
+    .limit(5);
+
+  const tasks = await Task.find({ role: "admin", userId: req.user._id });
+
+  res.status(200).json({
+    success: true,
+    data: {
+      stats: {
+        totalUsers,
+        totalOrders,
+        totalRevenue,
+        activeUsers,
+      },
+      recentActivities,
+      recentMessages,
+      tasks,
+    },
   });
 });

@@ -10,6 +10,7 @@ import {
   updateUserPassword,
   deleteMyAccount,
   getCurrentUser,
+  getAdminDashboard,
 } from "../controllers/userController.js";
 import { isAdmin, isLoggedIn } from "../middlewares/authMiddleware.js";
 import {
@@ -19,6 +20,7 @@ import {
 
 const router = express.Router();
 
+router.get("/dashboard", isLoggedIn, isAdmin, getAdminDashboard);
 router.post("/auth", validateLogin, authUser);
 router.post("/logout", isLoggedIn, logoutUser);
 

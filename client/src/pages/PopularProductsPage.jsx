@@ -40,7 +40,7 @@ export default function PopularProductsPage() {
       <Container className="py-5">
         <Row className="mb-4">
           <Col>
-            <h4 className="mb-3 text-center">Popular Collection</h4>
+            <h4 className="mb-3 text-center">Most Popular Products</h4>
           </Col>
         </Row>
         {isError ? (

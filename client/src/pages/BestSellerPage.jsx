@@ -40,7 +40,7 @@ export default function BestSellerPage() {
       <Container className="py-5">
         <Row className="mb-4">
           <Col>
-            <h4 className="mb-3 text-center">Best Sellers</h4>
+            <h4 className="mb-3 text-center">Top Selling Products</h4>
           </Col>
         </Row>
         {isError ? (

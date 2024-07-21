@@ -2,6 +2,7 @@ import cloudinary from "../config/cloudinary.js";
 import { Product } from "../models/productModel.js";
 import Vendor from "../models/vendorModel.js";
 import jwt from "jsonwebtoken";
+import path from "path";
 
 /**
  * Generates a JWT token and sets it as a cookie in the response.

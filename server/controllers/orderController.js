@@ -232,6 +232,14 @@ export const markOrderAsReceived = asyncHandler(async (req, res) => {
 
   await order.save();
 
+  const notification = new Notification({
+    recipientId: orderItem.vendor._id,
+    message: `Order ${orderId} item ${itemId} received.`,
+    type: "order_received",
+  });
+
+  await notification.save();
+
   res
     .status(200)
     .json({ message: "Order item marked as received", success: true });

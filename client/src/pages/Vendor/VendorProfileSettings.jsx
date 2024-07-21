@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Form,
-  Button,
-  Image,
-} from "react-bootstrap";
+import { Row, Col, Card, Form, Button, Image } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 export default function VendorProfileSettings() {
@@ -29,31 +21,44 @@ export default function VendorProfileSettings() {
   });
 
   useEffect(() => {
-    setVendorData({
-      vendorName: userInfo?.data?.vendor?.vendorName,
-      vendorEmail: userInfo?.data?.vendor?.vendorEmail,
-      vendorPhone: userInfo?.data?.vendor?.vendorPhone,
-      productsDescription: userInfo?.data?.vendor?.productsDescription,
-      vendorDescription: userInfo?.data?.vendor?.vendorDescription,
-      estimatedDeliveryTime: userInfo?.data?.vendor?.estimatedDeliveryTime,
-      vendorLogo: userInfo?.data?.vendor?.vendorLogo,
-      socialMediaLinks: userInfo?.data?.vendor?.socialMediaLinks,
-    });
+    if (userInfo?.data?.vendor) {
+      const {
+        vendorName,
+        vendorEmail,
+        vendorPhone,
+        productsDescription,
+        vendorDescription,
+        estimatedDeliveryTime,
+        vendorLogo,
+        socialMediaLinks,
+      } = userInfo.data.vendor;
+
+      setVendorData({
+        vendorName,
+        vendorEmail,
+        vendorPhone,
+        productsDescription,
+        vendorDescription,
+        estimatedDeliveryTime,
+        vendorLogo,
+        socialMediaLinks,
+      });
+    }
   }, [userInfo]);
 
   const [logoFile, setLogoFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setVendorData({ ...vendorData, [name]: value });
+    setVendorData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSocialMediaChange = (e) => {
     const { name, value } = e.target;
-    setVendorData({
-      ...vendorData,
-      socialMediaLinks: { ...vendorData.socialMediaLinks, [name]: value },
-    });
+    setVendorData((prevData) => ({
+      ...prevData,
+      socialMediaLinks: { ...prevData.socialMediaLinks, [name]: value },
+    }));
   };
 
   const handleLogoChange = (e) => {
@@ -63,22 +68,23 @@ export default function VendorProfileSettings() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("vendorName", vendorData.vendorName);
-    formData.append("vendorEmail", vendorData.vendorEmail);
-    formData.append("vendorPhone", vendorData.vendorPhone);
-    formData.append("productsDescription", vendorData.productsDescription);
-    formData.append("vendorDescription", vendorData.vendorDescription);
-    formData.append("estimatedDeliveryTime", vendorData.estimatedDeliveryTime);
+    Object.keys(vendorData).forEach((key) => {
+      if (key === "socialMediaLinks") {
+        Object.keys(vendorData.socialMediaLinks).forEach((socialKey) => {
+          formData.append(socialKey, vendorData.socialMediaLinks[socialKey]);
+        });
+      } else {
+        formData.append(key, vendorData[key]);
+      }
+    });
+
     if (logoFile) {
       formData.append("vendorLogo", logoFile);
-    }
-    for (const [key, value] of Object.entries(vendorData.socialMediaLinks)) {
-      formData.append(key, value);
     }
   };
 
   return (
-    <Container fluid className="mt-3">
+    <>
       <div>
         <h2>Vendor Profile Settings</h2>
         <p>
@@ -86,6 +92,7 @@ export default function VendorProfileSettings() {
           up-to-date vendor profile.
         </p>
       </div>
+
       <Row>
         <Col md={6} className="mb-4">
           <Card className="rounded-0">
@@ -221,6 +228,6 @@ export default function VendorProfileSettings() {
           </Card>
         </Col>
       </Row>
-    </Container>
+    </>
   );
 }

@@ -23,6 +23,7 @@ export const PRODUCTS_URL = "/api/products";
 export const VENDORS_URL = "/api/vendors";
 export const UPLOAD_URL = "/api/upload";
 export const ORDERS_URL = "/api/orders";
+export const TASKS_URL = "/api/task";
 
 export const adminLinks = [
   {

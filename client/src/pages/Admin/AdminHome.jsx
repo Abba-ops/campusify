@@ -1,48 +1,33 @@
-import React from "react";
-import { Container, Row, Col, Card, Table, ListGroup } from "react-bootstrap";
+import React, { useState } from "react";
+import {
+  Row,
+  Col,
+  Card,
+  Table,
+  ListGroup,
+  Form,
+  Button,
+} from "react-bootstrap";
+import { useGetAdminDashboardQuery } from "../../features/usersApiSlice";
+import TablePlaceholder from "../../components/TablePlaceholder";
+import {
+  useCreateTaskMutation,
+  useUpdateTaskMutation,
+} from "../../features/tasksApiSlice";
+import { toast } from "react-toastify";
 
 export default function AdminHome() {
-  const stats = {
-    totalUsers: 500,
-    activeUsers: 300,
-    totalOrders: 1000,
-    revenue: 15000,
-    pendingReviews: 20,
-    systemAlerts: 5,
-  };
+  const [newTask, setNewTask] = useState("");
 
-  const recentActivities = [
-    { id: 1, user: "Admin", action: "Updated user roles.", date: "2024-07-20" },
-    { id: 2, user: "Admin", action: "Fixed system bug.", date: "2024-07-19" },
-    {
-      id: 3,
-      user: "Admin",
-      action: "Reviewed pending reviews.",
-      date: "2024-07-18",
-    },
-    {
-      id: 4,
-      user: "Admin",
-      action: "Added new analytics dashboard.",
-      date: "2024-07-17",
-    },
-  ];
+  const [createTask] = useCreateTaskMutation();
+  const [updateTask] = useUpdateTaskMutation();
 
-  const recentMessages = [
-    { id: 1, sender: "User123", message: "Having issues with order #456." },
-    { id: 2, sender: "Vendor456", message: "Product out of stock update." },
-    {
-      id: 3,
-      sender: "User789",
-      message: "Requesting a refund for order #789.",
-    },
-  ];
-
-  const tasks = [
-    { id: 1, task: "Review system logs.", completed: false },
-    { id: 2, task: "Update system documentation.", completed: false },
-    { id: 3, task: "Check pending user registrations.", completed: true },
-  ];
+  const {
+    data: adminDashboard,
+    isError,
+    isLoading,
+    refetch,
+  } = useGetAdminDashboardQuery();
 
   const getCurrentGreeting = () => {
     const hours = new Date().getHours();
@@ -51,111 +36,202 @@ export default function AdminHome() {
     return "Good evening";
   };
 
+  const stats = adminDashboard?.data?.stats || {};
+  const recentMessages = adminDashboard?.data?.recentMessages || [];
+  const recentActivities = adminDashboard?.data?.recentActivities || [];
+  const tasks = adminDashboard?.data?.tasks || [];
+
+  const handleTaskSubmit = async (e) => {
+    e.preventDefault();
+    if (newTask.trim()) {
+      try {
+        await createTask({ task: newTask, role: "admin" });
+        setNewTask("");
+        refetch();
+      } catch (error) {
+        toast.error((error && error?.data?.message) || "Error creating task");
+      }
+    }
+  };
+
+  const handleTaskToggle = async (task) => {
+    try {
+      const res = await updateTask({
+        ...task,
+        completed: !task.completed,
+      }).unwrap();
+      if (res.success) {
+        refetch();
+      }
+    } catch (error) {
+      toast.error((error && error?.data?.message) || "Error updating task");
+    }
+  };
+
   return (
-    <Container fluid className="mt-3">
-      <Row className="mb-4">
-        <Col>
-          <h2 className="text-start">{getCurrentGreeting()}, Admin!</h2>
-        </Col>
-      </Row>
-      <Row className="mb-4">
-        <Col md={6} lg={3} className="mb-3">
-          <Card>
-            <Card.Body>
-              <Card.Title>Total Users</Card.Title>
-              <Card.Text>
-                Total Users: <strong>{stats.totalUsers}</strong>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={6} lg={3} className="mb-3">
-          <Card>
-            <Card.Body>
-              <Card.Title>Active Users</Card.Title>
-              <Card.Text>
-                Active Users: <strong>{stats.activeUsers}</strong>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={6} lg={3} className="mb-3">
-          <Card>
-            <Card.Body>
-              <Card.Title>Total Orders</Card.Title>
-              <Card.Text>
-                Total Orders: <strong>{stats.totalOrders}</strong>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={6} lg={3} className="mb-3">
-          <Card>
-            <Card.Body>
-              <Card.Title>Revenue</Card.Title>
-              <Card.Text>
-                Total Revenue: <strong>${stats.revenue}</strong>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={8} className="mb-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Recent Activities</Card.Title>
-              <Table striped bordered hover responsive>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>User</th>
-                    <th>Action</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentActivities.map((activity) => (
-                    <tr key={activity.id}>
-                      <td>{activity.id}</td>
-                      <td>{activity.user}</td>
-                      <td>{activity.action}</td>
-                      <td>{activity.date}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col lg={4} className="mb-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Recent Messages</Card.Title>
-              <ListGroup variant="flush">
-                {recentMessages.map((message) => (
-                  <ListGroup.Item key={message.id}>
-                    <strong>{message.sender}:</strong> {message.message}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </Card.Body>
-          </Card>
-          <Card className="mt-3">
-            <Card.Body>
-              <Card.Title>Tasks</Card.Title>
-              <ListGroup variant="flush">
-                {tasks.map((task) => (
-                  <ListGroup.Item key={task.id}>
-                    <input type="checkbox" checked={task.completed} readOnly />{" "}
-                    {task.task}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <div>
+        <h2>{getCurrentGreeting()}, Admin!</h2>
+        <p>
+          Welcome to the admin dashboard. Manage users, monitor activities, and
+          view recent messages here.
+        </p>
+      </div>
+
+      {isError ? (
+        <div className="text-center mt-5">
+          <h5 className="text-danger">Error Loading Dashboard Data</h5>
+          <p className="mt-3">
+            Failed to load dashboard data. Please try again later.
+          </p>
+        </div>
+      ) : isLoading ? (
+        <>
+          {[...Array(6)].map((_, index) => (
+            <TablePlaceholder key={index} />
+          ))}
+        </>
+      ) : (
+        <>
+          <Row className="mb-4">
+            <Col md={6} lg={3} className="mb-3">
+              <Card className="text-center rounded-0">
+                <Card.Body>
+                  <Card.Title>Total Users</Card.Title>
+                  <Card.Text>
+                    <strong>{stats.totalUsers}</strong>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={6} lg={3} className="mb-3">
+              <Card className="text-center rounded-0">
+                <Card.Body>
+                  <Card.Title>Active Users</Card.Title>
+                  <Card.Text>
+                    <strong>{stats.activeUsers}</strong>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={6} lg={3} className="mb-3">
+              <Card className="text-center rounded-0">
+                <Card.Body>
+                  <Card.Title>Total Orders</Card.Title>
+                  <Card.Text>
+                    <strong>{stats.totalOrders}</strong>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={6} lg={3} className="mb-3">
+              <Card className="text-center rounded-0">
+                <Card.Body>
+                  <Card.Title>Revenue</Card.Title>
+                  <Card.Text>
+                    <strong>&#8358;{stats.totalRevenue}</strong>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col lg={8} className="mb-4">
+              <Card className="rounded-0">
+                <Card.Body>
+                  <Card.Title>Recent Activities</Card.Title>
+                  {recentActivities.length > 0 ? (
+                    <Table striped bordered hover responsive>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Type</th>
+                          <th>Action</th>
+                          <th>Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {recentActivities.map((activity, index) => (
+                          <tr key={activity._id}>
+                            <td>{index + 1}</td>
+                            <td>{activity.type}</td>
+                            <td>{activity.message}</td>
+                            <td>
+                              {new Date(
+                                activity.createdAt
+                              ).toLocaleDateString()}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  ) : (
+                    <p className="text-center mt-3">
+                      No recent activities available
+                    </p>
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col lg={4} className="mb-4">
+              <Card className="rounded-0">
+                <Card.Body>
+                  <Card.Title>Recent Messages</Card.Title>
+                  {recentMessages.length > 0 ? (
+                    <ListGroup variant="flush">
+                      {recentMessages.map((message) => (
+                        <ListGroup.Item key={message.id}>
+                          <strong>{message.sender}:</strong> {message.message}
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  ) : (
+                    <p className="text-center mt-3">
+                      No recent messages available
+                    </p>
+                  )}
+                </Card.Body>
+              </Card>
+              <Card className="mt-3 rounded-0">
+                <Card.Body>
+                  <Card.Title>Tasks</Card.Title>
+                  {tasks.length > 0 ? (
+                    <ListGroup variant="flush">
+                      {tasks.map((task) => (
+                        <ListGroup.Item key={task.id}>
+                          <input
+                            type="checkbox"
+                            checked={task.completed}
+                            onChange={() => handleTaskToggle(task)}
+                          />{" "}
+                          {task.task}
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  ) : (
+                    <p className="text-center mt-3">No tasks available</p>
+                  )}
+                  <Form onSubmit={handleTaskSubmit} className="mt-3">
+                    <Form.Group controlId="formTask">
+                      <Form.Label>Add New Task</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter task"
+                        value={newTask}
+                        onChange={(e) => setNewTask(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Button variant="dark" type="submit" className="mt-2">
+                      Add Task
+                    </Button>
+                  </Form>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      )}
+    </>
   );
 }

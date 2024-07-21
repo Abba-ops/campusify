@@ -2,6 +2,7 @@ import { asyncHandler, extractPublicId } from "../utilities/index.js";
 import { Category, Product } from "../models/productModel.js";
 import cloudinary from "../config/cloudinary.js";
 import Vendor from "../models/vendorModel.js";
+import Notification from "../models/notificationSchema.js";
 
 /**
  * @desc    Fetch all products
@@ -158,6 +159,14 @@ export const createProduct = asyncHandler(async (req, res) => {
     res.status(500);
     throw new Error("Failed to create product.");
   }
+
+  const notification = new Notification({
+    recipientId: vendor._id,
+    message: "A new product has been created.",
+    type: "new_product",
+  });
+
+  await notification.save();
 
   res.status(201).json({
     success: true,

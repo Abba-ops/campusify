@@ -19,10 +19,12 @@ import {
   deleteNotification,
   getUserVendorProduct,
   getVendorProfile,
+  getVendorDashboard,
 } from "../controllers/vendorController.js";
 
 const router = express.Router();
 
+router.get("/dashboard", isLoggedIn, isVendor, getVendorDashboard);
 router.get("/profile/:vendorId", getVendorProfile);
 router
   .route("/notifications/:notificationId")

@@ -60,6 +60,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getAdminDashboard: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/dashboard/`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -73,4 +79,5 @@ export const {
   useGetUserByIdQuery,
   useDeleteUserMutation,
   useGetUserProfileQuery,
+  useGetAdminDashboardQuery,
 } = usersApiSlice;

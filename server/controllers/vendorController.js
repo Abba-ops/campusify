@@ -1,10 +1,15 @@
-import { asyncHandler, extractPublicId } from "../utilities/index.js";
+import {
+  asyncHandler,
+  calculateOrderPrices,
+  extractPublicId,
+} from "../utilities/index.js";
 import cloudinary from "../config/cloudinary.js";
 import Notification from "../models/notificationSchema.js";
 import Order from "../models/orderModel.js";
 import { Product } from "../models/productModel.js";
 import User from "../models/userModel.js";
 import Vendor from "../models/vendorModel.js";
+import Task from "../models/taskModel.js";
 
 /**
  * @desc    Get all vendors
@@ -331,4 +336,69 @@ export const getVendorProfile = asyncHandler(async (req, res) => {
   const vendor = await Vendor.findById(vendorId);
 
   res.status(200).json({ success: true, data: vendor });
+});
+
+/**
+ * @desc    Get vendor dashboard data
+ * @route   GET /api/vendors/dashboard
+ * @access  Private (Vendor)
+ */
+export const getVendorDashboard = asyncHandler(async (req, res) => {
+  const vendorId = req.vendor._id;
+
+  const orders = await Order.find({}).populate("user");
+
+  const customersSet = new Set();
+  orders.forEach((order) => {
+    if (order.user) {
+      customersSet.add(order.user._id);
+    }
+  });
+
+  const recentOrders = await Order.find({
+    "orderItems.vendor": vendorId,
+  })
+    .populate({
+      path: "orderItems.product",
+      match: {
+        vendor: vendorId,
+      },
+    })
+    .populate("user");
+
+  recentOrders.forEach((order) => calculateOrderPrices(order));
+
+  const totalCustomers = customersSet.size;
+
+  const totalOrders = await Order.countDocuments({
+    "orderItems.vendor": vendorId,
+  });
+
+  const notifications = await Notification.find({
+    recipientId: vendorId,
+  }).sort({ createdAt: -1 });
+
+  const totalProduct = await Product.countDocuments({ vendor: vendorId });
+
+  const totalRevenue = recentOrders.reduce(
+    (sum, order) => sum + order.totalPrice,
+    0
+  );
+
+  const tasks = await Task.find({ role: "vendor", userId: req.user._id });
+
+  res.status(200).json({
+    success: true,
+    data: {
+      stats: {
+        totalOrders,
+        totalRevenue,
+        totalProduct,
+        totalCustomers,
+      },
+      recentOrders,
+      notifications,
+      tasks,
+    },
+  });
 });

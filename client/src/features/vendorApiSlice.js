@@ -96,6 +96,12 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getVendorDashboard: builder.query({
+      query: () => ({
+        url: `${VENDORS_URL}/dashboard/`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -115,4 +121,5 @@ export const {
   useDeleteNotificationMutation,
   useGetVendorProfileQuery,
   useGetUserVendorProductQuery,
+  useGetVendorDashboardQuery,
 } = vendorApiSlice;
