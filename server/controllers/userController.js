@@ -273,7 +273,7 @@ export const getAdminDashboard = asyncHandler(async (req, res) => {
 
   const recentMessages = await Message.find({}).populate(
     "sender",
-    "name email"
+    "vendorName"
   );
 
   const recentActivities = await Notification.find({})

@@ -404,10 +404,14 @@ export const getVendorDashboard = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Send a message
-// @route   POST /api/vendors/messages
-// @access  Private (Vendor)
+/**
+ * @desc    Send a message
+ * @route   POST /api/vendors/messages
+ * @access  Private (Vendor)
+ */
 export const sendMessage = asyncHandler(async (req, res) => {
+  const vendorId = req.vendor._id;
+
   const { content } = req.body;
 
   if (!content) {
@@ -418,10 +422,52 @@ export const sendMessage = asyncHandler(async (req, res) => {
   const adminUser = await User.findOne({ isAdmin: true });
 
   const message = await Message.create({
-    sender: req.user._id,
+    sender: vendorId,
     receiver: adminUser._id,
     content,
   });
 
   res.status(201).json({ success: true, data: message });
+});
+
+/**
+ * @desc    Update vendor profile
+ * @route   PUT /api/vendor/profile
+ * @access  Private (Vendor)
+ */
+export const updateVendorProfile = asyncHandler(async (req, res) => {
+  const vendorId = req.vendor._id;
+
+  const vendor = await Vendor.findById(vendorId);
+
+  if (vendor) {
+    vendor.vendorName = req.body.vendorName || vendor.vendorName;
+    vendor.vendorEmail = req.body.vendorEmail || vendor.vendorEmail;
+    vendor.vendorPhone = req.body.vendorPhone || vendor.vendorPhone;
+    vendor.productsDescription =
+      req.body.productsDescription || vendor.productsDescription;
+    vendor.vendorDescription =
+      req.body.vendorDescription || vendor.vendorDescription;
+    vendor.estimatedDeliveryTime =
+      req.body.estimatedDeliveryTime || vendor.estimatedDeliveryTime;
+
+    vendor.socialMediaLinks = {
+      facebook:
+        req.body.socialMediaLinks?.facebook || vendor.socialMediaLinks.facebook,
+      twitter:
+        req.body.socialMediaLinks?.twitter || vendor.socialMediaLinks.twitter,
+      instagram:
+        req.body.socialMediaLinks?.instagram ||
+        vendor.socialMediaLinks.instagram,
+    };
+
+    if (req.file) {
+    }
+
+    const updatedVendor = await vendor.save();
+    res.json({ success: true, data: updatedVendor });
+  } else {
+    res.status(404);
+    throw new Error("Vendor not found");
+  }
 });

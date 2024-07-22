@@ -47,9 +47,10 @@ export default function AdminHome() {
     e.preventDefault();
     if (newTask.trim()) {
       try {
-        await createTask({ task: newTask, role: "admin" });
+        await createTask({ task: newTask, role: "admin" }).unwrap();
         setNewTask("");
         refetch();
+        toast.success("Task created successfully!");
       } catch (error) {
         toast.error((error && error?.data?.message) || "Error creating task");
       }
@@ -64,6 +65,7 @@ export default function AdminHome() {
       }).unwrap();
       if (res.success) {
         refetch();
+        toast.success("Task updated successfully!");
       }
     } catch (error) {
       toast.error((error && error?.data?.message) || "Error updating task");
@@ -101,7 +103,7 @@ export default function AdminHome() {
                 <Card.Body>
                   <Card.Title>Total Users</Card.Title>
                   <Card.Text>
-                    <strong>{stats?.totalUsers}</strong>
+                    <strong>{stats.totalUsers}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -111,7 +113,7 @@ export default function AdminHome() {
                 <Card.Body>
                   <Card.Title>Active Users</Card.Title>
                   <Card.Text>
-                    <strong>{stats?.activeUsers}</strong>
+                    <strong>{stats.activeUsers}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -121,7 +123,7 @@ export default function AdminHome() {
                 <Card.Body>
                   <Card.Title>Total Orders</Card.Title>
                   <Card.Text>
-                    <strong>{stats?.totalOrders}</strong>
+                    <strong>{stats.totalOrders}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -131,9 +133,7 @@ export default function AdminHome() {
                 <Card.Body>
                   <Card.Title>Revenue</Card.Title>
                   <Card.Text>
-                    <strong>
-                      &#8358;{formatCurrency(stats?.totalRevenue)}
-                    </strong>
+                    <strong>&#8358;{formatCurrency(stats.totalRevenue)}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -157,14 +157,12 @@ export default function AdminHome() {
                       </thead>
                       <tbody>
                         {recentActivities.map((activity, index) => (
-                          <tr key={activity?._id}>
+                          <tr key={activity._id}>
                             <td>{index + 1}</td>
-                            <td>{activity?.type}</td>
-                            <td>{activity?.message}</td>
+                            <td>{activity.type}</td>
+                            <td>{activity.message}</td>
                             <td>
-                              {new Date(
-                                activity?.createdAt
-                              ).toLocaleDateString()}
+                              {format(new Date(activity.createdAt), "PPpp")}
                             </td>
                           </tr>
                         ))}
@@ -185,11 +183,12 @@ export default function AdminHome() {
                   {recentMessages.length > 0 ? (
                     <ListGroup variant="flush">
                       {recentMessages.map((message) => (
-                        <ListGroup.Item key={message?._id}>
-                          <strong>{message?.sender?.email}:</strong>{" "}
-                          {message?.content} <br />
+                        <ListGroup.Item key={message._id}>
+                          <strong>{message.sender?.vendorName}:</strong>{" "}
+                          {message.content}
+                          <br />
                           <small className="text-muted">
-                            {format(new Date(message?.createdAt), "PPpp")}
+                            {format(new Date(message.createdAt), "PPpp")}
                           </small>
                         </ListGroup.Item>
                       ))}
@@ -207,13 +206,13 @@ export default function AdminHome() {
                   {tasks.length > 0 ? (
                     <ListGroup variant="flush">
                       {tasks.map((task) => (
-                        <ListGroup.Item key={task?._id}>
+                        <ListGroup.Item key={task._id}>
                           <input
                             type="checkbox"
-                            checked={task?.completed}
+                            checked={task.completed}
                             onChange={() => handleTaskToggle(task)}
                           />{" "}
-                          {task?.task}
+                          {task.task}
                         </ListGroup.Item>
                       ))}
                     </ListGroup>

@@ -109,6 +109,13 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateVendorProfile: builder.mutation({
+      query: (data) => ({
+        url: `${VENDORS_URL}/dashboard/profile`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -130,4 +137,5 @@ export const {
   useGetUserVendorProductQuery,
   useGetVendorDashboardQuery,
   useSendMessageMutation,
+  useUpdateVendorProfileMutation,
 } = vendorApiSlice;

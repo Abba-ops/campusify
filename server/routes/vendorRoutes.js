@@ -21,12 +21,14 @@ import {
   getVendorProfile,
   getVendorDashboard,
   sendMessage,
+  updateVendorProfile,
 } from "../controllers/vendorController.js";
 
 const router = express.Router();
 
 router.post("/messages", isLoggedIn, isVendor, sendMessage);
 router.get("/dashboard", isLoggedIn, isVendor, getVendorDashboard);
+router.put("/dashboard/profile", isLoggedIn, isVendor, updateVendorProfile);
 router.get("/profile/:vendorId", getVendorProfile);
 router
   .route("/notifications/:notificationId")

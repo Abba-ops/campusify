@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Form, Button, Image } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useUpdateVendorProfileMutation } from "../../features/vendorApiSlice";
+import { toast } from "react-toastify";
 
 export default function VendorProfileSettings() {
   const { userInfo } = useSelector((state) => state.auth);
+  const [updateVendorProfile, { isLoading }] = useUpdateVendorProfileMutation();
 
   const [vendorData, setVendorData] = useState({
     vendorName: "",
@@ -62,24 +65,21 @@ export default function VendorProfileSettings() {
   };
 
   const handleLogoChange = (e) => {
-    setLogoFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setLogoFile(URL.createObjectURL(file));
+      setVendorData((prevData) => ({ ...prevData, vendorLogo: file.name }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    Object.keys(vendorData).forEach((key) => {
-      if (key === "socialMediaLinks") {
-        Object.keys(vendorData.socialMediaLinks).forEach((socialKey) => {
-          formData.append(socialKey, vendorData.socialMediaLinks[socialKey]);
-        });
-      } else {
-        formData.append(key, vendorData[key]);
-      }
-    });
 
-    if (logoFile) {
-      formData.append("vendorLogo", logoFile);
+    try {
+      await updateVendorProfile(vendorData).unwrap();
+      toast.success("Profile updated successfully!");
+    } catch (err) {
+      toast.error("Failed to update profile. Please try again.");
     }
   };
 
@@ -156,16 +156,24 @@ export default function VendorProfileSettings() {
                   controlId="formEstimatedDeliveryTime"
                   className="mb-3">
                   <Form.Label>Estimated Delivery Time</Form.Label>
-                  <Form.Control
-                    type="text"
+                  <Form.Select
+                    required
                     name="estimatedDeliveryTime"
-                    value={vendorData.estimatedDeliveryTime}
                     onChange={handleChange}
-                    placeholder="Enter estimated delivery time"
-                  />
+                    value={vendorData.estimatedDeliveryTime}>
+                    <option value="">Select Estimated Delivery Time</option>
+                    <option value="15 minutes">Within 15 Minutes</option>
+                    <option value="30 minutes">Within 30 Minutes</option>
+                    <option value="1 hour">Within 1 Hour</option>
+                    <option value="2 hours">Within 2 Hours</option>
+                    <option value="3 hours">Within 3 Hours</option>
+                    <option value="1 day">Within 1 Day</option>
+                    <option value="2 days">Within 2 Days</option>
+                    <option value="3 days">Within 3 Days</option>
+                  </Form.Select>
                 </Form.Group>
-                <Button variant="dark" type="submit" className="px-4">
-                  Update Profile
+                <Button variant="dark" type="submit" disabled={isLoading}>
+                  {isLoading ? "Updating..." : "Update Profile"}
                 </Button>
               </Form>
             </Card.Body>
@@ -184,7 +192,7 @@ export default function VendorProfileSettings() {
               </Form.Group>
               <div className="text-center">
                 <Image
-                  src={vendorData.vendorLogo}
+                  src={logoFile || vendorData.vendorLogo}
                   rounded
                   style={{ maxWidth: "100%", height: "auto" }}
                 />

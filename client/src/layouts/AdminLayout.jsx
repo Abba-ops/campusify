@@ -98,7 +98,7 @@ export default function AdminLayout() {
               ))}
             </ul>
           </Col>
-          <Col lg={10} className="bg-light">
+          <Col lg={10} className="bg-light min-vh-100">
             <Container className="py-4">
               <Outlet />
             </Container>

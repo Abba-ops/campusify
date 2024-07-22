@@ -166,7 +166,7 @@ export default function VendorLayout() {
               ))}
             </ul>
           </Col>
-          <Col md={10} className="bg-light">
+          <Col md={10} className="bg-light min-vh-100">
             <Container className="py-4">
               <Outlet />
             </Container>
