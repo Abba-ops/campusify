@@ -118,7 +118,7 @@ export default function VendorHome() {
                 <Card.Body>
                   <Card.Title>Products</Card.Title>
                   <Card.Text>
-                    <strong>{stats.totalProduct}</strong>
+                    <strong>{stats?.totalProduct}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -128,7 +128,7 @@ export default function VendorHome() {
                 <Card.Body>
                   <Card.Title>Customers</Card.Title>
                   <Card.Text>
-                    <strong>{stats.totalCustomers}</strong>
+                    <strong>{stats?.totalCustomers}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -138,7 +138,7 @@ export default function VendorHome() {
                 <Card.Body>
                   <Card.Title>Orders</Card.Title>
                   <Card.Text>
-                    <strong>{stats.totalOrders}</strong>
+                    <strong>{stats?.totalOrders}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -174,15 +174,15 @@ export default function VendorHome() {
                       </thead>
                       <tbody>
                         {recentOrders.map((order, index) => (
-                          <tr key={order._id}>
+                          <tr key={order?._id}>
                             <td>{index + 1}</td>
                             <td>
-                              {order.user.lastName} {order.user.otherNames}
+                              {order?.user?.lastName} {order?.user?.otherNames}
                             </td>
                             <td>
-                              {new Date(order.createdAt).toLocaleDateString()}
+                              {new Date(order?.createdAt).toLocaleDateString()}
                             </td>
-                            <td>&#8358;{order.totalPrice}</td>
+                            <td>&#8358;{order?.totalPrice}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -202,8 +202,8 @@ export default function VendorHome() {
                   {notifications.length > 0 ? (
                     <ListGroup variant="flush">
                       {notifications.map((notification) => (
-                        <ListGroup.Item key={notification._id}>
-                          {notification.message}
+                        <ListGroup.Item key={notification?._id}>
+                          {notification?.message}
                         </ListGroup.Item>
                       ))}
                     </ListGroup>
@@ -220,13 +220,13 @@ export default function VendorHome() {
                   {tasks.length > 0 ? (
                     <ListGroup variant="flush">
                       {tasks.map((task) => (
-                        <ListGroup.Item key={task._id}>
+                        <ListGroup.Item key={task?._id}>
                           <input
                             type="checkbox"
-                            checked={task.completed}
+                            checked={task?.completed}
                             onChange={() => handleTaskToggle(task)}
                           />{" "}
-                          {task.task}
+                          {task?.task}
                         </ListGroup.Item>
                       ))}
                     </ListGroup>

@@ -11,6 +11,7 @@ import Vendor from "./models/vendorModel.js";
 import Order from "./models/orderModel.js";
 import Notification from "./models/notificationSchema.js";
 import Task from "./models/taskModel.js";
+import Message from "./models/messageSchema.js";
 
 dotenv.config();
 connectDB();
@@ -23,6 +24,7 @@ const clearDatabase = async () => {
   await Order.deleteMany();
   await Notification.deleteMany();
   await Task.deleteMany();
+  await Message.deleteMany();
 };
 
 const linkVendorToUser = (vendors, users) => {

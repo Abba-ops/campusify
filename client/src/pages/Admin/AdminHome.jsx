@@ -31,8 +31,6 @@ export default function AdminHome() {
     refetch,
   } = useGetAdminDashboardQuery();
 
-  console.log(adminDashboard);
-
   const getCurrentGreeting = () => {
     const hours = new Date().getHours();
     if (hours < 12) return "Good morning";
@@ -103,7 +101,7 @@ export default function AdminHome() {
                 <Card.Body>
                   <Card.Title>Total Users</Card.Title>
                   <Card.Text>
-                    <strong>{stats.totalUsers}</strong>
+                    <strong>{stats?.totalUsers}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -113,7 +111,7 @@ export default function AdminHome() {
                 <Card.Body>
                   <Card.Title>Active Users</Card.Title>
                   <Card.Text>
-                    <strong>{stats.activeUsers}</strong>
+                    <strong>{stats?.activeUsers}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -123,7 +121,7 @@ export default function AdminHome() {
                 <Card.Body>
                   <Card.Title>Total Orders</Card.Title>
                   <Card.Text>
-                    <strong>{stats.totalOrders}</strong>
+                    <strong>{stats?.totalOrders}</strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -159,13 +157,13 @@ export default function AdminHome() {
                       </thead>
                       <tbody>
                         {recentActivities.map((activity, index) => (
-                          <tr key={activity._id}>
+                          <tr key={activity?._id}>
                             <td>{index + 1}</td>
-                            <td>{activity.type}</td>
-                            <td>{activity.message}</td>
+                            <td>{activity?.type}</td>
+                            <td>{activity?.message}</td>
                             <td>
                               {new Date(
-                                activity.createdAt
+                                activity?.createdAt
                               ).toLocaleDateString()}
                             </td>
                           </tr>
@@ -187,11 +185,11 @@ export default function AdminHome() {
                   {recentMessages.length > 0 ? (
                     <ListGroup variant="flush">
                       {recentMessages.map((message) => (
-                        <ListGroup.Item key={message._id}>
-                          <strong>{message.sender.email}:</strong>{" "}
-                          {message.content} <br />
+                        <ListGroup.Item key={message?._id}>
+                          <strong>{message?.sender?.email}:</strong>{" "}
+                          {message?.content} <br />
                           <small className="text-muted">
-                            {format(new Date(message.createdAt), "PPpp")}
+                            {format(new Date(message?.createdAt), "PPpp")}
                           </small>
                         </ListGroup.Item>
                       ))}
@@ -209,13 +207,13 @@ export default function AdminHome() {
                   {tasks.length > 0 ? (
                     <ListGroup variant="flush">
                       {tasks.map((task) => (
-                        <ListGroup.Item key={task.id}>
+                        <ListGroup.Item key={task?._id}>
                           <input
                             type="checkbox"
-                            checked={task.completed}
+                            checked={task?.completed}
                             onChange={() => handleTaskToggle(task)}
                           />{" "}
-                          {task.task}
+                          {task?.task}
                         </ListGroup.Item>
                       ))}
                     </ListGroup>
