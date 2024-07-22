@@ -15,6 +15,15 @@ const ComingSoon = ({ launchDate }) => {
         minutes: Math.floor((difference / 1000 / 60) % 60),
         seconds: Math.floor((difference / 1000) % 60),
       };
+    } else {
+      const nextLaunch = new Date();
+      nextLaunch.setDate(nextLaunch.getDate() + 1);
+      timeLeft = {
+        days: Math.floor(nextLaunch / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((nextLaunch / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((nextLaunch / 1000 / 60) % 60),
+        seconds: Math.floor((nextLaunch / 1000) % 60),
+      };
     }
 
     return timeLeft;
@@ -33,7 +42,7 @@ const ComingSoon = ({ launchDate }) => {
   const timerComponents = [];
 
   Object.keys(timeLeft).forEach((interval) => {
-    if (!timeLeft[interval]) {
+    if (!timeLeft[interval] && timeLeft[interval] !== 0) {
       return;
     }
 

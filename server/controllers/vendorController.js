@@ -10,6 +10,7 @@ import { Product } from "../models/productModel.js";
 import User from "../models/userModel.js";
 import Vendor from "../models/vendorModel.js";
 import Task from "../models/taskModel.js";
+import Message from "../models/messageSchema.js";
 
 /**
  * @desc    Get all vendors
@@ -401,4 +402,26 @@ export const getVendorDashboard = asyncHandler(async (req, res) => {
       tasks,
     },
   });
+});
+
+// @desc    Send a message
+// @route   POST /api/vendors/messages
+// @access  Private (Vendor)
+export const sendMessage = asyncHandler(async (req, res) => {
+  const { content } = req.body;
+
+  if (!content) {
+    res.status(400);
+    throw new Error("Please provide all required fields");
+  }
+
+  const adminUser = await User.findOne({ isAdmin: true });
+
+  const message = await Message.create({
+    sender: req.user._id,
+    receiver: adminUser._id,
+    content,
+  });
+
+  res.status(201).json({ success: true, data: message });
 });

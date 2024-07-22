@@ -15,6 +15,8 @@ import {
   useUpdateTaskMutation,
 } from "../../features/tasksApiSlice";
 import { toast } from "react-toastify";
+import { formatCurrency } from "../../utilities";
+import { format } from "date-fns";
 
 export default function AdminHome() {
   const [newTask, setNewTask] = useState("");
@@ -28,6 +30,8 @@ export default function AdminHome() {
     isLoading,
     refetch,
   } = useGetAdminDashboardQuery();
+
+  console.log(adminDashboard);
 
   const getCurrentGreeting = () => {
     const hours = new Date().getHours();
@@ -129,7 +133,9 @@ export default function AdminHome() {
                 <Card.Body>
                   <Card.Title>Revenue</Card.Title>
                   <Card.Text>
-                    <strong>&#8358;{stats.totalRevenue}</strong>
+                    <strong>
+                      &#8358;{formatCurrency(stats?.totalRevenue)}
+                    </strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -181,8 +187,12 @@ export default function AdminHome() {
                   {recentMessages.length > 0 ? (
                     <ListGroup variant="flush">
                       {recentMessages.map((message) => (
-                        <ListGroup.Item key={message.id}>
-                          <strong>{message.sender}:</strong> {message.message}
+                        <ListGroup.Item key={message._id}>
+                          <strong>{message.sender.email}:</strong>{" "}
+                          {message.content} <br />
+                          <small className="text-muted">
+                            {format(new Date(message.createdAt), "PPpp")}
+                          </small>
                         </ListGroup.Item>
                       ))}
                     </ListGroup>

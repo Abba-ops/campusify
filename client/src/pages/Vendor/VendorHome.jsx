@@ -8,19 +8,25 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
-import { useGetVendorDashboardQuery } from "../../features/vendorApiSlice";
+import {
+  useGetVendorDashboardQuery,
+  useSendMessageMutation,
+} from "../../features/vendorApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
 import {
   useCreateTaskMutation,
   useUpdateTaskMutation,
 } from "../../features/tasksApiSlice";
 import { toast } from "react-toastify";
+import { formatCurrency } from "../../utilities";
 
 export default function VendorHome() {
   const [newTask, setNewTask] = useState("");
+  const [messageContent, setMessageContent] = useState("");
 
   const [createTask] = useCreateTaskMutation();
   const [updateTask] = useUpdateTaskMutation();
+  const [sendMessage] = useSendMessageMutation();
 
   const {
     data: vendorDashboard,
@@ -65,6 +71,19 @@ export default function VendorHome() {
       }
     } catch (error) {
       toast.error((error && error?.data?.message) || "Error updating task");
+    }
+  };
+
+  const handleMessageSubmit = async (e) => {
+    e.preventDefault();
+    if (messageContent.trim()) {
+      try {
+        await sendMessage({ content: messageContent });
+        setMessageContent("");
+        toast.success("Message sent successfully");
+      } catch (error) {
+        toast.error((error && error?.data?.message) || "Error sending message");
+      }
     }
   };
 
@@ -129,7 +148,9 @@ export default function VendorHome() {
                 <Card.Body>
                   <Card.Title>Revenue</Card.Title>
                   <Card.Text>
-                    <strong>&#8358;{stats.totalRevenue}</strong>
+                    <strong>
+                      &#8358;{formatCurrency(stats?.totalRevenue)}
+                    </strong>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -224,6 +245,26 @@ export default function VendorHome() {
                     </Form.Group>
                     <Button variant="dark" type="submit" className="mt-2">
                       Add Task
+                    </Button>
+                  </Form>
+                </Card.Body>
+              </Card>
+              <Card className="mt-3 rounded-0">
+                <Card.Body>
+                  <Card.Title>Send Message to Admin</Card.Title>
+                  <Form onSubmit={handleMessageSubmit}>
+                    <Form.Group controlId="formMessage">
+                      <Form.Label>Message</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="Enter your message"
+                        value={messageContent}
+                        onChange={(e) => setMessageContent(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Button variant="dark" type="submit" className="mt-2">
+                      Send Message
                     </Button>
                   </Form>
                 </Card.Body>

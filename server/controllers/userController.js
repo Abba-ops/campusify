@@ -10,6 +10,7 @@ import axios from "axios";
 import Order from "../models/orderModel.js";
 import Task from "../models/taskModel.js";
 import Notification from "../models/notificationSchema.js";
+import Message from "../models/messageSchema.js";
 
 /**
  * @desc    Authenticate user
@@ -270,7 +271,10 @@ export const getAdminDashboard = asyncHandler(async (req, res) => {
   const totalRevenue = 15000;
   const activeUsers = totalUsers;
 
-  const recentMessages = [];
+  const recentMessages = await Message.find({}).populate(
+    "sender",
+    "name email"
+  );
 
   const recentActivities = await Notification.find({})
     .sort({ createdAt: -1 })

@@ -20,10 +20,12 @@ import {
   getUserVendorProduct,
   getVendorProfile,
   getVendorDashboard,
+  sendMessage,
 } from "../controllers/vendorController.js";
 
 const router = express.Router();
 
+router.post("/messages", isLoggedIn, isVendor, sendMessage);
 router.get("/dashboard", isLoggedIn, isVendor, getVendorDashboard);
 router.get("/profile/:vendorId", getVendorProfile);
 router

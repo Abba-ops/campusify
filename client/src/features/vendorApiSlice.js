@@ -102,6 +102,13 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    sendMessage: builder.mutation({
+      query: (data) => ({
+        url: `${VENDORS_URL}/messages`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -122,4 +129,5 @@ export const {
   useGetVendorProfileQuery,
   useGetUserVendorProductQuery,
   useGetVendorDashboardQuery,
+  useSendMessageMutation,
 } = vendorApiSlice;
