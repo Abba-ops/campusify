@@ -27,7 +27,6 @@ const validateSchema = (schema) => {
   };
 };
 
-// Specific middleware instances for registration, login, and review validation
 const validateRegister = validateSchema(registrationSchema);
 const validateLogin = validateSchema(loginSchema);
 const validateReview = validateSchema(reviewSchema);

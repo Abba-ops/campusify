@@ -87,6 +87,12 @@ export default function CartCheckout() {
     setShowOrderItems((prevState) => !prevState);
   };
 
+  const handleCommentChange = (e) => {
+    if (e.target.value.length <= 150) {
+      setComment(e.target.value);
+    }
+  };
+
   return (
     <section className="py-5">
       <MetaTags
@@ -280,9 +286,11 @@ export default function CartCheckout() {
                         as="textarea"
                         rows={3}
                         value={comment}
-                        onChange={(e) => setComment(e.target.value)}
+                        onChange={handleCommentChange}
                         placeholder="Type your comment here..."
+                        maxLength={150}
                       />
+                      <div className="text-end mt-1">{comment.length}/150</div>
                     </Col>
                   </Form.Group>
                 </Form>

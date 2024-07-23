@@ -1,7 +1,7 @@
 const CURRENCY_FORMATTER = new Intl.NumberFormat(undefined, {
   style: "decimal",
   minimumFractionDigits: 0,
-  maximumFractionDigits: 2,
+  maximumFractionDigits: 0,
 });
 
 export const formatCurrency = (number) => {

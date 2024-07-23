@@ -344,11 +344,11 @@ export const getVendorProfile = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/dashboard
  * @access  Private (Vendor)
  */
+
 export const getVendorDashboard = asyncHandler(async (req, res) => {
   const vendorId = req.vendor._id;
 
   const orders = await Order.find({}).populate("user");
-
   const customersSet = new Set();
   orders.forEach((order) => {
     if (order.user) {
@@ -361,23 +361,23 @@ export const getVendorDashboard = asyncHandler(async (req, res) => {
   })
     .populate({
       path: "orderItems.product",
-      match: {
-        vendor: vendorId,
-      },
+      match: { vendor: vendorId },
     })
-    .populate("user");
+    .populate("user")
+    .limit(5);
 
   recentOrders.forEach((order) => calculateOrderPrices(order));
 
   const totalCustomers = customersSet.size;
-
   const totalOrders = await Order.countDocuments({
     "orderItems.vendor": vendorId,
   });
 
   const notifications = await Notification.find({
     recipientId: vendorId,
-  }).sort({ createdAt: -1 });
+  })
+    .sort({ createdAt: -1 })
+    .limit(5);
 
   const totalProduct = await Product.countDocuments({ vendor: vendorId });
 

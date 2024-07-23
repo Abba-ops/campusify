@@ -49,6 +49,12 @@ export default function ProductDetail() {
   const [cartQuantity, setCartQuantity] = useState(1);
   const [userComment, setUserComment] = useState("");
   const [userRating, setUserRating] = useState(0);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const descriptionLimit = 150;
+
+  const toggleDescription = () => {
+    setIsDescriptionExpanded(!isDescriptionExpanded);
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -146,6 +152,19 @@ export default function ProductDetail() {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
+  const getDescription = () => {
+    if (
+      isDescriptionExpanded ||
+      productData?.data?.productDescription.length <= descriptionLimit
+    ) {
+      return productData?.data?.productDescription;
+    }
+    return `${productData?.data?.productDescription.substring(
+      0,
+      descriptionLimit
+    )}...`;
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -236,7 +255,16 @@ export default function ProductDetail() {
                     </h5>
                   </Link>
                   <p className="my-3 text-break">
-                    {productData?.data?.productDescription}
+                    {getDescription()}
+                    {productData?.data?.productDescription.length >
+                      descriptionLimit && (
+                      <Button
+                        variant="link"
+                        className="p-0"
+                        onClick={toggleDescription}>
+                        {isDescriptionExpanded ? "Read less" : "Read more"}
+                      </Button>
+                    )}
                   </p>
                   <Stack direction="horizontal" gap={3} className="mb-3">
                     <FacebookShareButton

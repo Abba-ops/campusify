@@ -223,9 +223,11 @@ export default function OrderScreen() {
                 <ListGroup.Item>
                   <Row className="my-3">
                     <Col xs={6}>
-                      {orderData?.data?.orderItems?.length === 1
-                        ? "1 item in cart"
-                        : `${orderData?.data?.orderItems?.length} items in cart`}
+                      {orderData?.data?.orderItems
+                        ? orderData.data.orderItems.length === 1
+                          ? "1 item in cart"
+                          : `${orderData.data.orderItems.length} items in cart`
+                        : "No items in cart"}
                     </Col>
                   </Row>
                   <Row className="my-3">

@@ -266,21 +266,17 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
  * @access  Private/Admin
  */
 export const getAdminDashboard = asyncHandler(async (req, res) => {
-  const totalUsers = await User.countDocuments({});
-  const totalOrders = await Order.countDocuments({});
+  const [totalUsers, totalOrders, recentMessages, recentActivities, tasks] =
+    await Promise.all([
+      User.countDocuments({}),
+      Order.countDocuments({}),
+      Message.find({}).populate("sender", "vendorName").limit(5),
+      Notification.find({}).sort({ createdAt: -1 }).limit(5),
+      Task.find({ role: "admin", userId: req.user._id }),
+    ]);
+
   const totalRevenue = 15000;
   const activeUsers = totalUsers;
-
-  const recentMessages = await Message.find({}).populate(
-    "sender",
-    "vendorName"
-  );
-
-  const recentActivities = await Notification.find({})
-    .sort({ createdAt: -1 })
-    .limit(5);
-
-  const tasks = await Task.find({ role: "admin", userId: req.user._id });
 
   res.status(200).json({
     success: true,
