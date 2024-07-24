@@ -12,14 +12,13 @@ import {
 import {
   useCreateProductMutation,
   useGetCategoriesQuery,
-  useUploadProductImageMutation,
 } from "../../features/productsApiSlice";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function VendorCreateProduct() {
   const [subcategories, setSubcategories] = useState([]);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const navigate = useNavigate();
 
   const {
@@ -28,8 +27,6 @@ export default function VendorCreateProduct() {
     isError: errorCategories,
   } = useGetCategoriesQuery();
   const [createProduct, { isLoading }] = useCreateProductMutation();
-  const [uploadProductImage, { isLoading: loadingImageUpload }] =
-    useUploadProductImageMutation();
 
   const [formData, setFormData] = useState({
     productName: "",
@@ -46,8 +43,18 @@ export default function VendorCreateProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = new FormData();
+    form.append("productName", formData.productName);
+    form.append("productDescription", formData.productDescription);
+    form.append("category", formData.category);
+    form.append("brand", formData.brand);
+    form.append("price", formData.price);
+    form.append("countInStock", formData.countInStock);
+    form.append("subcategory", JSON.stringify(formData.subcategory));
+    form.append("productImage", imageFile);
+
     try {
-      const result = await createProduct({ ...formData, imageUrl }).unwrap();
+      const result = await createProduct(form).unwrap();
       if (result?.success) {
         toast.success(result?.message);
         navigate("/vendor/dashboard/products");
@@ -59,16 +66,8 @@ export default function VendorCreateProduct() {
     }
   };
 
-  const uploadFileHandler = async (e) => {
-    const formData = new FormData();
-    formData.append("productImage", e.target.files[0]);
-    try {
-      const res = await uploadProductImage(formData).unwrap();
-      setImageUrl(res?.image);
-      toast.success(res?.message || "Image uploaded successfully");
-    } catch (error) {
-      toast.error((error && error?.data?.message) || "Failed to upload image");
-    }
+  const handleImageChange = (e) => {
+    setImageFile(e.target.files[0]);
   };
 
   const handleChange = (e) => {
@@ -154,21 +153,20 @@ export default function VendorCreateProduct() {
                   <Form.Control
                     required
                     type="file"
-                    onChange={uploadFileHandler}
+                    onChange={handleImageChange}
                     className="mb-3"
                   />
-                  {imageUrl && (
+                  {imageFile && (
                     <div className="image-container">
                       <Image
                         fluid
                         loading="lazy"
-                        src={imageUrl}
+                        src={URL.createObjectURL(imageFile)}
                         className="product-image"
                       />
                     </div>
                   )}
                 </Form.Group>
-                {loadingImageUpload && <div>Uploading image...</div>}
               </Col>
             </Row>
             <Row className="mb-3">

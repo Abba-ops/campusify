@@ -23,6 +23,8 @@ export default function VendorProfileSettings() {
     },
   });
 
+  const [logoFile, setLogoFile] = useState(null);
+
   useEffect(() => {
     if (userInfo?.data?.vendor) {
       const {
@@ -49,8 +51,6 @@ export default function VendorProfileSettings() {
     }
   }, [userInfo]);
 
-  const [logoFile, setLogoFile] = useState(null);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setVendorData((prevData) => ({ ...prevData, [name]: value }));
@@ -67,7 +67,7 @@ export default function VendorProfileSettings() {
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setLogoFile(URL.createObjectURL(file));
+      setLogoFile(file);
       setVendorData((prevData) => ({ ...prevData, vendorLogo: file.name }));
     }
   };
@@ -75,8 +75,24 @@ export default function VendorProfileSettings() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("vendorName", vendorData.vendorName);
+    formData.append("vendorEmail", vendorData.vendorEmail);
+    formData.append("vendorPhone", vendorData.vendorPhone);
+    formData.append("productsDescription", vendorData.productsDescription);
+    formData.append("vendorDescription", vendorData.vendorDescription);
+    formData.append("estimatedDeliveryTime", vendorData.estimatedDeliveryTime);
+    formData.append("vendorLogo", logoFile);
+
+    Object.keys(vendorData.socialMediaLinks).forEach((key) => {
+      formData.append(
+        `socialMediaLinks[${key}]`,
+        vendorData.socialMediaLinks[key]
+      );
+    });
+
     try {
-      await updateVendorProfile(vendorData).unwrap();
+      await updateVendorProfile(formData).unwrap();
       toast.success("Profile updated successfully!");
     } catch (err) {
       toast.error("Failed to update profile. Please try again.");
@@ -192,7 +208,11 @@ export default function VendorProfileSettings() {
               </Form.Group>
               <div className="text-center">
                 <Image
-                  src={logoFile || vendorData.vendorLogo}
+                  src={
+                    logoFile
+                      ? URL.createObjectURL(logoFile)
+                      : vendorData.vendorLogo
+                  }
                   rounded
                   style={{ maxWidth: "100%", height: "auto" }}
                 />

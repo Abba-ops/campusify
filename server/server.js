@@ -8,12 +8,14 @@ import connectDB from "./config/dbConfig.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import vendorRoutes from "./routes/vendorRoutes.js";
-import uploadRoutes from "./routes/uploadRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 
+// Load environment variables from .env file
 dotenv.config();
+
+// Connect to the database
 connectDB();
 
 const app = express();
@@ -34,12 +36,10 @@ app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/vendors", vendorRoutes);
-app.use("/api/upload", uploadRoutes);
 app.use("/api/task", taskRoutes);
 
 // Serve static uploads directory
 const __dirname = path.resolve();
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {

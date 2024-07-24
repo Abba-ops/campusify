@@ -1,4 +1,8 @@
-import { asyncHandler, extractPublicId } from "../utilities/index.js";
+import {
+  asyncHandler,
+  extractPublicId,
+  uploadToCloudinary,
+} from "../utilities/index.js";
 import { Category, Product } from "../models/productModel.js";
 import cloudinary from "../config/cloudinary.js";
 import Vendor from "../models/vendorModel.js";
@@ -134,7 +138,6 @@ export const createProduct = asyncHandler(async (req, res) => {
 
   const {
     productName,
-    imageUrl,
     productDescription,
     category,
     brand,
@@ -142,6 +145,9 @@ export const createProduct = asyncHandler(async (req, res) => {
     countInStock,
     subcategory,
   } = req.body;
+
+  const parsedSubcategory = JSON.parse(subcategory);
+  const imageUrl = await uploadToCloudinary(req, "products");
 
   const product = await Product.create({
     brand,
@@ -152,7 +158,7 @@ export const createProduct = asyncHandler(async (req, res) => {
     price: Number(price),
     productName,
     vendor: vendor._id,
-    subcategory,
+    subcategory: parsedSubcategory,
   });
 
   if (!product) {

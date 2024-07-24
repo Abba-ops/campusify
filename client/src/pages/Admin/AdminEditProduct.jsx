@@ -13,13 +13,13 @@ import {
   useGetCategoriesQuery,
   useGetProductDetailsQuery,
   useUpdateProductMutation,
-  useUploadProductImageMutation,
 } from "../../features/productsApiSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import TablePlaceholder from "../../components/TablePlaceholder";
 
 export default function AdminEditProduct() {
+  const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
 
   const { productId } = useParams();
@@ -47,7 +47,8 @@ export default function AdminEditProduct() {
 
   const { isLoading, data: product } = useGetProductDetailsQuery(productId);
 
-  const [uploadProductImage] = useUploadProductImageMutation();
+  const [updateProduct, { isLoading: updatingProduct }] =
+    useUpdateProductMutation();
 
   useEffect(() => {
     if (product) {
@@ -64,21 +65,10 @@ export default function AdminEditProduct() {
     }
   }, [product]);
 
-  const uploadFileHandler = async (e) => {
-    const formData = new FormData();
-    formData.append("image", e.target.files[0]);
-
-    try {
-      const res = await uploadProductImage(formData).unwrap();
-      setImageUrl(res?.image);
-      toast.success(res?.message || "Image uploaded successfully");
-    } catch (error) {
-      toast.error((error && error?.data?.message) || "Failed to upload image");
-    }
+  const uploadFileHandler = (e) => {
+    setImageFile(e.target.files[0]);
+    setImageUrl(URL.createObjectURL(e.target.files[0]));
   };
-
-  const [updateProduct, { isLoading: updatingProduct }] =
-    useUpdateProductMutation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -116,7 +106,19 @@ export default function AdminEditProduct() {
     e.preventDefault();
 
     try {
-      const updatedProduct = { ...formData, productId, imageUrl };
+      const updatedProduct = new FormData();
+      updatedProduct.append("productName", formData.productName);
+      updatedProduct.append("productDescription", formData.productDescription);
+      updatedProduct.append("category", formData.category);
+      updatedProduct.append("brand", formData.brand);
+      updatedProduct.append("price", formData.price);
+      updatedProduct.append("countInStock", formData.countInStock);
+      updatedProduct.append("subcategory", formData.subcategory._id);
+      updatedProduct.append("productId", productId);
+      if (imageFile) {
+        updatedProduct.append("image", imageFile);
+      }
+
       const result = await updateProduct(updatedProduct).unwrap();
 
       if (result?.success) {

@@ -13,14 +13,13 @@ import {
   useGetCategoriesQuery,
   useGetProductDetailsQuery,
   useUpdateProductMutation,
-  useUploadProductImageMutation,
 } from "../../features/productsApiSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import TablePlaceholder from "../../components/TablePlaceholder";
 
 export default function VendorEditProduct() {
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null);
 
   const { productId } = useParams();
   const {
@@ -47,8 +46,6 @@ export default function VendorEditProduct() {
 
   const { isLoading, data: product } = useGetProductDetailsQuery(productId);
 
-  const [uploadProductImage] = useUploadProductImageMutation();
-
   useEffect(() => {
     if (product) {
       setFormData({
@@ -60,22 +57,9 @@ export default function VendorEditProduct() {
         countInStock: product?.data?.countInStock,
         subcategory: product?.data?.subcategory,
       });
-      setImageUrl(product?.data?.imageUrl);
+      setImageFile(product?.data?.imageFile);
     }
   }, [product]);
-
-  const uploadFileHandler = async (e) => {
-    const formData = new FormData();
-    formData.append("image", e.target.files[0]);
-
-    try {
-      const res = await uploadProductImage(formData).unwrap();
-      setImageUrl(res?.image);
-      toast.success(res?.message || "Image uploaded successfully");
-    } catch (error) {
-      toast.error((error && error?.data?.message) || "Failed to upload image");
-    }
-  };
 
   const [updateProduct, { isLoading: updatingProduct }] =
     useUpdateProductMutation();
@@ -112,12 +96,25 @@ export default function VendorEditProduct() {
     });
   };
 
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formDataToSend = new FormData();
+    formDataToSend.append("image", imageFile);
+    Object.keys(formData).forEach((key) => {
+      if (key === "subcategory") {
+        formDataToSend.append("subcategory", formData[key]._id);
+      } else {
+        formDataToSend.append(key, formData[key]);
+      }
+    });
+
     try {
-      const updatedProduct = { ...formData, productId, imageUrl };
-      const result = await updateProduct(updatedProduct).unwrap();
+      const result = await updateProduct(formDataToSend).unwrap();
 
       if (result?.success) {
         toast.success(result?.message);
@@ -182,15 +179,15 @@ export default function VendorEditProduct() {
                     <Form.Label>Upload Image</Form.Label>
                     <Form.Control
                       type="file"
-                      onChange={uploadFileHandler}
+                      onChange={handleFileChange}
                       className="mb-3"
                     />
-                    {imageUrl && (
+                    {imageFile && (
                       <div className="image-container">
                         <Image
                           fluid
                           loading="lazy"
-                          src={imageUrl}
+                          src={URL.createObjectURL(imageFile)}
                           className="product-image mb-3"
                         />
                       </div>

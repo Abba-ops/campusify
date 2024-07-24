@@ -9,10 +9,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  useUploadVendorLogoMutation,
-  useVendorApplicationMutation,
-} from "../../features/vendorApiSlice";
+import { useVendorApplicationMutation } from "../../features/vendorApiSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { setCredentials } from "../../features/authSlice";
@@ -20,7 +17,7 @@ import MetaTags from "../../components/MetaTags";
 
 export default function VendorApplication() {
   const [agreeToConditions, setAgreeToConditions] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
@@ -30,9 +27,6 @@ export default function VendorApplication() {
       navigate("/profile");
     }
   }, [userInfo, navigate]);
-
-  const [uploadVendorLogo, { isLoading: loadingImageUpload }] =
-    useUploadVendorLogoMutation();
 
   const [vendorApplication, { isLoading }] = useVendorApplicationMutation();
 
@@ -50,11 +44,14 @@ export default function VendorApplication() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("vendorLogo", imageFile);
+    Object.keys(formState).forEach((key) => {
+      formData.append(key, formState[key]);
+    });
+
     try {
-      const res = await vendorApplication({
-        ...formState,
-        vendorLogo: imageUrl,
-      }).unwrap();
+      const res = await vendorApplication(formData).unwrap();
       if (res?.success) {
         dispatch(setCredentials({ ...res }));
         toast.success("Application submitted successfully!");
@@ -73,21 +70,13 @@ export default function VendorApplication() {
     setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const uploadFileHandler = async (e) => {
-    const formData = new FormData();
-    formData.append("logoImage", e.target.files[0]);
-    try {
-      const res = await uploadVendorLogo(formData).unwrap();
-      setImageUrl(res?.image);
-      toast.success(res?.message || "Image uploaded successfully");
-    } catch (error) {
-      toast.error((error && error?.data?.message) || "Failed to upload image");
-    }
-  };
 
   return (
     <section className="py-5">
@@ -165,11 +154,8 @@ export default function VendorApplication() {
                       <Form.Control
                         required
                         type="file"
-                        onChange={uploadFileHandler}
+                        onChange={handleFileChange}
                       />
-                      {loadingImageUpload && (
-                        <div className="mt-3">Uploading image...</div>
-                      )}
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="mb-3">

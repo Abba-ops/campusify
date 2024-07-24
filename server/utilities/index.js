@@ -1,8 +1,25 @@
+import multer from "multer";
 import cloudinary from "../config/cloudinary.js";
 import { Product } from "../models/productModel.js";
 import Vendor from "../models/vendorModel.js";
 import jwt from "jsonwebtoken";
 import path from "path";
+
+const storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+
+export const upload = multer({
+  storage,
+  fileFilter: function (req, file, cb) {
+    checkFileType(file, cb);
+  },
+});
 
 /**
  * Generates a JWT token and sets it as a cookie in the response.
@@ -126,5 +143,22 @@ export const checkFileType = (file, cb) => {
     return cb(null, true);
   } else {
     cb("Images only!");
+  }
+};
+
+/**
+ * Uploads an image to Cloudinary.
+ * @param {object} req - The request object.
+ * @param {string} folderName - The folder name where the image will be uploaded.
+ * @returns {Promise<string>} - The secure URL of the uploaded image.
+ */
+export const uploadToCloudinary = async (req, folderName) => {
+  try {
+    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+      folder: `campusify/${folderName}`,
+    });
+    return uploadedImage.secure_url;
+  } catch (error) {
+    throw new Error(`Error uploading ${folderName}`);
   }
 };

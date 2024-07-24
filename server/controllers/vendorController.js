@@ -386,7 +386,11 @@ export const getVendorDashboard = asyncHandler(async (req, res) => {
     0
   );
 
-  const tasks = await Task.find({ role: "vendor", userId: req.user._id });
+  const tasks = await Task.find({
+    role: "vendor",
+    userId: req.user._id,
+    completed: false,
+  });
 
   res.status(200).json({
     success: true,

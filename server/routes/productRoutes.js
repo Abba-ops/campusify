@@ -26,6 +26,7 @@ import {
   isVendor,
 } from "../middlewares/authMiddleware.js";
 import { validateReview } from "../middlewares/validateData.js";
+import { upload } from "../utilities/index.js";
 
 const router = express.Router();
 
@@ -42,7 +43,7 @@ router.get("/category/:category/:categoryId", getProductsByCategory);
 router
   .route("/")
   .get(isLoggedIn, isAdmin, getProducts)
-  .post(isLoggedIn, isVendor, createProduct);
+  .post(isLoggedIn, isVendor, upload.single("productImage"), createProduct);
 
 router
   .route("/categories")
