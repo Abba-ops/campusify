@@ -7,6 +7,7 @@ import {
   ListGroup,
   Form,
   Button,
+  Spinner,
 } from "react-bootstrap";
 import {
   useGetVendorDashboardQuery,
@@ -20,13 +21,19 @@ import {
 import { toast } from "react-toastify";
 import { formatCurrency } from "../../utilities";
 
+const MAX_TASK_LENGTH = 50;
+const MAX_TEXT_LENGTH = 50;
+
 export default function VendorHome() {
   const [newTask, setNewTask] = useState("");
   const [messageContent, setMessageContent] = useState("");
 
-  const [createTask] = useCreateTaskMutation();
+  const [createTask, { isLoading: isCreatingTask }] = useCreateTaskMutation();
   const [updateTask] = useUpdateTaskMutation();
-  const [sendMessage] = useSendMessageMutation();
+  const [sendMessage, { isLoading: isSendingMessage }] =
+    useSendMessageMutation();
+
+  const [expandedMessage, setExpandedMessage] = useState(null);
 
   const {
     data: vendorDashboard,
@@ -47,16 +54,27 @@ export default function VendorHome() {
   const notifications = vendorDashboard?.data?.notifications || [];
   const tasks = vendorDashboard?.data?.tasks || [];
 
+  const incompleteTasks = tasks.filter((task) => !task.completed);
+
+  const truncateText = (text) => {
+    return text.length > MAX_TEXT_LENGTH
+      ? `${text.substring(0, MAX_TEXT_LENGTH)}...`
+      : text;
+  };
+
   const handleTaskSubmit = async (e) => {
     e.preventDefault();
-    if (newTask.trim()) {
+    if (newTask.trim() && newTask.length <= MAX_TASK_LENGTH) {
       try {
-        await createTask({ task: newTask, role: "vendor" });
+        await createTask({ task: newTask, role: "vendor" }).unwrap();
         setNewTask("");
         refetch();
+        toast.success("Task created successfully!");
       } catch (error) {
         toast.error((error && error?.data?.message) || "Error creating task");
       }
+    } else {
+      toast.error(`Task cannot exceed ${MAX_TASK_LENGTH} characters`);
     }
   };
 
@@ -78,13 +96,17 @@ export default function VendorHome() {
     e.preventDefault();
     if (messageContent.trim()) {
       try {
-        await sendMessage({ content: messageContent });
+        await sendMessage({ content: messageContent }).unwrap();
         setMessageContent("");
         toast.success("Message sent successfully");
       } catch (error) {
         toast.error((error && error?.data?.message) || "Error sending message");
       }
     }
+  };
+
+  const handleExpandToggle = (id) => {
+    setExpandedMessage(expandedMessage === id ? null : id);
   };
 
   return (
@@ -114,7 +136,7 @@ export default function VendorHome() {
         <>
           <Row className="mb-4">
             <Col md={6} lg={3} className="mb-3">
-              <Card className="text-center rounded-0">
+              <Card className="text-center rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Products</Card.Title>
                   <Card.Text>
@@ -124,7 +146,7 @@ export default function VendorHome() {
               </Card>
             </Col>
             <Col md={6} lg={3} className="mb-3">
-              <Card className="text-center rounded-0">
+              <Card className="text-center rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Customers</Card.Title>
                   <Card.Text>
@@ -134,7 +156,7 @@ export default function VendorHome() {
               </Card>
             </Col>
             <Col md={6} lg={3} className="mb-3">
-              <Card className="text-center rounded-0">
+              <Card className="text-center rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Orders</Card.Title>
                   <Card.Text>
@@ -144,7 +166,7 @@ export default function VendorHome() {
               </Card>
             </Col>
             <Col md={6} lg={3} className="mb-3">
-              <Card className="text-center rounded-0">
+              <Card className="text-center rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Revenue</Card.Title>
                   <Card.Text>
@@ -159,7 +181,7 @@ export default function VendorHome() {
 
           <Row>
             <Col lg={8} className="mb-4">
-              <Card className="rounded-0">
+              <Card className="rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Recent Orders</Card.Title>
                   {recentOrders.length > 0 ? (
@@ -196,14 +218,27 @@ export default function VendorHome() {
               </Card>
             </Col>
             <Col lg={4} className="mb-4">
-              <Card className="rounded-0">
+              <Card className="rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Notifications</Card.Title>
                   {notifications.length > 0 ? (
                     <ListGroup variant="flush">
                       {notifications.map((notification) => (
                         <ListGroup.Item key={notification?._id}>
-                          {notification?.message}
+                          {expandedMessage === notification._id
+                            ? notification.message
+                            : truncateText(notification.message)}
+                          {notification.message.length > MAX_TEXT_LENGTH && (
+                            <Button
+                              variant="link"
+                              onClick={() =>
+                                handleExpandToggle(notification._id)
+                              }>
+                              {expandedMessage === notification._id
+                                ? "Read less"
+                                : "Read more"}
+                            </Button>
+                          )}
                         </ListGroup.Item>
                       ))}
                     </ListGroup>
@@ -214,12 +249,12 @@ export default function VendorHome() {
                   )}
                 </Card.Body>
               </Card>
-              <Card className="mt-3 rounded-0">
+              <Card className="mt-3 rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Tasks</Card.Title>
-                  {tasks.length > 0 ? (
+                  {incompleteTasks.length > 0 ? (
                     <ListGroup variant="flush">
-                      {tasks.map((task) => (
+                      {incompleteTasks.map((task) => (
                         <ListGroup.Item key={task?._id}>
                           <input
                             type="checkbox"
@@ -241,15 +276,26 @@ export default function VendorHome() {
                         placeholder="Enter task"
                         value={newTask}
                         onChange={(e) => setNewTask(e.target.value)}
+                        maxLength={MAX_TASK_LENGTH}
                       />
                     </Form.Group>
-                    <Button variant="dark" type="submit" className="mt-2">
-                      Add Task
+                    <Button
+                      variant="dark"
+                      type="submit"
+                      className="mt-2"
+                      disabled={isCreatingTask}>
+                      {isCreatingTask ? (
+                        <Spinner size="sm" animation="border">
+                          <span className="visually-hidden"></span>
+                        </Spinner>
+                      ) : (
+                        "Add Task"
+                      )}
                     </Button>
                   </Form>
                 </Card.Body>
               </Card>
-              <Card className="mt-3 rounded-0">
+              <Card className="mt-3 rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Send Message to Admin</Card.Title>
                   <Form onSubmit={handleMessageSubmit}>
@@ -261,10 +307,21 @@ export default function VendorHome() {
                         placeholder="Enter your message"
                         value={messageContent}
                         onChange={(e) => setMessageContent(e.target.value)}
+                        maxLength={500}
                       />
                     </Form.Group>
-                    <Button variant="dark" type="submit" className="mt-2">
-                      Send Message
+                    <Button
+                      variant="dark"
+                      type="submit"
+                      className="mt-2"
+                      disabled={isSendingMessage}>
+                      {isSendingMessage ? (
+                        <Spinner size="sm" animation="border">
+                          <span className="visually-hidden"></span>
+                        </Spinner>
+                      ) : (
+                        "Send Message"
+                      )}
                     </Button>
                   </Form>
                 </Card.Body>

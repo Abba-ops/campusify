@@ -197,7 +197,7 @@ export default function UserProfileDetails() {
               </>
             ) : ordersError ? (
               <div className="text-center mt-5">
-                <h4 className="text-danger">Error Loading Orders</h4>
+                <h5 className="text-danger">Error Loading Orders</h5>
                 <p className="mt-3">
                   Failed to load order history. Please try again later.
                 </p>

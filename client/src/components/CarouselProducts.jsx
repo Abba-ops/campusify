@@ -11,41 +11,51 @@ export default function CarouselProducts({
   productsData,
   isLoading,
   isError,
+  noProductsMessage,
 }) {
   return (
     <Container className="pt-4">
       {!isError ? (
         <div>
-          <Swiper
-            slidesPerView={1}
-            spaceBetween={30}
-            breakpoints={{
-              992: {
-                slidesPerView: lgColumnSize,
-              },
-            }}>
-            {!isLoading
-              ? productsData?.map((product, index) => (
-                  <SwiperSlide key={index}>
-                    <ProductCard
-                      product={product}
-                      showPreviewIcon={showPreviewIcon}
-                    />
-                  </SwiperSlide>
-                ))
-              : Array.from({ length: 4 }, (_, index) => (
-                  <SwiperSlide key={index}>
-                    <SingleProductPlaceholder />
-                  </SwiperSlide>
-                ))}
-          </Swiper>
-          <div className="scroll-indicator text-center mt-3">
-            <BsArrowRight className="scroll-icon" />
-            <span className="scroll-text">
-              Swipe or scroll <Badge variant="secondary">right</Badge> to see
-              more
-            </span>
-          </div>
+          {productsData?.length === 0 ? (
+            <div className="text-center mt-5">
+              <h5>No Products Available</h5>
+              <p className="mt-3">{noProductsMessage}</p>{" "}
+            </div>
+          ) : (
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={30}
+              breakpoints={{
+                992: {
+                  slidesPerView: lgColumnSize,
+                },
+              }}>
+              {!isLoading
+                ? productsData?.map((product, index) => (
+                    <SwiperSlide key={index}>
+                      <ProductCard
+                        product={product}
+                        showPreviewIcon={showPreviewIcon}
+                      />
+                    </SwiperSlide>
+                  ))
+                : Array.from({ length: 4 }, (_, index) => (
+                    <SwiperSlide key={index}>
+                      <SingleProductPlaceholder />
+                    </SwiperSlide>
+                  ))}
+            </Swiper>
+          )}
+          {productsData?.length > 0 && (
+            <div className="scroll-indicator text-center mt-3">
+              <BsArrowRight className="scroll-icon" />
+              <span className="scroll-text">
+                Swipe or scroll <Badge variant="secondary">right</Badge> to see
+                more
+              </span>
+            </div>
+          )}
         </div>
       ) : (
         <div className="text-center mt-5">

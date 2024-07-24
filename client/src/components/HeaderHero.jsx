@@ -48,7 +48,7 @@ export default function HeaderHero() {
               to={
                 userInfo
                   ? "/vendor-application"
-                  : `/register?redirect=/vendor-application`
+                  : `/login?redirect=/vendor-application`
               }>
               Start Selling
             </Button>

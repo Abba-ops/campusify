@@ -16,6 +16,11 @@ export default function BestSeller() {
     isLoading,
   } = useGetBestSellingProductsQuery();
 
+  const hasProducts =
+    bestSellingProducts &&
+    bestSellingProducts?.data &&
+    bestSellingProducts?.data?.length > 0;
+
   return (
     <section className="py-5">
       <Row className="align-items-center">
@@ -29,17 +34,20 @@ export default function BestSeller() {
             isError={isError}
             isLoading={isLoading}
             showPreviewIcon={true}
-            productsData={bestSellingProducts && bestSellingProducts?.data}
+            productsData={bestSellingProducts?.data}
+            noProductsMessage="Currently, there are no best-selling products available. Please check back later."
           />
-          <div className="text-center mt-4">
-            <Button
-              as={Link}
-              size="sm"
-              to="/best-sellers"
-              className="text-white">
-              Explore More <FaChevronRight className="ml-2" />
-            </Button>
-          </div>
+          {hasProducts && (
+            <div className="text-center mt-4">
+              <Button
+                as={Link}
+                size="sm"
+                to="/best-sellers"
+                className="text-white">
+                Explore More <FaChevronRight className="ml-2" />
+              </Button>
+            </div>
+          )}
         </Col>
         <Col lg={6}>
           {isLoading ? (
@@ -55,14 +63,14 @@ export default function BestSeller() {
             </Placeholder>
           ) : (
             <Carousel indicators={false} controls={false}>
-              {bestSellingProducts &&
-                bestSellingProducts?.data?.slice(0, 3).map((item) => (
-                  <Carousel.Item key={item?._id}>
+              {hasProducts &&
+                bestSellingProducts?.data.slice(0, 3).map((item) => (
+                  <Carousel.Item key={item._id}>
                     <div className="image-container">
                       <Image
                         fluid
                         loading="lazy"
-                        src={item?.imageUrl}
+                        src={item.imageUrl}
                         className="product-image"
                       />
                     </div>

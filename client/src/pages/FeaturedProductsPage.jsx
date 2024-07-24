@@ -55,13 +55,16 @@ export default function FeaturedProductsPage() {
           <>
             {sortedProducts.length === 0 && !isLoading && !isError ? (
               <div className="text-center mt-5">
-                <h5>Oops! No products found.</h5>
-                <p>
-                  It seems we couldn't find any products matching your search
-                  criteria.
+                <h5>No Products Available</h5>
+                <p className="mt-3">
+                  Currently, there are no featured products available. Please
+                  check back later.
                 </p>
-                <p>Please try adjusting your search terms or</p>
-                <Button to="/" as={Link} variant="primary" className="px-4">
+                <Button
+                  to="/"
+                  as={Link}
+                  variant="primary"
+                  className="px-4 mt-3 text-white">
                   Go to Home
                 </Button>
               </div>

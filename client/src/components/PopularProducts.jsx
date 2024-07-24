@@ -12,25 +12,32 @@ export default function PopularProducts() {
     isLoading,
   } = useGetPopularProductsQuery();
 
+  const hasProducts =
+    popularProducts &&
+    popularProducts?.data &&
+    popularProducts?.data?.length > 0;
+
   return (
     <section className="py-5">
       <div className="text-center mb-4 position-relative">
         <p className="text-muted mb-3">Top Rated Selection</p>
         <h2>Popular Products</h2>
-        <div
-          className="d-none d-md-flex position-absolute"
-          style={{
-            right: 0,
-            top: "50%",
-            transform: "translateY(-50%)",
-            whiteSpace: "nowrap",
-          }}>
-          <Link
-            to="/popular"
-            className="d-flex align-items-center text-decoration-none">
-            Explore More <FaChevronRight className="mx-2" />
-          </Link>
-        </div>
+        {hasProducts && (
+          <div
+            className="d-none d-md-flex position-absolute"
+            style={{
+              right: 0,
+              top: "50%",
+              transform: "translateY(-50%)",
+              whiteSpace: "nowrap",
+            }}>
+            <Link
+              to="/popular"
+              className="d-flex align-items-center text-decoration-none">
+              Explore More <FaChevronRight className="mx-2" />
+            </Link>
+          </div>
+        )}
       </div>
 
       <CarouselProducts
@@ -38,14 +45,17 @@ export default function PopularProducts() {
         showPreviewIcon={true}
         isError={isError}
         isLoading={isLoading}
-        productsData={popularProducts && popularProducts?.data}
+        productsData={popularProducts?.data}
+        noProductsMessage="Currently, there are no popular products available based on ratings. Please check back later."
       />
 
-      <div className="text-center mt-4 d-block d-md-none">
-        <Button as={Link} size="sm" to="/popular" className="text-white">
-          Explore More <FaChevronRight className="ml-2" />
-        </Button>
-      </div>
+      {hasProducts && (
+        <div className="text-center mt-4 d-block d-md-none">
+          <Button as={Link} size="sm" to="/popular" className="text-white">
+            Explore More <FaChevronRight className="ml-2" />
+          </Button>
+        </div>
+      )}
     </section>
   );
 }

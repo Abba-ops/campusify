@@ -471,6 +471,7 @@ export default function ProductDetail() {
                               rows={3}
                               as="textarea"
                               value={userComment}
+                              maxLength={maxChars}
                               placeholder="Tell us about your experience..."
                               onChange={(e) => setUserComment(e.target.value)}
                             />

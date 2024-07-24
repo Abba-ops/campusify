@@ -1,12 +1,17 @@
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { footerLinks } from "../constants";
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
+  const location = useLocation();
+
   return (
-    <footer className="py-5 text-bg-dark">
+    <footer
+      className={`py-5 text-bg-dark ${
+        location.pathname !== "/" ? "mt-6" : ""
+      }`}>
       <div className="container">
         <div className="row">
           {footerLinks.map((footerLink, index) => (

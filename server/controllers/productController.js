@@ -404,12 +404,14 @@ export const getIsFeatured = asyncHandler(async (req, res) => {
     { $sample: { size: 10 } },
   ]);
 
-  if (featuredProducts.length > 0) {
-    res.status(200).json({ success: true, data: featuredProducts });
-  } else {
-    res.status(404);
-    throw new Error("No featured products found");
-  }
+  res.status(200).json({
+    success: true,
+    data: featuredProducts.length > 0 ? featuredProducts : [],
+    message:
+      featuredProducts.length > 0
+        ? "Featured products found"
+        : "No featured products available",
+  });
 });
 
 /**
@@ -423,12 +425,14 @@ export const getPopularProducts = asyncHandler(async (req, res) => {
     { $sample: { size: 10 } },
   ]);
 
-  if (popularProductsByRatings.length > 0) {
-    res.status(200).json({ success: true, data: popularProductsByRatings });
-  } else {
-    res.status(404);
-    throw new Error("No popular products found based on ratings");
-  }
+  res.status(200).json({
+    success: true,
+    data: popularProductsByRatings.length > 0 ? popularProductsByRatings : [],
+    message:
+      popularProductsByRatings.length > 0
+        ? "Popular products found"
+        : "No popular products available based on ratings",
+  });
 });
 
 /**
@@ -442,12 +446,14 @@ export const getBestSellingProducts = asyncHandler(async (req, res) => {
     { $sample: { size: 10 } },
   ]);
 
-  if (bestSellingProducts.length > 0) {
-    res.status(200).json({ success: true, data: bestSellingProducts });
-  } else {
-    res.status(404);
-    throw new Error("No best-selling products found");
-  }
+  res.status(200).json({
+    success: true,
+    data: bestSellingProducts.length > 0 ? bestSellingProducts : [],
+    message:
+      bestSellingProducts.length > 0
+        ? "Best-selling products found"
+        : "No best-selling products available",
+  });
 });
 
 /**

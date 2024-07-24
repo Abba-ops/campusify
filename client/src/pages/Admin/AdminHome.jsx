@@ -7,6 +7,7 @@ import {
   ListGroup,
   Form,
   Button,
+  Spinner,
 } from "react-bootstrap";
 import { useGetAdminDashboardQuery } from "../../features/usersApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
@@ -18,11 +19,15 @@ import { toast } from "react-toastify";
 import { formatCurrency } from "../../utilities";
 import { format } from "date-fns";
 
+const MAX_TASK_LENGTH = 50;
+const MAX_TEXT_LENGTH = 50;
+
 export default function AdminHome() {
   const [newTask, setNewTask] = useState("");
-
-  const [createTask] = useCreateTaskMutation();
+  const [createTask, { isLoading: isSubmittingTask }] = useCreateTaskMutation();
   const [updateTask] = useUpdateTaskMutation();
+
+  const [expandedMessage, setExpandedMessage] = useState(null);
 
   const {
     data: adminDashboard,
@@ -43,9 +48,15 @@ export default function AdminHome() {
   const recentActivities = adminDashboard?.data?.recentActivities || [];
   const tasks = adminDashboard?.data?.tasks || [];
 
+  const truncateText = (text) => {
+    return text.length > MAX_TEXT_LENGTH
+      ? `${text.substring(0, MAX_TEXT_LENGTH)}...`
+      : text;
+  };
+
   const handleTaskSubmit = async (e) => {
     e.preventDefault();
-    if (newTask.trim()) {
+    if (newTask.trim() && newTask.length <= MAX_TASK_LENGTH) {
       try {
         await createTask({ task: newTask, role: "admin" }).unwrap();
         setNewTask("");
@@ -54,6 +65,8 @@ export default function AdminHome() {
       } catch (error) {
         toast.error((error && error?.data?.message) || "Error creating task");
       }
+    } else {
+      toast.error(`Task cannot exceed ${MAX_TASK_LENGTH} characters`);
     }
   };
 
@@ -70,6 +83,10 @@ export default function AdminHome() {
     } catch (error) {
       toast.error((error && error?.data?.message) || "Error updating task");
     }
+  };
+
+  const handleExpandToggle = (id) => {
+    setExpandedMessage(expandedMessage === id ? null : id);
   };
 
   return (
@@ -99,7 +116,7 @@ export default function AdminHome() {
         <>
           <Row className="mb-4">
             <Col md={6} lg={3} className="mb-3">
-              <Card className="text-center rounded-0">
+              <Card className="text-center rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Total Users</Card.Title>
                   <Card.Text>
@@ -109,7 +126,7 @@ export default function AdminHome() {
               </Card>
             </Col>
             <Col md={6} lg={3} className="mb-3">
-              <Card className="text-center rounded-0">
+              <Card className="text-center rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Active Users</Card.Title>
                   <Card.Text>
@@ -119,7 +136,7 @@ export default function AdminHome() {
               </Card>
             </Col>
             <Col md={6} lg={3} className="mb-3">
-              <Card className="text-center rounded-0">
+              <Card className="text-center rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Total Orders</Card.Title>
                   <Card.Text>
@@ -129,7 +146,7 @@ export default function AdminHome() {
               </Card>
             </Col>
             <Col md={6} lg={3} className="mb-3">
-              <Card className="text-center rounded-0">
+              <Card className="text-center rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Revenue</Card.Title>
                   <Card.Text>
@@ -142,7 +159,7 @@ export default function AdminHome() {
 
           <Row>
             <Col lg={8} className="mb-4">
-              <Card className="rounded-0">
+              <Card className="rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Recent Activities</Card.Title>
                   {recentActivities.length > 0 ? (
@@ -177,7 +194,7 @@ export default function AdminHome() {
               </Card>
             </Col>
             <Col lg={4} className="mb-4">
-              <Card className="rounded-0">
+              <Card className="rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Recent Messages</Card.Title>
                   {recentMessages.length > 0 ? (
@@ -185,7 +202,18 @@ export default function AdminHome() {
                       {recentMessages.map((message) => (
                         <ListGroup.Item key={message._id}>
                           <strong>{message.sender?.vendorName}:</strong>{" "}
-                          {message.content}
+                          {expandedMessage === message._id
+                            ? message.content
+                            : truncateText(message.content)}
+                          {message.content.length > MAX_TEXT_LENGTH && (
+                            <Button
+                              variant="link"
+                              onClick={() => handleExpandToggle(message._id)}>
+                              {expandedMessage === message._id
+                                ? "Read less"
+                                : "Read more"}
+                            </Button>
+                          )}
                           <br />
                           <small className="text-muted">
                             {format(new Date(message.createdAt), "PPpp")}
@@ -200,21 +228,23 @@ export default function AdminHome() {
                   )}
                 </Card.Body>
               </Card>
-              <Card className="mt-3 rounded-0">
+              <Card className="mt-3 rounded-0 shadow-sm">
                 <Card.Body>
                   <Card.Title>Tasks</Card.Title>
                   {tasks.length > 0 ? (
                     <ListGroup variant="flush">
-                      {tasks.map((task) => (
-                        <ListGroup.Item key={task._id}>
-                          <input
-                            type="checkbox"
-                            checked={task.completed}
-                            onChange={() => handleTaskToggle(task)}
-                          />{" "}
-                          {task.task}
-                        </ListGroup.Item>
-                      ))}
+                      {tasks
+                        .filter((task) => !task.completed)
+                        .map((task) => (
+                          <ListGroup.Item key={task._id}>
+                            <input
+                              type="checkbox"
+                              checked={task.completed}
+                              onChange={() => handleTaskToggle(task)}
+                            />{" "}
+                            {task.task}
+                          </ListGroup.Item>
+                        ))}
                     </ListGroup>
                   ) : (
                     <p className="text-center mt-3">No tasks available</p>
@@ -227,10 +257,21 @@ export default function AdminHome() {
                         placeholder="Enter task"
                         value={newTask}
                         onChange={(e) => setNewTask(e.target.value)}
+                        maxLength={MAX_TASK_LENGTH}
                       />
                     </Form.Group>
-                    <Button variant="dark" type="submit" className="mt-2">
-                      Add Task
+                    <Button
+                      variant="dark"
+                      type="submit"
+                      className="mt-2"
+                      disabled={isSubmittingTask}>
+                      {isSubmittingTask ? (
+                        <Spinner size="sm" animation="border">
+                          <span className="visually-hidden"></span>
+                        </Spinner>
+                      ) : (
+                        "Add Task"
+                      )}
                     </Button>
                   </Form>
                 </Card.Body>

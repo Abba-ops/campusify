@@ -23,6 +23,11 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
 
   const isOutOfStock = product?.countInStock <= 0;
 
+  const truncateDescription = (description, maxLength) => {
+    if (description.length <= maxLength) return description;
+    return `${description.substring(0, maxLength)}...`;
+  };
+
   return (
     <>
       <Modal show={show} onHide={handleClose} centered size="lg">
@@ -48,7 +53,9 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                   }`}
                 />
               </div>
-              <p className="my-3 text-break">{product?.productDescription}</p>
+              <p className="my-3 text-break">
+                {truncateDescription(product?.productDescription, 100)}
+              </p>
               <Modal.Title className="text-primary mb-4">
                 &#8358;{formatCurrency(product?.price)}
               </Modal.Title>
