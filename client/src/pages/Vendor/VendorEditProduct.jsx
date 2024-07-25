@@ -113,7 +113,7 @@ export default function VendorEditProduct() {
 
     Object.keys(formData).forEach((key) => {
       if (key === "category") {
-        formDataToSend.append("category", formData[key]._id);
+        formDataToSend.append("category", formData[key]?._id);
       } else if (key === "subcategory") {
         formDataToSend.append("subcategory", JSON.stringify(formData[key]));
       } else {

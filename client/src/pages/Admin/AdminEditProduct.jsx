@@ -115,7 +115,7 @@ export default function AdminEditProduct() {
 
     Object.keys(formData).forEach((key) => {
       if (key === "category") {
-        formDataToSend.append("category", formData[key]._id);
+        formDataToSend.append("category", formData[key]?._id);
       } else if (key === "subcategory") {
         formDataToSend.append("subcategory", JSON.stringify(formData[key]));
       } else {
@@ -241,7 +241,7 @@ export default function AdminEditProduct() {
                         categories &&
                         categories?.data?.map((category) => (
                           <option value={category?._id} key={category?._id}>
-                            {category.name}
+                            {category?.name}
                           </option>
                         ))
                       )}

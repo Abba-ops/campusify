@@ -69,9 +69,9 @@ const AdminHome = () => {
     try {
       const res = await updateTask({
         ...task,
-        completed: !task.completed,
+        completed: !task?.completed,
       }).unwrap();
-      if (res.success) {
+      if (res?.success) {
         refetch();
         toast.success("Task updated successfully!");
       }
@@ -147,17 +147,17 @@ const LoadingPlaceholders = () => (
 const Statistics = ({ stats }) => (
   <Row className="mb-4">
     {[
-      { title: "Total Users", value: stats.totalUsers },
-      { title: "Active Users", value: stats.activeUsers },
-      { title: "Total Orders", value: stats.totalOrders },
-      { title: "Revenue", value: `₦${formatCurrency(stats.totalRevenue)}` },
+      { title: "Total Users", value: stats?.totalUsers },
+      { title: "Active Users", value: stats?.activeUsers },
+      { title: "Total Orders", value: stats?.totalOrders },
+      { title: "Revenue", value: `₦${formatCurrency(stats?.totalRevenue)}` },
     ].map((stat, index) => (
       <Col key={index} md={6} lg={3} className="mb-3">
         <Card className="text-center rounded-0 shadow-sm">
           <Card.Body>
-            <Card.Title>{stat.title}</Card.Title>
+            <Card.Title>{stat?.title}</Card.Title>
             <Card.Text>
-              <strong>{stat.value}</strong>
+              <strong>{stat?.value}</strong>
             </Card.Text>
           </Card.Body>
         </Card>
@@ -182,11 +182,11 @@ const RecentActivities = ({ activities }) => (
           </thead>
           <tbody>
             {activities.map((activity, index) => (
-              <tr key={activity._id}>
+              <tr key={activity?._id}>
                 <td>{index + 1}</td>
-                <td>{activity.type}</td>
-                <td>{activity.message}</td>
-                <td>{format(new Date(activity.createdAt), "PPpp")}</td>
+                <td>{activity?.type}</td>
+                <td>{activity?.message}</td>
+                <td>{format(new Date(activity?.createdAt), "PPpp")}</td>
               </tr>
             ))}
           </tbody>
@@ -202,24 +202,24 @@ const RecentMessages = ({ messages, expandedMessage, onToggleExpand }) => (
   <Card className="rounded-0 shadow-sm">
     <Card.Body>
       <Card.Title>Recent Messages</Card.Title>
-      {messages.length > 0 ? (
+      {messages?.length > 0 ? (
         <ListGroup variant="flush">
           {messages.map((message) => (
-            <ListGroup.Item key={message._id}>
-              <strong>{message.sender?.vendorName}:</strong>{" "}
-              {expandedMessage === message._id
-                ? message.content
-                : truncateText(message.content)}
+            <ListGroup.Item key={message?._id}>
+              <strong>{message?.sender?.vendorName}:</strong>{" "}
+              {expandedMessage === message?._id
+                ? message?.content
+                : truncateText(message?.content)}
               {message.content.length > MAX_TEXT_LENGTH && (
                 <Button
                   variant="link"
                   onClick={() => onToggleExpand(message._id)}>
-                  {expandedMessage === message._id ? "Read less" : "Read more"}
+                  {expandedMessage === message?._id ? "Read less" : "Read more"}
                 </Button>
               )}
               <br />
               <small className="text-muted">
-                {format(new Date(message.createdAt), "PPpp")}
+                {format(new Date(message?.createdAt), "PPpp")}
               </small>
             </ListGroup.Item>
           ))}
@@ -245,12 +245,12 @@ const Tasks = ({
       {tasks.length > 0 ? (
         <ListGroup variant="flush">
           {tasks
-            .filter((task) => !task.completed)
+            .filter((task) => !task?.completed)
             .map((task) => (
-              <ListGroup.Item key={task._id}>
+              <ListGroup.Item key={task?._id}>
                 <input
                   type="checkbox"
-                  checked={task.completed}
+                  checked={task?.completed}
                   onChange={() => onTaskToggle(task)}
                 />{" "}
                 {task.task}

@@ -53,7 +53,7 @@ const VendorHome = () => {
   const notifications = vendorDashboard?.data?.notifications || [];
   const tasks = vendorDashboard?.data?.tasks || [];
 
-  const incompleteTasks = tasks.filter((task) => !task.completed);
+  const incompleteTasks = tasks.filter((task) => !task?.completed);
 
   const handleTaskSubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +75,7 @@ const VendorHome = () => {
     try {
       const res = await updateTask({
         ...task,
-        completed: !task.completed,
+        completed: !task?.completed,
       }).unwrap();
       if (res.success) {
         refetch();
@@ -171,17 +171,17 @@ const LoadingPlaceholders = () => (
 const Statistics = ({ stats }) => (
   <Row className="mb-4">
     {[
-      { title: "Products", value: stats.totalProduct },
-      { title: "Customers", value: stats.totalCustomers },
-      { title: "Orders", value: stats.totalOrders },
-      { title: "Revenue", value: `₦${formatCurrency(stats.totalRevenue)}` },
+      { title: "Products", value: stats?.totalProduct },
+      { title: "Customers", value: stats?.totalCustomers },
+      { title: "Orders", value: stats?.totalOrders },
+      { title: "Revenue", value: `₦${formatCurrency(stats?.totalRevenue)}` },
     ].map((stat, index) => (
       <Col key={index} md={6} lg={3} className="mb-3">
         <Card className="text-center rounded-0 shadow-sm">
           <Card.Body>
-            <Card.Title>{stat.title}</Card.Title>
+            <Card.Title>{stat?.title}</Card.Title>
             <Card.Text>
-              <strong>{stat.value}</strong>
+              <strong>{stat?.value}</strong>
             </Card.Text>
           </Card.Body>
         </Card>
@@ -234,15 +234,15 @@ const Notifications = ({ notifications, expandedMessage, onToggleExpand }) => (
       {notifications.length > 0 ? (
         <ListGroup variant="flush">
           {notifications.map((notification) => (
-            <ListGroup.Item key={notification._id}>
-              {expandedMessage === notification._id
-                ? notification.message
-                : truncateText(notification.message)}
+            <ListGroup.Item key={notification?._id}>
+              {expandedMessage === notification?._id
+                ? notification?.message
+                : truncateText(notification?.message)}
               {notification.message.length > MAX_TEXT_LENGTH && (
                 <Button
                   variant="link"
-                  onClick={() => onToggleExpand(notification._id)}>
-                  {expandedMessage === notification._id
+                  onClick={() => onToggleExpand(notification?._id)}>
+                  {expandedMessage === notification?._id
                     ? "Read less"
                     : "Read more"}
                 </Button>
@@ -271,13 +271,13 @@ const Tasks = ({
       {tasks.length > 0 ? (
         <ListGroup variant="flush">
           {tasks.map((task) => (
-            <ListGroup.Item key={task._id}>
+            <ListGroup.Item key={task?._id}>
               <input
                 type="checkbox"
-                checked={task.completed}
+                checked={task?.completed}
                 onChange={() => onTaskToggle(task)}
               />{" "}
-              {task.task}
+              {task?.task}
             </ListGroup.Item>
           ))}
         </ListGroup>

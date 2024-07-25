@@ -233,7 +233,7 @@ export default function AdminProductsTable() {
                   {currentProducts?.map((product) => (
                     <tr key={product?._id}>
                       <td>
-                        {product.productName.length > 30
+                        {product?.productName?.length > 30
                           ? `${product?.productName.slice(0, 30)}...`
                           : product?.productName}
                       </td>

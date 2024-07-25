@@ -44,13 +44,13 @@ export default function VendorCreateProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData();
-    form.append("productName", formData.productName);
-    form.append("productDescription", formData.productDescription);
-    form.append("category", formData.category);
-    form.append("brand", formData.brand);
-    form.append("price", formData.price);
-    form.append("countInStock", formData.countInStock);
-    form.append("subcategory", JSON.stringify(formData.subcategory));
+    form.append("productName", formData?.productName);
+    form.append("productDescription", formData?.productDescription);
+    form.append("category", formData?.category);
+    form.append("brand", formData?.brand);
+    form.append("price", formData?.price);
+    form.append("countInStock", formData?.countInStock);
+    form.append("subcategory", JSON.stringify(formData?.subcategory));
     form.append("productImage", imageFile);
 
     try {

@@ -52,11 +52,11 @@ export default function VendorProductsTable() {
 
   const filteredProducts = vendorProducts
     ? vendorProducts?.data?.filter((product) =>
-        product?.productName.toLowerCase().includes(searchTerm.toLowerCase())
+        product?.productName?.toLowerCase()?.includes(searchTerm.toLowerCase())
       )
     : [];
 
-  filteredProducts.sort(
+  filteredProducts?.sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 

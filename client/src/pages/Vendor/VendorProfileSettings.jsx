@@ -60,7 +60,7 @@ export default function VendorProfileSettings() {
     const { name, value } = e.target;
     setVendorData((prevData) => ({
       ...prevData,
-      socialMediaLinks: { ...prevData.socialMediaLinks, [name]: value },
+      socialMediaLinks: { ...prevData?.socialMediaLinks, [name]: value },
     }));
   };
 
@@ -84,9 +84,9 @@ export default function VendorProfileSettings() {
     e.preventDefault();
 
     if (
-      !vendorData.vendorName ||
-      !vendorData.vendorEmail ||
-      !vendorData.vendorPhone
+      !vendorData?.vendorName ||
+      !vendorData?.vendorEmail ||
+      !vendorData?.vendorPhone
     ) {
       toast.error("Vendor Name, Email, and Phone Number are required.");
       return;
@@ -119,7 +119,7 @@ export default function VendorProfileSettings() {
     Object.keys(vendorData.socialMediaLinks).forEach((key) => {
       formData.append(
         `socialMediaLinks[${key}]`,
-        vendorData.socialMediaLinks[key]
+        vendorData?.socialMediaLinks[key]
       );
     });
 
@@ -151,7 +151,7 @@ export default function VendorProfileSettings() {
                   <Form.Control
                     type="text"
                     name="vendorName"
-                    value={vendorData.vendorName}
+                    value={vendorData?.vendorName}
                     onChange={handleChange}
                     placeholder="Enter vendor name"
                     maxLength={50}
@@ -163,7 +163,7 @@ export default function VendorProfileSettings() {
                   <Form.Control
                     type="email"
                     name="vendorEmail"
-                    value={vendorData.vendorEmail}
+                    value={vendorData?.vendorEmail}
                     onChange={handleChange}
                     placeholder="Enter email address"
                     required
@@ -174,7 +174,7 @@ export default function VendorProfileSettings() {
                   <Form.Control
                     type="text"
                     name="vendorPhone"
-                    value={vendorData.vendorPhone}
+                    value={vendorData?.vendorPhone}
                     onChange={handleChange}
                     placeholder="Enter phone number"
                     maxLength={15}
@@ -189,7 +189,7 @@ export default function VendorProfileSettings() {
                     as="textarea"
                     rows={3}
                     name="productsDescription"
-                    value={vendorData.productsDescription}
+                    value={vendorData?.productsDescription}
                     onChange={handleChange}
                     placeholder="Describe your products"
                     maxLength={500}
@@ -201,7 +201,7 @@ export default function VendorProfileSettings() {
                     as="textarea"
                     rows={3}
                     name="vendorDescription"
-                    value={vendorData.vendorDescription}
+                    value={vendorData?.vendorDescription}
                     onChange={handleChange}
                     placeholder="Describe your vendor"
                     maxLength={500}
@@ -215,7 +215,7 @@ export default function VendorProfileSettings() {
                     required
                     name="estimatedDeliveryTime"
                     onChange={handleChange}
-                    value={vendorData.estimatedDeliveryTime}>
+                    value={vendorData?.estimatedDeliveryTime}>
                     <option value="">Select Estimated Delivery Time</option>
                     <option value="15 minutes">Within 15 Minutes</option>
                     <option value="30 minutes">Within 30 Minutes</option>
@@ -250,7 +250,7 @@ export default function VendorProfileSettings() {
                   src={
                     logoFile
                       ? URL.createObjectURL(logoFile)
-                      : vendorData.vendorLogo
+                      : vendorData?.vendorLogo
                   }
                   rounded
                   style={{ maxWidth: "100%", height: "auto" }}
@@ -266,7 +266,7 @@ export default function VendorProfileSettings() {
                 <Form.Control
                   type="text"
                   name="facebook"
-                  value={vendorData.socialMediaLinks.facebook}
+                  value={vendorData?.socialMediaLinks?.facebook}
                   onChange={handleSocialMediaChange}
                   placeholder="Enter Facebook link"
                   maxLength={200}
@@ -277,7 +277,7 @@ export default function VendorProfileSettings() {
                 <Form.Control
                   type="text"
                   name="twitter"
-                  value={vendorData.socialMediaLinks.twitter}
+                  value={vendorData?.socialMediaLinks?.twitter}
                   onChange={handleSocialMediaChange}
                   placeholder="Enter Twitter link"
                   maxLength={200}
@@ -288,7 +288,7 @@ export default function VendorProfileSettings() {
                 <Form.Control
                   type="text"
                   name="instagram"
-                  value={vendorData.socialMediaLinks.instagram}
+                  value={vendorData?.socialMediaLinks?.instagram}
                   onChange={handleSocialMediaChange}
                   placeholder="Enter Instagram link"
                   maxLength={200}
