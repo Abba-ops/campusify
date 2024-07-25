@@ -196,7 +196,6 @@ export const updateProduct = asyncHandler(async (req, res) => {
 
   const {
     productName,
-    imageUrl,
     productDescription,
     category,
     brand,
@@ -205,9 +204,13 @@ export const updateProduct = asyncHandler(async (req, res) => {
     subcategory,
   } = req.body;
 
-  if (imageUrl !== product.imageUrl) {
+  const parsedSubcategory = JSON.parse(subcategory);
+
+  if (req?.file) {
     const publicId = extractPublicId(product.imageUrl);
     await cloudinary.uploader.destroy(publicId);
+
+    product.imageUrl = await uploadToCloudinary(req, "products");
   }
 
   product.productName = productName;
@@ -216,8 +219,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
   product.brand = brand;
   product.price = price;
   product.countInStock = countInStock;
-  product.imageUrl = imageUrl;
-  product.subcategory = subcategory;
+  product.subcategory = parsedSubcategory;
 
   const updatedProduct = await product.save();
 

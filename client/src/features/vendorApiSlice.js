@@ -1,4 +1,4 @@
-import { UPLOAD_URL, VENDORS_URL } from "../constants";
+import { VENDORS_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
 export const vendorApiSlice = apiSlice.injectEndpoints({
@@ -40,13 +40,7 @@ export const vendorApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
-    uploadVendorLogo: builder.mutation({
-      query: (data) => ({
-        url: `${UPLOAD_URL}/logos`,
-        method: "POST",
-        body: data,
-      }),
-    }),
+
     getProductsByVendor: builder.query({
       query: (vendorId) => ({
         url: `${VENDORS_URL}/${vendorId}/products`,
@@ -126,7 +120,6 @@ export const {
   useGetVendorByIdQuery,
   useUpdateVendorStatusMutation,
   useDeleteVendorMutation,
-  useUploadVendorLogoMutation,
   useGetProductsByVendorQuery,
   useGetVendorCustomersQuery,
   useGetAllVendorCustomersQuery,

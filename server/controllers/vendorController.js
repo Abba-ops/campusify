@@ -2,6 +2,7 @@ import {
   asyncHandler,
   calculateOrderPrices,
   extractPublicId,
+  uploadToCloudinary,
 } from "../utilities/index.js";
 import cloudinary from "../config/cloudinary.js";
 import Notification from "../models/notificationSchema.js";
@@ -75,9 +76,10 @@ export const vendorApplication = asyncHandler(async (req, res) => {
     vendorPhone,
     vendorDescription,
     estimatedDeliveryTime,
-    vendorLogo,
     productsDescription,
   } = req.body;
+
+  const vendorLogo = await uploadToCloudinary(req, "logos");
 
   const newVendorData = {
     vendorName,
@@ -465,7 +467,8 @@ export const updateVendorProfile = asyncHandler(async (req, res) => {
         vendor.socialMediaLinks.instagram,
     };
 
-    if (req.file) {
+    if (req?.file) {
+      vendor.vendorLogo = await uploadToCloudinary(req, "logos");
     }
 
     const updatedVendor = await vendor.save();

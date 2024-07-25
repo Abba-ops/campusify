@@ -53,7 +53,7 @@ router
 router
   .route("/:productId")
   .get(getProductById)
-  .put(isLoggedIn, isAdminOrVendor, updateProduct)
+  .put(isLoggedIn, isAdminOrVendor, upload.single("image"), updateProduct)
   .delete(isLoggedIn, isAdminOrVendor, deleteProduct);
 
 router

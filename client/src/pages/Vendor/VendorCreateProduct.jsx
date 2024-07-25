@@ -144,6 +144,7 @@ export default function VendorCreateProduct() {
                     onChange={handleChange}
                     placeholder="Enter product name"
                     required
+                    maxLength={100}
                   />
                 </Form.Group>
               </Col>
@@ -181,6 +182,7 @@ export default function VendorCreateProduct() {
                     name="productDescription"
                     value={formData?.productDescription}
                     placeholder="Enter product description"
+                    maxLength={500}
                   />
                 </Form.Group>
               </Col>
@@ -238,6 +240,7 @@ export default function VendorCreateProduct() {
                     value={formData?.brand}
                     onChange={handleChange}
                     placeholder="Enter brand name"
+                    maxLength={50}
                   />
                 </Form.Group>
               </Col>
@@ -251,6 +254,8 @@ export default function VendorCreateProduct() {
                     onChange={handleChange}
                     placeholder="Enter price"
                     required
+                    min={0}
+                    step="0.01"
                   />
                 </Form.Group>
               </Col>
@@ -266,6 +271,7 @@ export default function VendorCreateProduct() {
                     onChange={handleChange}
                     placeholder="Enter stock count"
                     required
+                    min={0}
                   />
                 </Form.Group>
               </Col>

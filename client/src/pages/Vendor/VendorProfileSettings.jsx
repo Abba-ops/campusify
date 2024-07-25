@@ -67,6 +67,14 @@ export default function VendorProfileSettings() {
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error("Logo file size must be less than 2MB.");
+        return;
+      }
+      if (!["image/jpeg", "image/png"].includes(file.type)) {
+        toast.error("Only JPEG and PNG files are allowed.");
+        return;
+      }
       setLogoFile(file);
       setVendorData((prevData) => ({ ...prevData, vendorLogo: file.name }));
     }
@@ -75,6 +83,27 @@ export default function VendorProfileSettings() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (
+      !vendorData.vendorName ||
+      !vendorData.vendorEmail ||
+      !vendorData.vendorPhone
+    ) {
+      toast.error("Vendor Name, Email, and Phone Number are required.");
+      return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(vendorData.vendorEmail)) {
+      toast.error("Invalid email address.");
+      return;
+    }
+
+    const phonePattern = /^[\d\s\-\+\(\)]+$/;
+    if (!phonePattern.test(vendorData.vendorPhone)) {
+      toast.error("Invalid phone number.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("vendorName", vendorData.vendorName);
     formData.append("vendorEmail", vendorData.vendorEmail);
@@ -82,7 +111,10 @@ export default function VendorProfileSettings() {
     formData.append("productsDescription", vendorData.productsDescription);
     formData.append("vendorDescription", vendorData.vendorDescription);
     formData.append("estimatedDeliveryTime", vendorData.estimatedDeliveryTime);
-    formData.append("vendorLogo", logoFile);
+
+    if (logoFile) {
+      formData.append("vendorLogo", logoFile);
+    }
 
     Object.keys(vendorData.socialMediaLinks).forEach((key) => {
       formData.append(
@@ -111,7 +143,7 @@ export default function VendorProfileSettings() {
 
       <Row>
         <Col md={6} className="mb-4">
-          <Card className="rounded-0">
+          <Card className="rounded-0 shadow-sm">
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formVendorName" className="mb-3">
@@ -122,6 +154,8 @@ export default function VendorProfileSettings() {
                     value={vendorData.vendorName}
                     onChange={handleChange}
                     placeholder="Enter vendor name"
+                    maxLength={50}
+                    required
                   />
                 </Form.Group>
                 <Form.Group controlId="formVendorEmail" className="mb-3">
@@ -132,6 +166,7 @@ export default function VendorProfileSettings() {
                     value={vendorData.vendorEmail}
                     onChange={handleChange}
                     placeholder="Enter email address"
+                    required
                   />
                 </Form.Group>
                 <Form.Group controlId="formVendorPhone" className="mb-3">
@@ -142,6 +177,8 @@ export default function VendorProfileSettings() {
                     value={vendorData.vendorPhone}
                     onChange={handleChange}
                     placeholder="Enter phone number"
+                    maxLength={15}
+                    required
                   />
                 </Form.Group>
                 <Form.Group
@@ -155,6 +192,7 @@ export default function VendorProfileSettings() {
                     value={vendorData.productsDescription}
                     onChange={handleChange}
                     placeholder="Describe your products"
+                    maxLength={500}
                   />
                 </Form.Group>
                 <Form.Group controlId="formVendorDescription" className="mb-3">
@@ -166,6 +204,7 @@ export default function VendorProfileSettings() {
                     value={vendorData.vendorDescription}
                     onChange={handleChange}
                     placeholder="Describe your vendor"
+                    maxLength={500}
                   />
                 </Form.Group>
                 <Form.Group
@@ -196,7 +235,7 @@ export default function VendorProfileSettings() {
           </Card>
         </Col>
         <Col md={6} className="mb-4">
-          <Card className="rounded-0">
+          <Card className="rounded-0 shadow-sm">
             <Card.Body>
               <Form.Group controlId="formVendorLogo" className="mb-3">
                 <Form.Label>Logo</Form.Label>
@@ -219,7 +258,7 @@ export default function VendorProfileSettings() {
               </div>
             </Card.Body>
           </Card>
-          <Card className="mt-3 rounded-0">
+          <Card className="mt-3 rounded-0 shadow-sm">
             <Card.Body>
               <Card.Title>Social Media Links</Card.Title>
               <Form.Group controlId="formFacebook" className="mb-3">
@@ -230,6 +269,7 @@ export default function VendorProfileSettings() {
                   value={vendorData.socialMediaLinks.facebook}
                   onChange={handleSocialMediaChange}
                   placeholder="Enter Facebook link"
+                  maxLength={200}
                 />
               </Form.Group>
               <Form.Group controlId="formTwitter" className="mb-3">
@@ -240,6 +280,7 @@ export default function VendorProfileSettings() {
                   value={vendorData.socialMediaLinks.twitter}
                   onChange={handleSocialMediaChange}
                   placeholder="Enter Twitter link"
+                  maxLength={200}
                 />
               </Form.Group>
               <Form.Group controlId="formInstagram">
@@ -250,6 +291,7 @@ export default function VendorProfileSettings() {
                   value={vendorData.socialMediaLinks.instagram}
                   onChange={handleSocialMediaChange}
                   placeholder="Enter Instagram link"
+                  maxLength={200}
                 />
               </Form.Group>
             </Card.Body>

@@ -123,6 +123,7 @@ export default function VendorApplication() {
                         name="vendorEmail"
                         value={formState?.vendorEmail}
                         onChange={handleInputChange}
+                        maxLength={100}
                       />
                     </Col>
                   </Form.Group>
@@ -140,6 +141,7 @@ export default function VendorApplication() {
                         name="vendorName"
                         value={formState?.vendorName}
                         onChange={handleInputChange}
+                        maxLength={50}
                       />
                     </Col>
                   </Form.Group>
@@ -172,6 +174,7 @@ export default function VendorApplication() {
                         name="vendorPhone"
                         onChange={handleInputChange}
                         value={formState?.vendorPhone}
+                        maxLength={15}
                       />
                     </Col>
                   </Form.Group>
@@ -209,11 +212,12 @@ export default function VendorApplication() {
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
-                        rows={3}
+                        rows={4}
                         as="textarea"
                         name="vendorDescription"
                         onChange={handleInputChange}
                         value={formState?.vendorDescription}
+                        maxLength={500}
                       />
                     </Col>
                   </Form.Group>
@@ -226,11 +230,12 @@ export default function VendorApplication() {
                     </Form.Label>
                     <Col sm={6}>
                       <Form.Control
-                        rows={3}
+                        rows={4}
                         as="textarea"
                         name="productsDescription"
                         onChange={handleInputChange}
                         value={formState?.productsDescription}
+                        maxLength={500}
                       />
                     </Col>
                   </Form.Group>

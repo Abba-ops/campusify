@@ -104,17 +104,28 @@ export default function VendorEditProduct() {
     e.preventDefault();
 
     const formDataToSend = new FormData();
-    formDataToSend.append("image", imageFile);
+
+    formDataToSend.append("productId", productId);
+
+    if (imageFile) {
+      formDataToSend.append("image", imageFile);
+    }
+
     Object.keys(formData).forEach((key) => {
-      if (key === "subcategory") {
-        formDataToSend.append("subcategory", formData[key]._id);
+      if (key === "category") {
+        formDataToSend.append("category", formData[key]._id);
+      } else if (key === "subcategory") {
+        formDataToSend.append("subcategory", JSON.stringify(formData[key]));
       } else {
         formDataToSend.append(key, formData[key]);
       }
     });
 
     try {
-      const result = await updateProduct(formDataToSend).unwrap();
+      const result = await updateProduct({
+        productId,
+        formData: formDataToSend,
+      }).unwrap();
 
       if (result?.success) {
         toast.success(result?.message);
@@ -171,6 +182,7 @@ export default function VendorEditProduct() {
                       value={formData?.productName}
                       onChange={handleChange}
                       placeholder="Enter product name"
+                      maxLength={100}
                     />
                   </Form.Group>
                 </Col>
@@ -207,6 +219,7 @@ export default function VendorEditProduct() {
                       name="productDescription"
                       value={formData?.productDescription}
                       placeholder="Enter product description"
+                      maxLength={500}
                     />
                   </Form.Group>
                 </Col>
@@ -272,6 +285,7 @@ export default function VendorEditProduct() {
                       value={formData?.brand}
                       onChange={handleChange}
                       placeholder="Enter brand name"
+                      maxLength={50}
                     />
                   </Form.Group>
                 </Col>
@@ -285,6 +299,8 @@ export default function VendorEditProduct() {
                       value={formData?.price}
                       onChange={handleChange}
                       placeholder="Enter price"
+                      min={0}
+                      step="0.01"
                     />
                   </Form.Group>
                 </Col>
@@ -300,6 +316,7 @@ export default function VendorEditProduct() {
                       onChange={handleChange}
                       value={formData?.countInStock}
                       placeholder="Enter stock count"
+                      min={0}
                     />
                   </Form.Group>
                 </Col>

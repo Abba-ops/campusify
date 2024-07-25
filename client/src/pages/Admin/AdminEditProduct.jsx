@@ -105,25 +105,33 @@ export default function AdminEditProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const updatedProduct = new FormData();
-      updatedProduct.append("productName", formData.productName);
-      updatedProduct.append("productDescription", formData.productDescription);
-      updatedProduct.append("category", formData.category);
-      updatedProduct.append("brand", formData.brand);
-      updatedProduct.append("price", formData.price);
-      updatedProduct.append("countInStock", formData.countInStock);
-      updatedProduct.append("subcategory", formData.subcategory._id);
-      updatedProduct.append("productId", productId);
-      if (imageFile) {
-        updatedProduct.append("image", imageFile);
-      }
+    const formDataToSend = new FormData();
 
-      const result = await updateProduct(updatedProduct).unwrap();
+    formDataToSend.append("productId", productId);
+
+    if (imageFile) {
+      formDataToSend.append("image", imageFile);
+    }
+
+    Object.keys(formData).forEach((key) => {
+      if (key === "category") {
+        formDataToSend.append("category", formData[key]._id);
+      } else if (key === "subcategory") {
+        formDataToSend.append("subcategory", JSON.stringify(formData[key]));
+      } else {
+        formDataToSend.append(key, formData[key]);
+      }
+    });
+
+    try {
+      const result = await updateProduct({
+        productId,
+        formData: formDataToSend,
+      }).unwrap();
 
       if (result?.success) {
         toast.success(result?.message);
-        navigate("/admin/dashboard/products");
+        navigate("/vendor/dashboard/products");
       }
     } catch (error) {
       toast.error(

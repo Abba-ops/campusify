@@ -23,12 +23,19 @@ import {
   sendMessage,
   updateVendorProfile,
 } from "../controllers/vendorController.js";
+import { upload } from "../utilities/index.js";
 
 const router = express.Router();
 
 router.post("/messages", isLoggedIn, isVendor, sendMessage);
 router.get("/dashboard", isLoggedIn, isVendor, getVendorDashboard);
-router.put("/dashboard/profile", isLoggedIn, isVendor, updateVendorProfile);
+router.put(
+  "/dashboard/profile",
+  isLoggedIn,
+  isVendor,
+  upload.single("vendorLogo"),
+  updateVendorProfile
+);
 router.get("/profile/:vendorId", getVendorProfile);
 router
   .route("/notifications/:notificationId")
@@ -42,7 +49,7 @@ router.put(
 router
   .route("/")
   .get(isLoggedIn, isAdmin, getVendors)
-  .post(isLoggedIn, vendorApplication);
+  .post(isLoggedIn, upload.single("vendorLogo"), vendorApplication);
 
 router.get("/products", isLoggedIn, isVendor, getVendorProducts);
 router.get("/customers", isLoggedIn, isVendor, getVendorCustomers);
