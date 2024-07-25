@@ -3,12 +3,14 @@ import { Button, Image, Col, Modal, Row, Form } from "react-bootstrap";
 import { addToCart } from "../features/cartSlice";
 import CartPreviewModal from "./CartPreviewModal";
 import { formatCurrency } from "../utilities";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import StarRating from "./StarRating";
 
 export default function ProductPreviewModal({ product, show, handleClose }) {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const closeModal = () => setIsModalOpen(false);
   const openModal = () => setIsModalOpen(true);
@@ -92,7 +94,11 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
             variant="dark"
             onClick={handleAddToCart}
             className="px-4"
-            disabled={isOutOfStock}>
+            disabled={
+              isOutOfStock ||
+              userInfo?.data?.vendor?._id === product?.vendor ||
+              userInfo?.data?.isAdmin
+            }>
             {isOutOfStock ? "Out of Stock" : "Add to Cart"}
           </Button>
         </Modal.Footer>

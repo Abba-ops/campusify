@@ -1,6 +1,16 @@
-import { useGetOrderByIdQuery } from "../../features/ordersApiSlice";
-import { Breadcrumb, Card, Col, Row, ListGroup, Image } from "react-bootstrap";
+import React, { useState } from "react";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Row,
+  ListGroup,
+  Image,
+  Button,
+  Container,
+} from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
+import { useGetOrderByIdQuery } from "../../features/ordersApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 import { formatCurrency } from "../../utilities";
@@ -8,15 +18,18 @@ import { formatCurrency } from "../../utilities";
 export default function AdminOrderDetails() {
   const { orderId } = useParams();
   const { data: order, isLoading, isError } = useGetOrderByIdQuery(orderId);
+  const [showFullComment, setShowFullComment] = useState(false);
+
+  const toggleComment = () => setShowFullComment(!showFullComment);
 
   return (
-    <>
+    <Container>
       <Breadcrumb>
         <Breadcrumb.Item>
-          <Link to="/vendor/dashboard/">Dashboard</Link>
+          <Link to="/admin/dashboard/">Dashboard</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <Link to="/vendor/dashboard/orders/">Orders</Link>
+          <Link to="/admin/dashboard/orders/">Orders</Link>
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{orderId}</Breadcrumb.Item>
       </Breadcrumb>
@@ -29,15 +42,20 @@ export default function AdminOrderDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <>
+        <Row>
           {[...Array(6)].map((_, index) => (
-            <TablePlaceholder key={index} />
+            <Col key={index} md={12}>
+              <TablePlaceholder />
+            </Col>
           ))}
-        </>
+        </Row>
       ) : (
         <Row>
           <Col md={6}>
             <Card className="border-0 rounded-0 shadow-sm mb-4">
+              <Card.Header className="bg-dark text-white rounded-0">
+                <h5 className="mb-0">Summary of Order Details</h5>
+              </Card.Header>
               <Card.Body>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
@@ -63,6 +81,16 @@ export default function AdminOrderDetails() {
                     <strong>Order Delivered:</strong>{" "}
                     {order?.data?.isOrderDelivered ? "Yes" : "No"}
                   </ListGroup.Item>
+                </ListGroup>
+              </Card.Body>
+            </Card>
+
+            <Card className="border-0 rounded-0 shadow-sm mb-4">
+              <Card.Header className="bg-dark text-white rounded-0">
+                <h5 className="mb-0">Customer Information</h5>
+              </Card.Header>
+              <Card.Body>
+                <ListGroup variant="flush">
                   <ListGroup.Item>
                     <strong>Name:</strong> {order?.data?.user?.lastName}{" "}
                     {order?.data?.user?.otherNames}
@@ -86,28 +114,47 @@ export default function AdminOrderDetails() {
                     <strong>Campus:</strong>{" "}
                     {order?.data?.deliveryAddress?.campus}
                   </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Comment:</strong>{" "}
+                    {order?.data?.comment?.length > 100 && !showFullComment
+                      ? `${order?.data?.comment.substring(0, 100)}...`
+                      : order?.data?.comment}
+                    {order?.data?.comment?.length > 100 && (
+                      <Button
+                        variant="link"
+                        onClick={toggleComment}
+                        className="p-0 ms-2">
+                        {showFullComment ? "Show Less" : "Read More"}
+                      </Button>
+                    )}
+                  </ListGroup.Item>
                 </ListGroup>
               </Card.Body>
             </Card>
           </Col>
+
           <Col md={6}>
             <Card className="border-0 rounded-0 shadow-sm mb-4">
+              <Card.Header className="bg-dark text-white rounded-0">
+                <h5 className="mb-0">List of Ordered Items</h5>
+              </Card.Header>
               <Card.Body>
                 <ListGroup variant="flush">
                   {order?.data?.orderItems?.map((item) => (
                     <ListGroup.Item key={item?._id}>
                       <Row className="align-items-center">
-                        <Col xs={4} lg={2}>
+                        <Col xs={4} lg={3}>
                           <div className="image-container">
                             <Image
                               fluid
                               loading="lazy"
                               className="product-image"
                               src={item?.imageUrl}
+                              alt={item?.productName}
                             />
                           </div>
                         </Col>
-                        <Col xs={8} lg={6}>
+                        <Col xs={8} lg={5}>
                           <Link
                             className="text-decoration-none"
                             to={`/admin/dashboard/products/${item?._id}`}>
@@ -164,6 +211,6 @@ export default function AdminOrderDetails() {
           </Col>
         </Row>
       )}
-    </>
+    </Container>
   );
 }

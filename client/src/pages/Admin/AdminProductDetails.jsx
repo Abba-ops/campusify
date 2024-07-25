@@ -16,12 +16,14 @@ import {
 import { toast } from "react-toastify";
 import StarRating from "../../components/StarRating";
 import { MdDelete } from "react-icons/md";
-import { formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import TablePlaceholder from "../../components/TablePlaceholder";
 import { formatCurrency } from "../../utilities";
 
 export default function AdminProductDetails() {
   const [visibleComments, setVisibleComments] = useState(3);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
   const { productId } = useParams();
   const {
     data: product,
@@ -57,6 +59,20 @@ export default function AdminProductDetails() {
     product?.data?.reviews?.slice().sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
+
+  const handleToggleDescription = () => {
+    setShowFullDescription(
+      (prevShowFullDescription) => !prevShowFullDescription
+    );
+  };
+
+  const truncateDescription = (description) => {
+    const maxLength = 100;
+    if (description.length <= maxLength) {
+      return description;
+    }
+    return description.slice(0, maxLength) + "...";
+  };
 
   return (
     <>
@@ -183,7 +199,19 @@ export default function AdminProductDetails() {
               <Card className="border-0 rounded-0 shadow-sm">
                 <Card.Body>
                   <h5>{product?.data?.productName}</h5>
-                  <p>{product?.data?.productDescription}</p>
+                  <p>
+                    {showFullDescription
+                      ? product?.data?.productDescription
+                      : truncateDescription(product?.data?.productDescription)}
+                    {product?.data?.productDescription.length > 100 && (
+                      <Button
+                        variant="link"
+                        onClick={handleToggleDescription}
+                        className="p-0 ms-1">
+                        {showFullDescription ? "Read Less" : "Read More"}
+                      </Button>
+                    )}
+                  </p>{" "}
                   <ListGroup variant="flush">
                     <ListGroup.Item>
                       <strong>Category: </strong>
@@ -212,6 +240,21 @@ export default function AdminProductDetails() {
                     <ListGroup.Item>
                       <strong>Review Count: </strong>
                       {product?.data?.reviewCount}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Sales Count: </strong>
+                      {product?.data?.salesCount}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Featured: </strong>
+                      {product?.data?.isFeatured ? "Featured" : "Not Featured"}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>Created At: </strong>
+                      {format(
+                        new Date(product?.data?.createdAt),
+                        "MMMM d, yyyy"
+                      )}
                     </ListGroup.Item>
                   </ListGroup>
                 </Card.Body>

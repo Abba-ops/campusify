@@ -270,9 +270,14 @@ export const getAdminDashboard = asyncHandler(async (req, res) => {
     await Promise.all([
       User.countDocuments({}),
       Order.countDocuments({}),
-      Message.find({}).populate("sender", "vendorName").limit(5),
+      Message.find({})
+        .populate("sender", "vendorName")
+        .limit(5)
+        .sort({ createdAt: -1 }),
       Notification.find({}).sort({ createdAt: -1 }).limit(5),
-      Task.find({ role: "admin", userId: req.user._id, completed: false }),
+      Task.find({ role: "admin", userId: req.user._id, completed: false }).sort(
+        { createdAt: -1 }
+      ),
     ]);
 
   const totalRevenue = 15000;

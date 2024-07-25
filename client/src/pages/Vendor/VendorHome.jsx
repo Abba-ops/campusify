@@ -206,13 +206,16 @@ const RecentOrders = ({ orders }) => (
           </thead>
           <tbody>
             {orders.map((order, index) => (
-              <tr key={order._id}>
+              <tr key={order?._id}>
                 <td>{index + 1}</td>
                 <td>
-                  {order.user.lastName} {order.user.otherNames}
+                  {order?.user?.lastName} {order?.user?.otherNames}
                 </td>
-                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                <td>&#8358;{order.totalPrice}</td>
+                <td>
+                  {new Date(order?.createdAt).toLocaleDateString()}{" "}
+                  {new Date(order?.createdAt).toLocaleTimeString()}
+                </td>
+                <td>&#8358;{formatCurrency(order?.totalPrice)}</td>
               </tr>
             ))}
           </tbody>

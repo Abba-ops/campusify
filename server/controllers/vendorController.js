@@ -19,7 +19,9 @@ import Message from "../models/messageSchema.js";
  * @access  Private/Admin
  */
 export const getVendors = asyncHandler(async (req, res) => {
-  const vendors = await Vendor.find({}).populate("user");
+  const vendors = await Vendor.find({})
+    .populate("user")
+    .sort({ createdAt: -1 });
 
   res.status(200).json({
     success: true,
@@ -232,6 +234,8 @@ export const getVendorCustomers = asyncHandler(async (req, res) => {
 
   const customers = Array.from(customersSet);
 
+  customers.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   res.status(200).json({ data: customers, success: true });
 });
 
@@ -251,6 +255,8 @@ export const getAllVendorCustomers = asyncHandler(async (req, res) => {
   });
 
   const customers = Array.from(customersSet);
+
+  customers.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   res.status(200).json({ data: customers, success: true });
 });
@@ -365,6 +371,7 @@ export const getVendorDashboard = asyncHandler(async (req, res) => {
       path: "orderItems.product",
       match: { vendor: vendorId },
     })
+    .sort({ createdAt: -1 })
     .populate("user")
     .limit(5);
 
@@ -392,7 +399,7 @@ export const getVendorDashboard = asyncHandler(async (req, res) => {
     role: "vendor",
     userId: req.user._id,
     completed: false,
-  });
+  }).sort({ createdAt: -1 });
 
   res.status(200).json({
     success: true,

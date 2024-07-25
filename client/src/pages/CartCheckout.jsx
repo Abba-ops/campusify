@@ -93,6 +93,10 @@ export default function CartCheckout() {
     }
   };
 
+  const isFormValid = () => {
+    return email && phone && campus && building && locationNumber;
+  };
+
   return (
     <section className="py-5">
       <MetaTags
@@ -295,8 +299,12 @@ export default function CartCheckout() {
                   </Form.Group>
                 </Form>
                 <div className="d-flex justify-content-end mb-4">
-                  {paymentConfirmed ? (
-                    <Button variant="dark" disabled={!paymentConfirmed}>
+                  {!isFormValid() ? (
+                    <Button variant="secondary" disabled>
+                      Proceed to Payment
+                    </Button>
+                  ) : paymentConfirmed ? (
+                    <Button variant="dark" disabled className="px-4">
                       <Spinner size="sm" animation="border">
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>

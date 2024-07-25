@@ -76,8 +76,10 @@ export default function AdminUserDetails() {
           </Col>
           <Col md={6}>
             <Card className="border-0 rounded-0 shadow-sm">
+              <Card.Header className="bg-dark text-white rounded-0">
+                <h5 className="mb-0">User Profile Information</h5>
+              </Card.Header>
               <Card.Body>
-                <h5>User Profile Information</h5>
                 <p>
                   <strong>ID: </strong>
                   {user?.data?._id}
@@ -97,10 +99,6 @@ export default function AdminUserDetails() {
                 <p>
                   <strong>Account Creation Date: </strong>
                   {new Date(user?.data?.accountCreationDate).toLocaleString()}
-                </p>
-                <p>
-                  <strong>Is Admin: </strong>
-                  {user?.data?.isAdmin ? "Yes" : "No"}
                 </p>
                 <p>
                   <strong>Is Vendor: </strong>

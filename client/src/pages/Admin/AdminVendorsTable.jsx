@@ -163,7 +163,6 @@ export default function VendorManagementPage() {
                   <th>Vendor Email</th>
                   <th>Sales Count</th>
                   <th>Vendor Phone</th>
-                  <th>Creator Name</th>
                   <th>Approval Status</th>
                   <th>Date Joined</th>
                   <th>Vendor Logo</th>
@@ -177,7 +176,6 @@ export default function VendorManagementPage() {
                     <td>{vendor?.vendorEmail}</td>
                     <td>{vendor?.salesCount}</td>
                     <td>{vendor?.vendorPhone}</td>
-                    <td>{`${vendor?.user?.lastName} ${vendor?.user?.otherNames}`}</td>
                     <td className="text-capitalize">
                       {vendor?.approvalStatus}
                     </td>

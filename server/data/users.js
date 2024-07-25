@@ -10,7 +10,7 @@ const userData = [
     profilePictureURL:
       "https://portal.tau.edu.ng/uploads/student/kajeyale-jadesola-oluwaseun.jpg",
     userType: "student",
-    isVendor: true,
+    isVendor: false,
     isAdmin: true,
   },
   {
@@ -34,7 +34,7 @@ const userData = [
     profilePictureURL:
       "https://portal.tau.edu.ng/uploads/student/adebayo-oluwafemi-samuel.jpg",
     userType: "student",
-    isVendor: false,
+    isVendor: true,
     isAdmin: false,
   },
   {

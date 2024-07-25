@@ -65,7 +65,7 @@ export default function UserProfileDropdown({
               </LinkContainer>
             </Nav.Link>
           )}
-          {isVendor && (
+          {isVendor && !isAdmin && (
             <Nav.Link onClick={() => setShowMenuDropdown(false)}>
               <LinkContainer to="/vendor/dashboard/">
                 <Dropdown.Item>Vendor Dashboard</Dropdown.Item>

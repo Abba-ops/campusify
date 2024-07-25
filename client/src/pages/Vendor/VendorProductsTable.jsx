@@ -56,6 +56,10 @@ export default function VendorProductsTable() {
       )
     : [];
 
+  filteredProducts.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
   const [deleteProduct] = useDeleteProductMutation();
 
   const indexOfLastItem = currentPage * itemsPerPage;

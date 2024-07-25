@@ -12,7 +12,7 @@ import Order from "../models/orderModel.js";
  * @access  Private/Admin
  */
 export const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate("user");
+  const orders = await Order.find({}).populate("user").sort({ createdAt: -1 });
 
   res.status(200).json({ data: orders, success: true });
 });
@@ -130,9 +130,12 @@ export const getVendorOrders = asyncHandler(async (req, res) => {
         vendor: req.vendor._id,
       },
     })
-    .populate("user");
+    .populate("user")
+    .sort({ createdAt: -1 });
 
   orders.forEach((order) => calculateOrderPrices(order));
+
+  orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   res.status(200).json({ data: orders, success: true });
 });

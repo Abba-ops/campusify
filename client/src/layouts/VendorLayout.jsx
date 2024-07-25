@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Col,
   Container,
@@ -8,11 +8,7 @@ import {
   Row,
   Stack,
 } from "react-bootstrap";
-import {
-  useDeleteNotificationMutation,
-  useGetVendorNotificationsQuery,
-  useMarkNotificationAsReadMutation,
-} from "../features/vendorApiSlice";
+
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,19 +27,6 @@ export default function VendorLayout() {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showMessagesDropdown, setShowMessagesDropdown] = useState(false);
-
-  const {
-    data: notifications,
-    isLoading,
-    refetch: refetchNotifications,
-  } = useGetVendorNotificationsQuery();
-
-  const [markNotificationAsRead, { isLoading: isLoadingMarkNotification }] =
-    useMarkNotificationAsReadMutation();
-
-  const [deleteNotification, { isLoading: isLoadingDeleteNotification }] =
-    useDeleteNotificationMutation();
 
   const logoutHandler = async () => {
     try {
@@ -58,36 +41,6 @@ export default function VendorLayout() {
       toast.error("Logout failed. Please try again.");
     }
   };
-
-  const handleMarkAsRead = async (notificationId) => {
-    try {
-      const res = await markNotificationAsRead(notificationId).unwrap();
-      if (res?.success) {
-        refetchNotifications();
-        toast.success(res?.message);
-      }
-    } catch (error) {
-      toast.error("Failed to mark notification as read. Please try again.");
-    }
-  };
-
-  const handleDeleteMessage = async (notificationId) => {
-    try {
-      const res = await deleteNotification(notificationId).unwrap();
-      if (res?.success) {
-        refetchNotifications();
-        toast.success(res?.message);
-      }
-    } catch (error) {
-      toast.error("Failed to delete notification. Please try again.");
-    }
-  };
-
-  const toggleMessagesDropdown = () => setShowMessagesDropdown((prev) => !prev);
-
-  const unreadNotifications = notifications
-    ? notifications.data.filter((notification) => !notification.read)
-    : [];
 
   return (
     <>

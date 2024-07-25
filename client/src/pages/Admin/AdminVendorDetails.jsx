@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useGetProductsByVendorQuery,
   useGetVendorByIdQuery,
@@ -18,6 +18,23 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import TablePlaceholder from "../../components/TablePlaceholder";
+
+const TruncatedText = ({ text, maxLength }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  if (text.length <= maxLength) return <p>{text}</p>;
+
+  const truncatedText = isExpanded ? text : text.slice(0, maxLength) + "...";
+
+  return (
+    <div>
+      <p>{truncatedText}</p>
+      <Button variant="link" onClick={() => setIsExpanded(!isExpanded)}>
+        {isExpanded ? "Read less" : "Read more"}
+      </Button>
+    </div>
+  );
+};
 
 export default function AdminVendorDetails() {
   const { vendorId } = useParams();
@@ -191,8 +208,14 @@ export default function AdminVendorDetails() {
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <h4>{vendor?.data?.vendorName}</h4>
-                    <p>{vendor?.data?.vendorDescription}</p>
-                    <p>{vendor?.data?.productsDescription}</p>
+                    <TruncatedText
+                      text={vendor?.data?.vendorDescription}
+                      maxLength={200}
+                    />
+                    <TruncatedText
+                      text={vendor?.data?.productsDescription}
+                      maxLength={200}
+                    />
                     <p>
                       <strong>Estimated Delivery Time: </strong>
                       {vendor?.data?.estimatedDeliveryTime}

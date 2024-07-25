@@ -298,7 +298,12 @@ export default function ProductDetail() {
                   <Form.Group className="mb-3">
                     <Form.Select
                       size="lg"
-                      disabled={!productData?.data?.countInStock > 0}
+                      disabled={
+                        !productData?.data?.countInStock > 0 ||
+                        userInfo?.data?.vendor?._id ===
+                          productData?.data?.vendor?._id ||
+                        userInfo?.data?.isAdmin
+                      }
                       onChange={(e) => setCartQuantity(Number(e.target.value))}>
                       {[...Array(productData?.data?.countInStock).keys()].map(
                         (x) => (
@@ -314,7 +319,12 @@ export default function ProductDetail() {
                       size="lg"
                       variant="dark"
                       onClick={addToCartHandler}
-                      disabled={productData?.data?.countInStock === 0}>
+                      disabled={
+                        productData?.data?.countInStock === 0 ||
+                        userInfo?.data?.vendor?._id ===
+                          productData?.data?.vendor?._id ||
+                        userInfo?.data?.isAdmin
+                      }>
                       <MdAddShoppingCart className="me-2" />{" "}
                       {productData.data.countInStock > 0
                         ? "Add to Cart"
@@ -480,7 +490,12 @@ export default function ProductDetail() {
                           <Button
                             type="submit"
                             className="px-4"
-                            disabled={loadingCreateReview}
+                            disabled={
+                              loadingCreateReview ||
+                              userInfo?.data?.vendor?._id ===
+                                productData?.data?.vendor?._id ||
+                              userInfo?.data?.isAdmin
+                            }
                             variant="dark">
                             {loadingCreateReview ? (
                               <Spinner animation="border" size="sm" />

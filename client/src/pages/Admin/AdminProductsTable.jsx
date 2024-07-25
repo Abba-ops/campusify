@@ -67,9 +67,11 @@ export default function AdminProductsTable() {
 
   const filteredProducts =
     products &&
-    products?.data?.filter((product) =>
-      product?.productName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    products?.data
+      ?.filter((product) =>
+        product?.productName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

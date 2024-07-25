@@ -68,7 +68,6 @@ export default function AdminOrdersTable() {
                   <tr>
                     <th>Order ID</th>
                     <th>User Name</th>
-                    <th>User Email</th>
                     <th>Phone Number</th>
                     <th>Items Price</th>
                     <th>Tax Price</th>
@@ -87,7 +86,6 @@ export default function AdminOrdersTable() {
                       <td>
                         {order?.user?.otherNames} {order?.user?.lastName}
                       </td>
-                      <td>{order?.user?.email}</td>
                       <td>{order?.user?.phoneNumber}</td>
                       <td>&#8358;{formatCurrency(order?.itemsPrice)}</td>
                       <td>&#8358;{formatCurrency(order?.taxPrice)}</td>
