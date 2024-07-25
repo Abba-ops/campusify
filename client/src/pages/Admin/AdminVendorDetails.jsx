@@ -178,22 +178,13 @@ export default function AdminVendorDetails() {
                     ) : (
                       vendorProducts?.data?.slice(-5)?.map((vendorProduct) => (
                         <ListGroup.Item key={vendorProduct?._id}>
-                          <Row className="align-items-center">
-                            <Col xs={2}>
-                              <Image
-                                src={vendorProduct?.imageUrl}
-                                className="profile-picture-sm"
-                                alt={vendorProduct?.productName}
-                              />
-                            </Col>
-                            <Col className="text-truncate">
-                              <Link
-                                className="text-decoration-none"
-                                to={`/admin/dashboard/products/${vendorProduct?._id}`}>
-                                {vendorProduct?.productName}
-                              </Link>
-                            </Col>
-                          </Row>
+                          <div className="text-truncate">
+                            <Link
+                              className="text-decoration-none"
+                              to={`/admin/dashboard/products/${vendorProduct?._id}`}>
+                              {vendorProduct?.productName}
+                            </Link>
+                          </div>
                         </ListGroup.Item>
                       ))
                     )}
