@@ -304,7 +304,7 @@ export default function CartCheckout() {
                       Proceed to Payment
                     </Button>
                   ) : paymentConfirmed ? (
-                    <Button variant="dark" disabled className="px-4">
+                    <Button className="px-4" variant="dark" disabled>
                       <Spinner size="sm" animation="border">
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>
