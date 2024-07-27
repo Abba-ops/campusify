@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -96,6 +96,12 @@ export default function CartCheckout() {
   const isFormValid = () => {
     return email && phone && campus && building && locationNumber;
   };
+
+  useEffect(() => {
+    if (userInfo?.data?.isAdmin) {
+      navigate("/");
+    }
+  }, [userInfo, navigate]);
 
   return (
     <section className="py-5">

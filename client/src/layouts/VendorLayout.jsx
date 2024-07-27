@@ -8,7 +8,6 @@ import {
   Row,
   Stack,
 } from "react-bootstrap";
-
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -74,7 +73,7 @@ export default function VendorLayout() {
             <Nav className="ms-auto">
               <div className="mb-2 d-lg-none">
                 {vendorLinks.map(({ title, link, icon }, index) => (
-                  <LinkContainer to={link} key={index} className="fw-semibold">
+                  <LinkContainer to={link} key={index}>
                     <Nav.Link>
                       <div className="d-flex align-items-center gap-3">
                         {icon}

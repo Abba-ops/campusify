@@ -75,8 +75,12 @@ export default function VendorApplication() {
   };
 
   useEffect(() => {
+    if (userInfo?.data?.isAdmin) {
+      navigate("/");
+    }
+
     window.scrollTo(0, 0);
-  }, []);
+  }, [userInfo, navigate]);
 
   return (
     <section className="py-5">

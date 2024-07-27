@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Col,
   Container,
@@ -9,7 +9,7 @@ import {
   Badge,
   Spinner,
 } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useGetOrderByIdQuery,
   useMarkOrderAsReceivedMutation,
@@ -20,9 +20,13 @@ import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";
 import { formatCurrency } from "../utilities";
+import { useSelector } from "react-redux";
 
 export default function OrderScreen() {
+  const { userInfo } = useSelector((state) => state.auth);
   const { orderId } = useParams();
+
+  const navigate = useNavigate();
 
   const {
     data: orderData,
@@ -48,6 +52,12 @@ export default function OrderScreen() {
       );
     }
   };
+
+  useEffect(() => {
+    if (userInfo?.data?.isAdmin) {
+      navigate("/");
+    }
+  }, [userInfo, navigate]);
 
   return (
     <section className="py-5">

@@ -58,7 +58,7 @@ export default function AdminLayout() {
             <Nav className="ms-auto mb-2">
               <div className="d-lg-none">
                 {adminLinks.map(({ title, link, icon }, index) => (
-                  <LinkContainer to={link} key={index} className="fw-semibold">
+                  <LinkContainer to={link} key={index}>
                     <Nav.Link>
                       <div className="d-flex align-items-center gap-3">
                         {icon}
