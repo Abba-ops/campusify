@@ -197,8 +197,10 @@ export default function AdminProductDetails() {
             </Col>
             <Col md={8}>
               <Card className="border-0 rounded-0 shadow-sm">
+                <Card.Header className="bg-dark text-white rounded-0">
+                  <h5 className="mb-0">{product?.data?.productName}</h5>
+                </Card.Header>
                 <Card.Body>
-                  <h5>{product?.data?.productName}</h5>
                   <p>
                     {showFullDescription
                       ? product?.data?.productDescription

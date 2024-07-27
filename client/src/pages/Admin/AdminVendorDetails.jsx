@@ -195,10 +195,12 @@ export default function AdminVendorDetails() {
           </Col>
           <Col md={8}>
             <Card className="border-0 rounded-0 shadow-sm">
+              <Card.Header className="bg-dark text-white rounded-0">
+                <h5 className="mb-0">{vendor?.data?.vendorName}</h5>
+              </Card.Header>
               <Card.Body>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
-                    <h4>{vendor?.data?.vendorName}</h4>
                     <TruncatedText
                       text={vendor?.data?.vendorDescription}
                       maxLength={200}

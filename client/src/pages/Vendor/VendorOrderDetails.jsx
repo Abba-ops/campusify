@@ -8,7 +8,6 @@ import {
   Image,
   Button,
   Spinner,
-  Container,
 } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -50,7 +49,7 @@ export default function VendorOrderDetails() {
   const toggleComment = () => setShowFullComment((prev) => !prev);
 
   return (
-    <Container>
+    <>
       <Breadcrumb>
         <Breadcrumb.Item>
           <Link to="/vendor/dashboard/">Dashboard</Link>
@@ -140,9 +139,11 @@ export default function VendorOrderDetails() {
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <strong>Comment:</strong>{" "}
-                    {order?.data?.comment?.length > 100 && !showFullComment
-                      ? `${order?.data?.comment.substring(0, 100)}...`
-                      : order?.data?.comment}
+                    {order?.data?.comment
+                      ? order?.data?.comment?.length > 100 && !showFullComment
+                        ? `${order?.data?.comment.substring(0, 100)}...`
+                        : order?.data?.comment
+                      : "No comment provided."}
                     {order?.data?.comment?.length > 100 && (
                       <Button
                         variant="link"
@@ -248,6 +249,6 @@ export default function VendorOrderDetails() {
           </Col>
         </Row>
       )}
-    </Container>
+    </>
   );
 }

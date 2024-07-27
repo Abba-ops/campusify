@@ -7,7 +7,6 @@ import {
   ListGroup,
   Image,
   Button,
-  Container,
 } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useGetOrderByIdQuery } from "../../features/ordersApiSlice";
@@ -23,7 +22,7 @@ export default function AdminOrderDetails() {
   const toggleComment = () => setShowFullComment(!showFullComment);
 
   return (
-    <Container>
+    <>
       <Breadcrumb>
         <Breadcrumb.Item>
           <Link to="/admin/dashboard/">Dashboard</Link>
@@ -116,9 +115,11 @@ export default function AdminOrderDetails() {
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <strong>Comment:</strong>{" "}
-                    {order?.data?.comment?.length > 100 && !showFullComment
-                      ? `${order?.data?.comment.substring(0, 100)}...`
-                      : order?.data?.comment}
+                    {order?.data?.comment
+                      ? order?.data?.comment.length > 100 && !showFullComment
+                        ? `${order?.data?.comment.substring(0, 100)}...`
+                        : order?.data?.comment
+                      : "No comment provided"}
                     {order?.data?.comment?.length > 100 && (
                       <Button
                         variant="link"
@@ -211,6 +212,6 @@ export default function AdminOrderDetails() {
           </Col>
         </Row>
       )}
-    </Container>
+    </>
   );
 }
