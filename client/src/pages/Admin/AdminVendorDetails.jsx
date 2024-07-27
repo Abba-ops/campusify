@@ -18,6 +18,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import TablePlaceholder from "../../components/TablePlaceholder";
+import { format } from "date-fns";
 
 const TruncatedText = ({ text, maxLength }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -215,11 +216,13 @@ export default function AdminVendorDetails() {
                     </p>
                     <p>
                       <strong>Approval Date: </strong>
-                      {vendor?.data?.approvalDate}
+                      {vendor?.data?.approvalDate &&
+                        format(new Date(vendor?.data?.approvalDate), "PPP")}
                     </p>
                     <p>
                       <strong>Date Joined: </strong>
-                      {vendor?.data?.dateJoined}
+                      {vendor?.data?.dateJoined &&
+                        format(new Date(vendor?.data?.dateJoined), "PPP")}
                     </p>
                     <p>
                       <strong>Approval Status: </strong>
