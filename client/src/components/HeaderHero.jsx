@@ -8,7 +8,7 @@ export default function HeaderHero() {
 
   return (
     <header className="px-lg-4 border-bottom">
-      <div className="row flex-lg-row align-items-center">
+      <div className="row flex-lg-row-reverse align-items-center">
         <div className="col-lg-6 order-lg-2">
           <Carousel indicators={false} controls={false}>
             {[1, 2, 3].map((index) => (
