@@ -68,6 +68,11 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
                   ) : (
                     <Form.Select
                       size="lg"
+                      disabled={
+                        isOutOfStock ||
+                        userInfo?.data?.vendor?._id === product?.vendor ||
+                        userInfo?.data?.isAdmin
+                      }
                       onChange={(e) =>
                         setSelectedQuantity(Number(e.target.value))
                       }>
