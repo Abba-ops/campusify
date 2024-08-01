@@ -20,10 +20,18 @@ export default function UserCart() {
   const { cartItems, itemsPrice, deliveryPrice, taxPrice, totalPrice } =
     useSelector((state) => state.cart);
 
+  const { userInfo } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const checkoutHandler = () => navigate("/login?redirect=/checkout");
+  const checkoutHandler = () => {
+    if (userInfo?.data) {
+      return navigate("/checkout");
+    }
+
+    navigate("/login?redirect=/checkout");
+  };
 
   const removeFromCartHandler = (id) => dispatch(removeFromCart(id));
 
