@@ -7,7 +7,10 @@ export default function SearchForm({ onSubmit }) {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    onSubmit(searchQuery);
+
+    if (!searchQuery.trim().length === 0) {
+      onSubmit(searchQuery);
+    }
   };
 
   return (
@@ -15,6 +18,7 @@ export default function SearchForm({ onSubmit }) {
       <InputGroup className="mb-2 mb-lg-0 me-lg-4 w-auto">
         <Form.Control
           type="text"
+          maxLength={50}
           className="rounded-0"
           placeholder="Search for products..."
           value={searchQuery}
