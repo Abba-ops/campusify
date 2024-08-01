@@ -8,9 +8,11 @@ export default function SearchForm({ onSubmit }) {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
-    if (!searchQuery.trim().length === 0) {
-      onSubmit(searchQuery);
+    if (searchQuery.trim().length === 0) {
+      return;
     }
+
+    onSubmit(searchQuery);
   };
 
   return (

@@ -100,7 +100,7 @@ export default function CategoryPage() {
                       .replace(/\s+/g, "-")}/${subcategory?.name
                       .toLowerCase()
                       .replace(/\s+/g, "-")}/${subcategory?._id}`}
-                    className="text-decoration-none fw-semibold">
+                    className="text-decoration-none fw-semibold text-uppercase">
                     {subcategory?.name}
                   </Link>
                 </ListGroup.Item>
