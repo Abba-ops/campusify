@@ -18,7 +18,7 @@ export default function FeaturedProducts() {
     featuredProducts?.data?.length > 0;
 
   return (
-    <section className="py-5">
+    <section className="py-5" id="products">
       <div className="text-center mb-4 position-relative">
         <p className="text-muted mb-3">Featured Collection</p>
         <h2>Featured Products</h2>

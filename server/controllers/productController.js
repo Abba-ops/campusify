@@ -3,10 +3,9 @@ import {
   extractPublicId,
   uploadToCloudinary,
 } from "../utilities/index.js";
-import { Category, Product } from "../models/productModel.js";
 import cloudinary from "../config/cloudinary.js";
+import Product, { Category } from "../models/productModel.js";
 import Vendor from "../models/vendorModel.js";
-import Notification from "../models/notificationSchema.js";
 
 /**
  * @desc    Fetch all products

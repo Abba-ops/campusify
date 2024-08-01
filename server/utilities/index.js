@@ -1,9 +1,9 @@
 import multer from "multer";
 import cloudinary from "../config/cloudinary.js";
-import { Product } from "../models/productModel.js";
-import Vendor from "../models/vendorModel.js";
 import jwt from "jsonwebtoken";
 import path from "path";
+import Product from "../models/productModel.js";
+import Vendor from "../models/vendorModel.js";
 
 const storage = multer.diskStorage({
   filename: function (req, file, cb) {

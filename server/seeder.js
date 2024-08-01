@@ -4,14 +4,11 @@ import userData from "./data/users.js";
 import connectDB from "./config/dbConfig.js";
 import vendorData from "./data/vendors.js";
 import { categoryData, products } from "./data/products.js";
-import User from "./models/userModel.js";
-import { Category, Product } from "./models/productModel.js";
 import cloudinary from "./config/cloudinary.js";
+import Product, { Category } from "./models/productModel.js";
 import Vendor from "./models/vendorModel.js";
+import User, { Message, Notification, Task } from "./models/userModel.js";
 import Order from "./models/orderModel.js";
-import Notification from "./models/notificationSchema.js";
-import Task from "./models/taskModel.js";
-import Message from "./models/messageSchema.js";
 
 dotenv.config();
 connectDB();

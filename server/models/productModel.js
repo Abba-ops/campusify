@@ -104,5 +104,8 @@ const productSchema = new Schema(
   { timestamps: true }
 );
 
-export const Product = model("Product", productSchema);
+const Product = model("Product", productSchema);
+
 export const Category = model("Category", categorySchema);
+
+export default Product;

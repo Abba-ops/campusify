@@ -8,7 +8,6 @@ import connectDB from "./config/dbConfig.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import vendorRoutes from "./routes/vendorRoutes.js";
-import taskRoutes from "./routes/taskRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 
@@ -36,7 +35,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/vendors", vendorRoutes);
-app.use("/api/task", taskRoutes);
 
 // Serve static uploads directory
 const __dirname = path.resolve();

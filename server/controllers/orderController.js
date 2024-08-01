@@ -3,8 +3,8 @@ import {
   calculateOrderPrices,
   generateOrderID,
 } from "../utilities/index.js";
-import Notification from "../models/notificationSchema.js";
 import Order from "../models/orderModel.js";
+import { Notification } from "../models/userModel.js";
 
 /**
  * @desc    Get all orders

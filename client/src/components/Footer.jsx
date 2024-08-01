@@ -20,7 +20,7 @@ export default function Footer() {
               <ul className="nav flex-column">
                 {footerLink.links.map((link, index) => (
                   <li key={index} className="nav-item mb-2">
-                    <Link className="text-decoration-none link-secondary">
+                    <Link className="text-decoration-none link-light">
                       {link.text}
                     </Link>
                   </li>

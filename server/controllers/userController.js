@@ -1,16 +1,13 @@
-import Vendor from "../models/vendorModel.js";
-import User from "../models/userModel.js";
 import {
   asyncHandler,
   constructUserData,
   deleteProductsAndVendor,
   genToken,
 } from "../utilities/index.js";
-import axios from "axios";
 import Order from "../models/orderModel.js";
-import Task from "../models/taskModel.js";
-import Notification from "../models/notificationSchema.js";
-import Message from "../models/messageSchema.js";
+import User, { Message, Notification, Task } from "../models/userModel.js";
+import Vendor from "../models/vendorModel.js";
+import axios from "axios";
 
 /**
  * @desc    Authenticate user
@@ -297,4 +294,48 @@ export const getAdminDashboard = asyncHandler(async (req, res) => {
       tasks,
     },
   });
+});
+
+/**
+ * @desc    Create a new task
+ * @route   POST /api/tasks
+ * @access  Private (requires authentication)
+ */
+export const createTask = asyncHandler(async (req, res) => {
+  const { task, role } = req.body;
+
+  if (!task || !role) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const newTask = new Task({
+    task,
+    role,
+    userId: req.user._id,
+  });
+
+  const savedTask = await newTask.save();
+  res.status(201).json({ success: true, data: savedTask });
+});
+
+/**
+ * @desc    Update an existing task
+ * @route   PUT /api/tasks/:taskId
+ * @access  Private (requires authentication)
+ */
+export const updateTask = asyncHandler(async (req, res) => {
+  const { taskId } = req.params;
+  const { task, completed } = req.body;
+
+  const updatedTask = await Task.findByIdAndUpdate(
+    taskId,
+    { task, completed, updatedAt: Date.now() },
+    { new: true }
+  );
+
+  if (!updatedTask) {
+    return res.status(404).json({ message: "Task not found" });
+  }
+
+  res.status(200).json({ success: true, data: updatedTask });
 });

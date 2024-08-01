@@ -5,13 +5,10 @@ import {
   uploadToCloudinary,
 } from "../utilities/index.js";
 import cloudinary from "../config/cloudinary.js";
-import Notification from "../models/notificationSchema.js";
-import Order from "../models/orderModel.js";
-import { Product } from "../models/productModel.js";
-import User from "../models/userModel.js";
 import Vendor from "../models/vendorModel.js";
-import Task from "../models/taskModel.js";
-import Message from "../models/messageSchema.js";
+import Product from "../models/productModel.js";
+import User, { Message, Notification, Task } from "../models/userModel.js";
+import Order from "../models/orderModel.js";
 
 /**
  * @desc    Get all vendors
@@ -352,7 +349,6 @@ export const getVendorProfile = asyncHandler(async (req, res) => {
  * @route   GET /api/vendors/dashboard
  * @access  Private (Vendor)
  */
-
 export const getVendorDashboard = asyncHandler(async (req, res) => {
   const vendorId = req.vendor._id;
 

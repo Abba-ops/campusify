@@ -14,12 +14,12 @@ import {
   useSendMessageMutation,
 } from "../../features/vendorApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
+import { toast } from "react-toastify";
+import { formatCurrency } from "../../utilities";
 import {
   useCreateTaskMutation,
   useUpdateTaskMutation,
-} from "../../features/tasksApiSlice";
-import { toast } from "react-toastify";
-import { formatCurrency } from "../../utilities";
+} from "../../features/usersApiSlice";
 
 const MAX_TASK_LENGTH = 50;
 const MAX_TEXT_LENGTH = 50;

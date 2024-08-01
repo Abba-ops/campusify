@@ -9,12 +9,12 @@ import {
   Button,
   Spinner,
 } from "react-bootstrap";
-import { useGetAdminDashboardQuery } from "../../features/usersApiSlice";
-import TablePlaceholder from "../../components/TablePlaceholder";
 import {
   useCreateTaskMutation,
+  useGetAdminDashboardQuery,
   useUpdateTaskMutation,
-} from "../../features/tasksApiSlice";
+} from "../../features/usersApiSlice";
+import TablePlaceholder from "../../components/TablePlaceholder";
 import { toast } from "react-toastify";
 import { formatCurrency } from "../../utilities";
 import { format } from "date-fns";

@@ -66,6 +66,20 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    createTask: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/tasks`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    updateTask: builder.mutation({
+      query: (updatedTask) => ({
+        url: `${USERS_URL}/tasks/${updatedTask._id}`,
+        method: "PUT",
+        body: updatedTask,
+      }),
+    }),
   }),
 });
 
@@ -80,4 +94,6 @@ export const {
   useDeleteUserMutation,
   useGetUserProfileQuery,
   useGetAdminDashboardQuery,
+  useCreateTaskMutation,
+  useUpdateTaskMutation,
 } = usersApiSlice;
