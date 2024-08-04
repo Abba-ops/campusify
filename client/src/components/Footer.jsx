@@ -46,6 +46,7 @@ export default function Footer() {
                   <li key={index} className="nav-item mb-2">
                     <Link
                       to={link?.url}
+                      target="_blank"
                       className="text-decoration-none link-light">
                       {link?.text}
                     </Link>
