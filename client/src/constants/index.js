@@ -22,7 +22,6 @@ export const USERS_URL = "/api/users";
 export const PRODUCTS_URL = "/api/products";
 export const VENDORS_URL = "/api/vendors";
 export const ORDERS_URL = "/api/orders";
-export const TASKS_URL = "/api/task";
 
 export const adminLinks = [
   {
@@ -130,28 +129,34 @@ export const footerLinks = [
   {
     heading: "Resources",
     links: [
-      { text: "Campus Map", url: "/campus-map" },
-      { text: "Academic Calendar", url: "/academic-calendar" },
-      { text: "Student Services", url: "/student-services" },
-      { text: "Campus News", url: "/campus-news" },
+      { text: "Photo Gallery", url: "https://tau.edu.ng/photo-gallery.php" },
+      {
+        text: "Academic Calendar",
+        url: "https://tau.edu.ng/academics.php?i=15&a=academic-calendar",
+      },
+      {
+        text: "Student Services",
+        url: "https://tau.edu.ng/support-units.php?i=11&n=student-care-services&s=overview",
+      },
+      { text: "Campus News", url: "https://tau.edu.ng/news.php" },
     ],
   },
   {
     heading: "Categories",
     links: [
-      { text: "Textbooks", url: "/shop/textbooks" },
-      { text: "Electronics", url: "/shop/electronics" },
-      { text: "Clothing", url: "/shop/clothing" },
-      { text: "Accessories", url: "/shop/accessories" },
+      { text: "Textbooks", url: "" },
+      { text: "Electronics", url: "" },
+      { text: "Clothing", url: "" },
+      { text: "Accessories", url: "" },
     ],
   },
   {
     heading: "Helpful Links",
     links: [
-      { text: "How to Sell", url: "/help/sell" },
-      { text: "Privacy Policy", url: "/privacy-policy" },
-      { text: "Terms of Service", url: "/terms-of-service" },
-      { text: "Contact Us", url: "/contact-us" },
+      { text: "How to Sell", url: "/faq" },
+      { text: "Privacy Policy", url: "/faq" },
+      { text: "Terms of Service", url: "/faq" },
+      { text: "Contact Us", url: "/contact" },
     ],
   },
 ];

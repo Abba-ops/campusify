@@ -1,11 +1,35 @@
 import { Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { footerLinks } from "../constants";
+import { useGetCategoriesQuery } from "../features/productsApiSlice";
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
+  const { data: categories, isLoading: loadingCategories } =
+    useGetCategoriesQuery();
+
+  const categoriesLinks =
+    !loadingCategories &&
+    categories?.data.map((category) => {
+      return {
+        text: category.name,
+        url: `/category/${category?.name}/${category?._id}`,
+      };
+    });
+
+  if (!loadingCategories) {
+    footerLinks[1] = {
+      heading: footerLinks[1]?.heading,
+      links: categoriesLinks?.slice(0, 4),
+    };
+  }
+
   const location = useLocation();
+
+  const handleSubscribeClick = () => {
+    alert("Newsletter functionality coming soon!");
+  };
 
   return (
     <footer
@@ -16,12 +40,14 @@ export default function Footer() {
         <div className="row">
           {footerLinks.map((footerLink, index) => (
             <div key={index} className="col-6 col-md-2 mb-3">
-              <h5 className="fw-semibold">{footerLink.heading}</h5>
+              <h5 className="fw-semibold">{footerLink?.heading}</h5>
               <ul className="nav flex-column">
-                {footerLink.links.map((link, index) => (
+                {footerLink?.links.map((link, index) => (
                   <li key={index} className="nav-item mb-2">
-                    <Link className="text-decoration-none link-light">
-                      {link.text}
+                    <Link
+                      to={link?.url}
+                      className="text-decoration-none link-light">
+                      {link?.text}
                     </Link>
                   </li>
                 ))}
@@ -40,7 +66,11 @@ export default function Footer() {
                   className="form-control"
                   placeholder="Enter your email..."
                 />
-                <Button variant="primary" className="text-white" type="button">
+                <Button
+                  variant="primary"
+                  className="text-white"
+                  type="button"
+                  onClick={handleSubscribeClick}>
                   Subscribe
                 </Button>
               </div>
@@ -53,7 +83,7 @@ export default function Footer() {
             <span role="img" aria-label="heart">
               ❤️
             </span>{" "}
-            by Jadesola | © {year}{" "}
+            by Jadesola Kajeyale | © {year}{" "}
             <span className="text-primary">Campusify</span>. All rights
             reserved.
           </p>
