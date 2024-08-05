@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, Col, Image, Row, Breadcrumb } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useGetUserByIdQuery } from "../../features/usersApiSlice";
@@ -76,10 +75,8 @@ export default function AdminUserDetails() {
           </Col>
           <Col md={6}>
             <Card className="border-0 rounded-0 shadow-sm">
-              <Card.Header className="bg-dark text-white rounded-0">
-                <h5 className="mb-0">User Profile Information</h5>
-              </Card.Header>
               <Card.Body>
+                <h5>User Profile Information</h5>
                 <p>
                   <strong>ID: </strong>
                   {user?.data?._id}

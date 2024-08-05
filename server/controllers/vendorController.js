@@ -197,11 +197,6 @@ export const getProductsByVendor = asyncHandler(async (req, res) => {
 
   const products = await Product.find({ vendor: vendorId });
 
-  if (!products || products.length === 0) {
-    res.status(404);
-    throw new Error("No products found for this vendor");
-  }
-
   return res.status(200).json({ success: true, data: products });
 });
 

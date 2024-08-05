@@ -103,6 +103,10 @@ export default function CartCheckout() {
     }
   }, [userInfo, navigate]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <section className="py-5">
       <MetaTags

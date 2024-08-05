@@ -94,7 +94,7 @@ export default function AdminVendorDetails() {
 
   return (
     <>
-      <Breadcrumb>
+      <Breadcrumb className="mb-4">
         <Breadcrumb.Item>
           <Link to="/admin/dashboard/">Dashboard</Link>
         </Breadcrumb.Item>
@@ -135,23 +135,21 @@ export default function AdminVendorDetails() {
         <Row>
           <Col md={4} className="mb-4 mb-lg-0">
             <Card className="border-0 rounded-0 shadow-sm">
-              <Card.Body>
-                <div className="d-flex justify-content-center mb-3">
-                  <Image
-                    fluid
-                    roundedCircle
-                    loading="lazy"
-                    className="profile-picture-lg border"
-                    src={vendor && vendor?.data?.vendorLogo}
-                  />
-                </div>
-
+              <Card.Body className="text-center">
+                <Image
+                  fluid
+                  roundedCircle
+                  loading="lazy"
+                  className="profile-picture-lg border mb-3"
+                  src={vendor && vendor?.data?.vendorLogo}
+                />
+                <h5 className="mb-3">{vendor?.data?.vendorName}</h5>
                 {vendor?.data?.approvalStatus === "pending" && (
-                  <div className="d-flex justify-content-center mt-3">
+                  <div className="d-flex justify-content-center">
                     <Stack direction="horizontal" gap={3}>
                       <Button
                         variant="primary"
-                        className="text-white px-4"
+                        className="text-white"
                         onClick={handleApprove}>
                         {isApproving ? (
                           <Spinner size="sm" animation="border" />
@@ -172,34 +170,39 @@ export default function AdminVendorDetails() {
                     </Stack>
                   </div>
                 )}
-                {!loadingVendorProducts && (
+              </Card.Body>
+            </Card>
+            <Card className="border-0 rounded-0 shadow-sm mt-3">
+              <Card.Body>
+                <h5>Recent Products</h5>
+                {loadingVendorProducts ? (
+                  <TablePlaceholder />
+                ) : vendorProducts?.data?.length === 0 ? (
+                  <p className="text-muted">
+                    No recent products available for this vendor.
+                  </p>
+                ) : (
                   <ListGroup variant="flush">
-                    {vendorProducts?.data?.length === 0 ? (
-                      <p>No products available for this vendor.</p>
-                    ) : (
-                      vendorProducts?.data?.slice(-5)?.map((vendorProduct) => (
-                        <ListGroup.Item key={vendorProduct?._id}>
-                          <div className="text-truncate">
-                            <Link
-                              className="text-decoration-none"
-                              to={`/admin/dashboard/products/${vendorProduct?._id}`}>
-                              {vendorProduct?.productName}
-                            </Link>
-                          </div>
-                        </ListGroup.Item>
-                      ))
-                    )}
+                    {vendorProducts?.data?.slice(-5)?.map((vendorProduct) => (
+                      <ListGroup.Item key={vendorProduct?._id}>
+                        <div className="text-truncate">
+                          <Link
+                            className="text-decoration-none"
+                            to={`/admin/dashboard/products/${vendorProduct?._id}`}>
+                            {vendorProduct?.productName}
+                          </Link>
+                        </div>
+                      </ListGroup.Item>
+                    ))}
                   </ListGroup>
                 )}
               </Card.Body>
             </Card>
           </Col>
           <Col md={8}>
-            <Card className="border-0 rounded-0 shadow-sm">
-              <Card.Header className="bg-dark text-white rounded-0">
-                <h5 className="mb-0">{vendor?.data?.vendorName}</h5>
-              </Card.Header>
+            <Card className="border-0 rounded-0 shadow-sm mb-3">
               <Card.Body>
+                <h5>Vendor Description</h5>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <TruncatedText
@@ -210,38 +213,33 @@ export default function AdminVendorDetails() {
                       text={vendor?.data?.productsDescription}
                       maxLength={200}
                     />
+                  </ListGroup.Item>
+                  <ListGroup.Item>
                     <p>
                       <strong>Estimated Delivery Time: </strong>
                       {vendor?.data?.estimatedDeliveryTime}
                     </p>
                     <p>
                       <strong>Approval Date: </strong>
-                      {vendor?.data?.approvalDate &&
-                        format(new Date(vendor?.data?.approvalDate), "PPP")}
+                      {vendor?.data?.approvalStatus === "approved"
+                        ? vendor?.data?.approvalDate &&
+                          format(new Date(vendor?.data?.approvalDate), "PPP")
+                        : "Not Approved"}
                     </p>
                     <p>
                       <strong>Date Joined: </strong>
                       {vendor?.data?.dateJoined &&
                         format(new Date(vendor?.data?.dateJoined), "PPP")}
                     </p>
-                    <p>
-                      <strong>Approval Status: </strong>
-                      {vendor?.data?.approvalStatus}
-                    </p>
-                    <p>
-                      <strong>Created By: </strong>
-                      {vendor?.data?.user?.otherNames}{" "}
-                      {vendor?.data?.user?.lastName}
-                    </p>
-                    <p>
-                      <strong>Creator's Email: </strong>
-                      {vendor?.data?.user?.email}
-                    </p>
-                    <p>
-                      <strong>Creator's Phone: </strong>
-                      {vendor?.data?.user?.phoneNumber}
-                    </p>
                   </ListGroup.Item>
+                </ListGroup>
+              </Card.Body>
+            </Card>
+
+            <Card className="border-0 rounded-0 shadow-sm">
+              <Card.Body>
+                <h5>Contact Information</h5>
+                <ListGroup variant="flush">
                   <ListGroup.Item>
                     <strong>Email: </strong>
                     {vendor?.data?.vendorEmail}
@@ -257,6 +255,23 @@ export default function AdminVendorDetails() {
                   <ListGroup.Item>
                     <strong>Sales Count: </strong>
                     {vendor?.data?.salesCount}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Approval Status: </strong>
+                    {vendor?.data?.approvalStatus}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Created By: </strong>
+                    {vendor?.data?.user?.otherNames}{" "}
+                    {vendor?.data?.user?.lastName}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Creator's Email: </strong>
+                    {vendor?.data?.user?.email}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Creator's Phone: </strong>
+                    {vendor?.data?.user?.phoneNumber}
                   </ListGroup.Item>
                 </ListGroup>
               </Card.Body>

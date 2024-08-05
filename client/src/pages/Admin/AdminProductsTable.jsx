@@ -329,6 +329,7 @@ export default function AdminProductsTable() {
                 <Form onSubmit={handleAddCategory}>
                   <InputGroup>
                     <FormControl
+                      maxLength={25}
                       value={newCategory}
                       placeholder="Enter New Category"
                       onChange={(e) => setNewCategory(e.target.value)}
@@ -419,6 +420,7 @@ export default function AdminProductsTable() {
                     </Form.Select>
                     <InputGroup>
                       <FormControl
+                        maxLength={25}
                         value={newSubcategory}
                         placeholder="New Subcategory"
                         onChange={(e) => setNewSubcategory(e.target.value)}

@@ -52,10 +52,8 @@ export default function AdminOrderDetails() {
         <Row>
           <Col md={6}>
             <Card className="border-0 rounded-0 shadow-sm mb-4">
-              <Card.Header className="bg-dark text-white rounded-0">
-                <h5 className="mb-0">Summary of Order Details</h5>
-              </Card.Header>
               <Card.Body>
+                <h5>Summary of Order Details</h5>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <strong>Order ID:</strong> {orderId}
@@ -85,10 +83,8 @@ export default function AdminOrderDetails() {
             </Card>
 
             <Card className="border-0 rounded-0 shadow-sm mb-4">
-              <Card.Header className="bg-dark text-white rounded-0">
-                <h5 className="mb-0">Customer Information</h5>
-              </Card.Header>
               <Card.Body>
+                <h5>Customer Information</h5>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <strong>Name:</strong> {order?.data?.user?.lastName}{" "}
@@ -136,13 +132,11 @@ export default function AdminOrderDetails() {
 
           <Col md={6}>
             <Card className="border-0 rounded-0 shadow-sm mb-4">
-              <Card.Header className="bg-dark text-white rounded-0">
-                <h5 className="mb-0">List of Ordered Items</h5>
-              </Card.Header>
               <Card.Body>
+                <h5>List of Ordered Items</h5>
                 <ListGroup variant="flush">
                   {order?.data?.orderItems?.map((item) => (
-                    <ListGroup.Item key={item?._id}>
+                    <ListGroup.Item key={item?.product}>
                       <Row className="align-items-center">
                         <Col xs={4} lg={3}>
                           <div className="image-container">
@@ -158,7 +152,7 @@ export default function AdminOrderDetails() {
                         <Col xs={8} lg={5}>
                           <Link
                             className="text-decoration-none"
-                            to={`/admin/dashboard/products/${item?._id}`}>
+                            to={`/admin/dashboard/products/${item?.product}`}>
                             <div className="text-truncate">
                               {item?.productName}
                             </div>

@@ -79,10 +79,8 @@ export default function VendorOrderDetails() {
         <Row>
           <Col md={6}>
             <Card className="mb-4 shadow-sm rounded-0">
-              <Card.Header className="bg-dark text-white rounded-0">
-                <h5 className="mb-0">Summary of Order Details</h5>
-              </Card.Header>
               <Card.Body>
+                <h5>Summary of Order Details</h5>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <strong>Items Price:</strong> &#8358;
@@ -109,10 +107,8 @@ export default function VendorOrderDetails() {
             </Card>
 
             <Card className="mb-4 shadow-sm rounded-0">
-              <Card.Header className="bg-dark text-white rounded-0">
-                <h5 className="mb-0">Customer Information</h5>
-              </Card.Header>
               <Card.Body>
+                <h5>Customer Information</h5>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <strong>Name:</strong> {order?.data?.user?.lastName}{" "}
@@ -160,10 +156,8 @@ export default function VendorOrderDetails() {
 
           <Col md={6}>
             <Card className="mb-4 shadow-sm rounded-0">
-              <Card.Header className="bg-dark text-white rounded-0">
-                <h5 className="mb-0">List of Ordered Items</h5>
-              </Card.Header>
               <Card.Body>
+                <h5>List of Ordered Items</h5>
                 <ListGroup variant="flush">
                   {order?.data?.orderItems?.map((item) => (
                     <ListGroup.Item key={item?._id}>
@@ -180,11 +174,11 @@ export default function VendorOrderDetails() {
                         </Col>
                         <Col xs={8} lg={5}>
                           <Link
-                            to={`/vendor/dashboard/products/${item?._id}`}
-                            className="text-decoration-none">
-                            <h6 className="mb-1 text-truncate">
+                            className="text-decoration-none"
+                            to={`/vendor/dashboard/products/${item?.product._id}`}>
+                            <div className="text-truncate">
                               {item?.productName}
-                            </h6>
+                            </div>
                           </Link>
                           <div>
                             <strong>Price:</strong> &#8358;

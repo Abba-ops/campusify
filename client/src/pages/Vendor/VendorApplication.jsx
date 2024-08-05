@@ -128,6 +128,7 @@ export default function VendorApplication() {
                         value={formState?.vendorEmail}
                         onChange={handleInputChange}
                         maxLength={100}
+                        minLength={5}
                       />
                     </Col>
                   </Form.Group>
@@ -146,6 +147,7 @@ export default function VendorApplication() {
                         value={formState?.vendorName}
                         onChange={handleInputChange}
                         maxLength={50}
+                        minLength={3}
                       />
                     </Col>
                   </Form.Group>
@@ -179,6 +181,7 @@ export default function VendorApplication() {
                         onChange={handleInputChange}
                         value={formState?.vendorPhone}
                         maxLength={15}
+                        minLength={10}
                       />
                     </Col>
                   </Form.Group>
@@ -222,6 +225,7 @@ export default function VendorApplication() {
                         onChange={handleInputChange}
                         value={formState?.vendorDescription}
                         maxLength={500}
+                        minLength={10}
                       />
                     </Col>
                   </Form.Group>
@@ -240,6 +244,7 @@ export default function VendorApplication() {
                         onChange={handleInputChange}
                         value={formState?.productsDescription}
                         maxLength={500}
+                        minLength={10}
                       />
                     </Col>
                   </Form.Group>
