@@ -126,11 +126,18 @@ export default function AdminVendorDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <>
-          {[...Array(6)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </>
+        <Row>
+          <Col md={4} className="mb-4 mb-lg-0">
+            {[...Array(6)].map((_, index) => (
+              <TablePlaceholder key={index} />
+            ))}
+          </Col>
+          <Col md={8}>
+            {[...Array(6)].map((_, index) => (
+              <TablePlaceholder key={index} />
+            ))}
+          </Col>
+        </Row>
       ) : (
         <Row>
           <Col md={4} className="mb-4 mb-lg-0">

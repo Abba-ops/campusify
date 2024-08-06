@@ -108,11 +108,22 @@ export default function VendorProductDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <>
-          {[...Array(6)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </>
+        <Row>
+          <Col md={4} className="mb-4 mb-lg-0">
+            <Card className="border-0 rounded-0 shadow-sm">
+              {[...Array(6)].map((_, index) => (
+                <TablePlaceholder key={index} />
+              ))}
+            </Card>
+          </Col>
+          <Col>
+            <Card md={8} className="border-0 rounded-0 shadow-sm">
+              {[...Array(6)].map((_, index) => (
+                <TablePlaceholder key={index} />
+              ))}
+            </Card>
+          </Col>
+        </Row>
       ) : (
         <>
           <Row>

@@ -69,11 +69,16 @@ export default function VendorOrderDetails() {
         </div>
       ) : isLoading ? (
         <Row>
-          {[...Array(6)].map((_, index) => (
-            <Col key={index} md={12}>
-              <TablePlaceholder />
-            </Col>
-          ))}
+          <Col md={6}>
+            {[...Array(6)].map((_, index) => (
+              <TablePlaceholder key={index} />
+            ))}
+          </Col>
+          <Col md={6}>
+            {[...Array(4)].map((_, index) => (
+              <TablePlaceholder key={index} />
+            ))}
+          </Col>
         </Row>
       ) : (
         <Row>

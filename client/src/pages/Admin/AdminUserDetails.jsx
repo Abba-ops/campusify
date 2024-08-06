@@ -1,7 +1,7 @@
 import { Card, Col, Image, Row, Breadcrumb } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
 import { useGetUserByIdQuery } from "../../features/usersApiSlice";
 import TablePlaceholder from "../../components/TablePlaceholder";
+import { Link, useParams } from "react-router-dom";
 
 export default function AdminUserDetails() {
   const { userId } = useParams();
@@ -42,11 +42,22 @@ export default function AdminUserDetails() {
         </Breadcrumb.Item>
       </Breadcrumb>
       {isLoading ? (
-        <>
-          {[...Array(6)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </>
+        <Row>
+          <Col md={6} className="mb-4 mb-lg-0">
+            <Card className="border-0 rounded-0 shadow-sm">
+              {[...Array(4)].map((_, index) => (
+                <TablePlaceholder key={index} />
+              ))}
+            </Card>
+          </Col>
+          <Col md={6}>
+            <Card className="border-0 rounded-0 shadow-sm">
+              {[...Array(4)].map((_, index) => (
+                <TablePlaceholder key={index} />
+              ))}
+            </Card>
+          </Col>
+        </Row>
       ) : isError ? (
         <div className="text-center mt-5">
           <h5 className="text-danger">Error Loading User Data</h5>

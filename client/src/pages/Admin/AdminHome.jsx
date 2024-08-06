@@ -138,9 +138,38 @@ const ErrorMessage = () => (
 
 const LoadingPlaceholders = () => (
   <>
-    {[...Array(6)].map((_, index) => (
-      <TablePlaceholder key={index} />
-    ))}
+    <Row className="mb-4">
+      {[1, 2, 3, 4].map((item) => (
+        <Col key={item} md={6} lg={3} className="mb-3">
+          <Card className="rounded-0 shadow-sm">
+            {[...Array(1)].map((_, index) => (
+              <TablePlaceholder key={index} />
+            ))}
+          </Card>
+        </Col>
+      ))}
+    </Row>
+    <Row>
+      <Col lg={8} className="mb-4">
+        <Card className="rounded-0 shadow-sm">
+          {[...Array(4)].map((_, index) => (
+            <TablePlaceholder key={index} />
+          ))}
+        </Card>
+      </Col>
+      <Col lg={4} className="mb-4">
+        <Card className="rounded-0 shadow-sm">
+          {[...Array(2)].map((_, index) => (
+            <TablePlaceholder key={index} />
+          ))}
+        </Card>
+        <Card className="mt-3 rounded-0 shadow-sm">
+          {[...Array(3)].map((_, index) => (
+            <TablePlaceholder key={index} />
+          ))}
+        </Card>
+      </Col>
+    </Row>
   </>
 );
 
