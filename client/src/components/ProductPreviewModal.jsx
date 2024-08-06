@@ -91,14 +91,13 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
         <Modal.Footer>
           <Button
             onClick={handleClose}
-            className="text-white px-4"
+            className="text-white"
             variant="primary">
             Close
           </Button>
           <Button
             variant="dark"
             onClick={handleAddToCart}
-            className="px-4"
             disabled={
               isOutOfStock ||
               userInfo?.data?.vendor?._id === product?.vendor ||

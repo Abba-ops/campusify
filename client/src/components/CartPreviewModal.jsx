@@ -51,13 +51,10 @@ export default function CartPreviewModal({ show, handleClose, product }) {
         </Row>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          variant="primary"
-          className="text-white px-4"
-          onClick={handleClose}>
+        <Button variant="primary" className="text-white" onClick={handleClose}>
           Continue
         </Button>
-        <Button as={Link} to="/cart" variant="dark" className="px-4">
+        <Button as={Link} to="/cart" variant="dark">
           Checkout
         </Button>
       </Modal.Footer>

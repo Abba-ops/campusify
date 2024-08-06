@@ -66,7 +66,7 @@ export default function ConfirmDeletionModal({
       <Modal.Footer>
         <Button
           variant="primary"
-          className="text-white px-4"
+          className="text-white"
           onClick={handleCloseDelete}>
           Cancel
         </Button>
@@ -74,7 +74,6 @@ export default function ConfirmDeletionModal({
           type="button"
           variant="dark"
           onClick={deleteAccount}
-          className="px-4"
           disabled={confirmDeleteAccount !== "delete my account"}>
           {isDeletingAccount ? (
             <Spinner size="sm" animation="border">

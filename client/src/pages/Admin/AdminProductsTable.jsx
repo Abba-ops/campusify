@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Image,
@@ -46,7 +46,12 @@ export default function AdminProductsTable() {
   const [newCategory, setNewCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: categories, refetch } = useGetCategoriesQuery();
+  const {
+    data: categories,
+    isLoading: isLoadingCategories,
+    isError: isErrorCategories,
+    refetch: refetchCategories,
+  } = useGetCategoriesQuery();
   const [deleteSubcategory] = useDeleteSubcategoryMutation();
   const [deleteCategory] = useDeleteCategoryMutation();
   const [addSubcategory] = useAddSubcategoryMutation();
@@ -77,16 +82,17 @@ export default function AdminProductsTable() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts =
     filteredProducts &&
-    filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+    filteredProducts?.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleAddCategory = async (e) => {
     e.preventDefault();
+
     try {
       const res = await addCategory({ name: newCategory }).unwrap();
       if (res?.success) {
-        refetch();
+        refetchCategories();
         setNewCategory("");
         toast.success(res?.message);
       }
@@ -99,7 +105,7 @@ export default function AdminProductsTable() {
     try {
       const res = await deleteCategory(categoryId).unwrap();
       if (res?.success) {
-        refetch();
+        refetchCategories();
         toast.success(res?.message);
       }
     } catch (error) {
@@ -119,7 +125,7 @@ export default function AdminProductsTable() {
       }).unwrap();
 
       if (res?.success) {
-        refetch();
+        refetchCategories();
         setNewSubcategory("");
         toast.success(res?.message);
       }
@@ -137,7 +143,7 @@ export default function AdminProductsTable() {
         categoryId,
       }).unwrap();
       if (res?.success) {
-        refetch();
+        refetchCategories();
         toast.success(res?.message);
       }
     } catch (error) {
@@ -162,6 +168,12 @@ export default function AdminProductsTable() {
       handleCloseDeleteModal();
     }
   };
+
+  useEffect(() => {
+    if (!isLoadingCategories) {
+      setSelectedCategory(categories?.data[0]?._id);
+    }
+  }, [categories, isLoadingCategories]);
 
   return (
     <>
@@ -346,108 +358,136 @@ export default function AdminProductsTable() {
             </Card>
           </Col>
         </Row>
-        <Row className="mb-4">
-          {categories &&
-            categories?.data?.map((category) => (
-              <Col
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                key={category?._id}
-                className="mb-3">
-                <Card className="border-0 rounded-0 mb-3 shadow-sm">
-                  <Card.Body className="d-flex justify-content-between align-items-center">
-                    <h5 className="mb-0">{category?.name}</h5>
-                    <Button
-                      size="sm"
-                      variant="light"
-                      onClick={() => handleRemoveCategory(category?._id)}>
-                      <BsTrash />
-                    </Button>
-                  </Card.Body>
-                  {category?.subcategories &&
-                    category?.subcategories?.length > 0 && (
-                      <Card.Body>
-                        <ul className="list-unstyled">
-                          {category?.subcategories.map((subcat) => (
-                            <li
-                              key={subcat?._id}
-                              className="d-flex justify-content-between align-items-center">
-                              <span>{subcat?.name}</span>
-                              <Button
-                                size="sm"
-                                variant="light"
-                                onClick={() =>
-                                  handleRemoveSubcategory(
-                                    category?._id,
-                                    subcat?._id
-                                  )
-                                }>
-                                <BsTrash />
-                              </Button>
-                            </li>
-                          ))}
-                        </ul>
-                      </Card.Body>
-                    )}
-                </Card>
-              </Col>
-            ))}
-        </Row>
-        <div>
-          <h5 className="mb-3">Create New Subcategory</h5>
-          <p>
-            Add a new subcategory to further organize your products and improve
-            navigation for your customers.
-          </p>
-        </div>
-        <Row>
-          <Col lg={4}>
-            <div>
-              <Card className="border-0 rounded-0 py-3 shadow-sm">
-                <Card.Body>
-                  <Form onSubmit={handleAddSubcategory}>
-                    <Form.Select
-                      className="mb-3"
-                      onChange={(e) => setSelectedCategory(e.target.value)}>
-                      {categories &&
-                        categories?.data?.map((category) => (
-                          <option key={category?._id} value={category?._id}>
-                            {category?.name}
-                          </option>
-                        ))}
-                    </Form.Select>
-                    <InputGroup>
-                      <FormControl
-                        maxLength={25}
-                        value={newSubcategory}
-                        placeholder="New Subcategory"
-                        onChange={(e) => setNewSubcategory(e.target.value)}
-                      />
-                      <Button
-                        type="submit"
-                        variant="dark"
-                        disabled={newSubcategory.length === 0}>
-                        Add
-                      </Button>
-                    </InputGroup>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </div>
-          </Col>
-        </Row>
-        {categories && categories?.data?.length === 0 && (
+        {isErrorCategories ? (
           <div className="text-center mt-5">
-            <h5>No categories found</h5>
-            <p>There are currently no categories available.</p>
+            <h5 className="text-danger">Error Fetching Categories</h5>
+            <p className="mt-3">
+              Sorry, we couldn't retrieve the categories at the moment. Please
+              try again later or contact support.
+            </p>
           </div>
+        ) : isLoadingCategories ? (
+          <>
+            {[...Array(5)].map((_, index) => (
+              <TablePlaceholder key={index} />
+            ))}
+          </>
+        ) : (
+          <Row className="mb-4">
+            {categories?.data?.length === 0 ? (
+              <div className="text-center mt-5">
+                <h5>No Categories Found</h5>
+                <p>
+                  It seems there are no categories available at the moment.
+                  Please try again later.
+                </p>
+              </div>
+            ) : (
+              <>
+                {categories &&
+                  categories?.data?.map((category) => (
+                    <Col
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      lg={3}
+                      key={category?._id}
+                      className="mb-3">
+                      <Card className="border-0 rounded-0 mb-3 shadow-sm">
+                        <Card.Body className="d-flex justify-content-between align-items-center">
+                          <h5 className="mb-0">{category?.name}</h5>
+                          <Button
+                            size="sm"
+                            variant="light"
+                            onClick={() => handleRemoveCategory(category?._id)}>
+                            <BsTrash />
+                          </Button>
+                        </Card.Body>
+                        {category?.subcategories &&
+                          category?.subcategories?.length > 0 && (
+                            <Card.Body>
+                              <ul className="list-unstyled">
+                                {category?.subcategories.map((subcat) => (
+                                  <li
+                                    key={subcat?._id}
+                                    className="d-flex justify-content-between align-items-center">
+                                    <span>{subcat?.name}</span>
+                                    <Button
+                                      size="sm"
+                                      variant="light"
+                                      onClick={() =>
+                                        handleRemoveSubcategory(
+                                          category?._id,
+                                          subcat?._id
+                                        )
+                                      }>
+                                      <BsTrash />
+                                    </Button>
+                                  </li>
+                                ))}
+                              </ul>
+                            </Card.Body>
+                          )}
+                      </Card>
+                    </Col>
+                  ))}
+                <div>
+                  <h5 className="mb-3">Create New Subcategory</h5>
+                  <p>
+                    Add a new subcategory to further organize your products and
+                    improve navigation for your customers.
+                  </p>
+                </div>
+                <Row>
+                  <Col lg={4}>
+                    <div>
+                      <Card className="border-0 rounded-0 py-3 shadow-sm">
+                        <Card.Body>
+                          <Form onSubmit={handleAddSubcategory}>
+                            <Form.Select
+                              className="mb-3"
+                              onChange={(e) =>
+                                setSelectedCategory(e.target.value)
+                              }>
+                              {categories &&
+                                categories?.data?.map((category) => (
+                                  <option
+                                    key={category?._id}
+                                    value={category?._id}>
+                                    {category?.name}
+                                  </option>
+                                ))}
+                            </Form.Select>
+                            <InputGroup>
+                              <FormControl
+                                maxLength={25}
+                                value={newSubcategory}
+                                placeholder="New Subcategory"
+                                onChange={(e) =>
+                                  setNewSubcategory(e.target.value)
+                                }
+                              />
+                              <Button
+                                type="submit"
+                                variant="dark"
+                                disabled={newSubcategory.length === 0}>
+                                Add
+                              </Button>
+                            </InputGroup>
+                          </Form>
+                        </Card.Body>
+                      </Card>
+                    </div>
+                  </Col>
+                </Row>
+              </>
+            )}
+          </Row>
         )}
       </div>
       <DeleteConfirmationModal
         headingText="Confirm Delete"
-        bodyText="Are you sure you want to delete this product?"
+        bodyText="Are you sure you want to delete this product? This action cannot be undone."
         show={showDeleteModal}
         onHide={handleCloseDeleteModal}
         onDelete={handleDeleteProduct}

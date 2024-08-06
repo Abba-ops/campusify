@@ -11,6 +11,7 @@ import {
   getBestSellingProducts,
   getCategories,
   getIsFeatured,
+  getNewProducts,
   getPopularProducts,
   getProductById,
   getProducts,
@@ -30,6 +31,7 @@ import { upload } from "../utilities/index.js";
 
 const router = express.Router();
 
+router.get("/new-products", getNewProducts);
 router.get("/search", searchProducts);
 router.get("/popular", getPopularProducts);
 router.get("/best-sellers", getBestSellingProducts);

@@ -1,11 +1,13 @@
 import {
   asyncHandler,
   extractPublicId,
+  shuffleArray,
   uploadToCloudinary,
 } from "../utilities/index.js";
 import cloudinary from "../config/cloudinary.js";
 import Product, { Category } from "../models/productModel.js";
 import Vendor from "../models/vendorModel.js";
+import { Notification } from "../models/userModel.js";
 
 /**
  * @desc    Fetch all products
@@ -298,7 +300,16 @@ export const getProductsByCategory = asyncHandler(async (req, res) => {
 
   const products = await Product.find({ category: categoryId });
 
-  res.json({ success: true, data: products });
+  const shuffledProducts = shuffleArray(products).slice(0, 10);
+
+  res.status(200).json({
+    success: true,
+    data: shuffledProducts.length > 0 ? shuffledProducts : [],
+    message:
+      shuffledProducts.length > 0
+        ? "Products found"
+        : "No products available for this category",
+  });
 });
 
 /**
@@ -313,7 +324,16 @@ export const getProductsBySubcategory = asyncHandler(async (req, res) => {
     "subcategory._id": subcategoryId,
   });
 
-  res.json({ success: true, data: products });
+  const shuffledProducts = shuffleArray(products).slice(0, 10);
+
+  res.status(200).json({
+    success: true,
+    data: shuffledProducts.length > 0 ? shuffledProducts : [],
+    message:
+      shuffledProducts.length > 0
+        ? "Products found"
+        : "No products available for this subcategory",
+  });
 });
 
 /**
@@ -331,7 +351,16 @@ export const searchProducts = asyncHandler(async (req, res) => {
     ],
   });
 
-  res.json({ success: true, data: products });
+  const shuffledProducts = shuffleArray(products).slice(0, 10);
+
+  res.status(200).json({
+    success: true,
+    data: shuffledProducts,
+    message:
+      shuffledProducts.length > 0
+        ? "Products found"
+        : "No products found matching the query",
+  });
 });
 
 /**
@@ -408,14 +437,16 @@ export const deleteSubcategory = asyncHandler(async (req, res) => {
 export const getIsFeatured = asyncHandler(async (req, res) => {
   const featuredProducts = await Product.aggregate([
     { $match: { isFeatured: true } },
-    { $sample: { size: 10 } },
+    { $limit: 50 },
   ]);
+
+  const shuffledProducts = shuffleArray(featuredProducts).slice(0, 10);
 
   res.status(200).json({
     success: true,
-    data: featuredProducts.length > 0 ? featuredProducts : [],
+    data: shuffledProducts.length > 0 ? shuffledProducts : [],
     message:
-      featuredProducts.length > 0
+      shuffledProducts.length > 0
         ? "Featured products found"
         : "No featured products available",
   });
@@ -427,16 +458,18 @@ export const getIsFeatured = asyncHandler(async (req, res) => {
  * @access  Public
  */
 export const getPopularProducts = asyncHandler(async (req, res) => {
-  const popularProductsByRatings = await Product.aggregate([
+  const popularProducts = await Product.aggregate([
     { $match: { rating: { $gt: 4 } } },
-    { $sample: { size: 10 } },
+    { $limit: 50 },
   ]);
+
+  const shuffledProducts = shuffleArray(popularProducts).slice(0, 10);
 
   res.status(200).json({
     success: true,
-    data: popularProductsByRatings.length > 0 ? popularProductsByRatings : [],
+    data: shuffledProducts.length > 0 ? shuffledProducts : [],
     message:
-      popularProductsByRatings.length > 0
+      shuffledProducts.length > 0
         ? "Popular products found"
         : "No popular products available based on ratings",
   });
@@ -450,14 +483,16 @@ export const getPopularProducts = asyncHandler(async (req, res) => {
 export const getBestSellingProducts = asyncHandler(async (req, res) => {
   const bestSellingProducts = await Product.aggregate([
     { $sort: { salesCount: -1 } },
-    { $sample: { size: 10 } },
+    { $limit: 50 },
   ]);
+
+  const shuffledProducts = shuffleArray(bestSellingProducts).slice(0, 10);
 
   res.status(200).json({
     success: true,
-    data: bestSellingProducts.length > 0 ? bestSellingProducts : [],
+    data: shuffledProducts.length > 0 ? shuffledProducts : [],
     message:
-      bestSellingProducts.length > 0
+      shuffledProducts.length > 0
         ? "Best-selling products found"
         : "No best-selling products available",
   });
@@ -491,4 +526,17 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     res.status(500);
     throw new Error("Internal Server Error");
   }
+});
+
+/**
+ * @desc    Get a random selection of the latest new products
+ * @route   GET /api/new-products
+ * @access  Public
+ */
+export const getNewProducts = asyncHandler(async (req, res) => {
+  const newProducts = await Product.find({}).sort({ createdAt: -1 });
+
+  const shuffledProducts = shuffleArray(newProducts).slice(0, 10);
+
+  res.status(200).json({ success: true, data: shuffledProducts });
 });

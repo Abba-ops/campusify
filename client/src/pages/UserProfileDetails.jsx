@@ -111,10 +111,15 @@ export default function UserProfileDetails() {
                   <p>
                     Congratulations! Your vendor account has been approved. You
                     can now access vendor features and start selling your
-                    products/services.
+                    products/services. Go to the{" "}
+                    <Link to="/vendor/dashboard/" className="alert-link">
+                      dashboard
+                    </Link>{" "}
+                    to get started.
                   </p>
                 </Alert>
               )}
+
             <h4 className="text-center mb-3">Personal Information</h4>
             <ListGroup>
               <ListGroup.Item className="text-center">

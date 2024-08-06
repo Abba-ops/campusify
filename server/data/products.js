@@ -2,7 +2,7 @@ const products = [
   {
     productName: "Airpods Wireless Bluetooth Headphones",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875906/campusify/products/airpods_sldy1o.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968326/campusify/products/airpods_wr0sq8.jpg",
     productDescription:
       "Bluetooth technology lets you connect it with compatible devices wirelessly. High-quality AAC audio offers an immersive listening experience. Built-in microphone allows you to take calls while working.",
     brand: "Apple",
@@ -14,7 +14,7 @@ const products = [
   {
     productName: "iPhone 13 Pro 256GB Memory",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875907/campusify/products/phone_ujbskp.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968326/campusify/products/phone_fdon6p.jpg",
     productDescription:
       "Introducing the iPhone 13 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life.",
     brand: "Apple",
@@ -27,7 +27,7 @@ const products = [
   {
     productName: "Canon EOS 80D DSLR Camera",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875907/campusify/products/camera_pluywu.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968329/campusify/products/camera_f370zx.jpg",
     productDescription:
       "Characterized by versatile imaging specs, the Canon EOS 80D further clarifies itself using a pair of robust focusing systems and an intuitive design.",
     brand: "Canon",
@@ -40,7 +40,7 @@ const products = [
   {
     productName: "Sony Playstation 5",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875907/campusify/products/playstation_lrtlp4.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968327/campusify/products/playstation_poakos.jpg",
     productDescription:
       "The ultimate home entertainment center starts with PlayStation. Whether you are into gaming, HD movies, television, or music.",
     brand: "Sony",
@@ -54,7 +54,7 @@ const products = [
   {
     productName: "Logitech G-Series Gaming Mouse",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875907/campusify/products/mouse_tnt8ig.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968326/campusify/products/mouse_jvsodz.jpg",
     productDescription:
       "Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience.",
     brand: "Logitech",
@@ -66,7 +66,7 @@ const products = [
   {
     productName: "Amazon Echo Dot 3rd Generation",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875906/campusify/products/alexa_kfk73j.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968327/campusify/products/alexa_eaxfdl.jpg",
     productDescription:
       "Meet Echo Dot - Our most popular smart speaker with a fabric design. It is our most compact smart speaker that fits perfectly into small spaces.",
     brand: "Amazon",
@@ -80,7 +80,7 @@ const products = [
   {
     productName: "Logitech MX Master 3 Wireless Mouse",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875912/campusify/products/wireless_mouse_yvo1hw.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968326/campusify/products/mouse_jvsodz.jpg",
     productDescription:
       "Ultra-fast, ultra-precise scrolling with a comfortable design. The MX Master 3 is the most advanced mouse from Logitech.",
     brand: "Logitech",
@@ -94,7 +94,7 @@ const products = [
   {
     productName: "Nike Air Zoom Pegasus 38 Running Shoes",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875911/campusify/products/red_shoe_xliwdg.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968334/campusify/products/red_shoe_nju0iv.jpg",
     productDescription:
       "The Nike Air Zoom Pegasus 38 continues to put a spring in your step, using the same responsive foam as its predecessor.",
     brand: "Nike",
@@ -108,7 +108,7 @@ const products = [
   {
     productName: "Sony WH-1000XM4 Wireless Noise-Canceling Over-Ear Headphones",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875911/campusify/products/headphones_papyip.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968328/campusify/products/headphones_ghp8hg.jpg",
     productDescription:
       "Experience the next level of silence with the Sony WH-1000XM4 wireless noise-canceling headphones.",
     brand: "Sony",
@@ -122,7 +122,7 @@ const products = [
   {
     productName: "Mountain Bike",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875909/campusify/products/bicycle_yssgkb.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968327/campusify/products/bicycle_pmx5uk.jpg",
     productDescription:
       "Conquer any trail with our high-performance mountain bike. Designed for rugged terrain and adventurous riders.",
     brand: "AdventureGear",
@@ -136,7 +136,7 @@ const products = [
   {
     productName: "Apple AirPods Pro",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721876032/campusify/products/wireless_earbuds_lu1dib.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968332/campusify/products/wireless_earbuds_dnhxq5.jpg",
     productDescription:
       "Active Noise Cancellation for immersive sound. Transparency mode for hearing and connecting with the world around you.",
     brand: "Apple",
@@ -150,7 +150,7 @@ const products = [
   {
     productName: "Canon EOS Rebel T7 DSLR Camera",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875910/campusify/products/digital_camera_hcpz5s.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968330/campusify/products/digital_camera_wttssl.jpg",
     productDescription:
       "Capture stunning photos and videos with the Canon EOS Rebel T7. Equipped with a 24.1 Megapixel CMOS sensor and DIGIC 4+ image processor.",
     brand: "Canon",
@@ -163,7 +163,7 @@ const products = [
   {
     productName: "Nike Air Max 270",
     imageUrl:
-      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1721875912/campusify/products/sneaker_mymow6.jpg",
+      "https://res.cloudinary.com/drmy6ss8n/image/upload/v1722968330/campusify/products/sneaker_i3rlor.jpg",
     productDescription:
       "Experience ultimate comfort and style with the Nike Air Max 270. Featuring a breathable mesh upper and Max Air cushioning for all-day comfort.",
     brand: "Nike",

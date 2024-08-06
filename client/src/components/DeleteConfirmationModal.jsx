@@ -25,11 +25,11 @@ export default function DeleteConfirmationModal({
         <Modal.Footer>
           <Button
             variant="primary"
-            className="text-white px-4"
+            className="text-white"
             onClick={handleClose}>
             Close
           </Button>
-          <Button variant="dark" className="px-4" onClick={handleDelete}>
+          <Button variant="dark" onClick={handleDelete}>
             Delete
           </Button>
         </Modal.Footer>

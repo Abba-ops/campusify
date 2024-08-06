@@ -11,9 +11,9 @@ export default function Footer() {
 
   const categoriesLinks =
     !loadingCategories &&
-    categories?.data.map((category) => {
+    categories?.data?.map((category) => {
       return {
-        text: category.name,
+        text: category?.name,
         url: `/category/${category?.name}/${category?._id}`,
       };
     });
@@ -42,7 +42,7 @@ export default function Footer() {
             <div key={index} className="col-6 col-md-2 mb-3">
               <h5 className="fw-semibold">{footerLink?.heading}</h5>
               <ul className="nav flex-column">
-                {footerLink?.links.map((link, index) => (
+                {footerLink?.links?.map((link, index) => (
                   <li key={index} className="nav-item mb-2">
                     <Link
                       to={link?.url}

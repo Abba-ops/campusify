@@ -121,6 +121,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getNewProducts: builder.query({
+      query: () => ({
+        url: `${PRODUCTS_URL}/new-products`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -143,4 +149,5 @@ export const {
   useGetPopularProductsQuery,
   useGetBestSellingProductsQuery,
   useDeleteProductMutation,
+  useGetNewProductsQuery,
 } = productsApiSlice;
