@@ -90,7 +90,7 @@ export default function UserRegistration() {
         </div>
         <Row className="justify-content-center">
           <Col lg={8}>
-            <Card className="my-3 py-3">
+            <Card className="p-3">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
                   <div className="text-center mb-3">

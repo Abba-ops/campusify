@@ -78,7 +78,7 @@ export default function UserSignIn() {
         </div>
         <Row className="justify-content-center">
           <Col lg={8}>
-            <Card className="my-3 py-3">
+            <Card className="p-3">
               <Card.Body>
                 <Form onSubmit={handleSignIn}>
                   <Form.Group as={Row} className="mb-3">
