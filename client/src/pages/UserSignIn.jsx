@@ -16,6 +16,7 @@ import {
 } from "react-bootstrap";
 import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";
+import { FaLock } from "react-icons/fa";
 
 export default function UserSignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -41,12 +42,15 @@ export default function UserSignIn() {
 
       if (response?.success) {
         dispatch(setCredentials({ ...response }));
-        toast.success(response?.message);
+        toast.success(response.message || "Successfully logged in.");
         navigate(redirectPath);
+      } else {
+        toast.error(response.message || "Sign in failed. Please try again.");
       }
     } catch (error) {
       toast.error(
-        (error && error?.data?.message) || "Sign in failed. Please try again."
+        (error && error.data && error.data.message) ||
+          "Sign in failed. Please try again."
       );
     }
   };
@@ -67,9 +71,11 @@ export default function UserSignIn() {
         keywords="Campusify, log in, sign in, campus marketplace"
       />
       <Container>
-        <h4 className="border-bottom pb-3 text-center">
-          Log In to Your Account
-        </h4>
+        <div className="text-center mb-4">
+          <FaLock size="2em" className="text-primary mb-2" />
+          <h2 className="mb-1">Log In to Your Account</h2>
+          <p className="text-muted">Access the Campusify marketplace</p>
+        </div>
         <Row className="justify-content-center">
           <Col lg={8}>
             <Card className="my-3 py-3">
@@ -129,7 +135,7 @@ export default function UserSignIn() {
                       className="px-4">
                       {isLoading ? (
                         <Spinner size="sm" animation="border">
-                          <span className="visually-hidden"></span>
+                          <span className="visually-hidden">Loading...</span>
                         </Spinner>
                       ) : (
                         "Log In"

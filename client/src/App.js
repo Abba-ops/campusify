@@ -56,6 +56,7 @@ import FAQ from "./pages/FAQ";
 import "react-toastify/dist/ReactToastify.css";
 import FeaturedProductsPage from "./pages/FeaturedProductsPage";
 import BestSellerPage from "./pages/BestSellerPage";
+import NewProductsPage from "./pages/NewProductsPage";
 import PopularProductsPage from "./pages/PopularProductsPage";
 
 export default function App() {
@@ -97,6 +98,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/new-arrivals" element={<NewProductsPage />} />
           <Route path="/search/:query" element={<ProductSearch />} />
           <Route
             path="/category/:category/:categoryId"

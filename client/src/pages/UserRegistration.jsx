@@ -17,6 +17,7 @@ import { useRegisterUserMutation } from "../features/usersApiSlice";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";
+import { FaUserPlus } from "react-icons/fa";
 
 export default function UserRegistration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +39,11 @@ export default function UserRegistration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!agreeToConditions) {
+      toast.error("You must agree to the terms and conditions.");
+      return;
+    }
+
     try {
       const response = await registerUser({
         password,
@@ -47,11 +53,15 @@ export default function UserRegistration() {
 
       if (response?.success) {
         dispatch(setCredentials({ ...response }));
-        toast.success(response?.message);
+        toast.success(response.message || "Registration successful.");
         navigate(redirectPath);
+      } else {
+        toast.error(response.message || "Registration failed.");
       }
     } catch (error) {
-      toast.error((error && error?.data?.message) || "Registration failed.");
+      toast.error(
+        (error && error.data && error.data.message) || "Registration failed."
+      );
     }
   };
 
@@ -71,7 +81,13 @@ export default function UserRegistration() {
         keywords="Campusify, sign up, register, campus marketplace"
       />
       <Container>
-        <h4 className="border-bottom pb-3 text-center">Create a New Account</h4>
+        <div className="text-center mb-4">
+          <FaUserPlus size="2em" className="text-primary mb-2" />
+          <h2>Create a New Account</h2>
+          <p className="text-muted">
+            Sign up to access the Campusify marketplace
+          </p>
+        </div>
         <Row className="justify-content-center">
           <Col lg={8}>
             <Card className="my-3 py-3">
@@ -97,6 +113,7 @@ export default function UserRegistration() {
                           type="radio"
                           name="userType"
                           label="Student"
+                          checked={userType === "student"}
                           onChange={() => setUserType("student")}
                         />
                         <Form.Check
@@ -104,6 +121,7 @@ export default function UserRegistration() {
                           type="radio"
                           label="Staff"
                           name="userType"
+                          checked={userType === "staff"}
                           onChange={() => setUserType("staff")}
                         />
                       </Stack>
@@ -175,7 +193,7 @@ export default function UserRegistration() {
                       className="px-4">
                       {isLoading ? (
                         <Spinner size="sm" animation="border">
-                          <span className="visually-hidden"></span>
+                          <span className="visually-hidden">Loading...</span>
                         </Spinner>
                       ) : (
                         "Create Account"

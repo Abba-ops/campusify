@@ -6,11 +6,15 @@ import { useGetCategoriesQuery } from "../features/productsApiSlice";
 export default function Footer() {
   const year = new Date().getFullYear();
 
-  const { data: categories, isLoading: loadingCategories } =
-    useGetCategoriesQuery();
+  const {
+    data: categories,
+    isLoading: loadingCategories,
+    isError,
+  } = useGetCategoriesQuery();
 
   const categoriesLinks =
     !loadingCategories &&
+    !isError &&
     categories?.data?.map((category) => {
       return {
         text: category?.name,
@@ -18,7 +22,7 @@ export default function Footer() {
       };
     });
 
-  if (!loadingCategories) {
+  if (!loadingCategories && !isError) {
     footerLinks[1] = {
       heading: footerLinks[1]?.heading,
       links: categoriesLinks?.slice(0, 4),

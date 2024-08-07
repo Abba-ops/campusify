@@ -1,23 +1,31 @@
-import React, { useEffect } from "react";
-import { Container, Form, Row, Col, Button } from "react-bootstrap";
-import Stack from "react-bootstrap/Stack";
-import { contactInfo } from "../constants";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";
 
-export default function ContactUs() {
-  const renderContactInfo = () => {
-    return contactInfo.map(({ icon, info }, index) => (
-      <Stack gap={3} key={index} direction="horizontal">
-        <p>{icon}</p>
-        <p>{info}</p>
-      </Stack>
-    ));
-  };
+const contactInfo = [
+  {
+    icon: <FaMapMarkerAlt />,
+    info: "Thomas Adewumi University, Oko-Irese, Kwara State",
+  },
+  { icon: <FaPhoneAlt />, info: "0905-392-9899" },
+  { icon: <FaEnvelope />, info: "info@tau.edu.ng" },
+];
 
+export default function ContactUs() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <section className="py-5">
@@ -27,71 +35,120 @@ export default function ContactUs() {
         keywords="contact us, feedback, suggestions, campus marketplace, customer support"
       />
       <Container>
-        <Row>
-          <Col lg={8} className="mb-6 mb-lg-0">
-            <h4 className="mb-3">Contact Us</h4>
-            <Form>
-              <Form.Group as={Row} className="mb-4">
-                <Form.Label column sm={4}>
-                  First Name
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control type="text" placeholder="John" />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} className="mb-4">
-                <Form.Label column sm={4}>
-                  Last Name
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control type="text" placeholder="Doe" />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} className="mb-4">
-                <Form.Label column sm={4}>
-                  Email Address
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control
-                    type="email"
-                    placeholder="johndoe@example.com"
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} className="mb-4">
-                <Form.Label column sm={4}>
-                  Message
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      rows={3}
-                      as="textarea"
-                      placeholder="Your message here..."
-                    />
-                  </Form.Group>
-                </Col>
-              </Form.Group>
-              <Button variant="dark" className="px-4">
-                Send
-              </Button>
-            </Form>
-          </Col>
-          <Col lg={4}>
-            <h4 className="mb-3">Information</h4>
-            <p>
-              For any feedback or suggestions to enhance your experience on our
-              campus marketplace, please take a moment to fill out this contact
-              form. Your input is invaluable to us as we strive to improve and
-              cater to your needs. We commit to reviewing your submissions
-              promptly and responding within 24 hours. Thank you for helping us
-              elevate your shopping journey on our platform. Your feedback fuels
-              our continuous improvement efforts, ensuring a seamless and
-              satisfying experience for all.
+        <Row className="text-center mb-4">
+          <Col>
+            <h2>Contact Us</h2>
+            <p className="lead">
+              We’re here to help! Reach out to us with any questions or
+              feedback.
             </p>
-            <Stack direction="vertical" gap={2}>
-              {renderContactInfo()}
-            </Stack>
+          </Col>
+        </Row>
+        <Row className="mb-5">
+          <Col lg={6} className="mb-5 mb-lg-0">
+            <Card className="p-3">
+              <Card.Body>
+                <h4 className="mb-4">Send Us a Message</h4>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group
+                    as={Row}
+                    controlId="formFirstName"
+                    className="mb-3">
+                    <Form.Label
+                      column
+                      sm={3}
+                      className="text-center text-lg-start">
+                      First Name
+                    </Form.Label>
+                    <Col sm={9}>
+                      <Form.Control
+                        type="text"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        placeholder="John"
+                        required
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group
+                    as={Row}
+                    controlId="formLastName"
+                    className="mb-3">
+                    <Form.Label
+                      column
+                      sm={3}
+                      className="text-center text-lg-start">
+                      Last Name
+                    </Form.Label>
+                    <Col sm={9}>
+                      <Form.Control
+                        type="text"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        placeholder="Doe"
+                        required
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} controlId="formEmail" className="mb-3">
+                    <Form.Label
+                      column
+                      sm={3}
+                      className="text-center text-lg-start">
+                      Email
+                    </Form.Label>
+                    <Col sm={9}>
+                      <Form.Control
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value.toLowerCase())}
+                        placeholder="johndoe@example.com"
+                        required
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} controlId="formMessage" className="mb-4">
+                    <Form.Label
+                      column
+                      sm={3}
+                      className="text-center text-lg-start">
+                      Message
+                    </Form.Label>
+                    <Col sm={9}>
+                      <Form.Control
+                        as="textarea"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        rows={4}
+                        placeholder="Your message here..."
+                        required
+                      />
+                    </Col>
+                  </Form.Group>
+                  <Button variant="dark" type="submit" className="px-4">
+                    Send
+                  </Button>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col lg={6}>
+            <Card className="p-3">
+              <Card.Body>
+                <h4 className="mb-4">Contact Information</h4>
+                <p>
+                  For any feedback or suggestions, please use the form on the
+                  left or reach out to us through the contact details below. We
+                  aim to respond to all inquiries within 24 hours.
+                </p>
+                {contactInfo.map(({ icon, info }, index) => (
+                  <div key={index} className="d-flex align-items-center mb-3">
+                    <div className="me-3 text-primary">{icon}</div>
+                    <div>{info}</div>
+                  </div>
+                ))}
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </Container>
