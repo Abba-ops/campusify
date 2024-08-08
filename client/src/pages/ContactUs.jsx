@@ -7,9 +7,9 @@ import BackToTop from "../components/BackToTop";
 const contactInfo = [
   {
     icon: <FaMapMarkerAlt />,
-    info: "Thomas Adewumi University, Oko-Irese, Kwara State",
+    info: "Thomas Adewumi University\nOko-Irese, Kwara State\nNigeria",
   },
-  { icon: <FaPhoneAlt />, info: "0905-392-9899" },
+  { icon: <FaPhoneAlt />, info: "+234 905-392-9899" },
   { icon: <FaEnvelope />, info: "info@tau.edu.ng" },
 ];
 
@@ -35,7 +35,7 @@ export default function ContactUs() {
         keywords="contact us, feedback, suggestions, campus marketplace, customer support"
       />
       <Container>
-        <Row className="text-center mb-4">
+        <Row className="text-center mb-3">
           <Col>
             <h2>Contact Us</h2>
             <p className="lead">
@@ -44,11 +44,11 @@ export default function ContactUs() {
             </p>
           </Col>
         </Row>
-        <Row className="mb-5">
-          <Col lg={6} className="mb-5 mb-lg-0">
-            <Card className="p-3">
+        <Row>
+          <Col lg={6} className="mb-6 mb-lg-0">
+            <Card className="p-2">
               <Card.Body>
-                <h4 className="mb-4">Send Us a Message</h4>
+                <h5 className="mb-4">Send Us a Message</h5>
                 <Form onSubmit={handleSubmit}>
                   <Form.Group
                     as={Row}
@@ -133,9 +133,9 @@ export default function ContactUs() {
             </Card>
           </Col>
           <Col lg={6}>
-            <Card className="p-3">
+            <Card className="p-2">
               <Card.Body>
-                <h4 className="mb-4">Contact Information</h4>
+                <h5 className="mb-4">Contact Information</h5>
                 <p>
                   For any feedback or suggestions, please use the form on the
                   left or reach out to us through the contact details below. We

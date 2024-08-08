@@ -19,11 +19,11 @@ export default function SubcategoryProducts() {
     useGetCategoriesQuery();
 
   const formattedSubcategoryName = subcategory
-    .replace(/-/g, " ")
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    ?.replace(/-/g, " ")
+    ?.toLowerCase()
+    ?.split(" ")
+    ?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    ?.join(" ");
 
   const {
     data: productsData,
@@ -47,7 +47,7 @@ export default function SubcategoryProducts() {
     if (!loadingCategories) {
       const foundCategory = categories?.data?.find(
         (category) =>
-          category?.name.toLowerCase() === categoryName.replace(/-/g, " ")
+          category?.name?.toLowerCase() === categoryName?.replace(/-/g, " ")
       );
       setSelectedCategory(foundCategory);
     }
@@ -108,11 +108,11 @@ export default function SubcategoryProducts() {
                 <ListGroup.Item key={subcategory?._id} className="py-3">
                   <Link
                     to={`/${selectedCategory?.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}/${subcategory?.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}/${subcategory?._id}`}
-                    className="text-decoration-none fw-semibold text-uppercase">
+                      ?.toLowerCase()
+                      ?.replace(/\s+/g, "-")}/${subcategory?.name
+                      ?.toLowerCase()
+                      ?.replace(/\s+/g, "-")}/${subcategory?._id}`}
+                    className="text-decoration-none fw-semibold">
                     {subcategory?.name}
                   </Link>
                 </ListGroup.Item>

@@ -53,14 +53,14 @@ export default function UserRegistration() {
 
       if (response?.success) {
         dispatch(setCredentials({ ...response }));
-        toast.success(response.message || "Registration successful.");
+        toast.success(response?.message || "Registration successful.");
         navigate(redirectPath);
       } else {
-        toast.error(response.message || "Registration failed.");
+        toast.error(response?.message || "Registration failed.");
       }
     } catch (error) {
       toast.error(
-        (error && error.data && error.data.message) || "Registration failed."
+        (error && error?.data && error?.data?.message) || "Registration failed."
       );
     }
   };
@@ -85,12 +85,12 @@ export default function UserRegistration() {
           <FaUserPlus size="2em" className="text-primary mb-2" />
           <h2>Create a New Account</h2>
           <p className="text-muted">
-            Sign up to access the Campusify marketplace
+            Sign up to access the Campusify Marketplace
           </p>
         </div>
         <Row className="justify-content-center">
           <Col lg={8}>
-            <Card className="p-3">
+            <Card className="p-2 p-lg-3">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
                   <div className="text-center mb-3">

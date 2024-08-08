@@ -18,7 +18,7 @@ export default function FAQ() {
         keywords="FAQ, frequently asked questions, campus marketplace, buying, selling, registration, payment"
       />
       <Container>
-        <Row className="justify-content-center text-center mb-5">
+        <Row className="justify-content-center text-center mb-3">
           <Col lg={8}>
             <div className="d-flex justify-content-center align-items-center mb-3">
               <FaQuestionCircle size="3em" className="text-primary" />

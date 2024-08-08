@@ -78,7 +78,7 @@ export default function UserProfile() {
               <Card.Body>
                 {isErrorUserProfile ? (
                   <div className="text-center mt-5">
-                    <h4 className="text-danger">Error Loading User Profile</h4>
+                    <h5 className="text-danger">Error Loading User Profile</h5>
                     <p className="mt-3">
                       Failed to load user profile. Please try again later.
                     </p>

@@ -42,14 +42,14 @@ export default function UserSignIn() {
 
       if (response?.success) {
         dispatch(setCredentials({ ...response }));
-        toast.success(response.message || "Successfully logged in.");
+        toast.success(response?.message || "Successfully logged in.");
         navigate(redirectPath);
       } else {
-        toast.error(response.message || "Sign in failed. Please try again.");
+        toast.error(response?.message || "Sign in failed. Please try again.");
       }
     } catch (error) {
       toast.error(
-        (error && error.data && error.data.message) ||
+        (error && error?.data && error?.data?.message) ||
           "Sign in failed. Please try again."
       );
     }
@@ -73,12 +73,12 @@ export default function UserSignIn() {
       <Container>
         <div className="text-center mb-4">
           <FaLock size="2em" className="text-primary mb-2" />
-          <h2 className="mb-1">Log In to Your Account</h2>
-          <p className="text-muted">Access the Campusify marketplace</p>
+          <h2 className="mb-1">Log in to Your Account</h2>
+          <p className="text-muted">Access the Campusify Marketplace</p>
         </div>
         <Row className="justify-content-center">
           <Col lg={8}>
-            <Card className="p-3">
+            <Card className="p-2 p-lg-3">
               <Card.Body>
                 <Form onSubmit={handleSignIn}>
                   <Form.Group as={Row} className="mb-3">

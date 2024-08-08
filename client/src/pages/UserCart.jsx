@@ -79,7 +79,7 @@ export default function UserCart() {
         <Col lg={2} className="text-end">
           <MdDelete
             size={24}
-            onClick={() => removeFromCartHandler(product._id)}
+            onClick={() => removeFromCartHandler(product?._id)}
           />
         </Col>
       </Row>

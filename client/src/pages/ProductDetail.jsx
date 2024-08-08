@@ -35,12 +35,11 @@ import { toast } from "react-toastify";
 import { addToCart } from "../features/cartSlice";
 import { formatDistanceToNow } from "date-fns";
 import { MdAddShoppingCart, MdDelete } from "react-icons/md";
-import ErrorPage from "./ErrorPage";
 import CarouselProducts from "../components/CarouselProducts";
 import { FaCheckCircle } from "react-icons/fa";
-import ReactStars from "react-rating-stars-component";
 import StarRating from "../components/StarRating";
 import BackToTop from "../components/BackToTop";
+import { Rating } from "react-simple-star-rating";
 import CartPreviewModal from "../components/CartPreviewModal";
 import { formatCurrency } from "../utilities";
 
@@ -115,7 +114,7 @@ export default function ProductDetail() {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
 
-    if (userComment.length > maxChars) {
+    if (userComment?.length > maxChars) {
       toast.error(`Maximum ${maxChars} characters allowed.`);
       return;
     }
@@ -148,18 +147,18 @@ export default function ProductDetail() {
 
   const sortedReviews =
     productData &&
-    productData?.data?.reviews.slice().sort((a, b) => {
+    productData?.data?.reviews?.slice()?.sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
   const getDescription = () => {
     if (
       isDescriptionExpanded ||
-      productData?.data?.productDescription.length <= descriptionLimit
+      productData?.data?.productDescription?.length <= descriptionLimit
     ) {
       return productData?.data?.productDescription;
     }
-    return `${productData?.data?.productDescription.substring(
+    return `${productData?.data?.productDescription?.substring(
       0,
       descriptionLimit
     )}...`;
@@ -256,7 +255,7 @@ export default function ProductDetail() {
                   </Link>
                   <p className="my-3 text-break">
                     {getDescription()}
-                    {productData?.data?.productDescription.length >
+                    {productData?.data?.productDescription?.length >
                       descriptionLimit && (
                       <Button
                         variant="link"
@@ -288,7 +287,7 @@ export default function ProductDetail() {
                     <EmailShareButton
                       url={currentUrl}
                       subject={`Check out this product: ${productData?.data?.productName}`}
-                      body={`Hi there,\n\nI thought you might be interested in this awesome product I found on our campus marketplace:\n\n${productData.data.productName}\n\nCheck it out here: ${currentUrl}`}>
+                      body={`Hi there,\n\nI thought you might be interested in this awesome product I found on our campus marketplace:\n\n${productData?.data?.productName}\n\nCheck it out here: ${currentUrl}`}>
                       <EmailIcon size={40} round />
                     </EmailShareButton>
                   </Stack>
@@ -305,7 +304,7 @@ export default function ProductDetail() {
                         userInfo?.data?.isAdmin
                       }
                       onChange={(e) => setCartQuantity(Number(e.target.value))}>
-                      {[...Array(productData?.data?.countInStock).keys()].map(
+                      {[...Array(productData?.data?.countInStock)?.keys()]?.map(
                         (x) => (
                           <option value={x + 1} key={x + 1}>
                             {x + 1}
@@ -326,7 +325,7 @@ export default function ProductDetail() {
                         userInfo?.data?.isAdmin
                       }>
                       <MdAddShoppingCart className="me-2" />{" "}
-                      {productData.data.countInStock > 0
+                      {productData?.data?.countInStock > 0
                         ? "Add to Cart"
                         : "Out of Stock"}
                     </Button>
@@ -403,55 +402,60 @@ export default function ProductDetail() {
                   <ListGroup variant="flush">
                     {productData &&
                       sortedReviews &&
-                      sortedReviews?.slice(0, visibleComments).map((review) => (
-                        <ListGroup.Item
-                          key={review?._id}
-                          className="mb-3 p-3 border">
-                          <div className="d-flex align-items-center mb-3">
-                            <Link to={`/profile/${review?.user}`}>
-                              <div className="flex-shrink-0 me-3">
-                                <Image
-                                  fluid
-                                  roundedCircle
-                                  loading="lazy"
-                                  src={review?.profilePictureURL}
-                                  className="profile-picture-sm"
-                                  alt={`${review?.name}'s Profile`}
-                                />
-                              </div>
-                            </Link>
-                            <div>
-                              <Link
-                                to={`/profile/${review?.user}`}
-                                className="text-decoration-none">
-                                <h6 className="mb-1 text-break">
-                                  {review?.name}
-                                </h6>
+                      sortedReviews
+                        ?.slice(0, visibleComments)
+                        ?.map((review) => (
+                          <ListGroup.Item
+                            key={review?._id}
+                            className="mb-3 p-3 border">
+                            <div className="d-flex align-items-center mb-3">
+                              <Link to={`/profile/${review?.user}`}>
+                                <div className="flex-shrink-0 me-3">
+                                  <Image
+                                    fluid
+                                    roundedCircle
+                                    loading="lazy"
+                                    src={review?.profilePictureURL}
+                                    className="profile-picture-sm"
+                                    alt={`${review?.name}'s Profile`}
+                                  />
+                                </div>
                               </Link>
-                              <small className="text-muted">
-                                {formatDistanceToNow(
-                                  new Date(review?.createdAt),
-                                  {
-                                    addSuffix: true,
-                                  }
-                                )}
-                              </small>
+                              <div>
+                                <Link
+                                  to={`/profile/${review?.user}`}
+                                  className="text-decoration-none">
+                                  <h6 className="mb-1 text-break">
+                                    {review?.name}
+                                  </h6>
+                                </Link>
+                                <small className="text-muted">
+                                  {formatDistanceToNow(
+                                    new Date(review?.createdAt),
+                                    {
+                                      addSuffix: true,
+                                    }
+                                  )}
+                                </small>
+                              </div>
                             </div>
-                          </div>
-                          <div className="mb-3">
-                            <StarRating value={review?.rating} size={18} />
-                          </div>
-                          <p className="mb-2 text-break">{review?.comment}</p>
-                          {userInfo && userInfo?.data?.id === review?.user && (
-                            <Button
-                              variant="link"
-                              onClick={() => handleDeleteReview(review?._id)}
-                              className="position-absolute top-0 end-0">
-                              <MdDelete className="fs-4" />
-                            </Button>
-                          )}
-                        </ListGroup.Item>
-                      ))}
+                            <div className="mb-3">
+                              <StarRating value={review?.rating} size={18} />
+                            </div>
+                            <p className="mb-2 text-break">{review?.comment}</p>
+                            {userInfo &&
+                              userInfo?.data?.id === review?.user && (
+                                <Button
+                                  variant="link"
+                                  onClick={() =>
+                                    handleDeleteReview(review?._id)
+                                  }
+                                  className="position-absolute top-0 end-0">
+                                  <MdDelete className="fs-4" />
+                                </Button>
+                              )}
+                          </ListGroup.Item>
+                        ))}
                     {visibleComments <
                       (sortedReviews ? sortedReviews?.length : 0) && (
                       <div className="d-flex justify-content-center mt-3 mb-5">
@@ -468,12 +472,11 @@ export default function ProductDetail() {
                       {userInfo ? (
                         <Form onSubmit={handleReviewSubmit}>
                           <div className="mb-3">
-                            <ReactStars
-                              count={5}
+                            <Rating
                               size={24}
-                              isHalf={true}
-                              activeColor="#ffae42"
-                              onChange={ratingChanged}
+                              fillColor="#ffae42"
+                              allowFraction={true}
+                              onClick={ratingChanged}
                             />
                           </div>
                           <Form.Group className="mb-3">
@@ -486,7 +489,7 @@ export default function ProductDetail() {
                               onChange={(e) => setUserComment(e.target.value)}
                             />
                           </Form.Group>
-                          <p className="text-muted text-end">{`${userComment.length} / ${maxChars}`}</p>
+                          <p className="text-muted text-end">{`${userComment?.length} / ${maxChars}`}</p>
                           <Button
                             type="submit"
                             className="px-4"
@@ -517,9 +520,7 @@ export default function ProductDetail() {
                             </p>
                             <p className="mb-0">
                               Please{" "}
-                              <Link
-                                to={"/login"}
-                                className="text-decoration-none">
+                              <Link to={"/login"} className="alert-link">
                                 login
                               </Link>{" "}
                               to leave your feedback.
@@ -535,7 +536,13 @@ export default function ProductDetail() {
           </Row>
         </Container>
       ) : (
-        <ErrorPage />
+        <div className="text-center mt-5">
+          <h5 className="text-danger">Error Fetching Products</h5>
+          <p className="mt-3">
+            We apologize, but we couldn't fetch the products at the moment.
+            Please try again later.
+          </p>
+        </div>
       )}
       <BackToTop />
       <div className="text-center my-3">

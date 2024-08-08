@@ -16,18 +16,18 @@ export default function About() {
         keywords="About Campusify, university marketplace, campus e-commerce, student entrepreneurship"
       />
 
-      <Row className="text-center mb-4">
+      <Row className="text-center mb-3">
         <Col>
-          <h2>About Us</h2>
+          <h2>About Campusify</h2>
           <p className="lead">
-            Discover the vibrant marketplace of Thomas Adewumi University with
-            Campusify!
+            Unleashing the entrepreneurial spirit at Thomas Adewumi University
+            by connecting students and staff in a dynamic marketplace.
           </p>
         </Col>
       </Row>
 
-      <Row className="mb-4">
-        <Col md={6} className="mb-4 mb-lg-0">
+      <Row className="mb-5">
+        <Col md={6} className="mb-5 mb-lg-0">
           <img
             width={500}
             height={300}
@@ -37,9 +37,9 @@ export default function About() {
           />
         </Col>
         <Col md={6}>
-          <Card className="p-3">
+          <Card className="p-2">
             <Card.Body>
-              <h3 className="text-center mb-3">Welcome to Campusify!</h3>
+              <h5 className="text-center mb-3">Welcome to Campusify!</h5>
               <Card.Text>
                 Campusify is an innovative e-commerce marketplace designed
                 exclusively for the Thomas Adewumi University community. Our
@@ -77,7 +77,7 @@ export default function About() {
 
       <Row>
         <Col>
-          <Card className="p-3">
+          <Card className="p-2">
             <Card.Body>
               <Row>
                 <Col md={4} className="text-center">
@@ -88,7 +88,13 @@ export default function About() {
                   <Card.Text>
                     We envision a thriving marketplace where campus
                     entrepreneurs can flourish, connect, and contribute to a
-                    vibrant university ecosystem.
+                    vibrant university ecosystem. Our goal is to nurture talent
+                    and innovation, providing a platform that encourages
+                    creativity and economic growth. By facilitating seamless
+                    transactions and fostering a supportive environment, we aim
+                    to empower individuals to achieve their entrepreneurial
+                    aspirations and make a positive impact within the university
+                    and beyond.
                   </Card.Text>
                 </Col>
               </Row>
