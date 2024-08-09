@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUpdateUserPasswordMutation } from "../features/usersApiSlice";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -22,7 +22,6 @@ import MetaTags from "../components/MetaTags";
 import { useGetMyOrdersQuery } from "../features/ordersApiSlice";
 import { BsEye, BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import TablePlaceholder from "../components/TablePlaceholder";
 import BackToTop from "../components/BackToTop";
 import { formatCurrency } from "../utilities";
 
@@ -195,11 +194,7 @@ export default function UserProfileDetails() {
           <Col lg={8}>
             <h4 className="text-center mb-3">Purchase History</h4>
             {loadingOrders ? (
-              <>
-                {[...Array(5)].map((_, index) => (
-                  <TablePlaceholder key={index} />
-                ))}
-              </>
+              <></>
             ) : ordersError ? (
               <div className="text-center mt-5">
                 <h5 className="text-danger">Error Loading Orders</h5>

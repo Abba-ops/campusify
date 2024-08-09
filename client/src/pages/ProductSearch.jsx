@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchProductsQuery } from "../features/productsApiSlice";
 import { useParams, Link } from "react-router-dom";
 import { Button, Col, Container, Row } from "react-bootstrap";

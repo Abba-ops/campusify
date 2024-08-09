@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Breadcrumb,
   Button,
@@ -17,7 +17,6 @@ import { toast } from "react-toastify";
 import StarRating from "../../components/StarRating";
 import { MdDelete } from "react-icons/md";
 import { formatDistanceToNow, format } from "date-fns";
-import TablePlaceholder from "../../components/TablePlaceholder";
 import { formatCurrency } from "../../utilities";
 
 export default function VendorProductDetails() {
@@ -108,22 +107,7 @@ export default function VendorProductDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <Row>
-          <Col md={4} className="mb-4 mb-lg-0">
-            <Card className="border-0 rounded-0 shadow-sm">
-              {[...Array(6)].map((_, index) => (
-                <TablePlaceholder key={index} />
-              ))}
-            </Card>
-          </Col>
-          <Col>
-            <Card md={8} className="border-0 rounded-0 shadow-sm">
-              {[...Array(6)].map((_, index) => (
-                <TablePlaceholder key={index} />
-              ))}
-            </Card>
-          </Col>
-        </Row>
+        <></>
       ) : (
         <>
           <Row>

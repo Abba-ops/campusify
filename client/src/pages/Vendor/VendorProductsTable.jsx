@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -87,6 +87,16 @@ export default function VendorProductsTable() {
     }
   };
 
+  const headings = [
+    "Product Name",
+    "Image",
+    "Category",
+    "Subcategory",
+    "Brand",
+    "Price",
+    "Actions",
+  ];
+
   return (
     <>
       {isError ? (
@@ -124,11 +134,7 @@ export default function VendorProductsTable() {
             </div>
           </div>
           {isLoading ? (
-            <>
-              {[...Array(5)].map((_, index) => (
-                <TablePlaceholder key={index} />
-              ))}
-            </>
+            <TablePlaceholder headers={headings} rowCount={itemsPerPage} />
           ) : (
             <>
               <div className="mb-3">
@@ -158,13 +164,9 @@ export default function VendorProductsTable() {
                     <Table size="sm" responsive striped className="mb-3">
                       <thead>
                         <tr>
-                          <th>Product Name</th>
-                          <th>Image</th>
-                          <th>Category</th>
-                          <th>Subcategory</th>
-                          <th>Brand</th>
-                          <th>Price</th>
-                          <th>Actions</th>
+                          {headings.map((heading, index) => (
+                            <th key={index}>{heading}</th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody>

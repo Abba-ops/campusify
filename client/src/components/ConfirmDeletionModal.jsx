@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Alert, Button, Form, Modal, Spinner } from "react-bootstrap";
 import { useLogoutUserMutation } from "../features/usersApiSlice";
 import { toast } from "react-toastify";

@@ -1,4 +1,3 @@
-import React from "react";
 import { Placeholder } from "react-bootstrap";
 
 export default function SingleProductPlaceholder() {

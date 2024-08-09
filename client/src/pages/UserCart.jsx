@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import {
   Container,

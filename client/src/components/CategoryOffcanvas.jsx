@@ -1,4 +1,3 @@
-import React from "react";
 import { Offcanvas, Placeholder } from "react-bootstrap";
 import { Link } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   useGetProductsByVendorQuery,
   useGetVendorByIdQuery,
@@ -17,7 +17,6 @@ import {
   ListGroup,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
-import TablePlaceholder from "../../components/TablePlaceholder";
 import { format } from "date-fns";
 
 const TruncatedText = ({ text, maxLength }) => {
@@ -126,18 +125,7 @@ export default function AdminVendorDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <Row>
-          <Col md={4} className="mb-4 mb-lg-0">
-            {[...Array(6)].map((_, index) => (
-              <TablePlaceholder key={index} />
-            ))}
-          </Col>
-          <Col md={8}>
-            {[...Array(6)].map((_, index) => (
-              <TablePlaceholder key={index} />
-            ))}
-          </Col>
-        </Row>
+        <></>
       ) : (
         <Row>
           <Col md={4} className="mb-4 mb-lg-0">
@@ -183,7 +171,7 @@ export default function AdminVendorDetails() {
               <Card.Body>
                 <h5>Recent Products</h5>
                 {loadingVendorProducts ? (
-                  <TablePlaceholder />
+                  <></>
                 ) : vendorProducts?.data?.length === 0 ? (
                   <p className="text-muted">
                     No recent products available for this vendor.

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -77,6 +77,17 @@ export default function AdminUsersTable() {
 
   const totalPages = Math.ceil(filteredUsers?.length / itemsPerPage);
 
+  const tableHeadings = [
+    "Last Name",
+    "Other Names",
+    "Email",
+    "Picture",
+    "Phone Number",
+    "Vendor",
+    "User Type",
+    "Actions",
+  ];
+
   return (
     <>
       <Breadcrumb>
@@ -105,11 +116,7 @@ export default function AdminUsersTable() {
         </div>
       </div>
       {isLoading ? (
-        <>
-          {[...Array(5)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </>
+        <TablePlaceholder headers={tableHeadings} rowCount={itemsPerPage} />
       ) : isError ? (
         <div className="text-center mt-5">
           <h5 className="text-danger">Error Loading User Data</h5>
@@ -132,14 +139,9 @@ export default function AdminUsersTable() {
               <Table size="sm" responsive striped>
                 <thead>
                   <tr>
-                    <th>Last Name</th>
-                    <th>Other Names</th>
-                    <th>Email</th>
-                    <th>Picture</th>
-                    <th>Phone Number</th>
-                    <th>Vendor</th>
-                    <th>User Type</th>
-                    <th>Actions</th>
+                    {tableHeadings.map((header, index) => (
+                      <th key={index}>{header}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Breadcrumb,
   Card,
@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useGetOrderByIdQuery } from "../../features/ordersApiSlice";
-import TablePlaceholder from "../../components/TablePlaceholder";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 import { formatCurrency } from "../../utilities";
 
@@ -41,18 +40,7 @@ export default function AdminOrderDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <Row>
-          <Col md={6}>
-            {[...Array(6)].map((_, index) => (
-              <TablePlaceholder key={index} />
-            ))}
-          </Col>
-          <Col md={6}>
-            {[...Array(4)].map((_, index) => (
-              <TablePlaceholder key={index} />
-            ))}
-          </Col>
-        </Row>
+        <></>
       ) : (
         <Row>
           <Col md={6}>

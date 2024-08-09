@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Image,
@@ -14,6 +14,7 @@ import {
   OverlayTrigger,
   Tooltip,
   ButtonGroup,
+  Placeholder,
 } from "react-bootstrap";
 import { BsEye, BsPencil, BsTrash } from "react-icons/bs";
 import {
@@ -175,6 +176,17 @@ export default function AdminProductsTable() {
     }
   }, [categories, isLoadingCategories]);
 
+  const productTableHeadings = [
+    "Product Name",
+    "Image",
+    "Category",
+    "Subcategory",
+    "Brand",
+    "Price",
+    "Count In Stock",
+    "Actions",
+  ];
+
   return (
     <>
       <Breadcrumb>
@@ -211,11 +223,10 @@ export default function AdminProductsTable() {
           </p>
         </div>
       ) : isLoading ? (
-        <>
-          {[...Array(5)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </>
+        <TablePlaceholder
+          headers={productTableHeadings}
+          rowCount={itemsPerPage}
+        />
       ) : (
         <>
           {filteredProducts?.length === 0 ? (
@@ -231,14 +242,9 @@ export default function AdminProductsTable() {
               <Table size="sm" responsive striped>
                 <thead>
                   <tr>
-                    <th>Product Name</th>
-                    <th>Image</th>
-                    <th>Category</th>
-                    <th>Subcategory</th>
-                    <th>Brand</th>
-                    <th>Price</th>
-                    <th>Count In Stock</th>
-                    <th>Actions</th>
+                    {productTableHeadings.map((heading, index) => (
+                      <th key={index}>{heading}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
@@ -336,7 +342,7 @@ export default function AdminProductsTable() {
         </div>
         <Row className="mb-4">
           <Col lg={4}>
-            <Card className="border-0 rounded-0 py-3 shadow-sm">
+            <Card className="py-3 shadow-sm">
               <Card.Body>
                 <Form onSubmit={handleAddCategory}>
                   <InputGroup>
@@ -367,11 +373,37 @@ export default function AdminProductsTable() {
             </p>
           </div>
         ) : isLoadingCategories ? (
-          <>
-            {[...Array(5)].map((_, index) => (
-              <TablePlaceholder key={index} />
+          <Row className="mb-4">
+            {[...Array(4)].map((_, idx) => (
+              <Col xs={12} sm={6} md={4} lg={3} key={idx} className="mb-3">
+                <Card className="border-0 rounded-0 mb-3 shadow-sm">
+                  <Card.Body className="d-flex justify-content-between align-items-center">
+                    <Placeholder as="h5" animation="wave" className="w-75 mb-0">
+                      <Placeholder xs={6} />
+                    </Placeholder>
+                    <Placeholder.Button variant="light" size="sm" />
+                  </Card.Body>
+                  <Card.Body>
+                    <ul className="list-unstyled">
+                      {[...Array(3)].map((_, subIdx) => (
+                        <li
+                          key={subIdx}
+                          className="d-flex justify-content-between align-items-center">
+                          <Placeholder
+                            as="span"
+                            animation="wave"
+                            className="w-75">
+                            <Placeholder xs={5} />
+                          </Placeholder>
+                          <Placeholder.Button variant="light" size="sm" />
+                        </li>
+                      ))}
+                    </ul>
+                  </Card.Body>
+                </Card>
+              </Col>
             ))}
-          </>
+          </Row>
         ) : (
           <Row className="mb-4">
             {categories?.data?.length === 0 ? (
@@ -393,7 +425,7 @@ export default function AdminProductsTable() {
                       lg={3}
                       key={category?._id}
                       className="mb-3">
-                      <Card className="border-0 rounded-0 mb-3 shadow-sm">
+                      <Card className="mb-3 shadow-sm">
                         <Card.Body className="d-flex justify-content-between align-items-center">
                           <h5 className="mb-0">{category?.name}</h5>
                           <Button
@@ -441,7 +473,7 @@ export default function AdminProductsTable() {
                 <Row>
                   <Col lg={4}>
                     <div>
-                      <Card className="border-0 rounded-0 py-3 shadow-sm">
+                      <Card className="py-3 shadow-sm">
                         <Card.Body>
                           <Form onSubmit={handleAddSubcategory}>
                             <Form.Select

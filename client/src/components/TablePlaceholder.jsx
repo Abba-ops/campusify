@@ -1,29 +1,28 @@
-import React from "react";
-import { Placeholder } from "react-bootstrap";
+import { Placeholder, Table } from "react-bootstrap";
 
-export default function TablePlaceholder() {
+export default function TablePlaceholder({ headers, rowCount }) {
   return (
-    <Placeholder as="div" animation="glow">
-      <div className="d-flex align-items-center justify-content-between mb-2">
-        <span className="placeholder col-2" style={{ height: "20px" }}></span>
-        <span className="placeholder col-4" style={{ height: "20px" }}></span>
-        <span className="placeholder col-3" style={{ height: "20px" }}></span>
-        <span className="placeholder col-2" style={{ height: "20px" }}></span>
-        <span className="placeholder col-1" style={{ height: "20px" }}></span>
-      </div>
-      <div className="d-flex align-items-center justify-content-between mb-2">
-        <span className="placeholder col-3" style={{ height: "20px" }}></span>
-        <span className="placeholder col-4" style={{ height: "20px" }}></span>
-        <span className="placeholder col-2" style={{ height: "20px" }}></span>
-        <span className="placeholder col-2" style={{ height: "20px" }}></span>
-        <span className="placeholder col-1" style={{ height: "20px" }}></span>
-      </div>
-      <div className="d-flex align-items-center justify-content-between">
-        <span className="placeholder col-5" style={{ height: "20px" }}></span>
-        <span className="placeholder col-3" style={{ height: "20px" }}></span>
-        <span className="placeholder col-2" style={{ height: "20px" }}></span>
-        <span className="placeholder col-1" style={{ height: "20px" }}></span>
-      </div>
-    </Placeholder>
+    <Table size="sm" responsive striped>
+      <thead>
+        <tr>
+          {headers.map((header, index) => (
+            <th key={index}>{header}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {[...Array(rowCount)].map((_, rowIndex) => (
+          <tr key={rowIndex}>
+            {headers.map((_, colIndex) => (
+              <td key={colIndex}>
+                <Placeholder as="div" animation="glow">
+                  <Placeholder xs={8} />
+                </Placeholder>
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   );
 }

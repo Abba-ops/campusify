@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal, Row, Col, Image, ListGroup, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";

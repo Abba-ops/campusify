@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
   Col,
   Container,
@@ -14,7 +14,6 @@ import {
   useGetOrderByIdQuery,
   useMarkOrderAsReceivedMutation,
 } from "../features/ordersApiSlice";
-import TablePlaceholder from "../components/TablePlaceholder";
 import { toast } from "react-toastify";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 import MetaTags from "../components/MetaTags";
@@ -81,11 +80,7 @@ export default function OrderScreen() {
                 </p>
               </div>
             ) : isLoading ? (
-              <>
-                {[...Array(6)].map((_, index) => (
-                  <TablePlaceholder key={index} />
-                ))}
-              </>
+              <></>
             ) : (
               <ListGroup>
                 <ListGroup.Item>
@@ -295,11 +290,7 @@ export default function OrderScreen() {
                 </ListGroup.Item>
               </ListGroup>
             ) : (
-              <>
-                {[...Array(6)].map((_, index) => (
-                  <TablePlaceholder key={index} />
-                ))}
-              </>
+              <></>
             )}
           </Col>
         </Row>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Accordion, Col, Container, Row } from "react-bootstrap";
 import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";

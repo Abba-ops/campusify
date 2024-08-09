@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Breadcrumb,
   Button,
@@ -28,6 +28,20 @@ export default function AdminOrdersTable() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const orderTableHeadings = [
+    "Order ID",
+    "User Name",
+    "Phone Number",
+    "Items Price",
+    "Tax Price",
+    "Total Price",
+    "Order Items",
+    "Order Date",
+    "Status",
+    "Completion Status",
+    "Actions",
+  ];
+
   return (
     <>
       <Breadcrumb>
@@ -49,11 +63,10 @@ export default function AdminOrdersTable() {
           <p className="mt-3">Failed to load orders. Please try again later.</p>
         </div>
       ) : isLoading ? (
-        <>
-          {[...Array(5)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </>
+        <TablePlaceholder
+          headers={orderTableHeadings}
+          rowCount={itemsPerPage}
+        />
       ) : (
         <>
           {currentOrders?.length === 0 ? (
@@ -66,17 +79,9 @@ export default function AdminOrdersTable() {
               <Table size="sm" responsive striped>
                 <thead>
                   <tr>
-                    <th>Order ID</th>
-                    <th>User Name</th>
-                    <th>Phone Number</th>
-                    <th>Items Price</th>
-                    <th>Tax Price</th>
-                    <th>Total Price</th>
-                    <th>Order Items</th>
-                    <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Completion Status</th>
-                    <th>Actions</th>
+                    {orderTableHeadings.map((heading, index) => (
+                      <th key={index}>{heading}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>

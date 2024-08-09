@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 import MetaTags from "../components/MetaTags";
@@ -46,7 +46,7 @@ export default function ContactUs() {
         </Row>
         <Row>
           <Col lg={6} className="mb-6 mb-lg-0">
-            <Card className="py-2 p-lg-2">
+            <Card className="py-2 p-lg-3">
               <Card.Body>
                 <h5 className="mb-4">Send Us a Message</h5>
                 <Form onSubmit={handleSubmit}>
@@ -133,7 +133,7 @@ export default function ContactUs() {
             </Card>
           </Col>
           <Col lg={6}>
-            <Card className="py-2 p-lg-2">
+            <Card className="p-2">
               <Card.Body>
                 <h5 className="mb-4">Contact Information</h5>
                 <p>

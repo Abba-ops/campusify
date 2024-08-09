@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import BackToTop from "../components/BackToTop";
 import BestSeller from "../components/BestSeller";

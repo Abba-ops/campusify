@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Badge, Card, Col, Container, Image, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useGetUserProfileQuery } from "../features/usersApiSlice";

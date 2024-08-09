@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Breadcrumb,
   Card,
@@ -15,7 +15,6 @@ import {
   useMarkOrderAsDeliveredMutation,
 } from "../../features/ordersApiSlice";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
-import TablePlaceholder from "../../components/TablePlaceholder";
 import { formatCurrency } from "../../utilities";
 import { toast } from "react-toastify";
 
@@ -68,22 +67,11 @@ export default function VendorOrderDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <Row>
-          <Col md={6}>
-            {[...Array(6)].map((_, index) => (
-              <TablePlaceholder key={index} />
-            ))}
-          </Col>
-          <Col md={6}>
-            {[...Array(4)].map((_, index) => (
-              <TablePlaceholder key={index} />
-            ))}
-          </Col>
-        </Row>
+        <></>
       ) : (
         <Row>
           <Col md={6}>
-            <Card className="mb-4 shadow-sm rounded-0">
+            <Card className="mb-4 shadow-sm">
               <Card.Body>
                 <h5>Summary of Order Details</h5>
                 <ListGroup variant="flush">
@@ -111,7 +99,7 @@ export default function VendorOrderDetails() {
               </Card.Body>
             </Card>
 
-            <Card className="mb-4 shadow-sm rounded-0">
+            <Card className="mb-4 shadow-sm">
               <Card.Body>
                 <h5>Customer Information</h5>
                 <ListGroup variant="flush">
@@ -160,7 +148,7 @@ export default function VendorOrderDetails() {
           </Col>
 
           <Col md={6}>
-            <Card className="mb-4 shadow-sm rounded-0">
+            <Card className="mb-4 shadow-sm">
               <Card.Body>
                 <h5>List of Ordered Items</h5>
                 <ListGroup variant="flush">

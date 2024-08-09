@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Image, Col, Modal, Row, Form } from "react-bootstrap";
 import { addToCart } from "../features/cartSlice";
 import CartPreviewModal from "./CartPreviewModal";

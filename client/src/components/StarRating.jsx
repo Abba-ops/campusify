@@ -1,4 +1,3 @@
-import React from "react";
 import { Stack } from "react-bootstrap";
 import { RiStarFill, RiStarHalfFill, RiStarLine } from "react-icons/ri";
 

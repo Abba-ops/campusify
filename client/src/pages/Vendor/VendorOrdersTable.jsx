@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Breadcrumb,
   Button,
@@ -28,6 +28,18 @@ export default function VendorOrdersTable() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const headings = [
+    "Order ID",
+    "User Name",
+    "Phone Number",
+    "Delivery Address",
+    "Total Price",
+    "Order Items",
+    "Order Date",
+    "Status",
+    "Actions",
+  ];
+
   return (
     <div>
       <Breadcrumb>
@@ -49,11 +61,7 @@ export default function VendorOrdersTable() {
           <p className="mt-3">Failed to load orders. Please try again later.</p>
         </div>
       ) : isLoading ? (
-        <>
-          {[...Array(5)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </>
+        <TablePlaceholder headers={headings} rowCount={itemsPerPage} />
       ) : orders && orders?.data?.length === 0 ? (
         <div className="text-center mt-5">
           <h5>No Orders Found</h5>
@@ -64,15 +72,9 @@ export default function VendorOrdersTable() {
           <Table size="sm" responsive striped>
             <thead>
               <tr>
-                <th>Order ID</th>
-                <th>User Name</th>
-                <th>Phone Number</th>
-                <th>Delivery Address</th>
-                <th>Total Price</th>
-                <th>Order Items</th>
-                <th>Order Date</th>
-                <th>Status</th>
-                <th>Actions</th>
+                {headings.map((heading, index) => (
+                  <th key={index}>{heading}</th>
+                ))}
               </tr>
             </thead>
             <tbody>

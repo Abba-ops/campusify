@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Row, Col, Card, Form, Button, Image } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useUpdateVendorProfileMutation } from "../../features/vendorApiSlice";
@@ -143,7 +143,7 @@ export default function VendorProfileSettings() {
 
       <Row>
         <Col md={6} className="mb-4">
-          <Card className="rounded-0 shadow-sm">
+          <Card className="shadow-sm">
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formVendorName" className="mb-3">

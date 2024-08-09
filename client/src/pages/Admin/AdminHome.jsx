@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Row,
   Col,
@@ -14,10 +14,10 @@ import {
   useGetAdminDashboardQuery,
   useUpdateTaskMutation,
 } from "../../features/usersApiSlice";
-import TablePlaceholder from "../../components/TablePlaceholder";
 import { toast } from "react-toastify";
 import { formatCurrency } from "../../utilities";
 import { format } from "date-fns";
+import DashboardPlaceholder from "../../components/DashboardPlaceholder";
 
 const MAX_TASK_LENGTH = 50;
 const MAX_TEXT_LENGTH = 50;
@@ -97,7 +97,7 @@ const AdminHome = () => {
       {isError ? (
         <ErrorMessage />
       ) : isLoading ? (
-        <LoadingPlaceholders />
+        <DashboardPlaceholder />
       ) : (
         <>
           <Statistics stats={stats} />
@@ -136,43 +136,6 @@ const ErrorMessage = () => (
   </div>
 );
 
-const LoadingPlaceholders = () => (
-  <>
-    <Row className="mb-4">
-      {[1, 2, 3, 4].map((item) => (
-        <Col key={item} md={6} lg={3} className="mb-3">
-          <Card className="rounded-0 shadow-sm">
-            {[...Array(1)].map((_, index) => (
-              <TablePlaceholder key={index} />
-            ))}
-          </Card>
-        </Col>
-      ))}
-    </Row>
-    <Row>
-      <Col lg={8} className="mb-4">
-        <Card className="rounded-0 shadow-sm">
-          {[...Array(4)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </Card>
-      </Col>
-      <Col lg={4} className="mb-4">
-        <Card className="rounded-0 shadow-sm">
-          {[...Array(2)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </Card>
-        <Card className="mt-3 rounded-0 shadow-sm">
-          {[...Array(3)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </Card>
-      </Col>
-    </Row>
-  </>
-);
-
 const Statistics = ({ stats }) => (
   <Row className="mb-4">
     {[
@@ -182,7 +145,7 @@ const Statistics = ({ stats }) => (
       { title: "Revenue", value: `₦${formatCurrency(stats?.totalRevenue)}` },
     ].map((stat, index) => (
       <Col key={index} md={6} lg={3} className="mb-3">
-        <Card className="text-center rounded-0 shadow-sm">
+        <Card className="text-center shadow-sm">
           <Card.Body>
             <Card.Title>{stat?.title}</Card.Title>
             <Card.Text>
@@ -196,7 +159,7 @@ const Statistics = ({ stats }) => (
 );
 
 const RecentActivities = ({ activities }) => (
-  <Card className="rounded-0 shadow-sm">
+  <Card className="shadow-sm">
     <Card.Body>
       <Card.Title>Recent Activities</Card.Title>
       {activities.length > 0 ? (
@@ -221,14 +184,16 @@ const RecentActivities = ({ activities }) => (
           </tbody>
         </Table>
       ) : (
-        <p className="text-center mt-3">No recent activities available</p>
+        <p className="text-center mt-3 text-secondary">
+          No recent activities available
+        </p>
       )}
     </Card.Body>
   </Card>
 );
 
 const RecentMessages = ({ messages, expandedMessage, onToggleExpand }) => (
-  <Card className="rounded-0 shadow-sm">
+  <Card className="shadow-sm">
     <Card.Body>
       <Card.Title>Recent Messages</Card.Title>
       {messages?.length > 0 ? (
@@ -254,7 +219,9 @@ const RecentMessages = ({ messages, expandedMessage, onToggleExpand }) => (
           ))}
         </ListGroup>
       ) : (
-        <p className="text-center mt-3">No recent messages available</p>
+        <p className="text-center mt-3 text-secondary">
+          No recent messages available
+        </p>
       )}
     </Card.Body>
   </Card>
@@ -268,7 +235,7 @@ const Tasks = ({
   onTaskSubmit,
   onTaskToggle,
 }) => (
-  <Card className="mt-3 rounded-0 shadow-sm">
+  <Card className="mt-3 shadow-sm">
     <Card.Body>
       <Card.Title>Tasks</Card.Title>
       {tasks.length > 0 ? (
@@ -287,7 +254,7 @@ const Tasks = ({
             ))}
         </ListGroup>
       ) : (
-        <p className="text-center mt-3">No tasks available</p>
+        <p className="text-center mt-3 text-secondary">No tasks available</p>
       )}
       <Form onSubmit={onTaskSubmit} className="mt-3">
         <Form.Group controlId="formTask">

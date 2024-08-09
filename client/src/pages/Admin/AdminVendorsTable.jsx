@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -95,6 +95,17 @@ export default function VendorManagementPage() {
     }
   };
 
+  const vendorTableHeadings = [
+    "Vendor Name",
+    "Vendor Email",
+    "Sales Count",
+    "Vendor Phone",
+    "Approval Status",
+    "Date Joined",
+    "Vendor Logo",
+    "Actions",
+  ];
+
   return (
     <>
       <Breadcrumb>
@@ -131,11 +142,10 @@ export default function VendorManagementPage() {
         </Nav.Item>
       </Nav>
       {isLoading ? (
-        <>
-          {[...Array(4)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </>
+        <TablePlaceholder
+          headers={vendorTableHeadings}
+          rowCount={itemsPerPage}
+        />
       ) : isError ? (
         <div className="text-center mt-5">
           <h5 className="text-danger">Oops! Failed to retrieve vendor data</h5>
@@ -159,14 +169,9 @@ export default function VendorManagementPage() {
             <Table striped responsive size="sm">
               <thead>
                 <tr>
-                  <th>Vendor Name</th>
-                  <th>Vendor Email</th>
-                  <th>Sales Count</th>
-                  <th>Vendor Phone</th>
-                  <th>Approval Status</th>
-                  <th>Date Joined</th>
-                  <th>Vendor Logo</th>
-                  <th>Actions</th>
+                  {vendorTableHeadings.map((heading, index) => (
+                    <th key={index}>{heading}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>

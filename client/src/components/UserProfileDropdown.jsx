@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Dropdown, Image, Nav } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import DeleteAccountModal from "../components/ConfirmDeletionModal";

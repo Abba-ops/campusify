@@ -1,4 +1,3 @@
-import React from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { Carousel, Image, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";

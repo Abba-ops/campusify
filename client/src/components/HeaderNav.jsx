@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Nav, Stack, Image, Badge, Navbar, Container } from "react-bootstrap";
 import { BiCategoryAlt } from "react-icons/bi";
 import { RiShoppingBag2Line, RiUserLine, RiSearch2Line } from "react-icons/ri";

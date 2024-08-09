@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useGetAllVendorCustomersQuery } from "../../features/vendorApiSlice";
 import { Breadcrumb, Image, Table, Pagination } from "react-bootstrap";
 import TablePlaceholder from "../../components/TablePlaceholder";
@@ -19,6 +19,15 @@ export default function AdminCustomersTable() {
     customers?.data?.slice(indexOfFirstCustomer, indexOfLastCustomer) || [];
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const headers = [
+    "Last Name",
+    "Other Names",
+    "Email",
+    "Phone Number",
+    "Profile Picture",
+    "Account Creation Date",
+  ];
 
   return (
     <>
@@ -45,11 +54,7 @@ export default function AdminCustomersTable() {
           </p>
         </div>
       ) : isLoading ? (
-        <>
-          {[...Array(5)].map((_, index) => (
-            <TablePlaceholder key={index} />
-          ))}
-        </>
+        <TablePlaceholder headers={headers} rowCount={customersPerPage} />
       ) : customers && customers?.data?.length === 0 ? (
         <div className="text-center mt-5">
           <h5>No Customers Found</h5>
@@ -60,12 +65,9 @@ export default function AdminCustomersTable() {
           <Table size="sm" responsive striped>
             <thead>
               <tr>
-                <th>Last Name</th>
-                <th>Other Names</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Profile Picture</th>
-                <th>Account Creation Date</th>
+                {headers.map((header, index) => (
+                  <th key={index}>{header}</th>
+                ))}
               </tr>
             </thead>
             <tbody>

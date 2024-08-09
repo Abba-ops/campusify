@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Breadcrumb,
   Button,
@@ -16,7 +16,7 @@ import {
 } from "../../features/productsApiSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import TablePlaceholder from "../../components/TablePlaceholder";
+import FormLoadingPlaceholder from "../../components/FormLoadingPlaceholder";
 
 export default function VendorEditProduct() {
   const [imageFile, setImageFile] = useState(null);
@@ -161,14 +161,7 @@ export default function VendorEditProduct() {
       <Card className="border-0 rounded-0 shadow-sm">
         <Card.Body>
           {isLoading ? (
-            <>
-              <TablePlaceholder />
-              <TablePlaceholder />
-              <TablePlaceholder />
-              <TablePlaceholder />
-              <TablePlaceholder />
-              <TablePlaceholder />
-            </>
+            <FormLoadingPlaceholder />
           ) : (
             <Form onSubmit={handleSubmit}>
               <Row className="mb-3">

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { FaStore, FaUserGraduate, FaHandshake, FaRegEye } from "react-icons/fa";
 import MetaTags from "../components/MetaTags";

@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Badge } from "react-bootstrap";
 import { BsArrowRight } from "react-icons/bs";
 import ProductCard from "./ProductCard";
