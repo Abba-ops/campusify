@@ -12,6 +12,7 @@ import { Link, useParams } from "react-router-dom";
 import { useGetOrderByIdQuery } from "../../features/ordersApiSlice";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 import { formatCurrency } from "../../utilities";
+import OrderDetailsLoader from "../../components/OrderDetailsLoader";
 
 export default function AdminOrderDetails() {
   const { orderId } = useParams();
@@ -40,11 +41,11 @@ export default function AdminOrderDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <></>
+        <OrderDetailsLoader />
       ) : (
         <Row>
           <Col md={6}>
-            <Card className="border-0 rounded-0 shadow-sm mb-4">
+            <Card className="shadow-sm mb-4">
               <Card.Body>
                 <h5>Summary of Order Details</h5>
                 <ListGroup variant="flush">
@@ -75,7 +76,7 @@ export default function AdminOrderDetails() {
               </Card.Body>
             </Card>
 
-            <Card className="border-0 rounded-0 shadow-sm mb-4">
+            <Card className="shadow-sm mb-4">
               <Card.Body>
                 <h5>Customer Information</h5>
                 <ListGroup variant="flush">
@@ -124,7 +125,7 @@ export default function AdminOrderDetails() {
           </Col>
 
           <Col md={6}>
-            <Card className="border-0 rounded-0 shadow-sm mb-4">
+            <Card className="shadow-sm mb-4">
               <Card.Body>
                 <h5>List of Ordered Items</h5>
                 <ListGroup variant="flush">

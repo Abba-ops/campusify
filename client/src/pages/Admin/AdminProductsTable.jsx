@@ -354,7 +354,8 @@ export default function AdminProductsTable() {
                     />
                     <Button
                       type="submit"
-                      variant="dark"
+                      variant="primary"
+                      className="text-white"
                       disabled={newCategory.length === 0}>
                       Add
                     </Button>
@@ -501,7 +502,8 @@ export default function AdminProductsTable() {
                               />
                               <Button
                                 type="submit"
-                                variant="dark"
+                                variant="primary"
+                                className="text-white"
                                 disabled={newSubcategory.length === 0}>
                                 Add
                               </Button>

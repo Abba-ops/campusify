@@ -18,6 +18,7 @@ import StarRating from "../../components/StarRating";
 import { MdDelete } from "react-icons/md";
 import { format, formatDistanceToNow } from "date-fns";
 import { formatCurrency } from "../../utilities";
+import ProductLoadingPlaceholder from "../../components/ProductLoadingPlaceholder";
 
 export default function AdminProductDetails() {
   const [visibleComments, setVisibleComments] = useState(3);
@@ -107,12 +108,12 @@ export default function AdminProductDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <></>
+        <ProductLoadingPlaceholder />
       ) : (
         <>
           <Row>
             <Col md={4} className="mb-4 mb-lg-0">
-              <Card className="border-0 rounded-0 shadow-sm">
+              <Card className="shadow-sm">
                 <Card.Body>
                   <div className="image-container">
                     <Image
@@ -191,7 +192,7 @@ export default function AdminProductDetails() {
               </ListGroup>
             </Col>
             <Col md={8}>
-              <Card className="border-0 rounded-0 shadow-sm">
+              <Card className="shadow-sm">
                 <Card.Body>
                   <h5>{product?.data?.productName}</h5>
                   <p>

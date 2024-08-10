@@ -18,6 +18,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
+import VendorLoadingPlaceholder from "../../components/VendorLoadingPlaceholder";
 
 const TruncatedText = ({ text, maxLength }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -125,11 +126,11 @@ export default function AdminVendorDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <></>
+        <VendorLoadingPlaceholder />
       ) : (
         <Row>
           <Col md={4} className="mb-4 mb-lg-0">
-            <Card className="border-0 rounded-0 shadow-sm">
+            <Card className="shadow-sm">
               <Card.Body className="text-center">
                 <Image
                   fluid
@@ -167,7 +168,7 @@ export default function AdminVendorDetails() {
                 )}
               </Card.Body>
             </Card>
-            <Card className="border-0 rounded-0 shadow-sm mt-3">
+            <Card className="shadow-sm mt-3">
               <Card.Body>
                 <h5>Recent Products</h5>
                 {loadingVendorProducts ? (
@@ -195,7 +196,7 @@ export default function AdminVendorDetails() {
             </Card>
           </Col>
           <Col md={8}>
-            <Card className="border-0 rounded-0 shadow-sm mb-3">
+            <Card className="shadow-sm mb-3">
               <Card.Body>
                 <h5>Vendor Description</h5>
                 <ListGroup variant="flush">
@@ -231,7 +232,7 @@ export default function AdminVendorDetails() {
               </Card.Body>
             </Card>
 
-            <Card className="border-0 rounded-0 shadow-sm">
+            <Card className="shadow-sm">
               <Card.Body>
                 <h5>Contact Information</h5>
                 <ListGroup variant="flush">

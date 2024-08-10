@@ -24,6 +24,7 @@ import { BsEye, BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import BackToTop from "../components/BackToTop";
 import { formatCurrency } from "../utilities";
+import TablePlaceholder from "../components/TablePlaceholder";
 
 export default function UserProfileDetails() {
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -67,6 +68,17 @@ export default function UserProfileDetails() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const tableHeaders = [
+    "Order ID",
+    "Items Price",
+    "Tax Price",
+    "Total Price",
+    "Status",
+    "Completion Status",
+    "Order Date",
+    "Actions",
+  ];
 
   return (
     <section className="py-5">
@@ -194,7 +206,7 @@ export default function UserProfileDetails() {
           <Col lg={8}>
             <h4 className="text-center mb-3">Purchase History</h4>
             {loadingOrders ? (
-              <></>
+              <TablePlaceholder headers={tableHeaders} rowCount={8} />
             ) : ordersError ? (
               <div className="text-center mt-5">
                 <h5 className="text-danger">Error Loading Orders</h5>
@@ -210,16 +222,9 @@ export default function UserProfileDetails() {
             ) : (
               <Table size="sm" responsive striped>
                 <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Items Price</th>
-                    <th>Tax Price</th>
-                    <th>Total Price</th>
-                    <th>Status</th>
-                    <th>Completion Status</th>
-                    <th>Order Date</th>
-                    <th>Actions</th>
-                  </tr>
+                  {tableHeaders.map((header, index) => (
+                    <th key={index}>{header}</th>
+                  ))}
                 </thead>
                 <tbody>
                   {orders?.data?.map((order) => (

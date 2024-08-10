@@ -292,9 +292,9 @@ const Tasks = ({
           />
         </Form.Group>
         <Button
-          variant="dark"
           type="submit"
-          className="mt-2"
+          variant="primary"
+          className="mt-2 text-white"
           disabled={isCreatingTask}>
           {isCreatingTask ? (
             <Spinner size="sm" animation="border">
@@ -331,16 +331,16 @@ const SendMessage = ({
           />
         </Form.Group>
         <Button
-          variant="dark"
           type="submit"
-          className="mt-2"
+          variant="primary"
+          className="mt-2 text-white"
           disabled={isSendingMessage}>
           {isSendingMessage ? (
             <Spinner size="sm" animation="border">
               <span className="visually-hidden"></span>
             </Spinner>
           ) : (
-            "Send Message"
+            "Send"
           )}
         </Button>
       </Form>

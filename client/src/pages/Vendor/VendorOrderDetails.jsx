@@ -17,6 +17,7 @@ import {
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 import { formatCurrency } from "../../utilities";
 import { toast } from "react-toastify";
+import OrderDetailsLoader from "../../components/OrderDetailsLoader";
 
 export default function VendorOrderDetails() {
   const { orderId } = useParams();
@@ -67,7 +68,7 @@ export default function VendorOrderDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <></>
+        <OrderDetailsLoader />
       ) : (
         <Row>
           <Col md={6}>

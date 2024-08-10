@@ -18,6 +18,7 @@ import StarRating from "../../components/StarRating";
 import { MdDelete } from "react-icons/md";
 import { formatDistanceToNow, format } from "date-fns";
 import { formatCurrency } from "../../utilities";
+import ProductLoadingPlaceholder from "../../components/ProductLoadingPlaceholder";
 
 export default function VendorProductDetails() {
   const [visibleComments, setVisibleComments] = useState(3);
@@ -107,7 +108,7 @@ export default function VendorProductDetails() {
           </p>
         </div>
       ) : isLoading ? (
-        <></>
+        <ProductLoadingPlaceholder />
       ) : (
         <>
           <Row>

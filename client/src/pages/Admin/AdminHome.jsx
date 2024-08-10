@@ -268,9 +268,9 @@ const Tasks = ({
           />
         </Form.Group>
         <Button
-          variant="dark"
           type="submit"
-          className="mt-2"
+          variant="primary"
+          className="mt-2 text-white"
           disabled={isSubmittingTask}>
           {isSubmittingTask ? (
             <Spinner size="sm" animation="border">

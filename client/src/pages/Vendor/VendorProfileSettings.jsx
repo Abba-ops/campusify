@@ -235,7 +235,7 @@ export default function VendorProfileSettings() {
           </Card>
         </Col>
         <Col md={6} className="mb-4">
-          <Card className="rounded-0 shadow-sm">
+          <Card className="shadow-sm">
             <Card.Body>
               <Form.Group controlId="formVendorLogo" className="mb-3">
                 <Form.Label>Logo</Form.Label>
@@ -258,7 +258,7 @@ export default function VendorProfileSettings() {
               </div>
             </Card.Body>
           </Card>
-          <Card className="mt-3 rounded-0 shadow-sm">
+          <Card className="mt-3 shadow-sm">
             <Card.Body>
               <Card.Title>Social Media Links</Card.Title>
               <Form.Group controlId="formFacebook" className="mb-3">

@@ -1,6 +1,7 @@
 import { Card, Col, Image, Row, Breadcrumb } from "react-bootstrap";
 import { useGetUserByIdQuery } from "../../features/usersApiSlice";
 import { Link, useParams } from "react-router-dom";
+import UserProfilePlaceholder from "../../components/UserProfilePlaceholder";
 
 export default function AdminUserDetails() {
   const { userId } = useParams();
@@ -41,7 +42,7 @@ export default function AdminUserDetails() {
         </Breadcrumb.Item>
       </Breadcrumb>
       {isLoading ? (
-        <></>
+        <UserProfilePlaceholder />
       ) : isError ? (
         <div className="text-center mt-5">
           <h5 className="text-danger">Error Loading User Data</h5>
@@ -52,7 +53,7 @@ export default function AdminUserDetails() {
       ) : (
         <Row>
           <Col md={6} className="mb-4 mb-lg-0">
-            <Card className="border-0 rounded-0 shadow-sm">
+            <Card className="shadow-sm">
               <Card.Body>
                 <div className="d-flex justify-content-center mb-3">
                   <Image
@@ -60,7 +61,7 @@ export default function AdminUserDetails() {
                     roundedCircle
                     loading="lazy"
                     src={user?.data?.profilePictureURL}
-                    className="profile-picture-lg border"
+                    className="profile-picture-lg"
                   />
                 </div>
                 <h5 className="text-center">{`${user?.data?.lastName} ${user?.data?.otherNames}`}</h5>
@@ -69,7 +70,7 @@ export default function AdminUserDetails() {
             </Card>
           </Col>
           <Col md={6}>
-            <Card className="border-0 rounded-0 shadow-sm">
+            <Card className="shadow-sm">
               <Card.Body>
                 <h5>User Profile Information</h5>
                 <p>
