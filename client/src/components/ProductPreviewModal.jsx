@@ -91,18 +91,21 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
         <Modal.Footer>
           <Button
             onClick={handleClose}
-            className="text-white"
+            className="text-white px-4"
             variant="primary">
+            <FaTimes className="me-2" />
             Close
           </Button>
           <Button
             variant="dark"
+            className="px-4"
             onClick={handleAddToCart}
             disabled={
               isOutOfStock ||
               userInfo?.data?.vendor?._id === product?.vendor ||
               userInfo?.data?.isAdmin
             }>
+            <FaShoppingCart className="me-2" />
             {isOutOfStock ? "Out of Stock" : "Add to Cart"}
           </Button>
         </Modal.Footer>
