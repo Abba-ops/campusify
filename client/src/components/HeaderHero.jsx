@@ -3,6 +3,7 @@ import { Carousel, Image, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FaShoppingBag, FaStore } from "react-icons/fa";
 
 export default function HeaderHero() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -105,6 +106,7 @@ export default function HeaderHero() {
                 size="lg"
                 variant="primary"
                 className="text-white">
+                <FaShoppingBag className="me-2" />
                 Shop Now
               </Button>
             </motion.div>
@@ -119,6 +121,7 @@ export default function HeaderHero() {
                     ? "/vendor-application"
                     : `/login?redirect=/vendor-application`
                 }>
+                <FaStore className="me-2" />
                 Start Selling
               </Button>
             </motion.div>
@@ -136,6 +139,7 @@ export default function HeaderHero() {
                 size="lg"
                 variant="primary"
                 className="text-white w-100">
+                <FaShoppingBag className="me-2" />
                 Shop Now
               </Button>
             </motion.div>
@@ -151,6 +155,7 @@ export default function HeaderHero() {
                     : `/login?redirect=/vendor-application`
                 }
                 className="w-100">
+                <FaStore className="me-2" />
                 Start Selling
               </Button>
             </motion.div>
