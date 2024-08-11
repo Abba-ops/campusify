@@ -19,6 +19,7 @@ import { useDeleteProductMutation } from "../../features/productsApiSlice";
 import { toast } from "react-toastify";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 import { formatCurrency } from "../../utilities";
+import { FaPlus } from "react-icons/fa";
 
 export default function VendorProductsTable() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -128,7 +129,8 @@ export default function VendorProductsTable() {
                 as={Link}
                 variant="dark"
                 to="/vendor/dashboard/products/create"
-                className="d-flex align-items-center mb-3 mb-lg-0 px-4">
+                className="d-flex align-items-center mb-3 mb-lg-0">
+                <FaPlus className="me-2" />
                 Create New Product
               </Button>
             </div>

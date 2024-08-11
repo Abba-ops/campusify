@@ -44,7 +44,7 @@ export default function OrderDetailsLoader() {
       </Col>
 
       <Col md={6}>
-        <Card className="shadow-sm mb-4">
+        <Card className="shadow-sm">
           <Card.Body>
             <h5>
               <Placeholder as="span" animation="glow">

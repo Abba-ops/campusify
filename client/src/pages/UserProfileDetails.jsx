@@ -25,6 +25,7 @@ import { Link } from "react-router-dom";
 import BackToTop from "../components/BackToTop";
 import { formatCurrency } from "../utilities";
 import TablePlaceholder from "../components/TablePlaceholder";
+import { FaKey } from "react-icons/fa";
 
 export default function UserProfileDetails() {
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -195,7 +196,10 @@ export default function UserProfileDetails() {
                       {isLoading ? (
                         <Spinner size="sm" animation="border" />
                       ) : (
-                        "Update Password"
+                        <>
+                          <FaKey className="me-2" />
+                          Update Password
+                        </>
                       )}
                     </Button>
                   </div>

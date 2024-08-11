@@ -18,6 +18,7 @@ import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
 import { formatCurrency } from "../../utilities";
 import { toast } from "react-toastify";
 import OrderDetailsLoader from "../../components/OrderDetailsLoader";
+import { FaCheckCircle } from "react-icons/fa";
 
 export default function VendorOrderDetails() {
   const { orderId } = useParams();
@@ -222,13 +223,16 @@ export default function VendorOrderDetails() {
                   <Button
                     variant="dark"
                     onClick={handleMarkOrderDelivered}
-                    className="mt-3 w-100">
+                    className="mt-3 px-4">
                     {isLoadingMarkDelivered ? (
                       <Spinner size="sm" animation="border">
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>
                     ) : (
-                      "Mark as Delivered"
+                      <>
+                        <FaCheckCircle className="me-2" />
+                        Mark as Delivered
+                      </>
                     )}
                   </Button>
                 )}

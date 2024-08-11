@@ -82,7 +82,6 @@ export default function UserRegistration() {
       />
       <Container>
         <div className="text-center mb-4">
-          <FaUserPlus size="2em" className="text-primary mb-2" />
           <h2>Create a New Account</h2>
           <p className="text-muted">
             Sign up to access the Campusify Marketplace
@@ -196,7 +195,10 @@ export default function UserRegistration() {
                           <span className="visually-hidden">Loading...</span>
                         </Spinner>
                       ) : (
-                        "Create Account"
+                        <>
+                          <FaUserPlus className="me-2" />
+                          Create Account
+                        </>
                       )}
                     </Button>
                   </div>

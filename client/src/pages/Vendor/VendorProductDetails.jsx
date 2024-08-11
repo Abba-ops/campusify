@@ -113,7 +113,7 @@ export default function VendorProductDetails() {
         <>
           <Row>
             <Col md={4} className="mb-4 mb-lg-0">
-              <Card className="border-0 rounded-0 shadow-sm">
+              <Card className="shadow-sm">
                 <Card.Body>
                   <div className="image-container">
                     <Image
@@ -139,7 +139,7 @@ export default function VendorProductDetails() {
                               loading="lazy"
                               roundedCircle
                               src={review?.profilePictureURL}
-                              className="profile-picture-sm text-break"
+                              className="profile-picture-sm"
                               alt={`${review?.name}'s Profile`}
                             />
                           </div>
@@ -184,7 +184,7 @@ export default function VendorProductDetails() {
                     <Button
                       variant="dark"
                       onClick={handleLoadMore}
-                      className="my-4 px-4">
+                      className="my-4">
                       Load More
                     </Button>
                   )}
@@ -192,7 +192,7 @@ export default function VendorProductDetails() {
               </ListGroup>
             </Col>
             <Col md={8}>
-              <Card className="border-0 rounded-0 shadow-sm">
+              <Card className="shadow-sm">
                 <Card.Body>
                   <h5>{product?.data?.productName}</h5>
                   <p>

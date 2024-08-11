@@ -15,6 +15,7 @@ import {
 } from "../../features/productsApiSlice";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import { FaProductHunt } from "react-icons/fa";
 
 export default function VendorCreateProduct() {
   const [subcategories, setSubcategories] = useState([]);
@@ -130,7 +131,7 @@ export default function VendorCreateProduct() {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>Create Product</Breadcrumb.Item>
       </Breadcrumb>
-      <Card className="border-0 rounded-0 shadow-sm">
+      <Card className="shadow-sm">
         <Card.Body>
           <Form onSubmit={handleSubmit}>
             <Row className="mb-3">
@@ -287,7 +288,10 @@ export default function VendorCreateProduct() {
               {isLoading ? (
                 <Spinner size="sm" animation="border" />
               ) : (
-                "Create Product"
+                <>
+                  <FaProductHunt className="me-2" />
+                  Create Product
+                </>
               )}
             </Button>
           </Form>

@@ -16,7 +16,7 @@ import {
 } from "react-bootstrap";
 import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";
-import { FaLock } from "react-icons/fa";
+import { FaSignInAlt } from "react-icons/fa";
 
 export default function UserSignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -72,7 +72,6 @@ export default function UserSignIn() {
       />
       <Container>
         <div className="text-center mb-4">
-          <FaLock size="2em" className="text-primary mb-2" />
           <h2 className="mb-1">Log in to Your Account</h2>
           <p className="text-muted">Access the Campusify Marketplace</p>
         </div>
@@ -138,7 +137,10 @@ export default function UserSignIn() {
                           <span className="visually-hidden">Loading...</span>
                         </Spinner>
                       ) : (
-                        "Log In"
+                        <>
+                          <FaSignInAlt className="me-2" />
+                          Log In
+                        </>
                       )}
                     </Button>
                   </div>

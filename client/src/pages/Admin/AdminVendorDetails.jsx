@@ -136,7 +136,7 @@ export default function AdminVendorDetails() {
                   fluid
                   roundedCircle
                   loading="lazy"
-                  className="profile-picture-lg border mb-3"
+                  className="profile-picture-lg mb-3"
                   src={vendor && vendor?.data?.vendorLogo}
                 />
                 <h5 className="mb-3">{vendor?.data?.vendorName}</h5>
@@ -153,10 +153,7 @@ export default function AdminVendorDetails() {
                           "Approve"
                         )}
                       </Button>
-                      <Button
-                        variant="dark"
-                        className="px-4"
-                        onClick={handleReject}>
+                      <Button variant="dark" onClick={handleReject}>
                         {isApproving ? (
                           <Spinner size="sm" animation="border" />
                         ) : (

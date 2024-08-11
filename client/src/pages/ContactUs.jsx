@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import {
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaPaperPlane,
+} from "react-icons/fa";
 import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";
 
@@ -126,6 +131,7 @@ export default function ContactUs() {
                     </Col>
                   </Form.Group>
                   <Button variant="dark" type="submit" className="px-4">
+                    <FaPaperPlane className="me-2" />
                     Send
                   </Button>
                 </Form>

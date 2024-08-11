@@ -139,7 +139,7 @@ export default function AdminProductDetails() {
                               loading="lazy"
                               roundedCircle
                               src={review?.profilePictureURL}
-                              className="profile-picture-sm text-break"
+                              className="profile-picture-sm"
                               alt={`${review?.name}'s Profile`}
                             />
                           </div>
@@ -184,7 +184,7 @@ export default function AdminProductDetails() {
                     <Button
                       variant="dark"
                       onClick={handleLoadMore}
-                      className="my-4 px-4">
+                      className="my-4">
                       Load More
                     </Button>
                   )}

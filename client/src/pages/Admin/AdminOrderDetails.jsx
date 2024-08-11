@@ -125,7 +125,7 @@ export default function AdminOrderDetails() {
           </Col>
 
           <Col md={6}>
-            <Card className="shadow-sm mb-4">
+            <Card className="shadow-sm">
               <Card.Body>
                 <h5>List of Ordered Items</h5>
                 <ListGroup variant="flush">

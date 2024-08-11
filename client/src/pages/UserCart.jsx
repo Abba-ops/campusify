@@ -15,6 +15,7 @@ import { addToCart, removeFromCart } from "../features/cartSlice";
 import { BsArrowLeft } from "react-icons/bs";
 import MetaTags from "../components/MetaTags";
 import { formatCurrency } from "../utilities";
+import { FaShoppingCart } from "react-icons/fa";
 
 export default function UserCart() {
   const { cartItems, itemsPrice, deliveryPrice, taxPrice, totalPrice } =
@@ -172,6 +173,7 @@ export default function UserCart() {
                     disabled={cartItems?.length === 0}
                     className="px-4"
                     variant="dark">
+                    <FaShoppingCart className="me-2" />
                     Proceed to Checkout
                   </Button>
                 </div>

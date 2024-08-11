@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import { formatCurrency } from "../../utilities";
 import { format } from "date-fns";
 import DashboardPlaceholder from "../../components/DashboardPlaceholder";
+import { FaPlus } from "react-icons/fa";
 
 const MAX_TASK_LENGTH = 50;
 const MAX_TEXT_LENGTH = 50;
@@ -268,16 +269,20 @@ const Tasks = ({
           />
         </Form.Group>
         <Button
+          size="sm"
           type="submit"
-          variant="primary"
-          className="mt-2 text-white"
+          variant="dark"
+          className="mt-2"
           disabled={isSubmittingTask}>
           {isSubmittingTask ? (
             <Spinner size="sm" animation="border">
               <span className="visually-hidden"></span>
             </Spinner>
           ) : (
-            "Add Task"
+            <>
+              <FaPlus className="me-2" />
+              Add Task
+            </>
           )}
         </Button>
       </Form>

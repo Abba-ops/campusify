@@ -17,6 +17,7 @@ import {
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormLoadingPlaceholder from "../../components/FormLoadingPlaceholder";
+import { FaEdit } from "react-icons/fa";
 
 export default function VendorEditProduct() {
   const [imageFile, setImageFile] = useState(null);
@@ -158,7 +159,7 @@ export default function VendorEditProduct() {
         </Breadcrumb.Item>
         <Breadcrumb.Item active>Edit Product</Breadcrumb.Item>
       </Breadcrumb>
-      <Card className="border-0 rounded-0 shadow-sm">
+      <Card className="shadow-sm">
         <Card.Body>
           {isLoading ? (
             <FormLoadingPlaceholder />
@@ -320,7 +321,10 @@ export default function VendorEditProduct() {
                     <span className="visually-hidden"></span>
                   </Spinner>
                 ) : (
-                  "Update Product"
+                  <>
+                    <FaEdit className="me-2" />
+                    Update Product
+                  </>
                 )}
               </Button>
             </Form>

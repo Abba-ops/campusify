@@ -31,6 +31,7 @@ import TablePlaceholder from "../../components/TablePlaceholder";
 import { toast } from "react-toastify";
 import DeleteConfirmationModal from "../../components/DeleteConfirmationModal";
 import { formatCurrency } from "../../utilities";
+import { FaPlus } from "react-icons/fa";
 
 export default function AdminProductsTable() {
   const {
@@ -354,9 +355,9 @@ export default function AdminProductsTable() {
                     />
                     <Button
                       type="submit"
-                      variant="primary"
-                      className="text-white"
-                      disabled={newCategory.length === 0}>
+                      variant="dark"
+                      disabled={newCategory.trim().length === 0}>
+                      <FaPlus className="me-2" />
                       Add
                     </Button>
                   </InputGroup>
@@ -377,7 +378,7 @@ export default function AdminProductsTable() {
           <Row className="mb-4">
             {[...Array(4)].map((_, idx) => (
               <Col xs={12} sm={6} md={4} lg={3} key={idx} className="mb-3">
-                <Card className="border-0 rounded-0 mb-3 shadow-sm">
+                <Card className="mb-3 shadow-sm">
                   <Card.Body className="d-flex justify-content-between align-items-center">
                     <Placeholder as="h5" animation="wave" className="w-75 mb-0">
                       <Placeholder xs={6} />
@@ -502,9 +503,9 @@ export default function AdminProductsTable() {
                               />
                               <Button
                                 type="submit"
-                                variant="primary"
-                                className="text-white"
+                                variant="dark"
                                 disabled={newSubcategory.length === 0}>
+                                <FaPlus className="me-2" />
                                 Add
                               </Button>
                             </InputGroup>

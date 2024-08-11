@@ -491,6 +491,7 @@ export default function ProductDetail() {
                           </Form.Group>
                           <p className="text-muted text-end">{`${userComment?.length} / ${maxChars}`}</p>
                           <Button
+                            size="sm"
                             type="submit"
                             className="px-4"
                             disabled={

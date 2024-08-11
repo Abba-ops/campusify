@@ -95,7 +95,7 @@ export default function VendorApplication() {
         </h4>
         <Row className="justify-content-center">
           <Col lg={8}>
-            <Card className="my-3 py-3">
+            <Card className="my-3">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
                   <Form.Group as={Row} className="mb-3">
