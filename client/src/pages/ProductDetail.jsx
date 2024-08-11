@@ -36,7 +36,7 @@ import { addToCart } from "../features/cartSlice";
 import { formatDistanceToNow } from "date-fns";
 import { MdAddShoppingCart, MdDelete } from "react-icons/md";
 import CarouselProducts from "../components/CarouselProducts";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaComment } from "react-icons/fa";
 import StarRating from "../components/StarRating";
 import BackToTop from "../components/BackToTop";
 import { Rating } from "react-simple-star-rating";
@@ -485,13 +485,18 @@ export default function ProductDetail() {
                               as="textarea"
                               value={userComment}
                               maxLength={maxChars}
+                              disabled={
+                                loadingCreateReview ||
+                                userInfo?.data?.vendor?._id ===
+                                  productData?.data?.vendor?._id ||
+                                userInfo?.data?.isAdmin
+                              }
                               placeholder="Tell us about your experience..."
                               onChange={(e) => setUserComment(e.target.value)}
                             />
                           </Form.Group>
                           <p className="text-muted text-end">{`${userComment?.length} / ${maxChars}`}</p>
                           <Button
-                            size="sm"
                             type="submit"
                             className="px-4"
                             disabled={
@@ -504,7 +509,9 @@ export default function ProductDetail() {
                             {loadingCreateReview ? (
                               <Spinner animation="border" size="sm" />
                             ) : (
-                              "Submit"
+                              <>
+                                <FaComment className="me-2" /> Submit
+                              </>
                             )}
                           </Button>
                         </Form>
