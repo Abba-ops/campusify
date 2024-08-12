@@ -357,8 +357,7 @@ export default function AdminProductsTable() {
                       type="submit"
                       variant="dark"
                       disabled={newCategory.trim().length === 0}>
-                      <FaPlus className="me-2" />
-                      Add
+                      <FaPlus />
                     </Button>
                   </InputGroup>
                 </Form>
@@ -505,8 +504,7 @@ export default function AdminProductsTable() {
                                 type="submit"
                                 variant="dark"
                                 disabled={newSubcategory.length === 0}>
-                                <FaPlus className="me-2" />
-                                Add
+                                <FaPlus />
                               </Button>
                             </InputGroup>
                           </Form>

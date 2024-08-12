@@ -304,8 +304,7 @@ const Tasks = ({
             </Spinner>
           ) : (
             <>
-              <FaPlus className="me-2" />
-              Add Task
+              <FaPlus />
             </>
           )}
         </Button>
@@ -347,8 +346,7 @@ const SendMessage = ({
             </Spinner>
           ) : (
             <>
-              <FaPaperPlane className="me-2" />
-              Send
+              <FaPaperPlane />
             </>
           )}
         </Button>
