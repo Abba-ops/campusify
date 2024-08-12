@@ -1,4 +1,4 @@
-import { Card, Col, Row, ListGroup, Placeholder } from "react-bootstrap";
+import { Card, Col, Row, ListGroup, Placeholder, Image } from "react-bootstrap";
 
 export default function OrderDetailsLoader() {
   return (
@@ -57,13 +57,11 @@ export default function OrderDetailsLoader() {
                   <Row className="align-items-center">
                     <Col xs={4} lg={3}>
                       <div className="image-container">
-                        <Placeholder
-                          as="div"
-                          animation="glow"
-                          className="rounded"
-                          style={{ width: "100%", height: "80px" }}>
-                          <Placeholder xs={12} />
-                        </Placeholder>
+                        <Image
+                          fluid
+                          loading="lazy"
+                          className="product-image placeholder"
+                        />
                       </div>
                     </Col>
                     <Col xs={8} lg={5}>

@@ -117,13 +117,11 @@ export default function OrderScreen() {
                         <Row className="align-items-center">
                           <Col lg={2} className="mb-3 mb-lg-0">
                             <div className="image-container">
-                              <Placeholder
-                                as="div"
-                                animation="glow"
-                                className="rounded"
-                                style={{ width: "100%", height: "80px" }}>
-                                <Placeholder xs={12} />
-                              </Placeholder>
+                              <Image
+                                fluid
+                                loading="lazy"
+                                className="product-image placeholder"
+                              />
                             </div>
                           </Col>
                           <Col lg={4}>
