@@ -8,6 +8,7 @@ import {
   Form,
   Button,
   Spinner,
+  InputGroup,
 } from "react-bootstrap";
 import {
   useGetVendorDashboardQuery,
@@ -282,8 +283,7 @@ const Tasks = ({
         <p className="text-center mt-3 text-secondary">No tasks available</p>
       )}
       <Form onSubmit={onTaskSubmit} className="mt-3">
-        <Form.Group controlId="formTask">
-          <Form.Label>Add New Task</Form.Label>
+        <InputGroup>
           <Form.Control
             type="text"
             placeholder="Enter task"
@@ -291,23 +291,18 @@ const Tasks = ({
             onChange={(e) => onTaskChange(e.target.value)}
             maxLength={MAX_TASK_LENGTH}
           />
-        </Form.Group>
-        <Button
-          size="sm"
-          type="submit"
-          variant="dark"
-          className="mt-2"
-          disabled={isCreatingTask}>
-          {isCreatingTask ? (
-            <Spinner size="sm" animation="border">
-              <span className="visually-hidden"></span>
-            </Spinner>
-          ) : (
-            <>
-              <FaPlus />
-            </>
-          )}
-        </Button>
+          <Button type="submit" variant="dark" disabled={isCreatingTask}>
+            {isCreatingTask ? (
+              <Spinner size="sm" animation="border">
+                <span className="visually-hidden"></span>
+              </Spinner>
+            ) : (
+              <>
+                <FaPlus />
+              </>
+            )}
+          </Button>
+        </InputGroup>
       </Form>
     </Card.Body>
   </Card>
@@ -346,7 +341,8 @@ const SendMessage = ({
             </Spinner>
           ) : (
             <>
-              <FaPaperPlane />
+              <FaPaperPlane className="me-2" />
+              Send
             </>
           )}
         </Button>

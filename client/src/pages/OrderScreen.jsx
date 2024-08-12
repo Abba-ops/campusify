@@ -8,6 +8,7 @@ import {
   Button,
   Badge,
   Spinner,
+  Placeholder,
 } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
@@ -20,6 +21,7 @@ import MetaTags from "../components/MetaTags";
 import BackToTop from "../components/BackToTop";
 import { formatCurrency } from "../utilities";
 import { useSelector } from "react-redux";
+import { FaCheckCircle } from "react-icons/fa";
 
 export default function OrderScreen() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -80,7 +82,91 @@ export default function OrderScreen() {
                 </p>
               </div>
             ) : isLoading ? (
-              <></>
+              <ListGroup>
+                <ListGroup.Item>
+                  <h5 className="my-2">
+                    <Placeholder as="span" animation="glow">
+                      <Placeholder xs={7} />
+                    </Placeholder>
+                  </h5>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <ListGroup variant="flush">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <ListGroup.Item key={index}>
+                        <div>
+                          <Placeholder as="span" animation="glow">
+                            <Placeholder xs={6} />
+                          </Placeholder>
+                        </div>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h5 className="my-2">
+                    <Placeholder as="span" animation="glow">
+                      <Placeholder xs={7} />
+                    </Placeholder>
+                  </h5>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <ListGroup variant="flush">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <ListGroup.Item key={index}>
+                        <Row className="align-items-center">
+                          <Col lg={2} className="mb-3 mb-lg-0">
+                            <div className="image-container">
+                              <Placeholder
+                                as="div"
+                                animation="glow"
+                                className="rounded"
+                                style={{ width: "100%", height: "80px" }}>
+                                <Placeholder xs={12} />
+                              </Placeholder>
+                            </div>
+                          </Col>
+                          <Col lg={4}>
+                            <Placeholder as="div" animation="glow">
+                              <Placeholder xs={8} />
+                            </Placeholder>
+                            <Placeholder as="div" animation="glow">
+                              <Placeholder xs={6} />
+                            </Placeholder>
+                            <Placeholder as="div" animation="glow">
+                              <Placeholder xs={4} />
+                            </Placeholder>
+                            <Placeholder as="div" animation="glow">
+                              <Placeholder xs={5} />
+                            </Placeholder>
+                          </Col>
+                          <Col
+                            xs={6}
+                            lg={3}
+                            className="text-lg-center mt-3 mt-lg-0">
+                            <Placeholder as="div" animation="glow">
+                              <Placeholder xs={7} />
+                            </Placeholder>
+                            <Placeholder
+                              as="div"
+                              animation="glow"
+                              className="mt-1">
+                              <Placeholder xs={7} />
+                            </Placeholder>
+                          </Col>
+                          <Col xs={6} lg={3}>
+                            <Placeholder.Button
+                              variant="dark"
+                              size="sm"
+                              xs={6}
+                            />
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                </ListGroup.Item>
+              </ListGroup>
             ) : (
               <ListGroup>
                 <ListGroup.Item>
@@ -213,7 +299,9 @@ export default function OrderScreen() {
                                 {isLoadingMarkReceived ? (
                                   <Spinner animation="border" size="sm" />
                                 ) : (
-                                  "Received"
+                                  <>
+                                    <FaCheckCircle className="me-2" /> Received
+                                  </>
                                 )}
                               </Button>
                             )}
@@ -290,7 +378,81 @@ export default function OrderScreen() {
                 </ListGroup.Item>
               </ListGroup>
             ) : (
-              <></>
+              <ListGroup>
+                <ListGroup.Item>
+                  <Row className="my-3">
+                    <Col xs={6}>
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={5} />
+                      </Placeholder>
+                    </Col>
+                  </Row>
+                  <Row className="my-3">
+                    <Col xs={6}>
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={6} />
+                      </Placeholder>
+                    </Col>
+                    <Col xs={6} className="text-end">
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={4} />
+                      </Placeholder>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row className="my-3">
+                    <Col xs={6}>
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={6} />
+                      </Placeholder>
+                    </Col>
+                    <Col xs={6} className="text-end">
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={4} />
+                      </Placeholder>
+                    </Col>
+                  </Row>
+                  <Row className="my-3">
+                    <Col xs={6}>
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={6} />
+                      </Placeholder>
+                    </Col>
+                    <Col xs={6} className="text-end">
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={4} />
+                      </Placeholder>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row className="my-3">
+                    <Col xs={6}>
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={6} />
+                      </Placeholder>
+                    </Col>
+                    <Col xs={6} className="text-end">
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={5} />
+                      </Placeholder>
+                    </Col>
+                  </Row>
+                  <Row className="my-3">
+                    <Col xs={6}>
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={6} />
+                      </Placeholder>
+                    </Col>
+                    <Col xs={6} className="text-end">
+                      <Placeholder as="span" animation="glow">
+                        <Placeholder xs={5} />
+                      </Placeholder>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              </ListGroup>
             )}
           </Col>
         </Row>

@@ -58,6 +58,7 @@ import FeaturedProductsPage from "./pages/FeaturedProductsPage";
 import BestSellerPage from "./pages/BestSellerPage";
 import NewProductsPage from "./pages/NewProductsPage";
 import PopularProductsPage from "./pages/PopularProductsPage";
+import VendorProfilePage from "./pages/VendorProfilePage";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -98,6 +99,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/vendor/:vendorId" element={<VendorProfilePage />} />
           <Route path="/new-arrivals" element={<NewProductsPage />} />
           <Route path="/search/:query" element={<ProductSearch />} />
           <Route

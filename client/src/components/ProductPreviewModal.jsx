@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button, Image, Col, Modal, Row, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { FaTimes, FaShoppingCart } from "react-icons/fa";
 import { addToCart } from "../features/cartSlice";
 import CartPreviewModal from "./CartPreviewModal";
 import { formatCurrency } from "../utilities";
@@ -94,7 +93,6 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
             onClick={handleClose}
             className="text-white"
             variant="primary">
-            <FaTimes className="me-2" />
             Close
           </Button>
           <Button
@@ -105,7 +103,6 @@ export default function ProductPreviewModal({ product, show, handleClose }) {
               userInfo?.data?.vendor?._id === product?.vendor ||
               userInfo?.data?.isAdmin
             }>
-            <FaShoppingCart className="me-2" />
             {isOutOfStock ? "Out of Stock" : "Add to Cart"}
           </Button>
         </Modal.Footer>
